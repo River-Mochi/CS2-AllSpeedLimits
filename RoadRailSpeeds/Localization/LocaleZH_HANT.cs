@@ -1,0 +1,153 @@
+// <copyright file="LocaleZH_HANT.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi. All rights reserved.
+// Licensed under the MIT License. You may not use this file except in compliance with this License.
+// See LICENSE file in the project root for full license information.
+// This notice and the MIT License notice must be kept with
+// all copies or substantial portions of this code.
+// ================= </copyright> ======================
+
+// File: Localization/LocaleZH_HANT.cs
+// Purpose: Traditional Chinese locale Options UI settings.
+
+namespace RoadRailSpeeds
+{
+    using System.Collections.Generic;
+    using Colossal;
+    using Game.Areas;
+    using Game.Citizens;
+    using Game.City;
+    using Game.Objects;
+    using Game.UI;
+
+    public sealed class LocaleZH_HANT : IDictionarySource
+    {
+        private readonly Setting m_Setting;
+
+        public LocaleZH_HANT(Setting setting)
+        {
+            m_Setting = setting;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> ReadEntries(
+            IList<IDictionaryEntryError> errors,
+            Dictionary<string, int> indexCounts)
+        {
+            // Options menu title intentionally omits version.
+            // Version still appears on the About tab through VersionText.
+            string title = "Adjust Speed Limits (限速)";
+
+            return new Dictionary<string, string>
+            {
+                // Mod title and tabs
+                { m_Setting.GetSettingsLocaleID(), title },
+                { m_Setting.GetOptionTabLocaleID(Setting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(Setting.kAboutTab), "關於" },
+
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "顯示選項" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "還原遊戲預設值" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "使用方法" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "除錯 / 日誌" },
+
+                // Speed unit preference
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "速度單位" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SpeedUnitPreference)),
+                    "選擇面板和浮動標誌的單位。\n" +
+                    "<AUTO> 依地圖類型：EU = KM/H，NA = MPH。\n" +
+                    "<KM/H> 和 <MPH> 會強制使用該顯示。" },
+
+                // Panel behavior
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "滑桿跟隨所選路段" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
+                    "<建議開啟>\n" +
+                    "開啟：點擊路段時，滑桿會移到第一個所選路段的目前速度。\n" +
+                    "關閉：點擊其他路段時，保留上一次滑桿目標值。\n" +
+                    "選取多個部分時，仍由第一個路段決定滑桿起點。"
+                },
+
+                // Slider increment
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "面板滑桿步長" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
+                    "設定城市面板中的滑桿步長。\n" +
+                    "<預設 = 5>" },
+
+                // Tooltip font scale
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "提示文字大小" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
+                    "放大本模組彈窗和說明文字。\n" +
+                    "<預設 110%>" },
+
+                // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "顯示遊戲雙倍速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
+                    "<關> 顯示較簡單的刻度，通常更接近道路標線。\\n" +
+                    "<開> 在面板和浮動文字中顯示遊戲較高的內部速度刻度。\\n" +
+                    "如果其他提示模組顯示遊戲內部雙倍值，而你想保持一致，這會很有用。\\n" +
+                    "這只是視覺顯示；儲存的速度<不會真的改變>。\\n" +
+                    "道路標線是美術表現，可能不完全等於 prefab 速度資料。\\n" +
+                    "如果覺得混亂，就保持關閉。開或關時車輛移動看起來一樣。" },
+
+                // Enum values
+                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
+                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Metric), "KM/H" },
+                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
+
+                // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "清除所有自訂速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                    "將本城市支援的道路、軌道和水路恢復為<遊戲預設值>。\\n" +
+                    "<之後儲存，才能保留重設結果。>\\n" +
+                    "- 如果不想保留自訂速度，移除模組前很有用。\\n" +
+                    "- 如果不清除就移除模組，已儲存速度通常會保留，但重設/重新套用支援會消失。" },
+
+                { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                    "要清除此城市中支援的道路、軌道和水道路段的所有自訂速度嗎？\n" +
+                    "此操作無法復原。"
+                },
+
+                // Usage instructions
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "顯示說明" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "在下方顯示簡短說明。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                    "<城市面板>\n" +
+                    "1. 點擊或拖曳選取路段。\n" +
+                    "2. 設定 <新速度>，然後點擊 <套用>。\n" +
+                    "3. <重設> 會還原所選路段。\n" +
+                    "4. <50%> 按鈕會立即生效。\n" +
+                    "\n" +
+                    "<全城>\n" +
+                    "選擇一個道路群組，然後把 <新速度> 套用到該群組。\n" +
+                    "用 <道路>、<軌道>、<水道> 或 <全部> 清除自訂速度。\n" +
+                    "全城修改後請 <儲存城市>。"
+                },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
+
+                // About
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "模組" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.NameText)), string.Empty },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "版本" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.VersionText)), string.Empty },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "開啟作者的 Paradox Mods 頁面。" },
+
+                // Debug
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "除錯報告寫入日誌" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
+                    "<正常遊戲不需要。>\\n" +
+                    "向 Logs/AdjustSpeedLimits.log 寫入一次性報告。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "開啟日誌" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "開啟 <Logs/AdjustSpeedLimits.log>。如果檔案不存在，則開啟 Logs 資料夾。" },
+            };
+        }
+
+        public void Unload()
+        {
+        }
+    }
+}

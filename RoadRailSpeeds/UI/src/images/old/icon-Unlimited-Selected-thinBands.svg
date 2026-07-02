@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="100%"
+     height="100%"
+     viewBox="0 0 128 128">
+  <defs>
+    <clipPath id="band-clip">
+      <circle cx="64" cy="64" r="51"/>
+    </clipPath>
+  </defs>
+
+  <circle cx="64" cy="64" r="58" fill="#f82b07"/>
+
+  <g clip-path="url(#band-clip)"
+     fill="#111111"
+     transform="rotate(-38 64 64)">
+    <rect x="-14" y="48" width="156" height="7"/>
+    <rect x="-14" y="60" width="156" height="7"/>
+    <rect x="-14" y="72" width="156" height="7"/>
+  </g>
+
+  <circle cx="64" cy="64" r="58" fill="none" stroke="#F5EFF0" stroke-width="4"/>
+  <circle cx="64" cy="64" r="53.5" fill="none" stroke="#111111" stroke-width="4"/>
+</svg>

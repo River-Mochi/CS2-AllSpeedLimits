@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 122.88 122.88">
+  <!-- Sign base matches the km/mi title-bar icons. -->
+  <g id="sign-base">
+    <circle cx="61.44" cy="61.44" r="59.2" fill="#B9544D" stroke="#B9544D" stroke-width="4.4"/>
+    <circle cx="61.44" cy="61.44" r="47.6" fill="#EFE7D6" stroke="#6E6E6E" stroke-width="2.8"/>
+  </g>
+
+  <!-- Larger bold A for automatic unit. -->
+  <path
+    id="auto-mark"
+    transform="translate(0 -4)"
+    fill="#111111"
+    d="M29.47 89.95 L51.19 32.95 L71.83 32.95 L93.43 89.95 L75.91 89.95 L72.19 79.15 L50.23 79.15 L46.51 89.95 L29.47 89.95 Z M54.43 66.43 L67.99 66.43 L61.27 46.87 L54.43 66.43 Z"
+  />
+</svg>

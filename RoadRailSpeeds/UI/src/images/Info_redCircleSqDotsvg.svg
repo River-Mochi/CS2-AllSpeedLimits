@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 122.88 122.88">
+  <!-- Outer black ring reduced so more of the red ring shows -->
+  <circle cx="61.44" cy="61.44" r="59" fill="#B9544D" stroke="#121212" stroke-width="1.2"/>
+
+  <!-- Off-white field kept the same -->
+  <circle cx="61.44" cy="61.44" r="47.6" fill="#EFE7D6" stroke="#121212" stroke-width="2.8"/>
+
+  <!-- Inner black ring thickened outward so the center white area stays the same -->
+  <circle cx="61.44" cy="61.44" r="50" fill="#111"/>
+  <circle cx="61.44" cy="61.44" r="38.8" fill="#EFE7D6"/>
+
+  <!-- Info mark resized directly, with more gap between the square dot and the stem -->
+  <g fill="#111">
+    <rect x="53.88" y="33.594" width="15.12" height="15.12" rx="1.98" ry="1.98"/>
+    <rect x="53.844" y="54.084" width="15.192" height="33.6"/>
+  </g>
+</svg>

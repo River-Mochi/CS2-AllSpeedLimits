@@ -1,0 +1,44 @@
+{
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack --watch",
+    "update": "npx create-csii-ui-mod update",
+    "clean": "npx create-csii-ui-mod clean"
+  },
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+  "_notes": {
+    "react, react-dom": "Pinned to the version the game uses 18.3.1, cannot change.",
+    "sass, sass-embedded": "Do not upgrade past 1.78.x (cohtml parsing)."
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.39.1",
+    "mini-css-extract-plugin": "2.7.0",
+    "sass": "~1.78.0",
+    "sass-loader": "14.2.1",
+    "style-loader": "^3.3.3",
+    "swc-loader": "0.2.3",
+    "terser-webpack-plugin": "^5.3.16",
+    "ts-loader": "^9.5.4",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "^5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

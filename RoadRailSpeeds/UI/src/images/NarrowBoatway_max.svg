@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="clip-NarrowBoatway">
+      <rect width="64" height="64"/>
+    </clipPath>
+  </defs>
+  <g id="NarrowBoatway" clip-path="url(#clip-NarrowBoatway)">
+    <g transform="translate(32 32) scale(1.45) translate(-32 -32)">
+      <path d="M733.5-301.473l28.755,24.639,12.479-8.951v-2.724L733.5-304.418Z" transform="translate(-722.122 327.055)" fill="#007fff"/>
+      <path d="M1223.505-1130.368l28.827,24.483,12.379-8.646-28.39-24.664Z" transform="translate(-1212.122 1152.974)" fill="#42a0ff"/>
+      <path d="M-754.229-520.077s.613-5.69,6.792-4.766,3.358,6.918,3.358,6.918Z" transform="matrix(0.996, -0.087, 0.087, 0.996, 822.58, 475.9)" fill="#a0b9cb"/>
+      <path d="M-763.889-526.9s2.558-9.678,12.184-10.126S-738.632-530-738.632-530s6.8-6.268,8.007-6-3.165,7.078-3.165,7.078,2.847,6.223,1.636,7.091-6.479-3.62-6.479-3.62a21.232,21.232,0,0,1-13.073,5.281C-759.348-520.06-763.889-526.9-763.889-526.9Z" transform="translate(779.151 558.761)" fill="#b6d5ec"/>
+      <circle cx="2" cy="2" r="2" transform="translate(19.151 26.761)" fill="#6b889d"/>
+      <path d="M-752.066-532a16.341,16.341,0,0,1,0,5.174,8.946,8.946,0,0,1-1.966,3.814h1.086a6.427,6.427,0,0,0,2.538-3.814A11.273,11.273,0,0,0-751.1-532Z" transform="translate(705.823 646.689) rotate(7)" fill="#a0b9cb"/>
+    </g>
+  </g>
+</svg>

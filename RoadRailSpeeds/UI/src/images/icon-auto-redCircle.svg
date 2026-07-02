@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 122.88 122.88">
+  <!-- Red outer ring made a little thinner -->
+  <g id="sign-base">
+    <circle cx="61.44" cy="61.44" r="59.2" fill="#B9544D" stroke="#B9544D" stroke-width="3.2"/>
+    <circle cx="61.44" cy="61.44" r="50.4" fill="#EFE7D6" stroke="#6E6E6E" stroke-width="2.8"/>
+  </g>
+
+  <!-- Lowercase a mark made a little bigger -->
+  <text
+    x="61.44"
+    y="63.8"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="80"
+    font-weight="900"
+    fill="#111111"
+  >a</text>
+</svg>
