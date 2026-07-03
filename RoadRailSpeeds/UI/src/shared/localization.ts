@@ -3,8 +3,9 @@
 
 import enUS from "../../../lang/en-US.json";
 import { useLocalization } from "cs2/l10n";
+import mod from "mod.json";
 
-const KEY_PREFIX = "RoadRailSpeeds.UI";
+const KEY_PREFIX = `${mod.id}.UI`;
 const enFallback = enUS as Record<string, string | null>;
 type TextLookup = (key: string) => string | null;
 

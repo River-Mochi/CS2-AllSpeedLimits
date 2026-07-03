@@ -26,7 +26,7 @@ namespace RoadRailSpeeds
     public sealed class Mod : IMod
     {
         public const string ModName = "Adjust Speed Limits";
-        public const string ModId = "RoadRailSpeeds";
+        public const string ModId = "AdjustSpeedLimits";
         public const string LogFileName = "AdjustSpeedLimits";
         public const string ModTag = "[ASL]";
 

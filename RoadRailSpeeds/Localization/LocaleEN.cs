@@ -105,7 +105,7 @@ namespace RoadRailSpeeds
                     "<============>\n" +
                     "Using this restores to known game defaults the custom speeds applied by this mod.\n" +
                     "After it finishes, do a NEW save before removing the mod.\n" +
-                    "If you remove the mod without using this, custom speeds may remain, but this mod can no longer show, reset, or maintain them."
+                    "If you remove the mod without using this, custom speeds remain until you change the road."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
