@@ -25,6 +25,7 @@ Fine-tuned how fast vehicles should travel on any network type.
 
 ## Important
 
+* Remove Road Speed Adjuster (RSA) mod if you install this mod. Old RSA is no longer maintained (retired).
 * Vehicles are still limited by their max speeds (different for each type).
 * Performance: stats update only while the speed tool panel is open, and whole-city changes are processed in small batches to reduce stutter.
 * Removing this mod **does not reset** your customized speed limits. Any speeds you set will remain applied to the network segments until you delete/change the road.
@@ -34,7 +35,7 @@ Fine-tuned how fast vehicles should travel on any network type.
 ## ❤️ Special Thanks
 
 Huge appreciation hugs and waves to everyone
-* SwiftCobra creator of the first speed limit mod (MIT license) which passed to Aberro's mod (MIT) and then to DanielVNZ's version.
+* SwiftCobra creator of the first speed limit mod (MIT license) which passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
 * And everyone who tested, supported, or guided the development along the way!
 * Thumbnail photo taken in Toronto, Canada by [Alex Smith] https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw
 
