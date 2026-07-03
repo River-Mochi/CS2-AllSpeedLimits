@@ -208,19 +208,16 @@ export function SetSelectWater(enabled: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_SELECT_WATER", enabled);
 }
 
-// Independent draggable screen positions for the hint panel and the tool panel (no longer one
-// shared position — the tool panel remembers where the player parked it instead of jumping back
-// near the clicked segment every time). Clamp to the CURRENT viewport on every read/write so the
-// panel stays reachable after live resolution changes or when using Free Game cursor mode.
-const PANEL_LEFT_MARGIN_PX = 0;
+// Independent draggable screen positions for the hint panel and the tool panel. The hook clamps
+// against the real rendered panel size; this stored-position clamp only keeps the top-left anchor
+// reachable across resolution changes before the panel has mounted and measured itself.
+const PANEL_LEFT_MARGIN_PX = 10;
 const PANEL_TOP_MARGIN_PX = 0;
-const PANEL_VISIBLE_WIDTH_PX = 405;
-const PANEL_VISIBLE_HEIGHT_PX = 520;
-const PANEL_EDGE_MARGIN_PX = 12;
+const PANEL_EDGE_MARGIN_PX = 10;
 
 function clampToViewport(position: { x: number; y: number }) {
-  const maxX = Math.max(PANEL_LEFT_MARGIN_PX, window.innerWidth - PANEL_VISIBLE_WIDTH_PX - PANEL_EDGE_MARGIN_PX);
-  const maxY = Math.max(PANEL_TOP_MARGIN_PX, window.innerHeight - PANEL_VISIBLE_HEIGHT_PX - PANEL_EDGE_MARGIN_PX);
+  const maxX = Math.max(PANEL_LEFT_MARGIN_PX, window.innerWidth - PANEL_EDGE_MARGIN_PX);
+  const maxY = Math.max(PANEL_TOP_MARGIN_PX, window.innerHeight - PANEL_EDGE_MARGIN_PX);
   return {
     x: Math.min(Math.max(PANEL_LEFT_MARGIN_PX, position.x), maxX),
     y: Math.min(Math.max(PANEL_TOP_MARGIN_PX, position.y), maxY)

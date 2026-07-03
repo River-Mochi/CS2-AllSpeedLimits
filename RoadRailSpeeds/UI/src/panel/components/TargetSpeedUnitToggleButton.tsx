@@ -69,9 +69,9 @@ export const TargetSpeedUnitToggleButton = (props: TargetSpeedUnitToggleButtonPr
                 src={unitIcon}
                 alt=""
                 style={{
-                    width: isHovered ? "27rem" : "25rem",
-                    height: isHovered ? "27rem" : "25rem",
-                    opacity: isHovered ? 0.96 : 0.72,
+                    width: isHovered ? "27rem" : "23.5rem",
+                    height: isHovered ? "27rem" : "23.5rem",
+                    opacity: isHovered ? 0.96 : 0.68,
                     pointerEvents: "none"
                 }}
             />

@@ -145,7 +145,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         <div style={{
                             position: "absolute",
                             right: "7rem",
-                            top: "9rem",
+                            top: "7rem",
                             width: "27rem",
                             height: "27rem"
                         }}>

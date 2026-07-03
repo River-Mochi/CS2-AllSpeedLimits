@@ -140,7 +140,7 @@ export const SpeedToolWindow = () => {
     const preciseStepRepeatRef = useRef<number | null>(null);
     const preciseStepMouseDownRef = useRef(false);
 
-    const { position, isDragging, startDragging, snapTo } = useToolPanelPosition();
+    const { panelRef, position, isDragging, startDragging, snapTo } = useToolPanelPosition();
 
     const [isCloseHovered, setIsCloseHovered] = useState(false);
     const [isGuideHovered, setIsGuideHovered] = useState(false);
@@ -559,6 +559,8 @@ export const SpeedToolWindow = () => {
             return;
         }
 
+        event.preventDefault();
+        event.stopPropagation();
         startDragging(event.clientX, event.clientY);
     };
 
@@ -682,7 +684,7 @@ export const SpeedToolWindow = () => {
     );
     return (
         <>
-            <div style={{
+            <div ref={panelRef} style={{
                 position: "absolute",
                 left: `${position.x}px`,
                 top: `${position.y}px`,
@@ -735,7 +737,7 @@ export const SpeedToolWindow = () => {
                             <div style={{
                                 position: "absolute",
                                 right: "0",
-                                top: "35rem",
+                                top: "37rem",
                                 zIndex: 2
                             }}>
                                 <PreciseSpeedStepper

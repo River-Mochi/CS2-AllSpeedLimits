@@ -20,7 +20,16 @@ type DragState = {
     startY: number;
     initialX: number;
     initialY: number;
+    originLeft: number;
+    originTop: number;
+    originWidth: number;
+    originHeight: number;
 };
+
+const PANEL_LEFT_MARGIN_PX = 10;
+const PANEL_TOP_MARGIN_PX = 0;
+const PANEL_RIGHT_MARGIN_PX = 10;
+const PANEL_BOTTOM_MARGIN_PX = 10;
 
 export const shouldIgnorePanelDragTarget = (target: EventTarget | null): boolean => {
     let element = target as HTMLElement | null;
@@ -36,25 +45,66 @@ export const shouldIgnorePanelDragTarget = (target: EventTarget | null): boolean
     return false;
 };
 
+const nearlyEqual = (a: number, b: number) => Math.abs(a - b) < 0.5;
+
 const usePanelPosition = (
     getStoredPosition: () => PanelPosition,
     setStoredPosition: (position: PanelPosition) => void
 ) => {
-    const [position, setPosition] = useState<PanelPosition>(getStoredPosition());
+    const [position, setPositionState] = useState<PanelPosition>(getStoredPosition());
     const [isDragging, setIsDragging] = useState(false);
-    const dragRef = useRef<DragState>({
-        startX: 0,
-        startY: 0,
-        initialX: 0,
-        initialY: 0
-    });
+    const panelRef = useRef<HTMLDivElement | null>(null);
+    const positionRef = useRef<PanelPosition>(position);
+    const dragRef = useRef<DragState | null>(null);
 
-    // Re-clamp if the window resizes while the panel is already open (e.g. a live resolution change
-    // mid-session, no restart) — the store only re-clamps on the next read, which covers reopening
-    // the tool, but not a panel that's already mounted and visible when the resolution changes.
+    const setPosition = (nextPosition: PanelPosition) => {
+        positionRef.current = nextPosition;
+        setStoredPosition(nextPosition);
+        setPositionState(nextPosition);
+    };
+
+    const clampMountedPanel = () => {
+        const rect = panelRef.current?.getBoundingClientRect();
+        if (rect === undefined) {
+            const storedPosition = getStoredPosition();
+            positionRef.current = storedPosition;
+            setPositionState(storedPosition);
+            return;
+        }
+
+        let nextX = positionRef.current.x;
+        let nextY = positionRef.current.y;
+        const rightLimit = window.innerWidth - PANEL_RIGHT_MARGIN_PX;
+        const bottomLimit = window.innerHeight - PANEL_BOTTOM_MARGIN_PX;
+
+        if (rect.left < PANEL_LEFT_MARGIN_PX) {
+            nextX += PANEL_LEFT_MARGIN_PX - rect.left;
+        }
+        if (rect.top < PANEL_TOP_MARGIN_PX) {
+            nextY += PANEL_TOP_MARGIN_PX - rect.top;
+        }
+        if (rect.right > rightLimit) {
+            nextX -= rect.right - rightLimit;
+        }
+        if (rect.bottom > bottomLimit) {
+            nextY -= rect.bottom - bottomLimit;
+        }
+
+        if (nearlyEqual(nextX, positionRef.current.x) && nearlyEqual(nextY, positionRef.current.y)) {
+            return;
+        }
+
+        setPosition({ x: nextX, y: nextY });
+    };
+
     useEffect(() => {
+        clampMountedPanel();
+
         const handleResize = () => {
-            setPosition(getStoredPosition());
+            const storedPosition = getStoredPosition();
+            positionRef.current = storedPosition;
+            setPositionState(storedPosition);
+            window.requestAnimationFrame(clampMountedPanel);
         };
 
         window.addEventListener("resize", handleResize);
@@ -67,48 +117,82 @@ const usePanelPosition = (
         }
 
         const handleMouseMove = (event: MouseEvent) => {
-            const deltaX = event.clientX - dragRef.current.startX;
-            const deltaY = event.clientY - dragRef.current.startY;
+            const dragState = dragRef.current;
+            if (dragState === null) {
+                return;
+            }
 
-            const nextPosition = {
-                x: dragRef.current.initialX + deltaX,
-                y: dragRef.current.initialY + deltaY
-            };
+            const deltaX = event.clientX - dragState.startX;
+            const deltaY = event.clientY - dragState.startY;
+            let nextX = dragState.initialX + deltaX;
+            let nextY = dragState.initialY + deltaY;
+            const nextLeft = dragState.originLeft + deltaX;
+            const nextTop = dragState.originTop + deltaY;
+            const nextRight = nextLeft + dragState.originWidth;
+            const nextBottom = nextTop + dragState.originHeight;
+            const rightLimit = window.innerWidth - PANEL_RIGHT_MARGIN_PX;
+            const bottomLimit = window.innerHeight - PANEL_BOTTOM_MARGIN_PX;
 
-            setStoredPosition(nextPosition);
-            setPosition(getStoredPosition());
+            if (nextLeft < PANEL_LEFT_MARGIN_PX) {
+                nextX += PANEL_LEFT_MARGIN_PX - nextLeft;
+            }
+            if (nextTop < PANEL_TOP_MARGIN_PX) {
+                nextY += PANEL_TOP_MARGIN_PX - nextTop;
+            }
+            if (nextRight > rightLimit) {
+                nextX -= nextRight - rightLimit;
+            }
+            if (nextBottom > bottomLimit) {
+                nextY -= nextBottom - bottomLimit;
+            }
+
+            setPosition({ x: nextX, y: nextY });
         };
 
         const handleMouseUp = () => {
+            dragRef.current = null;
             setIsDragging(false);
         };
 
-        document.addEventListener("mousemove", handleMouseMove);
-        document.addEventListener("mouseup", handleMouseUp);
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
 
         return () => {
-            document.removeEventListener("mousemove", handleMouseMove);
-            document.removeEventListener("mouseup", handleMouseUp);
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", handleMouseUp);
         };
     }, [isDragging]);
 
     const startDragging = (clientX: number, clientY: number) => {
+        const rect = panelRef.current?.getBoundingClientRect();
+        if (rect === undefined) {
+            return;
+        }
+
         setIsDragging(true);
         dragRef.current = {
             startX: clientX,
             startY: clientY,
-            initialX: position.x,
-            initialY: position.y
+            initialX: positionRef.current.x,
+            initialY: positionRef.current.y,
+            originLeft: rect.left,
+            originTop: rect.top,
+            originWidth: rect.width,
+            originHeight: rect.height
         };
     };
 
     // Programmatic jumps used to re-anchor the tool panel next to a fresh segment click. Keep this
     // as a no-op so the panel remembers where the player parked it during the current session.
     const snapTo = (nextPosition: PanelPosition) => {
-        setPosition(getStoredPosition());
+        const storedPosition = getStoredPosition();
+        positionRef.current = storedPosition;
+        setPositionState(storedPosition);
+        window.requestAnimationFrame(clampMountedPanel);
     };
 
     return {
+        panelRef,
         position,
         isDragging,
         startDragging,

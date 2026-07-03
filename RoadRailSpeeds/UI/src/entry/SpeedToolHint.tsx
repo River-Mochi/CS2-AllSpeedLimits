@@ -17,7 +17,7 @@ export const SpeedToolHint = () => {
     // Only show when tool is active but no selection has been made yet
     const shouldShow = toolActive && selectionCounter === 0;
 
-    const { position, isDragging, startDragging } = useHintPanelPosition();
+    const { panelRef, position, isDragging, startDragging } = useHintPanelPosition();
     const [isCloseHovered, setIsCloseHovered] = useState(false);
 
     const handleClose = () => {
@@ -29,6 +29,8 @@ export const SpeedToolHint = () => {
             return;
         }
 
+        event.preventDefault();
+        event.stopPropagation();
         startDragging(event.clientX, event.clientY);
     };
 
@@ -39,7 +41,7 @@ export const SpeedToolHint = () => {
     const PanelTheme = resolver.panelTheme;
 
     return (
-        <div style={{
+        <div ref={panelRef} style={{
             position: "absolute",
             left: `${position.x}px`,
             top: `${position.y}px`,
@@ -79,15 +81,15 @@ export const SpeedToolHint = () => {
                                 paddingBottom: "0",
                                 paddingLeft: "0",
                                 lineHeight: "1",
-                                borderRadius: "4rem"
+                                borderRadius: "50%"
                             }}
                         >
                             <img
                                 src="Media/Glyphs/Close.svg"
                                 alt=""
                                 style={{
-                                    width: "12rem",
-                                    height: "12rem",
+                                    width: isCloseHovered ? "14rem" : "12rem",
+                                    height: isCloseHovered ? "14rem" : "12rem",
                                     filter: "brightness(0) invert(1)",
                                     opacity: isCloseHovered ? 1 : 0.84
                                 }}

@@ -46,7 +46,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
 
     const selectionTooltipIconActive = !panelTooltipsEnabled;
     const selectionTooltipIconFilter = selectionTooltipIconActive
-        ? "brightness(0) saturate(100%) invert(69%) sepia(98%) saturate(1168%) hue-rotate(359deg) brightness(105%) contrast(105%)"
+        ? "brightness(1.18) sepia(0.95) hue-rotate(-40deg) saturate(4.2)"
         : "none";
 
     return (
@@ -94,13 +94,15 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     onMouseEnter={() => setIsHelpHovered(true)}
                     onMouseLeave={() => setIsHelpHovered(false)}
                     style={{
-                        backgroundColor: isHelpHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
+                        backgroundColor: selectionTooltipIconActive
+                            ? (isHelpHovered ? "rgba(245, 188, 64, 0.18)" : "transparent")
+                            : (isHelpHovered ? "rgba(120, 190, 220, 0.14)" : "transparent"),
                         borderWidth: "0",
                         borderStyle: "solid",
                         borderColor: "rgba(255, 255, 255, 0)",
                         borderRadius: "50%",
-                        width: "27rem",
-                        height: "25rem",
+                        width: "28rem",
+                        height: "26rem",
                         boxSizing: "border-box",
                         display: "flex",
                         alignItems: "center",
@@ -117,8 +119,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         src={advisorInfoIcon}
                         alt=""
                         style={{
-                            width: isHelpHovered ? "23rem" : "21rem",
-                            height: isHelpHovered ? "23rem" : "21rem",
+                            width: isHelpHovered ? "24rem" : "22rem",
+                            height: isHelpHovered ? "24rem" : "22rem",
                             filter: selectionTooltipIconFilter,
                             opacity: selectionTooltipIconActive ? 1 : isHelpHovered ? 0.96 : 0.64,
                             pointerEvents: "none"
@@ -153,8 +155,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             src="Media/Glyphs/Close.svg"
                             alt=""
                             style={{
-                                width: "12rem",
-                                height: "12rem",
+                                width: isCloseHovered ? "14rem" : "13rem",
+                                height: isCloseHovered ? "14rem" : "13rem",
                                 filter: "brightness(0) invert(1)",
                                 opacity: isCloseHovered ? 1 : 0.45
                             }}

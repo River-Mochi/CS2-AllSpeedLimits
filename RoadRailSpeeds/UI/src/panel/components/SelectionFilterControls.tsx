@@ -140,7 +140,7 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
   };
 
   return (
-    <div style={{ marginBottom: "9rem" }}>
+    <div style={{ marginBottom: "13rem" }}>
       <div style={{
         display: "flex",
         alignItems: "center",
