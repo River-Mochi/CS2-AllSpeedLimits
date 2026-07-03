@@ -101,11 +101,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "Optional cleanup before removing the mod.\n" +
                     "Use this <only> if you do not want to keep this mod's custom speeds.\n" +
-                    "This is not required to remove the mod, custom road speeds can remain in the city without this mod.\n" +
-                    "<============>\n" +
+                    "This is not required to remove the mod. Custom road speeds can remain in the city without this mod.\n" +
+                    "<============>\n\n" +
                     "Using this restores to known game defaults the custom speeds applied by this mod.\n" +
-                    "After it finishes, do a NEW save before removing the mod.\n" +
-                    "If you remove the mod without using this, custom speeds remain until you change the road."
+                    "After it finishes, do a **NEW SAVE** before removing the mod.\n" +
+                    "If you remove the mod without using this, custom speeds remain until you change the roads, etc.."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
