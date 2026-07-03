@@ -26,6 +26,7 @@ Fine-tuned how fast vehicles should travel on any network type.
 ## Important
 
 * Remove Road Speed Adjuster (RSA) mod if you install this mod. Old RSA is no longer maintained (retired).
+- If switching from old RSA, remove RSA first, then install new Adjust Speed Limits. Existing custom speeds should remain and can be edited or reset per segment in new mod.
 * Vehicles are still limited by their max speeds (different for each type).
 * Performance: stats update only while the speed tool panel is open, and whole-city changes are processed in small batches to reduce stutter.
 * Removing this mod **does not reset** your customized speed limits. Any speeds you set will remain applied to the network segments until you delete/change the road.

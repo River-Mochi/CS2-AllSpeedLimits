@@ -99,7 +99,7 @@
   "inCity.help.line5": "Current is the first segment selected.",
   "inCity.help.line10": "Save the city to keep changes.",
   "inCity.help.unitTitle": "Units:",
-  "inCity.help.unitLine": "A = Auto by map, km = km/h, mi = mph",
+  "inCity.help.unitLine": "a = Auto by map\n type NA/EU",
   "inCity.buttons.resetRoads": "Roads",
   "inCity.buttons.resetRails": "Rails",
   "inCity.buttons.resetWater": "Water",
