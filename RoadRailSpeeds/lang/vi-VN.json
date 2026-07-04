@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "Đoạn đầu đã chọn",
   "inCity.panel.currentSpeed": "Hiện tại",
   "inCity.panel.gameDefault": "Mặc định",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "Tốc độ mới",
   "inCity.panel.notAvailable": "N/A",
   "inCity.panel.mixed": "Lẫn",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "Cao tốc",
   "inCity.help.tooltipsOn": "Tooltip bảng đang BẬT. Bấm nút info để TẮT.",
   "inCity.help.tooltipsOff": "Tooltip bảng đang TẮT. Bấm nút info để BẬT.",
-  "inCity.panel.presets": "Preset"
+  "inCity.panel.presets": "Preset",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

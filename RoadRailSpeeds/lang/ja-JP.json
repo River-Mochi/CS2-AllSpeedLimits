@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "最初の選択セグメント",
   "inCity.panel.currentSpeed": "現在",
   "inCity.panel.gameDefault": "既定",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "新速度",
   "inCity.panel.notAvailable": "N/A",
   "inCity.panel.mixed": "混在",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "高速",
   "inCity.help.tooltipsOn": "パネルのツールチップはオンです。この情報ボタンでオフにします。",
   "inCity.help.tooltipsOff": "パネルのツールチップはオフです。この情報ボタンでオンにします。",
-  "inCity.panel.presets": "プリセット"
+  "inCity.panel.presets": "プリセット",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

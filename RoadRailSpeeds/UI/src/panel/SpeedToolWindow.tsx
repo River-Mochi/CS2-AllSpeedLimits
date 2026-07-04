@@ -52,6 +52,7 @@ import {
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
+import { Button } from "../shared/Button";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useToolPanelPosition } from "../shared/useSharedPanelPosition";
 import { CollapsibleSectionHeader } from "./CollapsibleSectionHeader";
@@ -134,6 +135,8 @@ export const SpeedToolWindow = () => {
     const [isResetting, setIsResetting] = useState(false);
     const [pendingCityAction, setPendingCityAction] = useState<CityActionKind | null>(null);
     const [cityActionApplying, setCityActionApplying] = useState<CityActionKind | null>(null);
+    // Shown after a citywide reset so the player remembers the change is only kept if they save.
+    const [showSaveReminder, setShowSaveReminder] = useState(false);
     const [selectedRoadGroup, setSelectedRoadGroup] = useState<RoadGroupKind | null>(null);
     const lastSelectionCounter = useRef(0);
     const preciseStepHoldDelayRef = useRef<number | null>(null);
@@ -515,12 +518,16 @@ export const SpeedToolWindow = () => {
             ApplyCitySubwaySpeed(pendingSpeedKmh);
         } else if (action === "resetRoads") {
             ResetCityRoadDefaults();
+            setShowSaveReminder(true);
         } else if (action === "resetRails") {
             ResetCityRailDefaults();
+            setShowSaveReminder(true);
         } else if (action === "resetWater") {
             ResetCityWaterwayDefaults();
+            setShowSaveReminder(true);
         } else {
             ResetCityAllDefaults();
+            setShowSaveReminder(true);
         }
 
         setTimeout(() => setCityActionApplying(null), 900);
@@ -725,6 +732,52 @@ export const SpeedToolWindow = () => {
                         borderTopStyle: "solid",
                         borderTopColor: "rgba(255, 255, 255, 0.08)"
                     }}>
+                        {showSaveReminder && (
+                            <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                marginBottom: "8rem",
+                                paddingTop: "6rem",
+                                paddingRight: "8rem",
+                                paddingBottom: "6rem",
+                                paddingLeft: "10rem",
+                                backgroundColor: "rgba(240, 176, 64, 0.16)",
+                                borderWidth: "1rem",
+                                borderStyle: "solid",
+                                borderColor: "rgba(240, 176, 64, 0.75)",
+                                borderRadius: "4rem"
+                            }}>
+                                <span style={{
+                                    fontSize: "11rem",
+                                    fontWeight: "bold",
+                                    color: "rgba(255, 216, 140, 0.98)",
+                                    lineHeight: "1.25",
+                                    marginRight: "8rem"
+                                }}>
+                                    {TEXT.reminder.saveAfterReset}
+                                </span>
+                                <Button
+                                    variant="neutral"
+                                    focusKey={FOCUS_DISABLED}
+                                    onSelect={() => setShowSaveReminder(false)}
+                                    title={TEXT.reminder.dismiss}
+                                    style={{
+                                        flexShrink: 0,
+                                        minHeight: "20rem",
+                                        width: "20rem",
+                                        paddingTop: "0",
+                                        paddingRight: "0",
+                                        paddingBottom: "0",
+                                        paddingLeft: "0",
+                                        color: "rgba(255, 216, 140, 0.98)",
+                                        fontSize: "12rem"
+                                    }}
+                                >
+                                    ✕
+                                </Button>
+                            </div>
+                        )}
                         <div style={{ position: "relative" }}>
                             <SelectionFilterControls
                                 label={TEXT.panel.selectFilter}
@@ -814,7 +867,7 @@ export const SpeedToolWindow = () => {
                             gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
                             currentSpeedLabelText={TEXT.panel.currentSpeed}
                             currentSpeedValueText={currentSpeedLabel}
-                            defaultSpeedLabelText={"Default"}
+                            defaultSpeedLabelText={TEXT.panel.gameDefault}
                             defaultSpeedValueText={vanillaSpeedLabel}
                             onGameDefaultMouseEnter={() => showPanelTooltip("gameDefault")}
                             onGameDefaultMouseLeave={hidePanelTooltip}

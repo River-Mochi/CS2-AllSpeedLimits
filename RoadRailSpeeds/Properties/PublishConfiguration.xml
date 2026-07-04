@@ -17,11 +17,13 @@ Fine-tuned how fast vehicles should travel on any network type.
 
 ## 🎛️ Key Features
 
-*   **Adjust speeds on individual segments** with a simple click.
-*   **Click-and-drag selection** to modify multiple segments at once.
-*   Works on:
-*   🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
-- Stats are intentionally light: only while the RSA panel is open, refreshed every 512 frames, using a Fast Bikes-style prefab lookup for bike/scooter classification.
+-   **Adjust speeds on individual segments** with a simple click.
+-   **Click-and-drag selection** to modify multiple segments at once.
+-   Works on:
+-  🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
+- Stats are light: only while the RSA panel is open, better data than Info view.
+
+Youtube demoby chaosfun: https://youtu.be/qADctjYS5-w
 
 ## Important
 
@@ -34,11 +36,12 @@ Fine-tuned how fast vehicles should travel on any network type.
 
 
 ## ❤️ Special Thanks
-
 Huge appreciation hugs and waves to everyone
-* SwiftCobra creator of the first speed limit mod (MIT license) which passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
-* And everyone who tested, supported, or guided the development along the way!
-* Thumbnail photo taken in Toronto, Canada by [Alex Smith] https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw
+- chaosfun: testing and video.
+- Maestro, gagaxm, Obelix: testing and feedback.
+- History: SwiftCobra creator of the first speed limit mod (MIT license) which passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
+- And everyone who tested, supported, or guided the development along the way!
+- Thumbnail photo taken in Toronto, Canada by [Alex Smith] https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw
 
 tags: Road speed, water, seaway, train, rails, track speed, tracks, ship, boat, ferry.
 </LongDescription>

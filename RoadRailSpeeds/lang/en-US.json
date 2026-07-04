@@ -135,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "Hwy",
   "inCity.help.tooltipsOn": "Tooltips are ON, click this to turn OFF.",
   "inCity.help.tooltipsOff": "Tooltips are OFF for Speed Limits. Click this to turn ON.",
-  "inCity.panel.presets": "Presets"
+  "inCity.panel.presets": "Presets",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

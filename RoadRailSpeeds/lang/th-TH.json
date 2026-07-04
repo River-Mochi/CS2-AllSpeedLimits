@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "ช่วงแรกที่เลือก",
   "inCity.panel.currentSpeed": "ปัจจุบัน",
   "inCity.panel.gameDefault": "ค่าเดิม",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "ความเร็วใหม่",
   "inCity.panel.notAvailable": "N/A",
   "inCity.panel.mixed": "ผสม",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "ทางหลวง",
   "inCity.help.tooltipsOn": "คำแนะนำแผงเปิดอยู่ คลิกปุ่ม info เพื่อปิด",
   "inCity.help.tooltipsOff": "คำแนะนำแผงปิดอยู่ คลิกปุ่ม info เพื่อเปิด",
-  "inCity.panel.presets": "พรีเซ็ต"
+  "inCity.panel.presets": "พรีเซ็ต",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

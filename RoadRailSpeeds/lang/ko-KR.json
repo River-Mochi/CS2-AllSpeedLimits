@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "첫 선택 세그먼트",
   "inCity.panel.currentSpeed": "현재",
   "inCity.panel.gameDefault": "기본값",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "새 속도",
   "inCity.panel.notAvailable": "N/A",
   "inCity.panel.mixed": "혼합",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "고속",
   "inCity.help.tooltipsOn": "패널 툴팁 켜짐. 이 정보 버튼을 눌러 끄세요.",
   "inCity.help.tooltipsOff": "패널 툴팁 꺼짐. 이 정보 버튼을 눌러 켜세요.",
-  "inCity.panel.presets": "프리셋"
+  "inCity.panel.presets": "프리셋",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "首个已选路段",
   "inCity.panel.currentSpeed": "当前",
   "inCity.panel.gameDefault": "默认",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "新速度",
   "inCity.panel.notAvailable": "N/A",
   "inCity.panel.mixed": "混合",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "高速",
   "inCity.help.tooltipsOn": "面板提示已开启。点击此信息按钮关闭。",
   "inCity.help.tooltipsOff": "面板提示已关闭。点击此信息按钮开启。",
-  "inCity.panel.presets": "预设"
+  "inCity.panel.presets": "预设",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

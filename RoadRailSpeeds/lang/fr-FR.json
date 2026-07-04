@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "Premier segment sélectionné",
   "inCity.panel.currentSpeed": "Actuelle",
   "inCity.panel.gameDefault": "Défaut",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "Nouvelle vitesse",
   "inCity.panel.notAvailable": "N/A",
   "inCity.panel.mixed": "Mixte",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "Autor.",
   "inCity.help.tooltipsOn": "Infobulles du panneau ACTIVÉES. Cliquez sur ce bouton info pour les DÉSACTIVER.",
   "inCity.help.tooltipsOff": "Infobulles du panneau DÉSACTIVÉES. Cliquez sur ce bouton info pour les ACTIVER.",
-  "inCity.panel.presets": "Préréglages"
+  "inCity.panel.presets": "Préréglages",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }

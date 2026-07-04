@@ -65,6 +65,10 @@ const buildText = (lookup: TextLookup) => ({
             unitMetric: text(lookup, "inCity.panel.unitMetric"),
             unitImperial: text(lookup, "inCity.panel.unitImperial")
         },
+        reminder: {
+            saveAfterReset: text(lookup, "inCity.reminder.saveAfterReset"),
+            dismiss: text(lookup, "inCity.reminder.dismiss")
+        },
         stats: {
             cars: text(lookup, "inCity.stats.cars"),
             bikes: text(lookup, "inCity.stats.bikes"),

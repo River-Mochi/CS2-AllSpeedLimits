@@ -7,6 +7,14 @@
   "inCity.panel.selectedSegment": "İlk seçilen segment",
   "inCity.panel.currentSpeed": "Geçerli",
   "inCity.panel.gameDefault": "Varsayılan",
+  "inCity.panel.firstSegment": "First segment",
+  "inCity.panel.selectFilter": "Filter",
+  "inCity.panel.filterRoads": "Roads",
+  "inCity.panel.filterRails": "Rails",
+  "inCity.panel.filterWater": "Water",
+  "inCity.tooltips.filterRoads": "Select roads and tram tracks.",
+  "inCity.tooltips.filterRails": "Select train and subway tracks.",
+  "inCity.tooltips.filterWater": "Select waterways.",
   "inCity.panel.newSpeedLimit": "Yeni hız",
   "inCity.panel.notAvailable": "Yok",
   "inCity.panel.mixed": "Karışık",
@@ -127,5 +135,7 @@
   "inCity.roadGroups.highwayShort": "Otoyol",
   "inCity.help.tooltipsOn": "Panel ipuçları AÇIK. Kapatmak için bu bilgi düğmesine tıkla.",
   "inCity.help.tooltipsOff": "Panel ipuçları KAPALI. Açmak için bu bilgi düğmesine tıkla.",
-  "inCity.panel.presets": "Ön ayarlar"
+  "inCity.panel.presets": "Ön ayarlar",
+  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
+  "inCity.reminder.dismiss": "Dismiss"
 }
