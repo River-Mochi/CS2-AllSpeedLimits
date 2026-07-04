@@ -1,6 +1,7 @@
 // File: UI/src/panel/components/SelectionFilterControls.tsx
 // Purpose: Compact toggles limiting which net types the tool can select (roads / rails / water).
 
+import { Button, FOCUS_DISABLED } from "cs2/ui";
 import { useState } from "react";
 import type { PanelTooltipKind } from "../types";
 import { useSafeBinding } from "../../shared/useSafeBinding";
@@ -42,12 +43,14 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
     : "contrast(1.2) saturate(1.3)";
 
   return (
-    <div
-      role="button"
+    <Button
+      as="button"
+      focusKey={FOCUS_DISABLED}
+      theme={{ button: "" }}
       aria-pressed={active}
       onMouseEnter={() => { setHovered(true); showTip(tipKind); }}
       onMouseLeave={() => { setHovered(false); hideTip(); }}
-      onClick={onToggle}
+      onSelect={onToggle}
       style={{
         position: "relative",
         width: USE_ICONS ? "26rem" : "auto",
@@ -104,7 +107,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
           pointerEvents: "none"
         }} />
       )}
-    </div>
+    </Button>
   );
 };
 

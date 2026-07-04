@@ -1,6 +1,7 @@
 // File: UI/src/panel/components/TargetSpeedUnitToggleButton.tsx
 // Purpose: Small A/km/mi target-speed unit toggle shown in the selected segment summary.
 
+import { Button, FOCUS_DISABLED } from "cs2/ui";
 import type { Dispatch, SetStateAction } from "react";
 import unitAutoIcon from "../../images/icon-auto-white.svg";
 import unitKmIcon from "../../images/icon-km-white.svg";
@@ -30,12 +31,11 @@ export const TargetSpeedUnitToggleButton = (props: TargetSpeedUnitToggleButtonPr
         : targetSpeedUnitLabel === "km" ? unitKmIcon : unitMiIcon;
 
     return (
-        <button
-            onClick={event => {
-                event.preventDefault();
-                event.stopPropagation();
-                onToggle();
-            }}
+        <Button
+            as="button"
+            focusKey={FOCUS_DISABLED}
+            theme={{ button: "" }}
+            onSelect={onToggle}
             onMouseEnter={() => {
                 setHovered(true);
                 showUnitTooltip();
@@ -75,6 +75,6 @@ export const TargetSpeedUnitToggleButton = (props: TargetSpeedUnitToggleButtonPr
                     pointerEvents: "none"
                 }}
             />
-        </button>
+        </Button>
     );
 };

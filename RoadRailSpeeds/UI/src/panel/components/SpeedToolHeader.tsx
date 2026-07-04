@@ -1,7 +1,7 @@
 // File: UI/src/panel/components/SpeedToolHeader.tsx
 // Purpose: Title-bar UI for the speed tool panel.
 
-import { Tooltip } from "cs2/ui";
+import { Button, Tooltip, FOCUS_DISABLED } from "cs2/ui";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import type { PanelTooltipKind } from "../types";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
@@ -96,24 +96,28 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
 
             <div style={{ display: "flex", alignItems: "center" }}>
                 <Tooltip tooltip={markersTooltip} direction="up">
-                    <button
-                        onClick={event => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            onToggleMarkers();
-                        }}
+                    <Button
+                        as="button"
+                        focusKey={FOCUS_DISABLED}
+                        theme={{ button: "" }}
+                        onSelect={onToggleMarkers}
                         onMouseEnter={() => setIsMarkersHovered(true)}
                         onMouseLeave={() => setIsMarkersHovered(false)}
                         style={{
+                            // Active (numbers hidden): no dark fill, just a subtle blue ring like the
+                            // filter boxes, and the star glyph itself tinted blue-green (road-number color).
                             backgroundColor: speedMarkersHidden
-                                ? (isMarkersHovered ? "rgba(61, 224, 255, 0.22)" : "rgba(61, 224, 255, 0.15)")
+                                ? "transparent"
                                 : (isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent"),
-                            borderWidth: "0",
+                            borderWidth: "1rem",
                             borderStyle: "solid",
-                            borderColor: "rgba(255, 255, 255, 0)",
+                            borderColor: speedMarkersHidden
+                                ? "rgba(110, 200, 235, 0.75)"
+                                : "rgba(255, 255, 255, 0)",
                             borderRadius: "50%",
                             width: "28rem",
                             height: "26rem",
+                            minHeight: "26rem",
                             boxSizing: "border-box",
                             display: "flex",
                             alignItems: "center",
@@ -132,24 +136,23 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             style={{
                                 width: isMarkersHovered ? "22rem" : "20rem",
                                 height: isMarkersHovered ? "22rem" : "20rem",
-                                // Normalize the glyph to white, then tint blue-green (like the road numbers)
-                                // only when markers are hidden (toggle active). Idle = faded gray-white.
+                                // Idle/hover: faded-to-bright white. Active: tinted blue-green like the
+                                // floating road numbers (rgb 61,224,255). Filter is an approximation.
                                 filter: speedMarkersHidden
-                                    ? "brightness(0) invert(1) sepia(1) saturate(4.5) hue-rotate(150deg) brightness(0.92)"
+                                    ? "brightness(0) saturate(100%) invert(80%) sepia(52%) saturate(650%) hue-rotate(150deg) brightness(102%)"
                                     : "brightness(0) invert(1)",
-                                opacity: speedMarkersHidden ? 0.98 : (isMarkersHovered ? 0.95 : 0.5),
+                                opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 0.95 : 0.5),
                                 pointerEvents: "none"
                             }}
                         />
-                    </button>
+                    </Button>
                 </Tooltip>
 
-                <button
-                    onClick={event => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        onToggleTooltips();
-                    }}
+                <Button
+                    as="button"
+                    focusKey={FOCUS_DISABLED}
+                    theme={{ button: "" }}
+                    onSelect={onToggleTooltips}
                     onMouseEnter={() => setIsHelpHovered(true)}
                     onMouseLeave={() => setIsHelpHovered(false)}
                     style={{
@@ -162,6 +165,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         borderRadius: "50%",
                         width: "28rem",
                         height: "26rem",
+                        minHeight: "26rem",
                         boxSizing: "border-box",
                         display: "flex",
                         alignItems: "center",
@@ -185,11 +189,14 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             pointerEvents: "none"
                         }}
                     />
-                </button>
+                </Button>
 
                 <Tooltip tooltip={closeTooltip} direction="up">
-                    <button
-                        onClick={onClose}
+                    <Button
+                        as="button"
+                        focusKey={FOCUS_DISABLED}
+                        theme={{ button: "" }}
+                        onSelect={onClose}
                         onMouseEnter={() => setIsCloseHovered(true)}
                         onMouseLeave={() => setIsCloseHovered(false)}
                         style={{
@@ -198,6 +205,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             borderStyle: "solid",
                             width: "24rem",
                             height: "24rem",
+                            minHeight: "24rem",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -220,7 +228,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                                 opacity: isCloseHovered ? 1 : 0.45
                             }}
                         />
-                    </button>
+                    </Button>
                 </Tooltip>
             </div>
         </div>

@@ -136,7 +136,7 @@
   "inCity.help.tooltipsOn": "Tooltip pannello ATTIVI. Clicca info per disattivarli.",
   "inCity.help.tooltipsOff": "Tooltip pannello DISATTIVI. Clicca info per attivarli.",
   "inCity.panel.presets": "Preset",
-  "inCity.reminder.saveAfterReset": "✔ Reset done — SAVE City to keep.",
+  "inCity.reminder.saveAfterReset": "Reset done — SAVE City to keep.",
   "inCity.reminder.dismiss": "Dismiss",
   "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
   "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."

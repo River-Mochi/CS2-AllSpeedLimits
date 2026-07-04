@@ -136,7 +136,7 @@
   "inCity.help.tooltipsOn": "Tooltips are ON, click this to turn OFF.",
   "inCity.help.tooltipsOff": "Tooltips are OFF for Speed Limits. Click this to turn ON.",
   "inCity.panel.presets": "Presets",
-  "inCity.reminder.saveAfterReset": "✔ Reset done — SAVE City to keep.",
+  "inCity.reminder.saveAfterReset": "Reset done — SAVE City to keep.",
   "inCity.reminder.dismiss": "Dismiss",
   "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
   "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."

@@ -136,7 +136,7 @@
   "inCity.help.tooltipsOn": "คำแนะนำแผงเปิดอยู่ คลิกปุ่ม info เพื่อปิด",
   "inCity.help.tooltipsOff": "คำแนะนำแผงปิดอยู่ คลิกปุ่ม info เพื่อเปิด",
   "inCity.panel.presets": "พรีเซ็ต",
-  "inCity.reminder.saveAfterReset": "✔ Reset done — SAVE City to keep.",
+  "inCity.reminder.saveAfterReset": "Reset done — SAVE City to keep.",
   "inCity.reminder.dismiss": "Dismiss",
   "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
   "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."

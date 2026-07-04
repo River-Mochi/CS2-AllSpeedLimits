@@ -764,15 +764,34 @@ export const SpeedToolWindow = () => {
                                 borderColor: "rgba(240, 176, 64, 0.75)",
                                 borderRadius: "4rem"
                             }}>
-                                <span style={{
-                                    fontSize: "13rem",
-                                    fontWeight: "bold",
-                                    color: "rgba(255, 238, 184, 1)",
-                                    lineHeight: "1.3",
+                                <div style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    minWidth: "0",
                                     marginRight: "8rem"
                                 }}>
-                                    {TEXT.reminder.saveAfterReset}
-                                </span>
+                                    <img
+                                        src="Media/Glyphs/Checkmark.svg"
+                                        alt=""
+                                        style={{
+                                            width: "13rem",
+                                            height: "13rem",
+                                            flexShrink: 0,
+                                            marginRight: "6rem",
+                                            // Tint the black glyph to the banner's warm amber.
+                                            filter: "brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(2deg) brightness(1.05)",
+                                            pointerEvents: "none"
+                                        }}
+                                    />
+                                    <span style={{
+                                        fontSize: "13rem",
+                                        fontWeight: "bold",
+                                        color: "rgba(255, 238, 184, 1)",
+                                        lineHeight: "1.3"
+                                    }}>
+                                        {TEXT.reminder.saveAfterReset}
+                                    </span>
+                                </div>
                                 <Button
                                     variant="neutral"
                                     focusKey={FOCUS_DISABLED}

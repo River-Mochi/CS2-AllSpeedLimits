@@ -39,6 +39,7 @@ namespace RoadRailSpeeds.Systems
         private int m_ClearIndex;
         private int m_ClearTotal;
         private int m_ClearedCount;
+        private int m_ClearNoOriginalCount;
         private ClearScope m_ClearScope = ClearScope.All;
         private readonly List<Entity> m_PendingClearEntities = new();
 
@@ -166,9 +167,16 @@ namespace RoadRailSpeeds.Systems
             PersistentSpeedLimitStorage.Save();
 
             int clearedCount = m_ClearedCount;
+            int noOriginalCount = m_ClearNoOriginalCount;
             ResetClearState();
 
             LogUtils.Info(() => $"{Mod.ModTag} Cleared custom speeds from {clearedCount} segments.");
+
+            // Summarize instead of logging one WARN per segment (was flooding the log on big resets).
+            if (noOriginalCount > 0)
+            {
+                LogUtils.Info(() => $"{Mod.ModTag} {noOriginalCount} segment(s) had no stored original speed; removed the custom speed and left the game default.");
+            }
         }
 
         private void ResetClearState()
@@ -178,6 +186,7 @@ namespace RoadRailSpeeds.Systems
             m_ClearIndex = 0;
             m_ClearTotal = 0;
             m_ClearedCount = 0;
+            m_ClearNoOriginalCount = 0;
             m_ClearScope = ClearScope.All;
             m_PendingClearEntities.Clear();
         }
@@ -190,10 +199,9 @@ namespace RoadRailSpeeds.Systems
             if (!originalSpeed.HasValue)
             {
                 // No stored default speed means the safest fallback is removing CustomSpeed.
-                // The game then uses the prefab/default lane speed.
-                LogUtils.WarnOnce(
-                    $"ClearCustomSpeedsSystem.NoOriginalSpeed.{entity.Index}",
-                    () => $"{Mod.ModTag} No original speed found for entity {entity.Index}; removing CustomSpeed only.");
+                // The game then uses the prefab/default lane speed. Counted and summarized once
+                // after the batch finishes rather than logged per segment.
+                m_ClearNoOriginalCount++;
                 return;
             }
 
