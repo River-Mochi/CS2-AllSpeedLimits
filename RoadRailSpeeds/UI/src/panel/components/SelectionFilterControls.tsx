@@ -1,9 +1,10 @@
 // File: UI/src/panel/components/SelectionFilterControls.tsx
 // Purpose: Compact toggles limiting which net types the tool can select (roads / rails / water).
 
-import { Button, FOCUS_DISABLED } from "cs2/ui";
+import { Button } from "cs2/ui";
 import { useState } from "react";
 import type { PanelTooltipKind } from "../types";
+import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import { useSafeBinding } from "../../shared/useSafeBinding";
 import {
   SELECT_ROADS,
@@ -32,6 +33,9 @@ type FilterChipProps = {
 
 const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip }: FilterChipProps) => {
   const [hovered, setHovered] = useState(false);
+  // Must come from the resolver (game module), not a direct cs2/ui import, or the Button
+  // auto-generates a focus key and floods "cannot register second focus key" errors.
+  const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
 
   const backgroundColor = hovered ? "rgba(232, 247, 255, 0.20)" : "rgba(60, 82, 98, 0.42)";
   const borderColor = active
@@ -45,7 +49,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
   return (
     <Button
       as="button"
-      focusKey={FOCUS_DISABLED}
+      focusKey={focusDisabled}
       theme={{ button: "" }}
       aria-pressed={active}
       onMouseEnter={() => { setHovered(true); showTip(tipKind); }}

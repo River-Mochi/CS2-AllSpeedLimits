@@ -1,11 +1,13 @@
 // File: UI/src/panel/components/SpeedToolHeader.tsx
 // Purpose: Title-bar UI for the speed tool panel.
 
-import { Button, Tooltip, FOCUS_DISABLED } from "cs2/ui";
+import { Button, Tooltip } from "cs2/ui";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import type { PanelTooltipKind } from "../types";
+import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
 import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
+import starBlueGreenIcon from "../../images/star-all-bluegreen.svg";
 
 type SpeedToolHeaderProps = {
     title: string;
@@ -54,6 +56,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
         hidePanelTooltip
     } = props;
 
+    const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
     const selectionTooltipIconActive = !panelTooltipsEnabled;
     const selectionTooltipIconFilter = selectionTooltipIconActive
         ? "brightness(1.18) sepia(0.95) hue-rotate(-40deg) saturate(4.2)"
@@ -98,26 +101,24 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 <Tooltip tooltip={markersTooltip} direction="up">
                     <Button
                         as="button"
-                        focusKey={FOCUS_DISABLED}
+                        focusKey={focusDisabled}
                         theme={{ button: "" }}
                         onSelect={onToggleMarkers}
                         onMouseEnter={() => setIsMarkersHovered(true)}
                         onMouseLeave={() => setIsMarkersHovered(false)}
                         style={{
-                            // Active (numbers hidden): no dark fill, just a subtle blue ring like the
-                            // filter boxes, and the star glyph itself tinted blue-green (road-number color).
-                            backgroundColor: speedMarkersHidden
-                                ? "transparent"
-                                : (isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent"),
-                            borderWidth: "1rem",
+                            // Smaller circle than the info button. The active ring and the hover wash
+                            // are both this button's own 24rem circle, so nothing looks oversized.
+                            backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
+                            borderWidth: "2rem",
                             borderStyle: "solid",
                             borderColor: speedMarkersHidden
-                                ? "rgba(110, 200, 235, 0.75)"
+                                ? "rgba(110, 200, 235, 0.85)"
                                 : "rgba(255, 255, 255, 0)",
                             borderRadius: "50%",
-                            width: "28rem",
-                            height: "26rem",
-                            minHeight: "26rem",
+                            width: "24rem",
+                            height: "24rem",
+                            minHeight: "24rem",
                             boxSizing: "border-box",
                             display: "flex",
                             alignItems: "center",
@@ -131,16 +132,14 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         }}
                     >
                         <img
-                            src="Media/Tools/Snap Options/All.svg"
+                            // Active: a real blue-green star (bundled SVG with a fill), so the color is
+                            // exact instead of an unreliable CSS filter. Idle: the white game glyph.
+                            src={speedMarkersHidden ? starBlueGreenIcon : "Media/Tools/Snap Options/All.svg"}
                             alt=""
                             style={{
-                                width: isMarkersHovered ? "22rem" : "20rem",
-                                height: isMarkersHovered ? "22rem" : "20rem",
-                                // Idle/hover: faded-to-bright white. Active: tinted blue-green like the
-                                // floating road numbers (rgb 61,224,255). Filter is an approximation.
-                                filter: speedMarkersHidden
-                                    ? "brightness(0) saturate(100%) invert(80%) sepia(52%) saturate(650%) hue-rotate(150deg) brightness(102%)"
-                                    : "brightness(0) invert(1)",
+                                width: isMarkersHovered ? "16rem" : "15rem",
+                                height: isMarkersHovered ? "16rem" : "15rem",
+                                filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
                                 opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 0.95 : 0.5),
                                 pointerEvents: "none"
                             }}
@@ -150,7 +149,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
 
                 <Button
                     as="button"
-                    focusKey={FOCUS_DISABLED}
+                    focusKey={focusDisabled}
                     theme={{ button: "" }}
                     onSelect={onToggleTooltips}
                     onMouseEnter={() => setIsHelpHovered(true)}
@@ -194,7 +193,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 <Tooltip tooltip={closeTooltip} direction="up">
                     <Button
                         as="button"
-                        focusKey={FOCUS_DISABLED}
+                        focusKey={focusDisabled}
                         theme={{ button: "" }}
                         onSelect={onClose}
                         onMouseEnter={() => setIsCloseHovered(true)}

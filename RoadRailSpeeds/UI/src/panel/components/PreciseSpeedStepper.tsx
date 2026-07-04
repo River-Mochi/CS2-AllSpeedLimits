@@ -1,8 +1,9 @@
 // File: UI/src/panel/components/PreciseSpeedStepper.tsx
 // Purpose: Compact up/down stepper beside the slider for precise speed changes.
 
-import { Button, FOCUS_DISABLED } from "cs2/ui";
+import { Button } from "cs2/ui";
 import { memo, useState } from "react";
+import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 
 type PreciseSpeedStepperProps = {
     widthRem: number;
@@ -41,6 +42,7 @@ export const PreciseSpeedStepper = memo((props: PreciseSpeedStepperProps) => {
 
     const controlHeight = "26rem";
     const [hoveredDirection, setHoveredDirection] = useState<number | null>(null);
+    const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
 
     const renderSpeedStepButton = (direction: number, label: string | undefined) => {
         const icon = direction < 0 ? "ThickStrokeArrowDown.svg" : "ThickStrokeArrowUp.svg";
@@ -52,7 +54,7 @@ export const PreciseSpeedStepper = memo((props: PreciseSpeedStepperProps) => {
         return (
             <Button
                 as="button"
-                focusKey={FOCUS_DISABLED}
+                focusKey={focusDisabled}
                 theme={{ button: "" }}
                 onMouseEnter={() => {
                     if (!disabled) {
