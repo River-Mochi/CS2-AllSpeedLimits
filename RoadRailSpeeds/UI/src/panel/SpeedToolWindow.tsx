@@ -17,6 +17,7 @@ import {
     PANEL_SLIDER_INCREMENT,
     TOOLTIP_FONT_SCALE,
     PANEL_TOOLTIPS_ENABLED,
+    HIDE_SPEED_MARKERS,
     UNIT_MODE,
     CITY_CAR_TOTAL,
     CITY_CAR_ACTIVE,
@@ -48,6 +49,7 @@ import {
     ResetCityAllDefaults,
     ToggleUnit,
     SetPanelTooltipsEnabled,
+    SetHideSpeedMarkers,
     SetToolActive
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
@@ -85,6 +87,7 @@ export const SpeedToolWindow = () => {
     const panelSliderIncrement = Math.max(5, Math.min(25, useSafeBinding(PANEL_SLIDER_INCREMENT, 5)));
     const tooltipFontScale = Math.max(100, Math.min(130, useSafeBinding(TOOLTIP_FONT_SCALE, 110)));
     const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
+    const hideSpeedMarkers = useSafeBinding(HIDE_SPEED_MARKERS, false);
     const unitMode = useSafeBinding(UNIT_MODE, 0);
     const cityCarTotal = useSafeBinding(CITY_CAR_TOTAL, 0);
     const cityCarActive = useSafeBinding(CITY_CAR_ACTIVE, 0);
@@ -146,8 +149,12 @@ export const SpeedToolWindow = () => {
     const { panelRef, position, isDragging, startDragging, snapTo } = useToolPanelPosition();
 
     const [isCloseHovered, setIsCloseHovered] = useState(false);
+    // While the cursor is over the panel it can sit above a road, so hide the world speed-sign
+    // tooltip (the "249 mph | 400 km/h" marker) to keep the panel controls readable.
+    const [isPanelHovered, setIsPanelHovered] = useState(false);
     const [isGuideHovered, setIsGuideHovered] = useState(false);
     const [isHelpHovered, setIsHelpHovered] = useState(false);
+    const [isMarkersHovered, setIsMarkersHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [hoveredPresetSpeed, setHoveredPresetSpeed] = useState<number | null>(null);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
@@ -691,30 +698,39 @@ export const SpeedToolWindow = () => {
     );
     return (
         <>
-            <div ref={panelRef} style={{
-                position: "absolute",
-                left: `${position.x}px`,
-                top: `${position.y}px`,
-                width: `${panelWidth}rem`,
-                pointerEvents: "auto"
-            }}>
+            <div
+                ref={panelRef}
+                onMouseEnter={() => setIsPanelHovered(true)}
+                onMouseLeave={() => setIsPanelHovered(false)}
+                style={{
+                    position: "absolute",
+                    left: `${position.x}px`,
+                    top: `${position.y}px`,
+                    width: `${panelWidth}rem`,
+                    pointerEvents: "auto"
+                }}>
 
                 <Panel
                     header={
                         <SpeedToolHeader
                             title={TEXT.panel.title}
                             closeTooltip={TEXT.buttons.close}
+                            markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}
                             panelTooltipsEnabled={panelTooltipsEnabled}
+                            speedMarkersHidden={hideSpeedMarkers}
                             isDragging={isDragging}
                             isCloseHovered={isCloseHovered}
                             isGuideHovered={isGuideHovered}
                             isHelpHovered={isHelpHovered}
+                            isMarkersHovered={isMarkersHovered}
                             setIsCloseHovered={setIsCloseHovered}
                             setIsGuideHovered={setIsGuideHovered}
                             setIsHelpHovered={setIsHelpHovered}
+                            setIsMarkersHovered={setIsMarkersHovered}
                             onMouseDown={handleMouseDown}
                             onClose={handleClose}
                             onToggleTooltips={() => SetPanelTooltipsEnabled(!panelTooltipsEnabled)}
+                            onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
                             showPanelTitleTooltip={() => showPanelTooltip("panelTitle")}
                             hidePanelTooltip={hidePanelTooltip}
                         />
@@ -742,17 +758,17 @@ export const SpeedToolWindow = () => {
                                 paddingRight: "8rem",
                                 paddingBottom: "6rem",
                                 paddingLeft: "10rem",
-                                backgroundColor: "rgba(240, 176, 64, 0.16)",
+                                backgroundColor: "rgba(240, 176, 64, 0.10)",
                                 borderWidth: "1rem",
                                 borderStyle: "solid",
                                 borderColor: "rgba(240, 176, 64, 0.75)",
                                 borderRadius: "4rem"
                             }}>
                                 <span style={{
-                                    fontSize: "11rem",
+                                    fontSize: "13rem",
                                     fontWeight: "bold",
-                                    color: "rgba(255, 216, 140, 0.98)",
-                                    lineHeight: "1.25",
+                                    color: "rgba(255, 238, 184, 1)",
+                                    lineHeight: "1.3",
                                     marginRight: "8rem"
                                 }}>
                                     {TEXT.reminder.saveAfterReset}
@@ -764,17 +780,25 @@ export const SpeedToolWindow = () => {
                                     title={TEXT.reminder.dismiss}
                                     style={{
                                         flexShrink: 0,
-                                        minHeight: "20rem",
-                                        width: "20rem",
+                                        minHeight: "22rem",
+                                        width: "22rem",
                                         paddingTop: "0",
                                         paddingRight: "0",
                                         paddingBottom: "0",
-                                        paddingLeft: "0",
-                                        color: "rgba(255, 216, 140, 0.98)",
-                                        fontSize: "12rem"
+                                        paddingLeft: "0"
                                     }}
                                 >
-                                    ✕
+                                    <img
+                                        src="Media/Glyphs/Close.svg"
+                                        alt=""
+                                        style={{
+                                            width: "12rem",
+                                            height: "12rem",
+                                            filter: "brightness(0) invert(1)",
+                                            opacity: 0.75,
+                                            pointerEvents: "none"
+                                        }}
+                                    />
                                 </Button>
                             </div>
                         )}
@@ -964,7 +988,7 @@ export const SpeedToolWindow = () => {
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}
                 tooltipFontScale={tooltipFontScale}
-                markerTooltipText={markerTooltipText}
+                markerTooltipText={isPanelHovered ? "" : markerTooltipText}
                 markerTooltipX={markerTooltipX}
                 markerTooltipY={markerTooltipY}
                 markerTooltipFontSize={markerTooltipFontSize}

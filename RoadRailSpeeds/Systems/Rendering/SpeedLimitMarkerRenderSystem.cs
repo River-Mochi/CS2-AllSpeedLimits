@@ -175,6 +175,13 @@ namespace RoadRailSpeeds.Systems
                     return;
                 }
 
+                // Player toggled the floating numbers off from the panel title bar.
+                if (m_Settings?.HideSpeedMarkers == true)
+                {
+                    ClearMarkerHoverState();
+                    return;
+                }
+
                 using NativeArray<Entity> entities = m_CustomSpeedQuery.ToEntityArray(Allocator.Temp);
                 if (entities.Length == 0)
                 {

@@ -59,6 +59,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<int> m_PanelSliderIncrementBinding = null!;
         private ValueBindingHelper<int> m_TooltipFontScaleBinding = null!;
         private ValueBindingHelper<bool> m_PanelTooltipsEnabledBinding = null!;
+        private ValueBindingHelper<bool> m_HideSpeedMarkersBinding = null!;
         private ValueBindingHelper<int> m_CityCarTotalBinding = null!;
         private ValueBindingHelper<int> m_CityCarActiveBinding = null!;
         private ValueBindingHelper<int> m_CityCarParkedBinding = null!;
@@ -135,6 +136,7 @@ namespace RoadRailSpeeds.Systems
             m_PanelSliderIncrementBinding = CreateBinding("PANEL_SLIDER_INCREMENT", 5);
             m_TooltipFontScaleBinding = CreateBinding("TOOLTIP_FONT_SCALE", 110);
             m_PanelTooltipsEnabledBinding = CreateBinding("PANEL_TOOLTIPS_ENABLED", true);
+            m_HideSpeedMarkersBinding = CreateBinding("HIDE_SPEED_MARKERS", false);
             m_CityCarTotalBinding = CreateBinding("CITY_CAR_TOTAL", 0);
             m_CityCarActiveBinding = CreateBinding("CITY_CAR_ACTIVE", 0);
             m_CityCarParkedBinding = CreateBinding("CITY_CAR_PARKED", 0);
@@ -166,6 +168,7 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger("TOGGLE_UNIT", HandleToggleUnit);
             CreateTrigger<bool>("ACTIVATE_TOOL", HandleActivateTool);
             CreateTrigger<bool>("SET_PANEL_TOOLTIPS_ENABLED", HandleSetPanelTooltipsEnabled);
+            CreateTrigger<bool>("SET_HIDE_SPEED_MARKERS", HandleSetHideSpeedMarkers);
             CreateTrigger("RESET_CITY_ROADS", HandleResetCityRoads);
             CreateTrigger("RESET_CITY_RAILS", HandleResetCityRails);
             CreateTrigger("RESET_CITY_WATERWAYS", HandleResetCityWaterways);
@@ -189,6 +192,7 @@ namespace RoadRailSpeeds.Systems
             m_PanelSliderIncrementBinding.Value = GetPanelSliderIncrement();
             m_TooltipFontScaleBinding.Value = GetTooltipFontScale();
             m_PanelTooltipsEnabledBinding.Value = m_Settings?.PanelTooltipsEnabled ?? true;
+            m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
             m_CityCarTotalBinding.Value = 0;
             m_CityCarActiveBinding.Value = 0;
             m_CityCarParkedBinding.Value = 0;
@@ -226,6 +230,7 @@ namespace RoadRailSpeeds.Systems
             m_IsTrackTypeBinding.Value = false;
             m_IsWaterwayTypeBinding.Value = false;
             m_PanelTooltipsEnabledBinding.Value = m_Settings?.PanelTooltipsEnabled ?? true;
+            m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
             ClearCityVehicleStatsBindings();
             ClearCityResetBindings();
             ClearCityApplyBindings();
@@ -333,6 +338,12 @@ namespace RoadRailSpeeds.Systems
                 m_PanelTooltipsEnabledBinding.Value = panelTooltipsEnabled;
             }
 
+            bool hideSpeedMarkers = m_Settings?.HideSpeedMarkers ?? false;
+            if (m_HideSpeedMarkersBinding.Value != hideSpeedMarkers)
+            {
+                m_HideSpeedMarkersBinding.Value = hideSpeedMarkers;
+            }
+
             UpdateCityResetBindings();
             UpdateCityApplyBindings();
             UpdateMarkerTooltipBindings(toolActive);
@@ -394,6 +405,20 @@ namespace RoadRailSpeeds.Systems
             m_Settings.PanelTooltipsEnabled = enabled;
             m_Settings.ApplyAndSave();
             m_PanelTooltipsEnabledBinding.Value = enabled;
+            RequestUpdate();
+        }
+
+        private void HandleSetHideSpeedMarkers(bool hidden)
+        {
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null || m_Settings.HideSpeedMarkers == hidden)
+            {
+                return;
+            }
+
+            m_Settings.HideSpeedMarkers = hidden;
+            m_Settings.ApplyAndSave();
+            m_HideSpeedMarkersBinding.Value = hidden;
             RequestUpdate();
         }
 

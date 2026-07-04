@@ -66,6 +66,10 @@ export const PANEL_TOOLTIPS_ENABLED = bindValue<boolean>(
   MOD_ID,
   "BINDING:PANEL_TOOLTIPS_ENABLED"
 );
+export const HIDE_SPEED_MARKERS = bindValue<boolean>(
+  MOD_ID,
+  "BINDING:HIDE_SPEED_MARKERS"
+);
 export const CITY_CAR_TOTAL = bindValue<number>(
   MOD_ID,
   "BINDING:CITY_CAR_TOTAL"
@@ -181,6 +185,10 @@ export function ToggleUnit() {
 
 export function SetPanelTooltipsEnabled(enabled: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_PANEL_TOOLTIPS_ENABLED", enabled);
+}
+
+export function SetHideSpeedMarkers(hidden: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_HIDE_SPEED_MARKERS", hidden);
 }
 
 export function ActivateTool() {

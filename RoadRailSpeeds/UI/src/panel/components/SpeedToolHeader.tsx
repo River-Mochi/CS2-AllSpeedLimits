@@ -10,17 +10,22 @@ import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
 type SpeedToolHeaderProps = {
     title: string;
     closeTooltip: string;
+    markersTooltip: string;
     panelTooltipsEnabled: boolean;
+    speedMarkersHidden: boolean;
     isDragging: boolean;
     isCloseHovered: boolean;
     isGuideHovered: boolean;
     isHelpHovered: boolean;
+    isMarkersHovered: boolean;
     setIsCloseHovered: Dispatch<SetStateAction<boolean>>;
     setIsGuideHovered: Dispatch<SetStateAction<boolean>>;
     setIsHelpHovered: Dispatch<SetStateAction<boolean>>;
+    setIsMarkersHovered: Dispatch<SetStateAction<boolean>>;
     onMouseDown: (event: MouseEvent) => void;
     onClose: () => void;
     onToggleTooltips: () => void;
+    onToggleMarkers: () => void;
     showPanelTitleTooltip: () => void;
     hidePanelTooltip: () => void;
 };
@@ -29,17 +34,22 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
     const {
         title,
         closeTooltip,
+        markersTooltip,
         panelTooltipsEnabled,
+        speedMarkersHidden,
         isDragging,
         isCloseHovered,
         isGuideHovered,
         isHelpHovered,
+        isMarkersHovered,
         setIsCloseHovered,
         setIsGuideHovered,
         setIsHelpHovered,
+        setIsMarkersHovered,
         onMouseDown,
         onClose,
         onToggleTooltips,
+        onToggleMarkers,
         showPanelTitleTooltip,
         hidePanelTooltip
     } = props;
@@ -85,6 +95,55 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
             </div>
 
             <div style={{ display: "flex", alignItems: "center" }}>
+                <Tooltip tooltip={markersTooltip} direction="up">
+                    <button
+                        onClick={event => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            onToggleMarkers();
+                        }}
+                        onMouseEnter={() => setIsMarkersHovered(true)}
+                        onMouseLeave={() => setIsMarkersHovered(false)}
+                        style={{
+                            backgroundColor: speedMarkersHidden
+                                ? (isMarkersHovered ? "rgba(61, 224, 255, 0.22)" : "rgba(61, 224, 255, 0.15)")
+                                : (isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent"),
+                            borderWidth: "0",
+                            borderStyle: "solid",
+                            borderColor: "rgba(255, 255, 255, 0)",
+                            borderRadius: "50%",
+                            width: "28rem",
+                            height: "26rem",
+                            boxSizing: "border-box",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            paddingTop: "0",
+                            paddingRight: "0",
+                            paddingBottom: "0",
+                            paddingLeft: "0",
+                            marginRight: "1rem"
+                        }}
+                    >
+                        <img
+                            src="Media/Tools/Snap Options/All.svg"
+                            alt=""
+                            style={{
+                                width: isMarkersHovered ? "22rem" : "20rem",
+                                height: isMarkersHovered ? "22rem" : "20rem",
+                                // Normalize the glyph to white, then tint blue-green (like the road numbers)
+                                // only when markers are hidden (toggle active). Idle = faded gray-white.
+                                filter: speedMarkersHidden
+                                    ? "brightness(0) invert(1) sepia(1) saturate(4.5) hue-rotate(150deg) brightness(0.92)"
+                                    : "brightness(0) invert(1)",
+                                opacity: speedMarkersHidden ? 0.98 : (isMarkersHovered ? 0.95 : 0.5),
+                                pointerEvents: "none"
+                            }}
+                        />
+                    </button>
+                </Tooltip>
+
                 <button
                     onClick={event => {
                         event.preventDefault();

@@ -136,6 +136,8 @@
   "inCity.help.tooltipsOn": "Dicas do painel LIGADAS. Clique neste botão info para DESLIGAR.",
   "inCity.help.tooltipsOff": "Dicas do painel DESLIGADAS. Clique neste botão info para LIGAR.",
   "inCity.panel.presets": "Predefinições",
-  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
-  "inCity.reminder.dismiss": "Dismiss"
+  "inCity.reminder.saveAfterReset": "✔ Reset done — SAVE City to keep.",
+  "inCity.reminder.dismiss": "Dismiss",
+  "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
+  "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."
 }

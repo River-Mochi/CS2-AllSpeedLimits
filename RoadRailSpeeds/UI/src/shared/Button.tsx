@@ -1,7 +1,11 @@
 // File: UI/src/shared/Button.tsx
 // Purpose: Shared COHTML-safe button wrapper for the road/rail speed UI.
+// Wraps the vanilla cs2/ui Button so every button gets CS2's native click sound,
+// focus, and controller/gamepad activation, while our inline styling drives the look.
 
-import React, { CSSProperties, MouseEvent, useState } from "react";
+import React, { CSSProperties, useState } from "react";
+import { Button as VanillaButton } from "cs2/ui";
+import type { FocusKey } from "cs2/ui";
 
 type ButtonVariant = "default" | "neutral" | "city" | "danger";
 
@@ -10,7 +14,7 @@ type ButtonProps = {
     disabled?: boolean;
     style?: CSSProperties;
     className?: string;
-    onSelect?: (event: MouseEvent<HTMLButtonElement>) => void;
+    onSelect?: () => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
     variant?: ButtonVariant;
@@ -58,28 +62,31 @@ export const Button = (props: ButtonProps) => {
         onMouseLeave,
         variant = "default",
         children,
-        title
+        title,
+        focusKey
     } = props;
     const [hovered, setHovered] = useState(false);
     const colors = getColors(variant, selected, hovered && !disabled);
 
-    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const handleSelect = () => {
         if (disabled) {
-            event.preventDefault();
-            event.stopPropagation();
             return;
         }
 
-        onSelect?.(event);
+        onSelect?.();
     };
 
     return (
-        <button
-            type="button"
-            tabIndex={-1}
+        <VanillaButton
+            as="button"
+            focusKey={focusKey as FocusKey}
+            selected={selected}
+            disabled={disabled}
             className={className}
-            onClick={handleClick}
-            onMouseDown={event => event.preventDefault()}
+            // Empty theme class strips the default game button styling so our inline styles win;
+            // we keep the vanilla Button purely for its native click sound / focus / activation.
+            theme={{ button: "" }}
+            onSelect={handleSelect}
             onMouseEnter={() => {
                 setHovered(true);
                 onMouseEnter?.();
@@ -114,6 +121,6 @@ export const Button = (props: ButtonProps) => {
             }}
         >
             {children}
-        </button>
+        </VanillaButton>
     );
 };

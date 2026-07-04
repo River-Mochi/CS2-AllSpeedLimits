@@ -136,6 +136,8 @@
   "inCity.help.tooltipsOn": "Infobulles du panneau ACTIVÉES. Cliquez sur ce bouton info pour les DÉSACTIVER.",
   "inCity.help.tooltipsOff": "Infobulles du panneau DÉSACTIVÉES. Cliquez sur ce bouton info pour les ACTIVER.",
   "inCity.panel.presets": "Préréglages",
-  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
-  "inCity.reminder.dismiss": "Dismiss"
+  "inCity.reminder.saveAfterReset": "✔ Reset done — SAVE City to keep.",
+  "inCity.reminder.dismiss": "Dismiss",
+  "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
+  "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."
 }

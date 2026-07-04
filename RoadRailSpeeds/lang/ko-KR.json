@@ -136,6 +136,8 @@
   "inCity.help.tooltipsOn": "패널 툴팁 켜짐. 이 정보 버튼을 눌러 끄세요.",
   "inCity.help.tooltipsOff": "패널 툴팁 꺼짐. 이 정보 버튼을 눌러 켜세요.",
   "inCity.panel.presets": "프리셋",
-  "inCity.reminder.saveAfterReset": "✓ Reset done — save the city to keep it.",
-  "inCity.reminder.dismiss": "Dismiss"
+  "inCity.reminder.saveAfterReset": "✔ Reset done — SAVE City to keep.",
+  "inCity.reminder.dismiss": "Dismiss",
+  "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
+  "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."
 }
