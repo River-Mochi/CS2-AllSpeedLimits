@@ -107,14 +107,13 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         onMouseEnter={() => setIsMarkersHovered(true)}
                         onMouseLeave={() => setIsMarkersHovered(false)}
                         style={{
-                            // Smaller circle than the info button. The active ring and the hover wash
-                            // are both this button's own 24rem circle, so nothing looks oversized.
+                            // 24rem button = the hover-wash circle. The active blue ring is a SEPARATE,
+                            // smaller circle (below) inset inside it, so the ring reads clearly smaller.
+                            position: "relative",
                             backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
-                            borderWidth: "2rem",
+                            borderWidth: "0",
                             borderStyle: "solid",
-                            borderColor: speedMarkersHidden
-                                ? "rgba(110, 200, 235, 0.85)"
-                                : "rgba(255, 255, 255, 0)",
+                            borderColor: "rgba(255, 255, 255, 0)",
                             borderRadius: "50%",
                             width: "24rem",
                             height: "24rem",
@@ -131,14 +130,31 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             marginRight: "1rem"
                         }}
                     >
+                        {speedMarkersHidden && (
+                            <div style={{
+                                // 20rem ring inset 2rem inside the 24rem button — smaller diameter, not
+                                // touching the edge. Same blue as the filter boxes.
+                                position: "absolute",
+                                top: "2rem",
+                                left: "2rem",
+                                width: "20rem",
+                                height: "20rem",
+                                borderRadius: "50%",
+                                borderWidth: "2rem",
+                                borderStyle: "solid",
+                                borderColor: "rgba(110, 200, 235, 0.85)",
+                                boxSizing: "border-box",
+                                pointerEvents: "none"
+                            }} />
+                        )}
                         <img
                             // Active: a real blue-green star (bundled SVG with a fill), so the color is
                             // exact instead of an unreliable CSS filter. Idle: the white game glyph.
                             src={speedMarkersHidden ? starBlueGreenIcon : "Media/Tools/Snap Options/All.svg"}
                             alt=""
                             style={{
-                                width: isMarkersHovered ? "16rem" : "15rem",
-                                height: isMarkersHovered ? "16rem" : "15rem",
+                                width: isMarkersHovered ? "15rem" : "14rem",
+                                height: isMarkersHovered ? "15rem" : "14rem",
                                 filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
                                 opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 0.95 : 0.5),
                                 pointerEvents: "none"
@@ -162,7 +178,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         borderStyle: "solid",
                         borderColor: "rgba(255, 255, 255, 0)",
                         borderRadius: "50%",
-                        width: "28rem",
+                        width: "26rem",
                         height: "26rem",
                         minHeight: "26rem",
                         boxSizing: "border-box",
