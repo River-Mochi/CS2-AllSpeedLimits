@@ -356,7 +356,7 @@ namespace RoadRailSpeeds.Systems
 
                 textMesh.rectTransform.sizeDelta = new Vector2(176f, 92f);
                 // Base font size for floating speed number before zoom scaling is applied above.
-                textMesh.fontSize = 32f;
+                textMesh.fontSize = 30f;
                 textMesh.alignment = TextAlignmentOptions.Center;
                 textMesh.color = textColor;
                 textMesh.characterSpacing = 0f;
