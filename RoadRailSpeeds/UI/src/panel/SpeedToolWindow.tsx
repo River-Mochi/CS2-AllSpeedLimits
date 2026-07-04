@@ -641,10 +641,13 @@ export const SpeedToolWindow = () => {
                     ? TEXT.confirm.applySubway.message
                     : getRoadGroupConfirmSentence(selectedRoadGroup);
             return (
-                // Normal block flow (not a nowrap flex row): the sentence wraps naturally and the
-                // value box + unit flow inline after it, dropping to the next line when they don't
-                // fit. Fixes the value/unit overflowing off the right edge in long locales (ES, PT-BR).
+                // Flex row that wraps: the sentence takes its space and the value box + unit stay
+                // together and drop to the next line when they don't fit. cohtml has no inline-block,
+                // so this flex-wrap is the supported way to avoid overflow in long locales (ES, PT-BR).
                 <div style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
                     color: "rgba(255, 255, 255, 0.88)",
                     fontSize: confirmFontSize,
                     lineHeight: "1.6"
@@ -653,13 +656,11 @@ export const SpeedToolWindow = () => {
                         {sentence}
                     </span>
                     <span style={{
-                        display: "inline-block",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "middle"
+                        display: "flex",
+                        alignItems: "center",
+                        flexShrink: 0
                     }}>
                         <span style={{
-                            display: "inline-block",
-                            verticalAlign: "middle",
                             minWidth: "30rem",
                             paddingTop: "2rem",
                             paddingRight: "7rem",
@@ -673,11 +674,12 @@ export const SpeedToolWindow = () => {
                             borderWidth: "1rem",
                             borderStyle: "solid",
                             borderColor: "rgba(78, 195, 240, 0.78)",
-                            borderRadius: "3rem"
+                            borderRadius: "3rem",
+                            flexShrink: 0
                         }}>
                             {Math.round(displaySpeed)}
                         </span>
-                        <span style={{ verticalAlign: "middle" }}>{unitLabel}</span>
+                        <span>{unitLabel}</span>
                     </span>
                 </div>
             );
