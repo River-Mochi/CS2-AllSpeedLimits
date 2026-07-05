@@ -141,7 +141,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         paddingRight: "0",
                         paddingBottom: "0",
                         paddingLeft: "0",
-                        fontSize: "12rem",
+                        fontSize: "14rem",
                         fontWeight: 800
                     }}
                 >
@@ -163,7 +163,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         paddingRight: "0",
                         paddingBottom: "0",
                         paddingLeft: "0",
-                        fontSize: "12rem",
+                        fontSize: "14rem",
                         fontWeight: 800
                     }}
                 >
@@ -186,7 +186,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         paddingRight: "10rem",
                         paddingBottom: "0",
                         paddingLeft: "10rem",
-                        fontSize: "13rem",
+                        fontSize: "15rem",
                         fontWeight: 800
                     }}
                 >

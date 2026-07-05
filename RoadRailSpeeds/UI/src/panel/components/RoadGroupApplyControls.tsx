@@ -92,7 +92,7 @@ export const RoadGroupApplyControls = memo((props: RoadGroupApplyControlsProps) 
                                     paddingRight: "0",
                                     paddingBottom: "3rem",
                                     paddingLeft: "0",
-                                    fontSize: "10rem"
+                                    fontSize: "12rem"
                                 }}
                                 title={panelTitle(getRoadGroupLabel(group.key))}
                             >
@@ -118,7 +118,7 @@ export const RoadGroupApplyControls = memo((props: RoadGroupApplyControlsProps) 
                         paddingRight: "0",
                         paddingBottom: "4rem",
                         paddingLeft: "0",
-                        fontSize: "11rem"
+                        fontSize: "13rem"
                     }}
                 >
                     {cityActionApplying === "applyRoadGroup" || cityApplyInProgress

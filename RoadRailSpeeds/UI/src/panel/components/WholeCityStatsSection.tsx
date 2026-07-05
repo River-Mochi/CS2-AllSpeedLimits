@@ -134,7 +134,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                                     paddingRight: "0",
                                     paddingBottom: "4rem",
                                     paddingLeft: "0",
-                                    fontSize: "11rem"
+                                    fontSize: "13rem"
                                 }}
                             >
                                 {cityActionApplying === "applyTrain" || cityApplyInProgress
@@ -159,7 +159,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                                     paddingRight: "0",
                                     paddingBottom: "4rem",
                                     paddingLeft: "0",
-                                    fontSize: "11rem"
+                                    fontSize: "13rem"
                                 }}
                             >
                                 {cityActionApplying === "applySubway" || cityApplyInProgress

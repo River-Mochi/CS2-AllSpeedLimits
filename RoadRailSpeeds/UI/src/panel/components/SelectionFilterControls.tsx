@@ -57,9 +57,9 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
       onSelect={onToggle}
       style={{
         position: "relative",
-        width: USE_ICONS ? "26rem" : "auto",
-        minWidth: USE_ICONS ? "26rem" : "46rem",
-        height: "26rem",
+        width: USE_ICONS ? "30rem" : "auto",
+        minWidth: USE_ICONS ? "30rem" : "46rem",
+        height: "30rem",
         marginLeft: "2rem",
         paddingLeft: USE_ICONS ? "0" : "8rem",
         paddingRight: USE_ICONS ? "0" : "8rem",
@@ -84,8 +84,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
           src={iconSrc}
           alt={text}
           style={{
-            width: "22rem",
-            height: "22rem",
+            width: "26rem",
+            height: "26rem",
             pointerEvents: "none",
             opacity: 1,
             filter: iconFilter,

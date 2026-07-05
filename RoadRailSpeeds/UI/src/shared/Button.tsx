@@ -111,7 +111,7 @@ export const Button = (props: ButtonProps) => {
                 borderRadius: "4rem",
                 backgroundColor: colors.backgroundColor,
                 color: "#fff",
-                fontSize: "12rem",
+                fontSize: "14rem",
                 fontWeight: 700,
                 cursor: disabled ? "default" : "pointer",
                 whiteSpace: "nowrap",
