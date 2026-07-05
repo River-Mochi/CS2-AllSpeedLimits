@@ -17,6 +17,7 @@ namespace RoadRailSpeeds.Systems
     using Game.Net;
     using RoadRailSpeeds.Components;
     using RoadRailSpeeds.Data;
+    using Unity.Collections;
     using Unity.Entities;
     using UnityEngine.Scripting;
     using Temp = Game.Tools.Temp;
@@ -146,17 +147,32 @@ namespace RoadRailSpeeds.Systems
                 m_PendingClearEntities.Count,
                 m_ClearIndex + kClearCustomSpeedsBatchSize);
 
-            for (; m_ClearIndex < endIndex; m_ClearIndex++)
+            // Restore lane speeds + clear tracking per entity (non-structural), collecting the
+            // entities into one list so CustomSpeed is removed in a single batched structural change.
+            using (NativeList<Entity> toRemove = new NativeList<Entity>(kClearCustomSpeedsBatchSize, Allocator.Temp))
             {
-                Entity entity = m_PendingClearEntities[m_ClearIndex];
-                if (!EntityManager.Exists(entity))
+                for (; m_ClearIndex < endIndex; m_ClearIndex++)
                 {
-                    continue;
+                    Entity entity = m_PendingClearEntities[m_ClearIndex];
+                    if (!EntityManager.Exists(entity))
+                    {
+                        continue;
+                    }
+
+                    RestoreOriginalSpeedIfKnown(entity);
+                    ClearCustomSpeedTracking(entity);
+                    if (EntityManager.HasComponent<CustomSpeed>(entity))
+                    {
+                        toRemove.Add(entity);
+                    }
+
+                    m_ClearedCount++;
                 }
 
-                RestoreOriginalSpeedIfKnown(entity);
-                RemoveCustomSpeedTracking(entity);
-                m_ClearedCount++;
+                if (toRemove.Length > 0)
+                {
+                    EntityManager.RemoveComponent<CustomSpeed>(toRemove.AsArray());
+                }
             }
 
             if (m_ClearIndex < m_PendingClearEntities.Count)
@@ -237,13 +253,10 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        private void RemoveCustomSpeedTracking(Entity entity)
+        // Clears this mod's per-entity tracking (in-memory + JSON). The CustomSpeed component itself
+        // is removed in one batched structural change by ProcessClearBatch, not per entity here.
+        private void ClearCustomSpeedTracking(Entity entity)
         {
-            if (EntityManager.HasComponent<CustomSpeed>(entity))
-            {
-                EntityManager.RemoveComponent<CustomSpeed>(entity);
-            }
-
             SpeedLimitDataManager.RemoveOriginalSpeed(entity.Index);
             SpeedLimitDataManager.RemoveCustomSpeedLimit(entity.Index);
             PersistentSpeedLimitStorage.RemoveSpeedLimit(entity.Index, saveImmediately: false);

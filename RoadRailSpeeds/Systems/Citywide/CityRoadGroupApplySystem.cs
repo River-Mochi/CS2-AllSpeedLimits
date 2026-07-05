@@ -19,6 +19,7 @@ namespace RoadRailSpeeds.Systems
     using Game.Prefabs;                    // PrefabBase, PrefabRef, PrefabSystem
     using RoadRailSpeeds.Components;       // CustomSpeed
     using RoadRailSpeeds.Data;             // PersistentSpeedLimitStorage, SpeedLimitDataManager
+    using Unity.Collections;               // NativeList (batched structural changes)
     using Unity.Entities;                  // Entity, RefRO, SystemAPI
     using Unity.Mathematics;               // math
     using UnityEngine.Scripting;           // Preserve
@@ -56,11 +57,15 @@ namespace RoadRailSpeeds.Systems
         private int m_AppliedCount;
         private float m_TargetSpeedKmh;
         private RoadGroup m_RoadGroup = RoadGroup.Medium;
-        // Which target the pending apply hits. RoadGroup uses MatchesRoadGroup; Train/Subway gather by
+        // Which target the pending apply hits. RoadGroup uses PrefabMatchesRoadGroup; Train/Subway gather by
         // the live TrainTrack / SubwayTrack component (tram is grouped with roads elsewhere). The batch
         // state machine is shared; only the entity collection and per-edge apply differ.
         private ApplyTarget m_ApplyTarget = ApplyTarget.RoadGroup;
         private readonly List<Entity> m_PendingApplyEntities = new();
+        // Road-group classification depends only on the prefab, but many edges share one prefab.
+        // Caching the (prefab -> matches group?) result turns thousands of managed prefab lookups
+        // into one per unique prefab, which is what was spiking on Small/Highway gathers.
+        private readonly Dictionary<Entity, bool> m_PrefabGroupMatchCache = new();
         private PrefabSystem m_PrefabSystem = null!;
 
         public bool IsApplyInProgress => m_ApplyInProgress;
@@ -181,13 +186,28 @@ namespace RoadRailSpeeds.Systems
             }
             else
             {
-                foreach (var (_, entity) in SystemAPI
+                m_PrefabGroupMatchCache.Clear();
+                foreach (var (prefabRef, entity) in SystemAPI
                     .Query<RefRO<PrefabRef>>()
                     .WithAll<Edge, Curve, Road>()
                     .WithNone<Deleted, Temp>()
                     .WithEntityAccess())
                 {
-                    if (MatchesRoadGroup(entity, m_RoadGroup))
+                    // Per-edge gate (cheap component reads), kept out of the cache.
+                    if (!IsRoadOnly(entity))
+                    {
+                        continue;
+                    }
+
+                    // The expensive prefab/group lookup is cached by prefab entity.
+                    Entity prefabEntity = prefabRef.ValueRO.m_Prefab;
+                    if (!m_PrefabGroupMatchCache.TryGetValue(prefabEntity, out bool matches))
+                    {
+                        matches = PrefabMatchesRoadGroup(entity, m_RoadGroup);
+                        m_PrefabGroupMatchCache[prefabEntity] = matches;
+                    }
+
+                    if (matches)
                     {
                         m_PendingApplyEntities.Add(entity);
                     }
@@ -221,6 +241,24 @@ namespace RoadRailSpeeds.Systems
             int endIndex = System.Math.Min(
                 m_PendingApplyEntities.Count,
                 m_ApplyIndex + kApplyRoadGroupBatchSize);
+
+            // One batched structural add for this frame's slice, instead of an AddComponent per entity.
+            using (NativeList<Entity> toAdd = new NativeList<Entity>(kApplyRoadGroupBatchSize, Allocator.Temp))
+            {
+                for (int i = m_ApplyIndex; i < endIndex; i++)
+                {
+                    Entity entity = m_PendingApplyEntities[i];
+                    if (EntityManager.Exists(entity) && !EntityManager.HasComponent<CustomSpeed>(entity))
+                    {
+                        toAdd.Add(entity);
+                    }
+                }
+
+                if (toAdd.Length > 0)
+                {
+                    EntityManager.AddComponent<CustomSpeed>(toAdd.AsArray());
+                }
+            }
 
             for (; m_ApplyIndex < endIndex; m_ApplyIndex++)
             {
@@ -287,11 +325,7 @@ namespace RoadRailSpeeds.Systems
                 speedKmh,
                 saveImmediately: false);
 
-            if (!EntityManager.HasComponent<CustomSpeed>(entity))
-            {
-                EntityManager.AddComponent<CustomSpeed>(entity);
-            }
-
+            // CustomSpeed was already added in the batched structural pass in ProcessApplyBatch.
             EntityManager.SetComponentData(entity, new CustomSpeed(speedKmh));
             SpeedLimitDataManager.AddCustomSpeedLimit(entity.Index, speedKmh);
             SetCarLaneSpeedsImmediate(entity, speedGameUnits);
@@ -315,11 +349,7 @@ namespace RoadRailSpeeds.Systems
                 speedKmh,
                 saveImmediately: false);
 
-            if (!EntityManager.HasComponent<CustomSpeed>(entity))
-            {
-                EntityManager.AddComponent<CustomSpeed>(entity);
-            }
-
+            // CustomSpeed was already added in the batched structural pass in ProcessApplyBatch.
             EntityManager.SetComponentData(entity, new CustomSpeed(speedKmh));
             SpeedLimitDataManager.AddCustomSpeedLimit(entity.Index, speedKmh);
             SetTrackLaneSpeedsImmediate(entity, speedGameUnits);
@@ -492,13 +522,10 @@ namespace RoadRailSpeeds.Systems
             return count > 0 ? totalSpeed / count : -1f;
         }
 
-        private bool MatchesRoadGroup(Entity entity, RoadGroup roadGroup)
+        // Prefab-only part of the road-group test (no per-edge checks), so the result can be cached
+        // per prefab. The caller checks IsRoadOnly separately for each edge.
+        private bool PrefabMatchesRoadGroup(Entity entity, RoadGroup roadGroup)
         {
-            if (!IsRoadOnly(entity))
-            {
-                return false;
-            }
-
             if (!TryGetRoadPrefab(entity, out RoadPrefab roadPrefab, out Entity prefabEntity))
             {
                 return false;
