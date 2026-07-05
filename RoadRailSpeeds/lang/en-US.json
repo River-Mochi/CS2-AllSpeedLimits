@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Adjust road, rail, and water speeds",
   "inCity.hint.title": "Road • Rail • Water Speeds",
   "inCity.hint.instruction": "Click (or click and drag multiple) to select road, rail, or waterway segments",
-  "inCity.panel.title": "Speed Limits",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Road, rail, water speeds.",
   "inCity.panel.selectedSegment": "Selected",
   "inCity.panel.firstSegment": "First segment",
