@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -96,17 +97,21 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Clear All Custom Speeds" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Restore Game Default Speeds" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Restores supported roads, rails, and waterways in this city to <game defaults>.\n" +
-                    "<Save afterward to keep the reset.>\n" +
-                    "- Useful before removing the mod if you don't want the custom speeds.\n" +
-                    "- If you remove the mod without clearing, saved speeds usually remain, but reset/reapply support is gone."
+                    "Optional cleanup before removing the mod.\n" +
+                    "Use this <only> if you do not want to keep this mod's custom speeds.\n" +
+                    "This is not required to remove the mod. Custom road speeds can remain in the city without this mod.\n" +
+                    "<============>\n\n" +
+                    "Using this restores to known game defaults the custom speeds applied by this mod.\n" +
+                    "After it finishes, do a **NEW SAVE** before removing the mod.\n" +
+                    "If you remove the mod without using this, custom speeds remain until you change the roads, etc.."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Clear all custom speeds from supported road, rail, and waterway segments in this city?\n" +
-                    "This cannot be undone."
+                    "This will restore all supported custom speed limits to known game defaults.\n" +
+                    "This cannot be undone automatically.\n" +
+                    "After it finishes, save the city as a NEW save before removing the mod."
                 },
 
                 // Usage instructions

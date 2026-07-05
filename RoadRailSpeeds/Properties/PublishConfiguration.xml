@@ -2,49 +2,59 @@
 <!-- Purpose: Paradox Mods publish metadata for Adjust Road/Rail Speeds. -->
 <Publish>
 	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
-	<ModId Value="" />
+	<ModId Value="149990" />
 	<!--Name of the mod to display to players-->
-	<DisplayName Value="Adjust Speed Limits" />
+	<DisplayName Value="Adjust All Speed Limits" />
 	<!--Short description of the mod-->
 	<ShortDescription Value=" Road-Rail-Water Speed Limits: cars, trains, trams, subways, boats. Adjust one or drag to select many." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-# Adjust Speed Limits
+# Adjust All Speed Limits
 
-Is a powerful, easy, full tool kit to control speed limits.
-Fine-tuned how fast vehicles should travel on any network type.
+Is a powerful, easy tool kit. Fine-tune how fast vehicles should travel on any network type.
 
 ## 🎛️ Key Features
 
-*   **Adjust speeds on individual segments** with a simple click.
-*   **Click-and-drag selection** to modify multiple segments at once.
-*   Works on:
-*   🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
-- Stats are intentionally light: only while the RSA panel is open, refreshed every 512 frames, using a Fast Bikes-style prefab lookup for bike/scooter classification.
+-   **Adjust speeds on individual segments** with a simple click.
+-   **Click-and-drag selection** to modify multiple segments at once.
+-   Works on:
+-  🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
+- Stats are light: only runs when the panel is open, better data than Info view.
+
 
 ## Important
 
-* Vehicles are still limited by their max speeds (different for each type).
-* Performance: stats update only while the speed tool panel is open, and whole-city changes are processed in small batches to reduce stutter.
-* Removing this mod **does not reset** your customized speed limits. Any speeds you set will remain applied to the network segments until you delete/change the road.
-* ICE3 trains have top speed of 320km/h in real life, so slider will allow a little more at 400km/h. Game's own Unlimited highway speeds is ~400km/h.
+- Remove old "Road Speed Adjuster" (RSA) mod before installing this mod. Old one is no longer maintained (retired).
+- Existing custom speeds should remain and can be edited/reset per segment in new mod.
+- Vehicles are still limited by their max speeds (different for each type).
+- Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
+- **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
+- Performance: stats update only while the speed tool panel is open. Mod runs only when you have it open, make a change, then it goes back to sleep - easy, done.
+- ICE-3 trains have a real top speed of 320km/h, so slider will allow a little more at 400km/h. Game's own Unlimited highway speed policy is ~400km/h.
 
+
+## Support and Feedback
+- If you download the mod, consider giving a like :) It takes weeks and months to make these level of mods and many hours with testers.
+- Feedback welcome see Github or Discord links to the right of this page.
 
 ## ❤️ Special Thanks
-
 Huge appreciation hugs and waves to everyone
-* SwiftCobra creator of the first speed limit mod (MIT license) which passed to Aberro's mod (MIT) and then to DanielVNZ's version.
-* And everyone who tested, supported, or guided the development along the way!
-* Thumbnail photo taken in Toronto, Canada by [Alex Smith] https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw
 
-tags: Road speed, water, seaway, train, rails, track speed, tracks, ship, boat, ferry.
+- chaosfun: testing and video: https://youtu.be/qADctjYS5-w
+- Maestro, gagaxm, Obelix: testing and feedback.
+- Thanks to everyone who tested, supported, or guided development along the way!
+- Thumbnail photo taken in Toronto, Canada by [Alex Smith] https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw
+- History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
+
+tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/thumbnail-asmithphoto01.jpg" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="Properties/20-image-sliderPanel.jpg" />
-	<Screenshot Value="Properties/30-thumbnail02.jpg" />
+    <Screenshot Value="Properties/10-image-MiniPanel.jpg" />
+	<Screenshot Value="Properties/15-image-FullPanel.jpg" />
+
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -59,9 +69,10 @@ tags: Road speed, water, seaway, train, rails, track speed, tracks, ship, boat, 
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
-    <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-RoadRailSpeeds" />
+    <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AdjustSpeedLimits" />
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
 	
 </Publish>

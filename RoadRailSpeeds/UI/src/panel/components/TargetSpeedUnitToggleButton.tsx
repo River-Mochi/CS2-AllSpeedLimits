@@ -1,7 +1,9 @@
 // File: UI/src/panel/components/TargetSpeedUnitToggleButton.tsx
 // Purpose: Small A/km/mi target-speed unit toggle shown in the selected segment summary.
 
+import { Button } from "cs2/ui";
 import type { Dispatch, SetStateAction } from "react";
+import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import unitAutoIcon from "../../images/icon-auto-white.svg";
 import unitKmIcon from "../../images/icon-km-white.svg";
 import unitMiIcon from "../../images/icon-mi-white.svg";
@@ -28,14 +30,14 @@ export const TargetSpeedUnitToggleButton = (props: TargetSpeedUnitToggleButtonPr
     const unitIcon = targetSpeedUnitLabel === "a"
         ? unitAutoIcon
         : targetSpeedUnitLabel === "km" ? unitKmIcon : unitMiIcon;
+    const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
 
     return (
-        <button
-            onClick={event => {
-                event.preventDefault();
-                event.stopPropagation();
-                onToggle();
-            }}
+        <Button
+            as="button"
+            focusKey={focusDisabled}
+            theme={{ button: "" }}
+            onSelect={onToggle}
             onMouseEnter={() => {
                 setHovered(true);
                 showUnitTooltip();
@@ -69,12 +71,12 @@ export const TargetSpeedUnitToggleButton = (props: TargetSpeedUnitToggleButtonPr
                 src={unitIcon}
                 alt=""
                 style={{
-                    width: isHovered ? "27rem" : "25rem",
-                    height: isHovered ? "27rem" : "25rem",
-                    opacity: isHovered ? 0.96 : 0.72,
+                    width: isHovered ? "27rem" : "23.5rem",
+                    height: isHovered ? "27rem" : "23.5rem",
+                    opacity: isHovered ? 0.96 : 0.68,
                     pointerEvents: "none"
                 }}
             />
-        </button>
+        </Button>
     );
 };

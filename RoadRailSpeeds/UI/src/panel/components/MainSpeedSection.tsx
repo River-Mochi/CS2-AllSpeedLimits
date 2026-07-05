@@ -82,7 +82,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
     const [resetHovered, setResetHovered] = useState(false);
 
     const sharedButtonHeight = "29rem";
-    const resetButtonWidth = "31.7rem";
+    const resetButtonWidth = "30.7rem";
 
     useEffect(() => {
         const summary = {
@@ -181,7 +181,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         minWidth: "86rem",
                         minHeight: sharedButtonHeight,
                         height: sharedButtonHeight,
-                        marginRight: "7rem",
+                        marginRight: "8rem",
                         paddingTop: "0",
                         paddingRight: "10rem",
                         paddingBottom: "0",
@@ -210,7 +210,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         paddingRight: "0",
                         paddingBottom: "0",
                         paddingLeft: "0",
-                        marginRight: "22.15rem",
+                        marginRight: "21.3rem",
                         overflow: "visible"
                     }}
                 >

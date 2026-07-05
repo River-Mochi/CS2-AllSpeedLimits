@@ -17,6 +17,7 @@ import {
     PANEL_SLIDER_INCREMENT,
     TOOLTIP_FONT_SCALE,
     PANEL_TOOLTIPS_ENABLED,
+    HIDE_SPEED_MARKERS,
     UNIT_MODE,
     CITY_CAR_TOTAL,
     CITY_CAR_ACTIVE,
@@ -48,10 +49,12 @@ import {
     ResetCityAllDefaults,
     ToggleUnit,
     SetPanelTooltipsEnabled,
+    SetHideSpeedMarkers,
     SetToolActive
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
+import { Button } from "../shared/Button";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useToolPanelPosition } from "../shared/useSharedPanelPosition";
 import { CollapsibleSectionHeader } from "./CollapsibleSectionHeader";
@@ -84,6 +87,7 @@ export const SpeedToolWindow = () => {
     const panelSliderIncrement = Math.max(5, Math.min(25, useSafeBinding(PANEL_SLIDER_INCREMENT, 5)));
     const tooltipFontScale = Math.max(100, Math.min(130, useSafeBinding(TOOLTIP_FONT_SCALE, 110)));
     const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
+    const hideSpeedMarkers = useSafeBinding(HIDE_SPEED_MARKERS, false);
     const unitMode = useSafeBinding(UNIT_MODE, 0);
     const cityCarTotal = useSafeBinding(CITY_CAR_TOTAL, 0);
     const cityCarActive = useSafeBinding(CITY_CAR_ACTIVE, 0);
@@ -134,17 +138,23 @@ export const SpeedToolWindow = () => {
     const [isResetting, setIsResetting] = useState(false);
     const [pendingCityAction, setPendingCityAction] = useState<CityActionKind | null>(null);
     const [cityActionApplying, setCityActionApplying] = useState<CityActionKind | null>(null);
+    // Shown after a citywide reset so the player remembers the change is only kept if they save.
+    const [showSaveReminder, setShowSaveReminder] = useState(false);
     const [selectedRoadGroup, setSelectedRoadGroup] = useState<RoadGroupKind | null>(null);
     const lastSelectionCounter = useRef(0);
     const preciseStepHoldDelayRef = useRef<number | null>(null);
     const preciseStepRepeatRef = useRef<number | null>(null);
     const preciseStepMouseDownRef = useRef(false);
 
-    const { position, isDragging, startDragging, snapTo } = useToolPanelPosition();
+    const { panelRef, position, isDragging, startDragging, snapTo } = useToolPanelPosition();
 
     const [isCloseHovered, setIsCloseHovered] = useState(false);
+    // While the cursor is over the panel it can sit above a road, so hide the world speed-sign
+    // tooltip (the "249 mph | 400 km/h" marker) to keep the panel controls readable.
+    const [isPanelHovered, setIsPanelHovered] = useState(false);
     const [isGuideHovered, setIsGuideHovered] = useState(false);
     const [isHelpHovered, setIsHelpHovered] = useState(false);
+    const [isMarkersHovered, setIsMarkersHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [hoveredPresetSpeed, setHoveredPresetSpeed] = useState<number | null>(null);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
@@ -515,12 +525,16 @@ export const SpeedToolWindow = () => {
             ApplyCitySubwaySpeed(pendingSpeedKmh);
         } else if (action === "resetRoads") {
             ResetCityRoadDefaults();
+            setShowSaveReminder(true);
         } else if (action === "resetRails") {
             ResetCityRailDefaults();
+            setShowSaveReminder(true);
         } else if (action === "resetWater") {
             ResetCityWaterwayDefaults();
+            setShowSaveReminder(true);
         } else {
             ResetCityAllDefaults();
+            setShowSaveReminder(true);
         }
 
         setTimeout(() => setCityActionApplying(null), 900);
@@ -559,6 +573,8 @@ export const SpeedToolWindow = () => {
             return;
         }
 
+        event.preventDefault();
+        event.stopPropagation();
         startDragging(event.clientX, event.clientY);
     };
 
@@ -625,10 +641,13 @@ export const SpeedToolWindow = () => {
                     ? TEXT.confirm.applySubway.message
                     : getRoadGroupConfirmSentence(selectedRoadGroup);
             return (
-                // Normal block flow (not a nowrap flex row): the sentence wraps naturally and the
-                // value box + unit flow inline after it, dropping to the next line when they don't
-                // fit. Fixes the value/unit overflowing off the right edge in long locales (ES, PT-BR).
+                // Flex row that wraps: the sentence takes its space and the value box + unit stay
+                // together and drop to the next line when they don't fit. cohtml has no inline-block,
+                // so this flex-wrap is the supported way to avoid overflow in long locales (ES, PT-BR).
                 <div style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
                     color: "rgba(255, 255, 255, 0.88)",
                     fontSize: confirmFontSize,
                     lineHeight: "1.6"
@@ -637,13 +656,11 @@ export const SpeedToolWindow = () => {
                         {sentence}
                     </span>
                     <span style={{
-                        display: "inline-block",
-                        whiteSpace: "nowrap",
-                        verticalAlign: "middle"
+                        display: "flex",
+                        alignItems: "center",
+                        flexShrink: 0
                     }}>
                         <span style={{
-                            display: "inline-block",
-                            verticalAlign: "middle",
                             minWidth: "30rem",
                             paddingTop: "2rem",
                             paddingRight: "7rem",
@@ -657,11 +674,12 @@ export const SpeedToolWindow = () => {
                             borderWidth: "1rem",
                             borderStyle: "solid",
                             borderColor: "rgba(78, 195, 240, 0.78)",
-                            borderRadius: "3rem"
+                            borderRadius: "3rem",
+                            flexShrink: 0
                         }}>
                             {Math.round(displaySpeed)}
                         </span>
-                        <span style={{ verticalAlign: "middle" }}>{unitLabel}</span>
+                        <span>{unitLabel}</span>
                     </span>
                 </div>
             );
@@ -682,30 +700,39 @@ export const SpeedToolWindow = () => {
     );
     return (
         <>
-            <div style={{
-                position: "absolute",
-                left: `${position.x}px`,
-                top: `${position.y}px`,
-                width: `${panelWidth}rem`,
-                pointerEvents: "auto"
-            }}>
+            <div
+                ref={panelRef}
+                onMouseEnter={() => setIsPanelHovered(true)}
+                onMouseLeave={() => setIsPanelHovered(false)}
+                style={{
+                    position: "absolute",
+                    left: `${position.x}px`,
+                    top: `${position.y}px`,
+                    width: `${panelWidth}rem`,
+                    pointerEvents: "auto"
+                }}>
 
                 <Panel
                     header={
                         <SpeedToolHeader
                             title={TEXT.panel.title}
                             closeTooltip={TEXT.buttons.close}
+                            markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}
                             panelTooltipsEnabled={panelTooltipsEnabled}
+                            speedMarkersHidden={hideSpeedMarkers}
                             isDragging={isDragging}
                             isCloseHovered={isCloseHovered}
                             isGuideHovered={isGuideHovered}
                             isHelpHovered={isHelpHovered}
+                            isMarkersHovered={isMarkersHovered}
                             setIsCloseHovered={setIsCloseHovered}
                             setIsGuideHovered={setIsGuideHovered}
                             setIsHelpHovered={setIsHelpHovered}
+                            setIsMarkersHovered={setIsMarkersHovered}
                             onMouseDown={handleMouseDown}
                             onClose={handleClose}
                             onToggleTooltips={() => SetPanelTooltipsEnabled(!panelTooltipsEnabled)}
+                            onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
                             showPanelTitleTooltip={() => showPanelTooltip("panelTitle")}
                             hidePanelTooltip={hidePanelTooltip}
                         />
@@ -723,6 +750,79 @@ export const SpeedToolWindow = () => {
                         borderTopStyle: "solid",
                         borderTopColor: "rgba(255, 255, 255, 0.08)"
                     }}>
+                        {showSaveReminder && (
+                            <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                marginBottom: "8rem",
+                                paddingTop: "6rem",
+                                paddingRight: "8rem",
+                                paddingBottom: "6rem",
+                                paddingLeft: "10rem",
+                                backgroundColor: "rgba(240, 176, 64, 0.10)",
+                                borderWidth: "1rem",
+                                borderStyle: "solid",
+                                borderColor: "rgba(240, 176, 64, 0.75)",
+                                borderRadius: "4rem"
+                            }}>
+                                <div style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    minWidth: "0",
+                                    marginRight: "8rem"
+                                }}>
+                                    <img
+                                        src="Media/Glyphs/Checkmark.svg"
+                                        alt=""
+                                        style={{
+                                            width: "13rem",
+                                            height: "13rem",
+                                            flexShrink: 0,
+                                            marginRight: "6rem",
+                                            // Tint the black glyph to the banner's warm amber.
+                                            filter: "brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(2deg) brightness(1.05)",
+                                            pointerEvents: "none"
+                                        }}
+                                    />
+                                    <span style={{
+                                        fontSize: "13rem",
+                                        fontWeight: "bold",
+                                        color: "rgba(255, 238, 184, 1)",
+                                        lineHeight: "1.3"
+                                    }}>
+                                        {TEXT.reminder.saveAfterReset}
+                                    </span>
+                                </div>
+                                <Button
+                                    variant="neutral"
+                                    focusKey={FOCUS_DISABLED}
+                                    onSelect={() => setShowSaveReminder(false)}
+                                    title={TEXT.reminder.dismiss}
+                                    style={{
+                                        flexShrink: 0,
+                                        minHeight: "22rem",
+                                        width: "22rem",
+                                        paddingTop: "0",
+                                        paddingRight: "0",
+                                        paddingBottom: "0",
+                                        paddingLeft: "0"
+                                    }}
+                                >
+                                    <img
+                                        src="Media/Glyphs/Close.svg"
+                                        alt=""
+                                        style={{
+                                            width: "12rem",
+                                            height: "12rem",
+                                            filter: "brightness(0) invert(1)",
+                                            opacity: 0.75,
+                                            pointerEvents: "none"
+                                        }}
+                                    />
+                                </Button>
+                            </div>
+                        )}
                         <div style={{ position: "relative" }}>
                             <SelectionFilterControls
                                 label={TEXT.panel.selectFilter}
@@ -735,7 +835,7 @@ export const SpeedToolWindow = () => {
                             <div style={{
                                 position: "absolute",
                                 right: "0",
-                                top: "35rem",
+                                top: "37rem",
                                 zIndex: 2
                             }}>
                                 <PreciseSpeedStepper
@@ -812,7 +912,7 @@ export const SpeedToolWindow = () => {
                             gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
                             currentSpeedLabelText={TEXT.panel.currentSpeed}
                             currentSpeedValueText={currentSpeedLabel}
-                            defaultSpeedLabelText={"Default"}
+                            defaultSpeedLabelText={TEXT.panel.gameDefault}
                             defaultSpeedValueText={vanillaSpeedLabel}
                             onGameDefaultMouseEnter={() => showPanelTooltip("gameDefault")}
                             onGameDefaultMouseLeave={hidePanelTooltip}
@@ -909,7 +1009,7 @@ export const SpeedToolWindow = () => {
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}
                 tooltipFontScale={tooltipFontScale}
-                markerTooltipText={markerTooltipText}
+                markerTooltipText={isPanelHovered ? "" : markerTooltipText}
                 markerTooltipX={markerTooltipX}
                 markerTooltipY={markerTooltipY}
                 markerTooltipFontSize={markerTooltipFontSize}

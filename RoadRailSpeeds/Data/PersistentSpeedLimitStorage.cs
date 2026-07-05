@@ -21,7 +21,7 @@ namespace RoadRailSpeeds.Data
 
     public static class PersistentSpeedLimitStorage
     {
-        private const string kModsDataFolderName = "Mochi_RoadRailSpeeds";
+        private const string kModsDataFolderName = "SpeedLimits";
         private const int kMaxFileNameLength = 50;
 
         private static readonly IReadOnlyDictionary<int, SpeedLimitEntry> s_EmptySpeedLimits =

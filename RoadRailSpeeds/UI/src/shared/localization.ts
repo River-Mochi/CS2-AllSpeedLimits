@@ -3,8 +3,9 @@
 
 import enUS from "../../../lang/en-US.json";
 import { useLocalization } from "cs2/l10n";
+import mod from "mod.json";
 
-const KEY_PREFIX = "RoadRailSpeeds.UI";
+const KEY_PREFIX = `${mod.id}.UI`;
 const enFallback = enUS as Record<string, string | null>;
 type TextLookup = (key: string) => string | null;
 
@@ -63,6 +64,10 @@ const buildText = (lookup: TextLookup) => ({
             unitAuto: text(lookup, "inCity.panel.unitAuto"),
             unitMetric: text(lookup, "inCity.panel.unitMetric"),
             unitImperial: text(lookup, "inCity.panel.unitImperial")
+        },
+        reminder: {
+            saveAfterReset: text(lookup, "inCity.reminder.saveAfterReset"),
+            dismiss: text(lookup, "inCity.reminder.dismiss")
         },
         stats: {
             cars: text(lookup, "inCity.stats.cars"),
@@ -150,7 +155,9 @@ const buildText = (lookup: TextLookup) => ({
             slower: text(lookup, "inCity.tooltips.slower"),
             faster: text(lookup, "inCity.tooltips.faster"),
             apply: text(lookup, "inCity.tooltips.apply"),
-            reset: text(lookup, "inCity.tooltips.reset")
+            reset: text(lookup, "inCity.tooltips.reset"),
+            markersHide: text(lookup, "inCity.tooltips.markersHide"),
+            markersShow: text(lookup, "inCity.tooltips.markersShow")
         },
         help: {
             // Guide popup (hover the title-bar speed-limit icon) shows only the action directions.

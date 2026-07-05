@@ -1,8 +1,8 @@
 {
   "inCity.toolbar.tooltip": "Adjust road, rail, and water speeds",
-  "inCity.hint.title": "Adjust Road/Rail/Water Speeds",
+  "inCity.hint.title": "Road • Rail • Water Speeds",
   "inCity.hint.instruction": "Click (or click and drag multiple) to select road, rail, or waterway segments",
-  "inCity.panel.title": "Speed Limits",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Road, rail, water speeds.",
   "inCity.panel.selectedSegment": "Selected",
   "inCity.panel.firstSegment": "First segment",
@@ -99,7 +99,7 @@
   "inCity.help.line5": "Current is the first segment selected.",
   "inCity.help.line10": "Save the city to keep changes.",
   "inCity.help.unitTitle": "Units:",
-  "inCity.help.unitLine": "A = Auto by map, km = km/h, mi = mph",
+  "inCity.help.unitLine": "a = Auto by map\n type NA/EU",
   "inCity.buttons.resetRoads": "Roads",
   "inCity.buttons.resetRails": "Rails",
   "inCity.buttons.resetWater": "Water",
@@ -135,5 +135,9 @@
   "inCity.roadGroups.highwayShort": "Hwy",
   "inCity.help.tooltipsOn": "Tooltips are ON, click this to turn OFF.",
   "inCity.help.tooltipsOff": "Tooltips are OFF for Speed Limits. Click this to turn ON.",
-  "inCity.panel.presets": "Presets"
+  "inCity.panel.presets": "Presets",
+  "inCity.reminder.saveAfterReset": "Reset done — SAVE City to keep.",
+  "inCity.reminder.dismiss": "Dismiss",
+  "inCity.tooltips.markersHide": "Speed numbers are ON. Click to hide the floating numbers on roads.",
+  "inCity.tooltips.markersShow": "Speed numbers are OFF. Click to show the floating numbers on roads."
 }

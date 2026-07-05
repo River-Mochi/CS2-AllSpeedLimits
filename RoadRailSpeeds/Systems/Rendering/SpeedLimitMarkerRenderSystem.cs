@@ -175,6 +175,13 @@ namespace RoadRailSpeeds.Systems
                     return;
                 }
 
+                // Player toggled the floating numbers off from the panel title bar.
+                if (m_Settings?.HideSpeedMarkers == true)
+                {
+                    ClearMarkerHoverState();
+                    return;
+                }
+
                 using NativeArray<Entity> entities = m_CustomSpeedQuery.ToEntityArray(Allocator.Temp);
                 if (entities.Length == 0)
                 {
@@ -349,7 +356,7 @@ namespace RoadRailSpeeds.Systems
 
                 textMesh.rectTransform.sizeDelta = new Vector2(176f, 92f);
                 // Base font size for floating speed number before zoom scaling is applied above.
-                textMesh.fontSize = 32f;
+                textMesh.fontSize = 30f;
                 textMesh.alignment = TextAlignmentOptions.Center;
                 textMesh.color = textColor;
                 textMesh.characterSpacing = 0f;

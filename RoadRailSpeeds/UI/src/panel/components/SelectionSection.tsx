@@ -83,7 +83,9 @@ export const SelectionSection = (props: SelectionSectionProps) => {
 
     const factRowStyle = {
         display: "flex",
-        alignItems: "baseline",
+        // cohtml/Gameface has no "baseline"; it warns and ignores it. "center" reads the same
+        // for these single-line label/value rows and keeps the UI log clean.
+        alignItems: "center",
         justifyContent: "flex-end",
         minHeight: "18rem",
         minWidth: "0"
@@ -145,7 +147,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         <div style={{
                             position: "absolute",
                             right: "7rem",
-                            top: "9rem",
+                            top: "7rem",
                             width: "27rem",
                             height: "27rem"
                         }}>
