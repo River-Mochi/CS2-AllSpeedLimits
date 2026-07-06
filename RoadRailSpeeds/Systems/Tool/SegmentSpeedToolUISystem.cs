@@ -40,6 +40,7 @@ namespace RoadRailSpeeds.Systems
         private readonly List<Entity> m_SelectedEdges = new();
         private readonly List<float> m_Speeds = new();
         private EntityQuery m_AdjustableEdgeQuery;
+        private EntityQuery m_DeliveryTruckStatsQuery;
 
         private ValueBindingHelper<float> m_InitialSpeedBinding = null!;
         private ValueBindingHelper<bool> m_ToolActiveBinding = null!;
@@ -66,6 +67,10 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<int> m_CityBikeTotalBinding = null!;
         private ValueBindingHelper<int> m_CityBikeActiveBinding = null!;
         private ValueBindingHelper<int> m_CityBikeParkedBinding = null!;
+        private ValueBindingHelper<int> m_CityIndustryTotalBinding = null!;
+        private ValueBindingHelper<int> m_CityIndustryActiveBinding = null!;
+        private ValueBindingHelper<int> m_CityIndustryParkedBinding = null!;
+        private ValueBindingHelper<bool> m_StatsExpandedBinding = null!;
         private ValueBindingHelper<bool> m_CityResetInProgressBinding = null!;
         private ValueBindingHelper<int> m_CityResetClearedBinding = null!;
         private ValueBindingHelper<int> m_CityResetTotalBinding = null!;
@@ -120,6 +125,21 @@ namespace RoadRailSpeeds.Systems
                 }
             });
 
+            m_DeliveryTruckStatsQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new[]
+                {
+                    ComponentType.ReadOnly<Game.Vehicles.DeliveryTruck>()
+                },
+                None = new[]
+                {
+                    ComponentType.ReadOnly<Game.Vehicles.CarTrailer>(),
+                    ComponentType.ReadOnly<Deleted>(),
+                    ComponentType.ReadOnly<Destroyed>(),
+                    ComponentType.ReadOnly<Temp>()
+                }
+            });
+
             // These keys are read by the React/COHTML UI.
             m_InitialSpeedBinding = CreateBinding("INFOPANEL_ROAD_SPEED", 50f);
             m_ToolActiveBinding = CreateBinding("TOOL_ACTIVE", false);
@@ -143,6 +163,10 @@ namespace RoadRailSpeeds.Systems
             m_CityBikeTotalBinding = CreateBinding("CITY_BIKE_TOTAL", 0);
             m_CityBikeActiveBinding = CreateBinding("CITY_BIKE_ACTIVE", 0);
             m_CityBikeParkedBinding = CreateBinding("CITY_BIKE_PARKED", 0);
+            m_CityIndustryTotalBinding = CreateBinding("CITY_INDUSTRY_TOTAL", 0);
+            m_CityIndustryActiveBinding = CreateBinding("CITY_INDUSTRY_ACTIVE", 0);
+            m_CityIndustryParkedBinding = CreateBinding("CITY_INDUSTRY_PARKED", 0);
+            m_StatsExpandedBinding = CreateBinding("STATS_EXPANDED", false);
             m_CityResetInProgressBinding = CreateBinding("CITY_RESET_IN_PROGRESS", false);
             m_CityResetClearedBinding = CreateBinding("CITY_RESET_CLEARED", 0);
             m_CityResetTotalBinding = CreateBinding("CITY_RESET_TOTAL", 0);
@@ -169,6 +193,7 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<bool>("ACTIVATE_TOOL", HandleActivateTool);
             CreateTrigger<bool>("SET_PANEL_TOOLTIPS_ENABLED", HandleSetPanelTooltipsEnabled);
             CreateTrigger<bool>("SET_HIDE_SPEED_MARKERS", HandleSetHideSpeedMarkers);
+            CreateTrigger<bool>("SET_STATS_EXPANDED", HandleSetStatsExpanded);
             CreateTrigger("RESET_CITY_ROADS", HandleResetCityRoads);
             CreateTrigger("RESET_CITY_RAILS", HandleResetCityRails);
             CreateTrigger("RESET_CITY_WATERWAYS", HandleResetCityWaterways);
@@ -199,6 +224,10 @@ namespace RoadRailSpeeds.Systems
             m_CityBikeTotalBinding.Value = 0;
             m_CityBikeActiveBinding.Value = 0;
             m_CityBikeParkedBinding.Value = 0;
+            m_CityIndustryTotalBinding.Value = 0;
+            m_CityIndustryActiveBinding.Value = 0;
+            m_CityIndustryParkedBinding.Value = 0;
+            m_StatsExpandedBinding.Value = false;
             m_CityResetInProgressBinding.Value = false;
             m_CityResetClearedBinding.Value = 0;
             m_CityResetTotalBinding.Value = 0;
@@ -231,6 +260,7 @@ namespace RoadRailSpeeds.Systems
             m_IsWaterwayTypeBinding.Value = false;
             m_PanelTooltipsEnabledBinding.Value = m_Settings?.PanelTooltipsEnabled ?? true;
             m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
+            m_StatsExpandedBinding.Value = false;
             ClearCityVehicleStatsBindings();
             ClearCityResetBindings();
             ClearCityApplyBindings();
@@ -383,7 +413,7 @@ namespace RoadRailSpeeds.Systems
                 m_SelectWaterBinding.Value = true;
             }
 
-            if (toolActive && visible)
+            if (toolActive && visible && m_StatsExpandedBinding.Value)
             {
                 RefreshVehicleStatsIfNeeded(toolStateChanged);
             }
@@ -419,6 +449,18 @@ namespace RoadRailSpeeds.Systems
             m_Settings.HideSpeedMarkers = hidden;
             m_Settings.ApplyAndSave();
             m_HideSpeedMarkersBinding.Value = hidden;
+            RequestUpdate();
+        }
+
+        private void HandleSetStatsExpanded(bool expanded)
+        {
+            if (m_StatsExpandedBinding.Value == expanded)
+            {
+                return;
+            }
+
+            m_StatsExpandedBinding.Value = expanded;
+            m_LastVehicleStatsFrame = -1;
             RequestUpdate();
         }
 
@@ -493,9 +535,9 @@ namespace RoadRailSpeeds.Systems
                 return 100;
             }
 
-            if (scale > 130)
+            if (scale > 140)
             {
-                return 130;
+                return 140;
             }
 
             return scale;

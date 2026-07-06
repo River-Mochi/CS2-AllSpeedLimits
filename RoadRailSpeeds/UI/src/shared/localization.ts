@@ -72,6 +72,7 @@ const buildText = (lookup: TextLookup) => ({
         stats: {
             cars: text(lookup, "inCity.stats.cars"),
             bikes: text(lookup, "inCity.stats.bikes"),
+            industry: text(lookup, "inCity.stats.industry"),
             total: text(lookup, "inCity.stats.total"),
             moving: text(lookup, "inCity.stats.moving"),
             parked: text(lookup, "inCity.stats.parked")
@@ -92,6 +93,8 @@ const buildText = (lookup: TextLookup) => ({
             resetRoads: text(lookup, "inCity.buttons.resetRoads"),
             resetRails: text(lookup, "inCity.buttons.resetRails"),
             resetWater: text(lookup, "inCity.buttons.resetWater"),
+            expandAll: text(lookup, "inCity.buttons.expandAll"),
+            collapseAll: text(lookup, "inCity.buttons.collapseAll"),
             cancel: text(lookup, "inCity.buttons.cancel"),
             close: text(lookup, "inCity.buttons.close")
         },
@@ -137,7 +140,7 @@ const buildText = (lookup: TextLookup) => ({
             },
             stats: {
                 title: text(lookup, "inCity.tooltips.stats.title"),
-                lines: lines(lookup, "inCity.tooltips.stats", 2)
+                lines: lines(lookup, "inCity.tooltips.stats", 3)
             },
             wholeCity: {
                 title: text(lookup, "inCity.tooltips.wholeCity.title"),

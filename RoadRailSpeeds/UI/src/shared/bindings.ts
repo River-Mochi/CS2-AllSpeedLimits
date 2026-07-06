@@ -94,6 +94,18 @@ export const CITY_BIKE_PARKED = bindValue<number>(
   MOD_ID,
   "BINDING:CITY_BIKE_PARKED"
 );
+export const CITY_INDUSTRY_TOTAL = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_INDUSTRY_TOTAL"
+);
+export const CITY_INDUSTRY_ACTIVE = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_INDUSTRY_ACTIVE"
+);
+export const CITY_INDUSTRY_PARKED = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_INDUSTRY_PARKED"
+);
 export const CITY_RESET_IN_PROGRESS = bindValue<boolean>(
   MOD_ID,
   "BINDING:CITY_RESET_IN_PROGRESS"
@@ -189,6 +201,10 @@ export function SetPanelTooltipsEnabled(enabled: boolean) {
 
 export function SetHideSpeedMarkers(hidden: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_HIDE_SPEED_MARKERS", hidden);
+}
+
+export function SetStatsExpanded(expanded: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_STATS_EXPANDED", expanded);
 }
 
 export function ActivateTool() {

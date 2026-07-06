@@ -26,6 +26,8 @@ type SpeedToolOverlaysProps = {
     tooltipFontSize: string;
     tooltipFontScale: number;
     markerTooltipText: string;
+    markersTooltipText: string;
+    expandAllTooltipText: string;
     markerTooltipX: number;
     markerTooltipY: number;
     markerTooltipFontSize: string;
@@ -45,6 +47,8 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         tooltipFontSize,
         tooltipFontScale,
         markerTooltipText,
+        markersTooltipText,
+        expandAllTooltipText,
         markerTooltipX,
         markerTooltipY,
         markerTooltipFontSize,
@@ -133,6 +137,12 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "applySubway") {
             maxWidth = "200rem";
             content = renderTooltipBlock(text.buttons.applySubway, [text.tooltips.applySubway]);
+        } else if (panelTooltip === "expandAll") {
+            maxWidth = "184rem";
+            content = renderTooltipBlock("", [expandAllTooltipText]);
+        } else if (panelTooltip === "markers") {
+            maxWidth = "210rem";
+            content = renderTooltipBlock("", [markersTooltipText]);
         } else {
             maxWidth = "120rem";
             content = renderTooltipBlock(text.tooltips.unit.title, text.tooltips.unit.lines);

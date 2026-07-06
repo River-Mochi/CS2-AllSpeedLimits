@@ -1,5 +1,5 @@
 // File: UI/src/panel/VehicleStatsTable.tsx
-// Purpose: Compact moving/parked/total stats table for cars and bikes.
+// Purpose: Compact moving/parked/total stats table for cars, bikes, and industry delivery trucks.
 
 import { useState } from "react";
 // Bundled "_max" icons: same game art with the glyph enlarged inside the same square so it reads
@@ -22,6 +22,10 @@ type VehicleStatsTableProps = {
     cityBikeActive: number;
     cityBikeParked: number;
     cityBikeTotal: number;
+    industryLabel: string;
+    cityIndustryActive: number;
+    cityIndustryParked: number;
+    cityIndustryTotal: number;
     formatCount: (value: number) => string;
 };
 
@@ -38,6 +42,10 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
         cityBikeActive,
         cityBikeParked,
         cityBikeTotal,
+        industryLabel,
+        cityIndustryActive,
+        cityIndustryParked,
+        cityIndustryTotal,
         formatCount
     } = props;
 
@@ -47,9 +55,9 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
     const labelWidth = STATS_LABEL_WIDTH_REM;
     const statColumnWidth = STATS_COLUMN_WIDTH_REM;
     const columns = [
-        { label: movingLabel, cars: cityCarActive, bikes: cityBikeActive },
-        { label: parkedLabel, cars: cityCarParked, bikes: cityBikeParked },
-        { label: totalLabel, cars: cityCarTotal, bikes: cityBikeTotal }
+        { label: movingLabel, cars: cityCarActive, bikes: cityBikeActive, industry: cityIndustryActive },
+        { label: parkedLabel, cars: cityCarParked, bikes: cityBikeParked, industry: cityIndustryParked },
+        { label: totalLabel, cars: cityCarTotal, bikes: cityBikeTotal, industry: cityIndustryTotal }
     ];
 
     // iconIdleRem/iconHoverRem are per-row: the bicycle art is thinner than the chunky car, so the
@@ -144,6 +152,8 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                 {renderStatsRow(carIcon, carsLabel, columns.map(column => column.cars), "cars", 22, 25)}
                 <div style={{ height: "2rem" }} />
                 {renderStatsRow(bikeIcon, bikesLabel, columns.map(column => column.bikes), "bikes", 23, 26)}
+                <div style={{ height: "2rem" }} />
+                {renderStatsRow(carIcon, industryLabel, columns.map(column => column.industry), "industry", 22, 25)}
             </div>
         </div>
     );

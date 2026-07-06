@@ -34,7 +34,7 @@ namespace RoadRailSpeeds
         {
             // Options menu title intentionally omits version.
             // Version still appears on the About tab through VersionText.
-            string title = "Adjust Speed Limits (Hız)";
+            string title = Mod.ModName;
 
             return new Dictionary<string, string>
             {

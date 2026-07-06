@@ -29,6 +29,7 @@ type SpeedToolHeaderProps = {
     onToggleTooltips: () => void;
     onToggleMarkers: () => void;
     showPanelTitleTooltip: () => void;
+    showMarkersTooltip: () => void;
     hidePanelTooltip: () => void;
 };
 
@@ -53,6 +54,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
         onToggleTooltips,
         onToggleMarkers,
         showPanelTitleTooltip,
+        showMarkersTooltip,
         hidePanelTooltip
     } = props;
 
@@ -98,70 +100,70 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
             </div>
 
             <div style={{ display: "flex", alignItems: "center" }}>
-                <Tooltip tooltip={markersTooltip} direction="up">
-                    <Button
-                        as="button"
-                        focusKey={focusDisabled}
-                        theme={{ button: "" }}
-                        onSelect={onToggleMarkers}
-                        onMouseEnter={() => setIsMarkersHovered(true)}
-                        onMouseLeave={() => setIsMarkersHovered(false)}
+                <Button
+                    as="button"
+                    focusKey={focusDisabled}
+                    theme={{ button: "" }}
+                    aria-label={markersTooltip}
+                    onSelect={onToggleMarkers}
+                    onMouseEnter={() => {
+                        setIsMarkersHovered(true);
+                        showMarkersTooltip();
+                    }}
+                    onMouseLeave={() => {
+                        setIsMarkersHovered(false);
+                        hidePanelTooltip();
+                    }}
+                    style={{
+                        position: "relative",
+                        backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
+                        borderWidth: "0",
+                        borderStyle: "solid",
+                        borderColor: "rgba(255, 255, 255, 0)",
+                        borderRadius: "50%",
+                        width: "26rem",
+                        height: "26rem",
+                        minHeight: "26rem",
+                        boxSizing: "border-box",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        paddingTop: "0",
+                        paddingRight: "0",
+                        paddingBottom: "0",
+                        paddingLeft: "0",
+                        marginRight: "1rem"
+                    }}
+                >
+                    <div style={{
+                        position: "absolute",
+                        top: "3rem",
+                        left: "3rem",
+                        width: "20rem",
+                        height: "20rem",
+                        borderRadius: "50%",
+                        borderWidth: speedMarkersHidden ? "2rem" : "1rem",
+                        borderStyle: "solid",
+                        borderColor: speedMarkersHidden
+                            ? "rgba(110, 200, 235, 0.88)"
+                            : (isMarkersHovered ? "rgba(255, 255, 255, 0.86)" : "rgba(255, 255, 255, 0.34)"),
+                        boxSizing: "border-box",
+                        pointerEvents: "none"
+                    }} />
+                    <img
+                        src={speedMarkersHidden ? starBlueGreenIcon : "Media/Tools/Snap Options/All.svg"}
+                        alt=""
                         style={{
-                            // 24rem button = the hover-wash circle. The active blue ring is a SEPARATE,
-                            // smaller circle (below) inset inside it, so the ring reads clearly smaller.
-                            position: "relative",
-                            backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
-                            borderWidth: "0",
-                            borderStyle: "solid",
-                            borderColor: "rgba(255, 255, 255, 0)",
-                            borderRadius: "50%",
-                            width: "24rem",
-                            height: "24rem",
-                            minHeight: "24rem",
-                            boxSizing: "border-box",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            paddingTop: "0",
-                            paddingRight: "0",
-                            paddingBottom: "0",
-                            paddingLeft: "0",
-                            marginRight: "1rem"
+                            width: isMarkersHovered ? "15rem" : "13.5rem",
+                            height: isMarkersHovered ? "15rem" : "13.5rem",
+                            filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
+                            opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 1 : 0.58),
+                            transform: isMarkersHovered ? "scale(1.05)" : "none",
+                            pointerEvents: "none"
                         }}
-                    >
-                        {speedMarkersHidden && (
-                            <div style={{
-                                // 20rem ring inset 2rem inside the 24rem button — smaller diameter, not
-                                // touching the edge. Same blue as the filter boxes.
-                                position: "absolute",
-                                top: "2rem",
-                                left: "2rem",
-                                width: "20rem",
-                                height: "20rem",
-                                borderRadius: "50%",
-                                borderWidth: "2rem",
-                                borderStyle: "solid",
-                                borderColor: "rgba(110, 200, 235, 0.85)",
-                                boxSizing: "border-box",
-                                pointerEvents: "none"
-                            }} />
-                        )}
-                        <img
-                            // Active: a real blue-green star (bundled SVG with a fill), so the color is
-                            // exact instead of an unreliable CSS filter. Idle: the white game glyph.
-                            src={speedMarkersHidden ? starBlueGreenIcon : "Media/Tools/Snap Options/All.svg"}
-                            alt=""
-                            style={{
-                                width: isMarkersHovered ? "14rem" : "13rem",
-                                height: isMarkersHovered ? "14rem" : "13rem",
-                                filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
-                                opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 0.95 : 0.5),
-                                pointerEvents: "none"
-                            }}
-                        />
-                    </Button>
-                </Tooltip>
+                    />
+                </Button>
 
                 <Button
                     as="button"

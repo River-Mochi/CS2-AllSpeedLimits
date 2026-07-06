@@ -2,6 +2,8 @@
 // Purpose: Shared collapsible section header used across the speed tool panel.
 
 import type { ReactNode } from "react";
+import { useState } from "react";
+import { Button } from "../shared/Button";
 
 type CollapsibleSectionHeaderProps = {
     label: string;
@@ -11,17 +13,23 @@ type CollapsibleSectionHeaderProps = {
     // Optional right-aligned content shown on the header line, just left of the chevron.
     // Used by the Stats section to put the Moving/Parked/Total column headers on the title row.
     trailing?: ReactNode;
+    focusKey?: unknown;
 };
 
 export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) => {
-    const { label, expanded, onToggle, leading, trailing } = props;
+    const { label, expanded, onToggle, leading, trailing, focusKey } = props;
+    const [hovered, setHovered] = useState(false);
 
     return (
-        <button
-            onClick={onToggle}
+        <Button
+            focusKey={focusKey}
+            onSelect={onToggle}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
             style={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "flex-start",
                 width: "100%",
                 minHeight: "18rem",
                 paddingTop: "0",
@@ -34,11 +42,13 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                 backgroundColor: "transparent",
                 borderWidth: "0",
                 borderStyle: "solid",
-                color: "rgba(226, 236, 241, 0.78)",
+                color: hovered ? "rgba(255, 255, 255, 0.94)" : "rgba(226, 236, 241, 0.78)",
                 cursor: "pointer",
                 fontSize: "12rem",
                 fontWeight: 500,
-                textAlign: "left"
+                textAlign: "left",
+                lineHeight: "1",
+                boxShadow: "none"
             }}
         >
             <span style={{
@@ -72,14 +82,16 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                 alt=""
                 style={{
                     display: "block",
-                    width: "11rem",
-                    height: "11rem",
+                    width: hovered ? "14rem" : "13rem",
+                    height: hovered ? "14rem" : "13rem",
                     marginTop: "2rem",
                     marginLeft: "6rem",
                     filter: "brightness(0) invert(1)",
-                    opacity: 0.72
+                    opacity: hovered ? 1 : (expanded ? 0.78 : 0.58),
+                    transform: hovered ? "scale(1.04)" : "none",
+                    pointerEvents: "none"
                 }}
             />
-        </button>
+        </Button>
     );
 };

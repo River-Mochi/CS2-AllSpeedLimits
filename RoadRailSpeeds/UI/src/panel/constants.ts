@@ -67,7 +67,9 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     filterWater: 58,
     apply: 196,
     applyTrain: 300,
-    applySubway: 300
+    applySubway: 300,
+    expandAll: 58,
+    markers: 28
 };
 
 export const ROAD_GROUP_TOOLTIP_KIND: Record<RoadGroupKind, PanelTooltipKind> = {

@@ -25,6 +25,9 @@ import {
     CITY_BIKE_TOTAL,
     CITY_BIKE_ACTIVE,
     CITY_BIKE_PARKED,
+    CITY_INDUSTRY_TOTAL,
+    CITY_INDUSTRY_ACTIVE,
+    CITY_INDUSTRY_PARKED,
     CITY_RESET_IN_PROGRESS,
     CITY_RESET_CLEARED,
     CITY_RESET_TOTAL,
@@ -50,6 +53,7 @@ import {
     ToggleUnit,
     SetPanelTooltipsEnabled,
     SetHideSpeedMarkers,
+    SetStatsExpanded,
     SetToolActive
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
@@ -86,7 +90,7 @@ export const SpeedToolWindow = () => {
     const vanillaSpeedMixed = useSafeBinding(VANILLA_SPEED_MIXED, false);
     const syncSliderWithSelection = useSafeBinding(SYNC_SLIDER_WITH_SELECTION, true);
     const panelSliderIncrement = Math.max(5, Math.min(25, useSafeBinding(PANEL_SLIDER_INCREMENT, 5)));
-    const tooltipFontScale = Math.max(100, Math.min(130, useSafeBinding(TOOLTIP_FONT_SCALE, 110)));
+    const tooltipFontScale = Math.max(100, Math.min(140, useSafeBinding(TOOLTIP_FONT_SCALE, 110)));
     const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
     const hideSpeedMarkers = useSafeBinding(HIDE_SPEED_MARKERS, false);
     const unitMode = useSafeBinding(UNIT_MODE, 0);
@@ -96,6 +100,9 @@ export const SpeedToolWindow = () => {
     const cityBikeTotal = useSafeBinding(CITY_BIKE_TOTAL, 0);
     const cityBikeActive = useSafeBinding(CITY_BIKE_ACTIVE, 0);
     const cityBikeParked = useSafeBinding(CITY_BIKE_PARKED, 0);
+    const cityIndustryTotal = useSafeBinding(CITY_INDUSTRY_TOTAL, 0);
+    const cityIndustryActive = useSafeBinding(CITY_INDUSTRY_ACTIVE, 0);
+    const cityIndustryParked = useSafeBinding(CITY_INDUSTRY_PARKED, 0);
     const cityResetInProgress = useSafeBinding(CITY_RESET_IN_PROGRESS, false);
     const cityResetCleared = useSafeBinding(CITY_RESET_CLEARED, 0);
     const cityResetTotal = useSafeBinding(CITY_RESET_TOTAL, 0);
@@ -156,6 +163,7 @@ export const SpeedToolWindow = () => {
     const [isGuideHovered, setIsGuideHovered] = useState(false);
     const [isHelpHovered, setIsHelpHovered] = useState(false);
     const [isMarkersHovered, setIsMarkersHovered] = useState(false);
+    const [isExpandAllHovered, setIsExpandAllHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [hoveredPresetSpeed, setHoveredPresetSpeed] = useState<number | null>(null);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
@@ -401,6 +409,10 @@ export const SpeedToolWindow = () => {
         }
     }, [selectionCounter, toolActive, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
 
+    useEffect(() => {
+        SetStatsExpanded(statsExpanded);
+    }, [statsExpanded]);
+
     const handleSliderChange = (value: number) => {
         const snappedValue = snapDisplayToIncrement(value);
         setPendingSpeedKmh(displayValueToSpeedKmh(snappedValue));
@@ -627,6 +639,9 @@ export const SpeedToolWindow = () => {
     const presetRows = [presetSpeeds.slice(0, 6), presetSpeeds.slice(6, 12), presetSpeeds.slice(12)];
     const cityActionInfo = pendingCityAction !== null ? getCityActionInfo(pendingCityAction) : null;
     const cityActionBusy = cityActionApplying !== null || cityResetInProgress || cityApplyInProgress;
+    const anySectionExpanded = selectionInfoExpanded || sliderExpanded || wholeCityExpanded || statsExpanded;
+    const expandAllTooltipText = anySectionExpanded ? TEXT.buttons.collapseAll : TEXT.buttons.expandAll;
+    const speedMarkersTooltipText = hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide;
     const panelWidth = PANEL_WIDTH_REM;
     const tooltipFontSize = `${10 * tooltipFontScale / 100}rem`;
     const markerTooltipFontSize = `${20 * tooltipFontScale / 100}rem`;
@@ -754,6 +769,7 @@ export const SpeedToolWindow = () => {
                             onToggleTooltips={() => SetPanelTooltipsEnabled(!panelTooltipsEnabled)}
                             onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
                             showPanelTitleTooltip={() => showPanelTooltip("panelTitle")}
+                            showMarkersTooltip={() => showPanelTooltip("markers")}
                             hidePanelTooltip={hidePanelTooltip}
                         />
                     }
@@ -857,25 +873,33 @@ export const SpeedToolWindow = () => {
                                 showTip={showPanelTooltip}
                                 hideTip={hidePanelTooltip}
                             />
-                            {/* Expand or collapse every section at once. TODO(stage2): panel-side tooltip. */}
-                            <button
-                                onClick={collapseAllSections}
-                                title={(selectionInfoExpanded || sliderExpanded || wholeCityExpanded || statsExpanded)
-                                    ? "Collapse all sections"
-                                    : "Expand all sections"}
+                            <Button
+                                focusKey={FOCUS_DISABLED}
+                                variant="neutral"
+                                onSelect={collapseAllSections}
+                                onMouseEnter={() => {
+                                    setIsExpandAllHovered(true);
+                                    showPanelTooltip("expandAll");
+                                }}
+                                onMouseLeave={() => {
+                                    setIsExpandAllHovered(false);
+                                    hidePanelTooltip();
+                                }}
+                                title={panelTitle(expandAllTooltipText)}
                                 style={{
                                     flexShrink: 0,
                                     width: "30rem",
                                     height: "30rem",
+                                    minHeight: "30rem",
                                     marginLeft: "6rem",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    backgroundColor: "rgba(60, 82, 98, 0.42)",
-                                    borderWidth: "1rem",
+                                    backgroundColor: "transparent",
+                                    borderWidth: "0",
                                     borderStyle: "solid",
                                     borderColor: "rgba(255, 255, 255, 0)",
-                                    borderRadius: "4rem",
+                                    borderRadius: "50%",
                                     boxSizing: "border-box",
                                     cursor: "pointer",
                                     paddingTop: "0",
@@ -891,11 +915,12 @@ export const SpeedToolWindow = () => {
                                         width: "22rem",
                                         height: "22rem",
                                         filter: "brightness(0) invert(1)",
-                                        opacity: 0.75,
+                                        opacity: isExpandAllHovered ? 1 : 0.68,
+                                        transform: isExpandAllHovered ? "scale(1.08)" : "none",
                                         pointerEvents: "none"
                                     }}
                                 />
-                            </button>
+                            </Button>
                         </div>
 
                         {/* Selected: New-speed column (left) + presets (right). */}
@@ -903,6 +928,20 @@ export const SpeedToolWindow = () => {
                             label={TEXT.panel.selectedSegment}
                             expanded={selectionInfoExpanded}
                             onToggle={toggleSelectionInfoExpanded}
+                            focusKey={FOCUS_DISABLED}
+                            trailing={selectionInfoExpanded ? (
+                                <div style={{
+                                    width: "133rem",
+                                    minWidth: "133rem",
+                                    textAlign: "left",
+                                    fontSize: "9rem",
+                                    fontWeight: 500,
+                                    color: "rgba(255, 255, 255, 0.58)",
+                                    lineHeight: "1"
+                                }}>
+                                    {TEXT.panel.presets}
+                                </div>
+                            ) : undefined}
                         />
                         {selectionInfoExpanded && (
                             <div style={{ display: "flex", marginBottom: "8rem" }}>
@@ -950,6 +989,7 @@ export const SpeedToolWindow = () => {
                             label="Custom"
                             expanded={sliderExpanded}
                             onToggle={toggleSliderExpanded}
+                            focusKey={FOCUS_DISABLED}
                         />
                         {sliderExpanded && (
                             <MainSpeedSection
@@ -1008,6 +1048,9 @@ export const SpeedToolWindow = () => {
                             cityBikeActive={cityBikeActive}
                             cityBikeParked={cityBikeParked}
                             cityBikeTotal={cityBikeTotal}
+                            cityIndustryActive={cityIndustryActive}
+                            cityIndustryParked={cityIndustryParked}
+                            cityIndustryTotal={cityIndustryTotal}
                             setSelectedRoadGroup={setSelectedRoadGroup}
                             setPendingCityAction={setPendingCityAction}
                             toggleWholeCityExpanded={toggleWholeCityExpanded}
@@ -1050,6 +1093,8 @@ export const SpeedToolWindow = () => {
                 tooltipFontSize={tooltipFontSize}
                 tooltipFontScale={tooltipFontScale}
                 markerTooltipText={isPanelHovered ? "" : markerTooltipText}
+                markersTooltipText={speedMarkersTooltipText}
+                expandAllTooltipText={expandAllTooltipText}
                 markerTooltipX={markerTooltipX}
                 markerTooltipY={markerTooltipY}
                 markerTooltipFontSize={markerTooltipFontSize}

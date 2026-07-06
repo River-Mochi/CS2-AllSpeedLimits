@@ -13,6 +13,7 @@ namespace RoadRailSpeeds.Systems
 {
     using Game.Prefabs;
     using Game.Vehicles;
+    using Unity.Collections;
     using Unity.Entities;
 
     public partial class SegmentSpeedToolUISystem
@@ -28,6 +29,9 @@ namespace RoadRailSpeeds.Systems
             public readonly int BikeTotal;
             public readonly int BikeActive;
             public readonly int BikeParked;
+            public readonly int IndustryTotal;
+            public readonly int IndustryActive;
+            public readonly int IndustryParked;
 
             public CityVehicleStats(
                 int carTotal,
@@ -35,7 +39,10 @@ namespace RoadRailSpeeds.Systems
                 int carParked,
                 int bikeTotal,
                 int bikeActive,
-                int bikeParked)
+                int bikeParked,
+                int industryTotal,
+                int industryActive,
+                int industryParked)
             {
                 CarTotal = carTotal;
                 CarActive = carActive;
@@ -43,6 +50,9 @@ namespace RoadRailSpeeds.Systems
                 BikeTotal = bikeTotal;
                 BikeActive = bikeActive;
                 BikeParked = bikeParked;
+                IndustryTotal = industryTotal;
+                IndustryActive = industryActive;
+                IndustryParked = industryParked;
             }
         }
 
@@ -89,6 +99,21 @@ namespace RoadRailSpeeds.Systems
             {
                 m_CityBikeParkedBinding.Value = stats.BikeParked;
             }
+
+            if (m_CityIndustryTotalBinding.Value != stats.IndustryTotal)
+            {
+                m_CityIndustryTotalBinding.Value = stats.IndustryTotal;
+            }
+
+            if (m_CityIndustryActiveBinding.Value != stats.IndustryActive)
+            {
+                m_CityIndustryActiveBinding.Value = stats.IndustryActive;
+            }
+
+            if (m_CityIndustryParkedBinding.Value != stats.IndustryParked)
+            {
+                m_CityIndustryParkedBinding.Value = stats.IndustryParked;
+            }
         }
 
         private CityVehicleStats BuildCityVehicleStats()
@@ -99,6 +124,9 @@ namespace RoadRailSpeeds.Systems
             int bikeTotal = 0;
             int bikeActive = 0;
             int bikeParked = 0;
+            int industryTotal = 0;
+            int industryActive = 0;
+            int industryParked = 0;
 
             // Read-only count, so the modern DOTS idiom SystemAPI.Query fits: it iterates the matching
             // chunks directly with no NativeArray copy. The query guarantees PrefabRef and PersonalCar
@@ -150,13 +178,41 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
+            using (NativeArray<Entity> deliveryTruckEntities = m_DeliveryTruckStatsQuery.ToEntityArray(Allocator.Temp))
+            {
+                for (int i = 0; i < deliveryTruckEntities.Length; i++)
+                {
+                    Entity vehicle = deliveryTruckEntities[i];
+
+                    bool isParked = SystemAPI.HasComponent<ParkedCar>(vehicle);
+                    bool isActive = !isParked && SystemAPI.HasComponent<CarCurrentLane>(vehicle);
+                    if (!isParked && !isActive)
+                    {
+                        continue;
+                    }
+
+                    industryTotal++;
+                    if (isParked)
+                    {
+                        industryParked++;
+                    }
+                    else
+                    {
+                        industryActive++;
+                    }
+                }
+            }
+
             return new CityVehicleStats(
                 carTotal,
                 carActive,
                 carParked,
                 bikeTotal,
                 bikeActive,
-                bikeParked);
+                bikeParked,
+                industryTotal,
+                industryActive,
+                industryParked);
         }
 
         private void ClearCityVehicleStatsBindings()
@@ -167,6 +223,9 @@ namespace RoadRailSpeeds.Systems
             m_CityBikeTotalBinding.Value = 0;
             m_CityBikeActiveBinding.Value = 0;
             m_CityBikeParkedBinding.Value = 0;
+            m_CityIndustryTotalBinding.Value = 0;
+            m_CityIndustryActiveBinding.Value = 0;
+            m_CityIndustryParkedBinding.Value = 0;
         }
     }
 }

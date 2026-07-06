@@ -59,7 +59,7 @@ namespace RoadRailSpeeds
         public int PanelSliderIncrement { get; set; } = 5;
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
-        [SettingsUISlider(min = 100f, max = 130f, step = 5f, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = 100f, max = 140f, step = 5f, unit = Unit.kPercentage)]
         public int TooltipFontScale { get; set; } = 110;
 
         [SettingsUISection(kMainTab, kDisplayGroup)]

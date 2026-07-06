@@ -29,6 +29,9 @@ type WholeCityStatsSectionProps = {
     cityBikeActive: number;
     cityBikeParked: number;
     cityBikeTotal: number;
+    cityIndustryActive: number;
+    cityIndustryParked: number;
+    cityIndustryTotal: number;
     setSelectedRoadGroup: Dispatch<SetStateAction<RoadGroupKind | null>>;
     setPendingCityAction: Dispatch<SetStateAction<CityActionKind | null>>;
     toggleWholeCityExpanded: () => void;
@@ -62,6 +65,9 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
         cityBikeActive,
         cityBikeParked,
         cityBikeTotal,
+        cityIndustryActive,
+        cityIndustryParked,
+        cityIndustryTotal,
         setSelectedRoadGroup,
         setPendingCityAction,
         toggleWholeCityExpanded,
@@ -90,6 +96,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                     label={text.panel.wholeCity}
                     expanded={wholeCityExpanded}
                     onToggle={toggleWholeCityExpanded}
+                    focusKey={focusKey}
                 />
             </div>
             {wholeCityExpanded && (
@@ -219,6 +226,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                         label={text.panel.stats}
                         expanded={statsExpanded}
                         onToggle={toggleStatsExpanded}
+                        focusKey={focusKey}
                         trailing={statsExpanded ? (
                             <>
                                 {[text.stats.moving, text.stats.parked, text.stats.total].map((header: string) => (
@@ -245,6 +253,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                     <VehicleStatsTable
                         carsLabel={text.stats.cars}
                         bikesLabel={text.stats.bikes}
+                        industryLabel={text.stats.industry}
                         movingLabel={text.stats.moving}
                         parkedLabel={text.stats.parked}
                         totalLabel={text.stats.total}
@@ -254,6 +263,9 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                         cityBikeActive={cityBikeActive}
                         cityBikeParked={cityBikeParked}
                         cityBikeTotal={cityBikeTotal}
+                        cityIndustryActive={cityIndustryActive}
+                        cityIndustryParked={cityIndustryParked}
+                        cityIndustryTotal={cityIndustryTotal}
                         formatCount={formatCount}
                     />
                 )}

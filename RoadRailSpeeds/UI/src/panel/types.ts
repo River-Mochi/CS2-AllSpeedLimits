@@ -26,7 +26,9 @@ export type PanelTooltipKind =
     | "filterWater"
     | "apply"
     | "applyTrain"
-    | "applySubway";
+    | "applySubway"
+    | "expandAll"
+    | "markers";
 
 export type CityActionInfo = {
     title: string;
