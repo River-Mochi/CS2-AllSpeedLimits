@@ -27,7 +27,7 @@ namespace RoadRailSpeeds
     {
         public const string ModName = "All Speed Limits";
         public const string ModId = "RoadRailSpeeds";
-        public const string LogFileName = "AdjustSpeedLimits";
+        public const string LogFileName = "AllSpeedLimits";
         public const string ModTag = "[ASL]";
 
         public static readonly string ModVersion =

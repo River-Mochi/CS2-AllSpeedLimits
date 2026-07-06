@@ -21,7 +21,7 @@ namespace RoadRailSpeeds
     using RoadRailSpeeds.Systems;    // ClearCustomSpeedsSystem, SegmentSpeedToolUISystem
     using Unity.Entities;            // World
 
-    [FileLocation("ModsSettings/AdjustSpeedLimits/AdjustSpeedLimits")]
+    [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
     [SettingsUITabOrder(kMainTab, kAboutTab)]
     [SettingsUIGroupOrder(kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
     [SettingsUIShowGroupName(kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
