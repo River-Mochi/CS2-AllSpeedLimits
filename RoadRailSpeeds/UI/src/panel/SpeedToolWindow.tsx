@@ -55,6 +55,7 @@ import {
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
 import { Button } from "../shared/Button";
+import expandCollapseAllIcon from "../images/icon-expandCollapseAll.svg";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useToolPanelPosition } from "../shared/useSharedPanelPosition";
 import { CollapsibleSectionHeader } from "./CollapsibleSectionHeader";
@@ -162,7 +163,7 @@ export const SpeedToolWindow = () => {
     // label sits tight on the slider and players missed that it expands). Once the player toggles
     // it, the stored preference wins on every later open, same as the other sections.
     const [selectionInfoExpanded, setSelectionInfoExpanded] = useState(() => readPanelExpanded("selectionInfoExpanded", true));
-    const [presetsExpanded, setPresetsExpanded] = useState(() => readPanelExpanded("presetsExpanded", false));
+    const [sliderExpanded, setSliderExpanded] = useState(() => readPanelExpanded("sliderExpanded", true));
     const [wholeCityExpanded, setWholeCityExpanded] = useState(() => readPanelExpanded("wholeCityExpanded", false));
     const [statsExpanded, setStatsExpanded] = useState(() => readPanelExpanded("statsExpanded", false));
 
@@ -556,10 +557,23 @@ export const SpeedToolWindow = () => {
         writePanelExpanded("selectionInfoExpanded", nextValue);
     };
 
-    const togglePresetsExpanded = () => {
-        const nextValue = !presetsExpanded;
-        setPresetsExpanded(nextValue);
-        writePanelExpanded("presetsExpanded", nextValue);
+    const toggleSliderExpanded = () => {
+        const nextValue = !sliderExpanded;
+        setSliderExpanded(nextValue);
+        writePanelExpanded("sliderExpanded", nextValue);
+    };
+
+    // Expand-or-collapse-all button in the filter row: if anything is open, close everything; else open all.
+    const collapseAllSections = () => {
+        const nextValue = !(selectionInfoExpanded || sliderExpanded || wholeCityExpanded || statsExpanded);
+        setSelectionInfoExpanded(nextValue);
+        writePanelExpanded("selectionInfoExpanded", nextValue);
+        setSliderExpanded(nextValue);
+        writePanelExpanded("sliderExpanded", nextValue);
+        setWholeCityExpanded(nextValue);
+        writePanelExpanded("wholeCityExpanded", nextValue);
+        setStatsExpanded(nextValue);
+        writePanelExpanded("statsExpanded", nextValue);
     };
 
     const toggleStatsExpanded = () => {
@@ -823,7 +837,11 @@ export const SpeedToolWindow = () => {
                                 </Button>
                             </div>
                         )}
-                        <div style={{ position: "relative" }}>
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between"
+                        }}>
                             <SelectionFilterControls
                                 label={TEXT.panel.selectFilter}
                                 roadsLabel={TEXT.panel.filterRoads}
@@ -832,121 +850,135 @@ export const SpeedToolWindow = () => {
                                 showTip={showPanelTooltip}
                                 hideTip={hidePanelTooltip}
                             />
-                            <div style={{
-                                position: "absolute",
-                                right: "0",
-                                top: "37rem",
-                                zIndex: 2
-                            }}>
-                                <PreciseSpeedStepper
-                                    widthRem={SPEED_STEPPER_WIDTH_REM}
-                                    buttonWidthRem={SPEED_STEPPER_BUTTON_WIDTH_REM}
-                                    numberWidthRem={SPEED_STEPPER_NUMBER_WIDTH_REM}
-                                    displaySpeed={displaySpeed}
-                                    sliderMin={sliderMin}
-                                    sliderMax={sliderMax}
-                                    decreaseTitle={panelTitle(TEXT.tooltips.decreaseTarget)}
-                                    increaseTitle={panelTitle(TEXT.tooltips.increaseTarget)}
-                                    groupTitle={panelTitle(TEXT.tooltips.preciseStepper)}
-                                    onStep={handlePreciseStep}
-                                    onStepHoldStart={startPreciseStepHold}
-                                    onStepHoldStop={stopPreciseStepHold}
-                                    onStepClickFallback={handlePreciseStepClickFallback}
-                                    preciseStepMouseDownRef={preciseStepMouseDownRef}
+                            {/* Expand or collapse every section at once. TODO(stage2): panel-side tooltip. */}
+                            <button
+                                onClick={collapseAllSections}
+                                title={(selectionInfoExpanded || sliderExpanded || wholeCityExpanded || statsExpanded)
+                                    ? "Collapse all sections"
+                                    : "Expand all sections"}
+                                style={{
+                                    flexShrink: 0,
+                                    width: "30rem",
+                                    height: "30rem",
+                                    marginLeft: "6rem",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    backgroundColor: "rgba(60, 82, 98, 0.42)",
+                                    borderWidth: "1rem",
+                                    borderStyle: "solid",
+                                    borderColor: "rgba(255, 255, 255, 0)",
+                                    borderRadius: "4rem",
+                                    boxSizing: "border-box",
+                                    cursor: "pointer",
+                                    paddingTop: "0",
+                                    paddingRight: "0",
+                                    paddingBottom: "0",
+                                    paddingLeft: "0"
+                                }}
+                            >
+                                <img
+                                    src={expandCollapseAllIcon}
+                                    alt=""
+                                    style={{
+                                        width: "22rem",
+                                        height: "22rem",
+                                        filter: "brightness(0) invert(1)",
+                                        opacity: 0.75,
+                                        pointerEvents: "none"
+                                    }}
                                 />
-                            </div>
+                            </button>
                         </div>
-                        <MainSpeedSection
-                            focusKey={FOCUS_DISABLED}
-                            newSpeedLabelText={TEXT.panel.newSpeedLimit}
-                            newSpeedValueText={targetSpeedLabel}
-                            slowerTitle={panelTitle(TEXT.tooltips.slower)}
-                            fasterTitle={panelTitle(TEXT.tooltips.faster)}
-                            resetTitle={panelTitle(TEXT.tooltips.reset)}
-                            slowerButtonContent={<span>{`${TEXT.buttons.slower} ↓`}</span>}
-                            fasterButtonContent={<span>{`${TEXT.buttons.faster} ↑`}</span>}
-                            applyButtonText={isApplying ? TEXT.buttons.applied : TEXT.buttons.apply}
-                            sliderMin={sliderMin}
-                            sliderMax={sliderMax}
-                            sliderStep={sliderStep}
-                            sliderValue={sliderValue}
-                            unitLabel={unitLabel}
-                            isApplying={isApplying}
-                            isResetting={isResetting}
-                            onHalfSpeed={handleHalfSpeed}
-                            onFasterSpeed={handleFasterSpeed}
-                            onHalfSpeedMouseEnter={() => showPanelTooltip("speedSlower")}
-                            onFasterSpeedMouseEnter={() => showPanelTooltip("speedFaster")}
-                            onApplyMouseEnter={() => showPanelTooltip("apply")}
-                            onResetMouseEnter={() => showPanelTooltip("resetSelected")}
-                            onControlMouseLeave={hidePanelTooltip}
-                            onSliderChange={handleSliderChange}
-                            onApply={handleApply}
-                            onReset={handleReset}
-                        />
 
-                        {/* Moved below the New speed / Apply / 50% controls: this is reference info
-                            about the selection, not part of the primary edit flow, so it no longer
-                            crowds the slider area above. */}
+                        {/* Selected: New-speed column (left) + presets (right). */}
                         <CollapsibleSectionHeader
                             label={TEXT.panel.selectedSegment}
                             expanded={selectionInfoExpanded}
                             onToggle={toggleSelectionInfoExpanded}
-                            trailing={selectionInfoExpanded ? (
-                                <span style={{
-                                    paddingRight: "8rem",
-                                    color: "rgba(255, 255, 255, 0.6)",
-                                    fontSize: "10rem",
-                                    fontWeight: 400,
-                                    lineHeight: "1",
-                                    whiteSpace: "nowrap"
-                                }}>
-                                    {TEXT.panel.firstSegment}
-                                </span>
-                            ) : undefined}
                         />
-                        <SelectionSection
-                            visible={selectionInfoExpanded}
-                            targetSpeedUnitToggle={targetSpeedUnitToggleButton}
-                            currentSpeedTitle={panelTitle(TEXT.tooltips.currentSpeed)}
-                            gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
-                            currentSpeedLabelText={TEXT.panel.currentSpeed}
-                            currentSpeedValueText={currentSpeedLabel}
-                            defaultSpeedLabelText={TEXT.panel.gameDefault}
-                            defaultSpeedValueText={vanillaSpeedLabel}
-                            onGameDefaultMouseEnter={() => showPanelTooltip("gameDefault")}
-                            onGameDefaultMouseLeave={hidePanelTooltip}
-                        />
+                        {selectionInfoExpanded && (
+                            <div style={{ display: "flex", marginBottom: "8rem" }}>
+                                <div style={{ width: "138rem", minWidth: "138rem", flexShrink: 0 }}>
+                                    <SelectionSection
+                                        targetSpeedUnitToggle={targetSpeedUnitToggleButton}
+                                        newSpeedLabel={TEXT.panel.newSpeedLimit}
+                                        newSpeedValue={targetSpeedLabel}
+                                        currentSpeedTitle={panelTitle(TEXT.tooltips.currentSpeed)}
+                                        gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
+                                        currentSpeedLabelText={TEXT.panel.currentSpeed}
+                                        currentSpeedValueText={currentSpeedLabel}
+                                        defaultSpeedLabelText={TEXT.panel.gameDefault}
+                                        defaultSpeedValueText={vanillaSpeedLabel}
+                                        onGameDefaultMouseEnter={() => showPanelTooltip("gameDefault")}
+                                        onGameDefaultMouseLeave={hidePanelTooltip}
+                                    />
+                                </div>
+                                <div style={{ flex: 1, minWidth: "0", marginLeft: "8rem" }}>
+                                    <PresetControls
+                                        presetRows={showMetric
+                                            ? [METRIC_PRESET_SPEEDS.slice(0, 6), METRIC_PRESET_SPEEDS.slice(6, 12), METRIC_PRESET_SPEEDS.slice(12)]
+                                            : [IMPERIAL_PRESET_SPEEDS.slice(0, 6), IMPERIAL_PRESET_SPEEDS.slice(6, 12), IMPERIAL_PRESET_SPEEDS.slice(12)]}
+                                        displayValue={Math.round(displaySpeed)}
+                                        minDisplay={sliderMin}
+                                        maxDisplay={sliderMax}
+                                        unlimitedValue={Math.round(getDisplaySpeed(getMaxSpeedKmh()))}
+                                        unitLabel={unitLabel}
+                                        hoveredPresetSpeed={hoveredPresetSpeed}
+                                        setHoveredPresetSpeed={setHoveredPresetSpeed}
+                                        onPresetSelect={handlePresetSpeed}
+                                        getPresetTitle={preset => panelTitle(`${preset} ${unitLabel}`)}
+                                        unlimitedTitle={panelTitle(TEXT.tooltips.presetUnlimited.title)}
+                                        onUnlimitedMouseEnter={() => showPanelTooltip("presetUnlimited")}
+                                        onUnlimitedMouseLeave={hidePanelTooltip}
+                                        focusKey={FOCUS_DISABLED}
+                                    />
+                                </div>
+                            </div>
+                        )}
 
-                        {/* Removed the divider that used to sit here: Presets is a close extension of
-                            the main edit controls right above, so its own collapsible header (with
-                            chevron) already marks the boundary without needing a hard rule too.
-                            Spacer also shrunk (was 8rem) — combined with SelectionSection's own
-                            margin this was making the gap to Presets too tall. */}
-                        <div style={{ marginBottom: "2rem" }} />
+                        {/* Slider: slider + stepper + reset on one row, Apply below. TODO(stage2): localize title. */}
                         <CollapsibleSectionHeader
-                            label={TEXT.panel.presets}
-                            expanded={presetsExpanded}
-                            onToggle={togglePresetsExpanded}
+                            label="Slider"
+                            expanded={sliderExpanded}
+                            onToggle={toggleSliderExpanded}
                         />
-                        {presetsExpanded && (
-                            <PresetControls
-                                presetRows={showMetric
-                                    ? [METRIC_PRESET_SPEEDS.slice(0, 8), METRIC_PRESET_SPEEDS.slice(8)]
-                                    : [IMPERIAL_PRESET_SPEEDS.slice(0, 9), IMPERIAL_PRESET_SPEEDS.slice(9)]}
-                                displayValue={Math.round(displaySpeed)}
-                                minDisplay={sliderMin}
-                                maxDisplay={sliderMax}
-                                unlimitedValue={Math.round(getDisplaySpeed(getMaxSpeedKmh()))}
-                                unitLabel={unitLabel}
-                                hoveredPresetSpeed={hoveredPresetSpeed}
-                                setHoveredPresetSpeed={setHoveredPresetSpeed}
-                                onPresetSelect={handlePresetSpeed}
-                                getPresetTitle={preset => panelTitle(`${preset} ${unitLabel}`)}
-                                unlimitedTitle={panelTitle(TEXT.tooltips.presetUnlimited.title)}
-                                onUnlimitedMouseEnter={() => showPanelTooltip("presetUnlimited")}
-                                onUnlimitedMouseLeave={hidePanelTooltip}
+                        {sliderExpanded && (
+                            <MainSpeedSection
                                 focusKey={FOCUS_DISABLED}
+                                resetTitle={panelTitle(TEXT.tooltips.reset)}
+                                applyButtonText={isApplying ? TEXT.buttons.applied : TEXT.buttons.apply}
+                                sliderMin={sliderMin}
+                                sliderMax={sliderMax}
+                                sliderStep={sliderStep}
+                                sliderValue={sliderValue}
+                                unitLabel={unitLabel}
+                                isApplying={isApplying}
+                                isResetting={isResetting}
+                                stepper={
+                                    <PreciseSpeedStepper
+                                        widthRem={SPEED_STEPPER_WIDTH_REM}
+                                        buttonWidthRem={SPEED_STEPPER_BUTTON_WIDTH_REM}
+                                        numberWidthRem={SPEED_STEPPER_NUMBER_WIDTH_REM}
+                                        displaySpeed={displaySpeed}
+                                        sliderMin={sliderMin}
+                                        sliderMax={sliderMax}
+                                        decreaseTitle={panelTitle(TEXT.tooltips.decreaseTarget)}
+                                        increaseTitle={panelTitle(TEXT.tooltips.increaseTarget)}
+                                        groupTitle={panelTitle(TEXT.tooltips.preciseStepper)}
+                                        onStep={handlePreciseStep}
+                                        onStepHoldStart={startPreciseStepHold}
+                                        onStepHoldStop={stopPreciseStepHold}
+                                        onStepClickFallback={handlePreciseStepClickFallback}
+                                        preciseStepMouseDownRef={preciseStepMouseDownRef}
+                                    />
+                                }
+                                onApplyMouseEnter={() => showPanelTooltip("apply")}
+                                onResetMouseEnter={() => showPanelTooltip("resetSelected")}
+                                onControlMouseLeave={hidePanelTooltip}
+                                onSliderChange={handleSliderChange}
+                                onApply={handleApply}
+                                onReset={handleReset}
                             />
                         )}
                         <WholeCityStatsSection

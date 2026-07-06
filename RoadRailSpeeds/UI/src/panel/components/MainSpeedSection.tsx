@@ -1,7 +1,8 @@
 // File: UI/src/panel/components/MainSpeedSection.tsx
-// Purpose: Slider row plus the primary speed action row for the speed tool panel.
+// Purpose: Collapsible "Slider" section — slider + precise stepper + reset on one row, Apply below.
+// Presets auto-apply, so Apply lives here with the slider/stepper (the only controls that need it).
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ReactNode } from "react";
 import { Button } from "../../shared/Button";
 import { Slider } from "../../slider/slider";
@@ -11,13 +12,7 @@ import resetIcon from "../../images/Reset_Button.svg";
 
 type MainSpeedSectionProps = {
     focusKey: unknown;
-    newSpeedLabelText: string;
-    newSpeedValueText: string;
-    slowerTitle?: string;
-    fasterTitle?: string;
     resetTitle?: string;
-    slowerButtonContent: ReactNode;
-    fasterButtonContent: ReactNode;
     applyButtonText: string;
     sliderMin: number;
     sliderMax: number;
@@ -26,10 +21,7 @@ type MainSpeedSectionProps = {
     unitLabel: string;
     isApplying: boolean;
     isResetting: boolean;
-    onHalfSpeed: () => void;
-    onFasterSpeed: () => void;
-    onHalfSpeedMouseEnter?: () => void;
-    onFasterSpeedMouseEnter?: () => void;
+    stepper: ReactNode;
     onApplyMouseEnter?: () => void;
     onResetMouseEnter?: () => void;
     onControlMouseLeave?: () => void;
@@ -38,27 +30,10 @@ type MainSpeedSectionProps = {
     onReset: () => void;
 };
 
-const kTargetSpeedEventName = "RoadRailSpeeds:targetSpeedChanged";
-
-type TargetSpeedSummary = {
-    label: string;
-    value: string;
-};
-
-type TargetSpeedWindow = Window & {
-    __rrsTargetSpeedSummary?: TargetSpeedSummary;
-};
-
 export const MainSpeedSection = (props: MainSpeedSectionProps) => {
     const {
         focusKey,
-        newSpeedLabelText,
-        newSpeedValueText,
-        slowerTitle,
-        fasterTitle,
         resetTitle,
-        slowerButtonContent,
-        fasterButtonContent,
         applyButtonText,
         sliderMin,
         sliderMax,
@@ -67,10 +42,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
         unitLabel,
         isApplying,
         isResetting,
-        onHalfSpeed,
-        onFasterSpeed,
-        onHalfSpeedMouseEnter,
-        onFasterSpeedMouseEnter,
+        stepper,
         onApplyMouseEnter,
         onResetMouseEnter,
         onControlMouseLeave,
@@ -80,118 +52,32 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
     } = props;
 
     const [resetHovered, setResetHovered] = useState(false);
-
-    const sharedButtonHeight = "29rem";
-    const resetButtonWidth = "30.7rem";
-
-    useEffect(() => {
-        const summary = {
-            label: newSpeedLabelText,
-            value: newSpeedValueText
-        };
-        (window as TargetSpeedWindow).__rrsTargetSpeedSummary = summary;
-        window.dispatchEvent(new CustomEvent<TargetSpeedSummary>(kTargetSpeedEventName, { detail: summary }));
-    }, [newSpeedLabelText, newSpeedValueText]);
+    const controlHeight = "29rem";
 
     return (
         <div style={{ marginBottom: "8rem" }}>
-            {/* Row 1: slider + precise stepper. Keep only a small visual gap between the slider
-                and the stepper so the bar reads as one row instead of stopping too early. */}
-            <div style={{
-                paddingRight: "88rem",
-                marginBottom: "8rem"
-            }}>
-                <Slider
-                    start={sliderMin}
-                    end={sliderMax}
-                    step={sliderStep}
-                    value={sliderValue}
-                    onChange={onSliderChange}
-                />
-                <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "11rem",
-                    color: "rgba(255, 255, 255, 0.78)",
-                    marginTop: "3rem"
-                }}>
-                    <span>{sliderMin} {unitLabel}</span>
-                    <span>{sliderMax} {unitLabel}</span>
+            {/* Row 1: slider (with min/max labels) + stepper + reset, all on one line. */}
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "8rem" }}>
+                <div style={{ flex: 1, minWidth: "0", marginRight: "8rem" }}>
+                    <Slider
+                        start={sliderMin}
+                        end={sliderMax}
+                        step={sliderStep}
+                        value={sliderValue}
+                        onChange={onSliderChange}
+                    />
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: "11rem",
+                        color: "rgba(255, 255, 255, 0.78)",
+                        marginTop: "3rem"
+                    }}>
+                        <span>{sliderMin} {unitLabel}</span>
+                        <span>{sliderMax} {unitLabel}</span>
+                    </div>
                 </div>
-            </div>
-
-            {/* Row 2: 50% down | 50% up | Apply | Reset. Same visual height for every button. */}
-            <div style={{
-                display: "flex",
-                alignItems: "center"
-            }}>
-                <Button
-                    focusKey={focusKey}
-                    onSelect={onHalfSpeed}
-                    variant="neutral"
-                    title={slowerTitle}
-                    onMouseEnter={onHalfSpeedMouseEnter}
-                    onMouseLeave={onControlMouseLeave}
-                    style={{
-                        width: "54rem",
-                        minHeight: sharedButtonHeight,
-                        height: sharedButtonHeight,
-                        marginRight: "5rem",
-                        paddingTop: "0",
-                        paddingRight: "0",
-                        paddingBottom: "0",
-                        paddingLeft: "0",
-                        fontSize: "14rem",
-                        fontWeight: 800
-                    }}
-                >
-                    {slowerButtonContent}
-                </Button>
-                <Button
-                    focusKey={focusKey}
-                    onSelect={onFasterSpeed}
-                    variant="neutral"
-                    title={fasterTitle}
-                    onMouseEnter={onFasterSpeedMouseEnter}
-                    onMouseLeave={onControlMouseLeave}
-                    style={{
-                        width: "54rem",
-                        minHeight: sharedButtonHeight,
-                        height: sharedButtonHeight,
-                        marginRight: "7rem",
-                        paddingTop: "0",
-                        paddingRight: "0",
-                        paddingBottom: "0",
-                        paddingLeft: "0",
-                        fontSize: "14rem",
-                        fontWeight: 800
-                    }}
-                >
-                    {fasterButtonContent}
-                </Button>
-                <Button
-                    focusKey={focusKey}
-                    selected={isApplying}
-                    disabled={isApplying}
-                    onSelect={onApply}
-                    onMouseEnter={onApplyMouseEnter}
-                    onMouseLeave={onControlMouseLeave}
-                    style={{
-                        flex: 1,
-                        minWidth: "86rem",
-                        minHeight: sharedButtonHeight,
-                        height: sharedButtonHeight,
-                        marginRight: "8rem",
-                        paddingTop: "0",
-                        paddingRight: "10rem",
-                        paddingBottom: "0",
-                        paddingLeft: "10rem",
-                        fontSize: "15rem",
-                        fontWeight: 800
-                    }}
-                >
-                    {applyButtonText}
-                </Button>
+                {stepper}
                 <Button
                     focusKey={focusKey}
                     selected={isResetting}
@@ -202,15 +88,15 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                     onMouseEnter={() => { setResetHovered(true); onResetMouseEnter?.(); }}
                     onMouseLeave={() => { setResetHovered(false); onControlMouseLeave?.(); }}
                     style={{
-                        width: resetButtonWidth,
-                        minWidth: resetButtonWidth,
-                        minHeight: sharedButtonHeight,
-                        height: sharedButtonHeight,
+                        width: "30.7rem",
+                        minWidth: "30.7rem",
+                        minHeight: controlHeight,
+                        height: controlHeight,
+                        marginLeft: "6rem",
                         paddingTop: "0",
                         paddingRight: "0",
                         paddingBottom: "0",
                         paddingLeft: "0",
-                        marginRight: "21.3rem",
                         overflow: "visible"
                     }}
                 >
@@ -232,6 +118,30 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                             }}
                         />
                     )}
+                </Button>
+            </div>
+            {/* Row 2: Apply, right-aligned. */}
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                    focusKey={focusKey}
+                    selected={isApplying}
+                    disabled={isApplying}
+                    onSelect={onApply}
+                    onMouseEnter={onApplyMouseEnter}
+                    onMouseLeave={onControlMouseLeave}
+                    style={{
+                        minWidth: "150rem",
+                        minHeight: controlHeight,
+                        height: controlHeight,
+                        paddingTop: "0",
+                        paddingRight: "14rem",
+                        paddingBottom: "0",
+                        paddingLeft: "14rem",
+                        fontSize: "15rem",
+                        fontWeight: 800
+                    }}
+                >
+                    {applyButtonText}
                 </Button>
             </div>
         </div>
