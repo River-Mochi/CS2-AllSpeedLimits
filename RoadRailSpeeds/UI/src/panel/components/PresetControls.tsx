@@ -121,7 +121,7 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                             }}
                                             title={getPresetTitle(preset) ?? `${preset} ${unitLabel}`}
                                         >
-                                            {preset}
+                                            <span style={{ position: "relative", top: "1rem" }}>{preset}</span>
                                         </Button>
                                     </div>
                                 );

@@ -153,8 +153,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             src={speedMarkersHidden ? starBlueGreenIcon : "Media/Tools/Snap Options/All.svg"}
                             alt=""
                             style={{
-                                width: isMarkersHovered ? "15rem" : "14rem",
-                                height: isMarkersHovered ? "15rem" : "14rem",
+                                width: isMarkersHovered ? "14rem" : "13rem",
+                                height: isMarkersHovered ? "14rem" : "13rem",
                                 filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
                                 opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 0.95 : 0.5),
                                 pointerEvents: "none"
@@ -178,9 +178,9 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         borderStyle: "solid",
                         borderColor: "rgba(255, 255, 255, 0)",
                         borderRadius: "50%",
-                        width: "26rem",
-                        height: "26rem",
-                        minHeight: "26rem",
+                        width: "28rem",
+                        height: "28rem",
+                        minHeight: "28rem",
                         boxSizing: "border-box",
                         display: "flex",
                         alignItems: "center",
@@ -197,8 +197,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         src={advisorInfoIcon}
                         alt=""
                         style={{
-                            width: isHelpHovered ? "24rem" : "22rem",
-                            height: isHelpHovered ? "24rem" : "22rem",
+                            width: isHelpHovered ? "25rem" : "23rem",
+                            height: isHelpHovered ? "25rem" : "23rem",
                             filter: selectionTooltipIconFilter,
                             opacity: selectionTooltipIconActive ? 1 : isHelpHovered ? 0.96 : 0.64,
                             pointerEvents: "none"

@@ -37,7 +37,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
   // auto-generates a focus key and floods "cannot register second focus key" errors.
   const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
 
-  const backgroundColor = hovered ? "rgba(232, 247, 255, 0.20)" : "rgba(60, 82, 98, 0.42)";
+  // No lighter wash on hover — it washed out the icon. Hover feedback is the border glow + icon grow.
+  const backgroundColor = "rgba(60, 82, 98, 0.42)";
   const borderColor = active
     ? "rgba(110, 200, 235, 0.55)"
     : (hovered ? "rgba(255, 255, 255, 0.45)" : "rgba(255, 255, 255, 0)");
