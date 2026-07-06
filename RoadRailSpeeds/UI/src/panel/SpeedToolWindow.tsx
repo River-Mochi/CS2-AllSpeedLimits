@@ -221,7 +221,7 @@ export const SpeedToolWindow = () => {
     };
 
     const formatSpeed = (speedKmh: number): string => {
-        return `${Math.round(getDisplaySpeed(speedKmh))} ${showMetric ? "km/h" : "mph"}`;
+        return `${Math.round(getDisplaySpeed(speedKmh))} ${showMetric ? "kmh" : "mph"}`;
     };
 
     const formatCount = (value: number): string => {
@@ -609,7 +609,7 @@ export const SpeedToolWindow = () => {
         return null;
     }
 
-    const unitLabel = showMetric ? "km/h" : "mph";
+    const unitLabel = showMetric ? "kmh" : "mph";
     const targetSpeedUnitLabel = unitMode === 0 ? "a" : showMetric ? "km" : "mi";
     const displaySpeed = getDisplaySpeed(pendingSpeedKmh);
     const sliderValue = displaySpeed;
@@ -619,6 +619,12 @@ export const SpeedToolWindow = () => {
     const currentSpeedLabel = formatSelectionSpeed(selectedSpeedKmh, currentSpeedMixed);
     const vanillaSpeedLabel = formatSelectionSpeed(vanillaSpeedKmh, vanillaSpeedMixed);
     const targetSpeedLabel = `${Math.round(displaySpeed)} ${unitLabel}`;
+    // Preset grid: Unlimited is the last circle (sentinel -1), same size as the numbers.
+    // mph drops 90 to make room for it; km/h keeps all values and adds Unlimited after 160.
+    const presetSpeeds = showMetric
+        ? [...METRIC_PRESET_SPEEDS, -1]
+        : [...IMPERIAL_PRESET_SPEEDS.filter(speed => speed !== 90), -1];
+    const presetRows = [presetSpeeds.slice(0, 6), presetSpeeds.slice(6, 12), presetSpeeds.slice(12)];
     const cityActionInfo = pendingCityAction !== null ? getCityActionInfo(pendingCityAction) : null;
     const cityActionBusy = cityActionApplying !== null || cityResetInProgress || cityApplyInProgress;
     const panelWidth = PANEL_WIDTH_REM;
@@ -840,7 +846,8 @@ export const SpeedToolWindow = () => {
                         <div style={{
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "space-between"
+                            justifyContent: "space-between",
+                            marginBottom: "13rem"
                         }}>
                             <SelectionFilterControls
                                 label={TEXT.panel.selectFilter}
@@ -899,11 +906,14 @@ export const SpeedToolWindow = () => {
                         />
                         {selectionInfoExpanded && (
                             <div style={{ display: "flex", marginBottom: "8rem" }}>
-                                <div style={{ width: "138rem", minWidth: "138rem", flexShrink: 0 }}>
+                                <div style={{ width: "108rem", minWidth: "108rem", flexShrink: 0 }}>
                                     <SelectionSection
-                                        targetSpeedUnitToggle={targetSpeedUnitToggleButton}
+                                        focusKey={FOCUS_DISABLED}
                                         newSpeedLabel={TEXT.panel.newSpeedLimit}
-                                        newSpeedValue={targetSpeedLabel}
+                                        newSpeedNumber={`${Math.round(displaySpeed)}`}
+                                        newSpeedUnit={unitLabel}
+                                        unitToggleTitle={panelTitle("kmh / mph")}
+                                        onToggleUnit={ToggleUnit}
                                         currentSpeedTitle={panelTitle(TEXT.tooltips.currentSpeed)}
                                         gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
                                         currentSpeedLabelText={TEXT.panel.currentSpeed}
@@ -916,9 +926,7 @@ export const SpeedToolWindow = () => {
                                 </div>
                                 <div style={{ flex: 1, minWidth: "0", marginLeft: "8rem" }}>
                                     <PresetControls
-                                        presetRows={showMetric
-                                            ? [METRIC_PRESET_SPEEDS.slice(0, 6), METRIC_PRESET_SPEEDS.slice(6, 12), METRIC_PRESET_SPEEDS.slice(12)]
-                                            : [IMPERIAL_PRESET_SPEEDS.slice(0, 6), IMPERIAL_PRESET_SPEEDS.slice(6, 12), IMPERIAL_PRESET_SPEEDS.slice(12)]}
+                                        presetRows={presetRows}
                                         displayValue={Math.round(displaySpeed)}
                                         minDisplay={sliderMin}
                                         maxDisplay={sliderMax}
@@ -937,9 +945,9 @@ export const SpeedToolWindow = () => {
                             </div>
                         )}
 
-                        {/* Slider: slider + stepper + reset on one row, Apply below. TODO(stage2): localize title. */}
+                        {/* Custom: slider + stepper + reset on one row, Apply below. TODO(stage2): localize title. */}
                         <CollapsibleSectionHeader
-                            label="Slider"
+                            label="Custom"
                             expanded={sliderExpanded}
                             onToggle={toggleSliderExpanded}
                         />

@@ -1,12 +1,16 @@
 // File: UI/src/panel/components/SelectionSection.tsx
-// Purpose: Left column of the Selected section — New-speed box on top, Current/Default rows below.
+// Purpose: Left column of the Selected section — New-speed box (with a click-to-toggle unit) on top,
+// Current/Default rows below. The unit text next to the number is the km/h <-> mph toggle.
 
-import type { ReactNode } from "react";
+import { Button } from "../../shared/Button";
 
 type SelectionSectionProps = {
-    targetSpeedUnitToggle?: ReactNode;
+    focusKey: unknown;
     newSpeedLabel: string;
-    newSpeedValue: string;
+    newSpeedNumber: string;
+    newSpeedUnit: string;
+    unitToggleTitle?: string;
+    onToggleUnit: () => void;
     currentSpeedTitle?: string;
     gameDefaultTitle?: string;
     currentSpeedLabelText: string;
@@ -19,9 +23,12 @@ type SelectionSectionProps = {
 
 export const SelectionSection = (props: SelectionSectionProps) => {
     const {
-        targetSpeedUnitToggle,
+        focusKey,
         newSpeedLabel,
-        newSpeedValue,
+        newSpeedNumber,
+        newSpeedUnit,
+        unitToggleTitle,
+        onToggleUnit,
         currentSpeedTitle,
         gameDefaultTitle,
         currentSpeedLabelText,
@@ -35,7 +42,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     const labelStyle = {
         fontSize: "11.5rem",
         color: "rgba(226, 236, 241, 0.74)",
-        marginRight: "8rem",
+        marginRight: "6rem",
         whiteSpace: "nowrap" as const
     };
 
@@ -60,11 +67,10 @@ export const SelectionSection = (props: SelectionSectionProps) => {
             {/* New-speed box */}
             <div style={{
                 paddingTop: "3rem",
-                paddingRight: targetSpeedUnitToggle ? "36rem" : "8rem",
-                paddingBottom: "3rem",
+                paddingRight: "7rem",
+                paddingBottom: "4rem",
                 paddingLeft: "8rem",
                 backgroundColor: "rgba(255, 255, 255, 0.02)",
-                position: "relative",
                 borderWidth: "1rem",
                 borderStyle: "solid",
                 borderColor: "rgba(78, 195, 240, 0.50)",
@@ -82,31 +88,42 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 }}>
                     {newSpeedLabel}
                 </span>
-                <span style={{
-                    fontSize: "18.5rem",
-                    fontWeight: "bold",
-                    color: "#fff",
-                    whiteSpace: "nowrap",
-                    lineHeight: "1.1",
-                    marginTop: "1rem"
-                }}>
-                    {newSpeedValue}
-                </span>
-                {targetSpeedUnitToggle && (
-                    <div style={{
-                        position: "absolute",
-                        right: "6rem",
-                        top: "6rem",
-                        width: "27rem",
-                        height: "27rem"
+                <div style={{ display: "flex", alignItems: "flex-end", marginTop: "1rem" }}>
+                    <span style={{
+                        fontSize: "18.5rem",
+                        fontWeight: "bold",
+                        color: "#fff",
+                        whiteSpace: "nowrap",
+                        lineHeight: "1.1"
                     }}>
-                        {targetSpeedUnitToggle}
-                    </div>
-                )}
+                        {newSpeedNumber}
+                    </span>
+                    {/* The unit text is the km/h <-> mph toggle. */}
+                    <Button
+                        focusKey={focusKey}
+                        variant="neutral"
+                        onSelect={onToggleUnit}
+                        title={unitToggleTitle}
+                        style={{
+                            minHeight: "0",
+                            marginLeft: "5rem",
+                            marginBottom: "2rem",
+                            paddingTop: "1rem",
+                            paddingRight: "5rem",
+                            paddingBottom: "1rem",
+                            paddingLeft: "5rem",
+                            fontSize: "12rem",
+                            fontWeight: 700,
+                            color: "rgba(120, 210, 245, 0.98)"
+                        }}
+                    >
+                        {newSpeedUnit}
+                    </Button>
+                </div>
             </div>
 
             {/* Current / Default, stacked below the box */}
-            <div style={{ marginTop: "5rem", paddingLeft: "2rem", paddingRight: "4rem" }}>
+            <div style={{ marginTop: "5rem", paddingLeft: "2rem", paddingRight: "3rem" }}>
                 <div title={currentSpeedTitle} style={factRowStyle}>
                     <span style={labelStyle}>{currentSpeedLabelText}</span>
                     <span style={valueStyle}>{currentSpeedValueText}</span>

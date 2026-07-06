@@ -130,13 +130,16 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                     onMouseEnter={onApplyMouseEnter}
                     onMouseLeave={onControlMouseLeave}
                     style={{
-                        minWidth: "150rem",
+                        // Match the combined width of the stepper (76) + gap (6) + reset (30.7) above,
+                        // so Apply sits under just those and not under the slider.
+                        width: "112.7rem",
+                        minWidth: "112.7rem",
                         minHeight: controlHeight,
                         height: controlHeight,
                         paddingTop: "0",
-                        paddingRight: "14rem",
+                        paddingRight: "0",
                         paddingBottom: "0",
-                        paddingLeft: "14rem",
+                        paddingLeft: "0",
                         fontSize: "15rem",
                         fontWeight: 800
                     }}
