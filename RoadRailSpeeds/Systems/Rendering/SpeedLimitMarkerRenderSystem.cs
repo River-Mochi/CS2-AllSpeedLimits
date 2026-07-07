@@ -234,9 +234,9 @@ namespace RoadRailSpeeds.Systems
                     Vector3 markerPosition = position;
 
                     // Floating world-speed marker size:
-                    // 1) textMesh.fontSize below sets the base glyph size for the number mesh.
+                    // 1) textMesh.fontSize below sets base glyph size for the number mesh.
                     // 2) These zoom lerps control how much that mesh grows as the camera zooms out.
-                    // If numbers are generally too small/large, adjust these lerp ranges.
+                    // If numbers are generally too small/large adjust lerp ranges.
                     float textScaleMultiplier = isWaterwayType
                         ? Mathf.Lerp(1.9f, 3.8f, normalizedZoom)
                         : Mathf.Lerp(1.45f, 2.7f, normalizedZoom);
@@ -356,7 +356,7 @@ namespace RoadRailSpeeds.Systems
 
                 textMesh.rectTransform.sizeDelta = new Vector2(176f, 92f);
                 // Base font size for floating speed number before zoom scaling is applied above.
-                textMesh.fontSize = 30f;
+                textMesh.fontSize = 31f;
                 textMesh.alignment = TextAlignmentOptions.Center;
                 textMesh.color = textColor;
                 textMesh.characterSpacing = 0f;

@@ -142,6 +142,11 @@ const buildText = (lookup: TextLookup) => ({
                 title: text(lookup, "inCity.tooltips.stats.title"),
                 lines: lines(lookup, "inCity.tooltips.stats", 3)
             },
+            statsRows: {
+                bikes: text(lookup, "inCity.tooltips.statsRows.bikes"),
+                cars: text(lookup, "inCity.tooltips.statsRows.cars"),
+                industry: text(lookup, "inCity.tooltips.statsRows.industry")
+            },
             wholeCity: {
                 title: text(lookup, "inCity.tooltips.wholeCity.title"),
                 lines: lines(lookup, "inCity.tooltips.wholeCity", 4)

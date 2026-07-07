@@ -2,6 +2,7 @@
 // Purpose: Left column of the Selected section — New-speed box (with a click-to-toggle unit) on top,
 // Current/Default rows below. The unit text next to the number is the km/h <-> mph toggle.
 
+import { useState } from "react";
 import { Button } from "../../shared/Button";
 
 type SelectionSectionProps = {
@@ -39,17 +40,23 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         onGameDefaultMouseLeave
     } = props;
 
+    const [unitHovered, setUnitHovered] = useState(false);
+
     const labelStyle = {
         fontSize: "11.5rem",
         color: "rgba(226, 236, 241, 0.74)",
-        marginRight: "6rem",
-        whiteSpace: "nowrap" as const
+        width: "42rem",
+        minWidth: "42rem",
+        marginRight: "4rem",
+        whiteSpace: "nowrap" as const,
+        textAlign: "left" as const
     };
 
     const valueStyle = {
         fontSize: "12.2rem",
-        fontWeight: "bold" as const,
-        color: "#fff",
+        fontWeight: 800,
+        color: "rgba(255, 255, 255, 0.78)",
+        flex: 1,
         whiteSpace: "nowrap" as const,
         textAlign: "right" as const
     };
@@ -57,24 +64,29 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     const factRowStyle = {
         display: "flex",
         alignItems: "center" as const,
-        justifyContent: "space-between" as const,
+        justifyContent: "flex-start" as const,
         minHeight: "18rem",
         minWidth: "0"
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-            {/* New-speed box */}
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            minHeight: "78rem",
+            paddingTop: "4rem",
+            paddingRight: "6rem",
+            paddingBottom: "5rem",
+            paddingLeft: "8rem",
+            backgroundColor: "rgba(255, 255, 255, 0.02)",
+            borderWidth: "1rem",
+            borderStyle: "solid",
+            borderColor: "rgba(78, 195, 240, 0.54)",
+            borderRadius: "4rem",
+            boxSizing: "border-box"
+        }}>
             <div style={{
-                paddingTop: "3rem",
-                paddingRight: "7rem",
-                paddingBottom: "4rem",
-                paddingLeft: "8rem",
-                backgroundColor: "rgba(255, 255, 255, 0.02)",
-                borderWidth: "1rem",
-                borderStyle: "solid",
-                borderColor: "rgba(78, 195, 240, 0.50)",
-                borderRadius: "4rem",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center"
@@ -103,18 +115,32 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         focusKey={focusKey}
                         variant="neutral"
                         onSelect={onToggleUnit}
+                        onMouseEnter={() => setUnitHovered(true)}
+                        onMouseLeave={() => setUnitHovered(false)}
                         title={unitToggleTitle}
                         style={{
-                            minHeight: "0",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "19rem",
+                            minHeight: "19rem",
+                            minWidth: "39rem",
                             marginLeft: "5rem",
                             marginBottom: "2rem",
-                            paddingTop: "1rem",
-                            paddingRight: "5rem",
-                            paddingBottom: "1rem",
-                            paddingLeft: "5rem",
-                            fontSize: "12rem",
-                            fontWeight: 700,
-                            color: "rgba(120, 210, 245, 0.98)"
+                            paddingTop: "0",
+                            paddingRight: "4rem",
+                            paddingBottom: "0",
+                            paddingLeft: "4rem",
+                            backgroundColor: unitHovered ? "rgba(255, 255, 255, 0.09)" : "rgba(255, 255, 255, 0.045)",
+                            borderWidth: "1rem",
+                            borderStyle: "solid",
+                            borderColor: unitHovered ? "rgba(255, 255, 255, 0.36)" : "rgba(255, 255, 255, 0.20)",
+                            borderRadius: "3rem",
+                            boxSizing: "border-box",
+                            fontSize: unitHovered ? "16rem" : "15.5rem",
+                            fontWeight: 800,
+                            color: unitHovered ? "rgba(255, 255, 255, 0.98)" : "rgba(255, 255, 255, 0.78)",
+                            lineHeight: "1"
                         }}
                     >
                         {newSpeedUnit}
@@ -122,8 +148,8 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 </div>
             </div>
 
-            {/* Current / Default, stacked below the box */}
-            <div style={{ marginTop: "5rem", paddingLeft: "2rem", paddingRight: "3rem" }}>
+            {/* Current / Default, tied to New speed inside the same outlined group. */}
+            <div style={{ marginTop: "5rem", paddingLeft: "0", paddingRight: "1rem" }}>
                 <div title={currentSpeedTitle} style={factRowStyle}>
                     <span style={labelStyle}>{currentSpeedLabelText}</span>
                     <span style={valueStyle}>{currentSpeedValueText}</span>

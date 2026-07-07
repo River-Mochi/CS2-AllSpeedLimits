@@ -94,7 +94,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
           }}
         />
       ) : (
-        <span style={{ fontSize: "10rem", fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>
+        <span style={{ fontSize: "10.5rem", fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>
           {text}
         </span>
       )}
@@ -161,7 +161,7 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
           minWidth: "0"
         }}>
           <span style={{
-            fontSize: "10rem",
+            fontSize: "10.5rem",
             color: "rgba(226, 236, 241, 0.74)",
             marginRight: "4rem",
             whiteSpace: "nowrap",

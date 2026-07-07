@@ -1,5 +1,5 @@
 // File: UI/src/panel/VehicleStatsTable.tsx
-// Purpose: Compact moving/parked/total stats table for cars, bikes, and industry delivery trucks.
+// Purpose: Compact moving/parked/total stats table for bikes, personal cars, and road work vehicles.
 
 import { useState } from "react";
 // Bundled "_max" icons: same game art with the glyph enlarged inside the same square so it reads
@@ -9,6 +9,9 @@ import { useState } from "react";
 import carIcon from "../images/GenericVehicle_max.svg";
 import bikeIcon from "../images/Bicycle_max.svg";
 import { STATS_COLUMN_WIDTH_REM, STATS_LABEL_WIDTH_REM } from "./constants";
+import type { PanelTooltipKind } from "./types";
+
+const cargoTruckIcon = "Media/Game/Icons/CargoTruck.svg";
 
 type VehicleStatsTableProps = {
     carsLabel: string;
@@ -26,6 +29,8 @@ type VehicleStatsTableProps = {
     cityIndustryActive: number;
     cityIndustryParked: number;
     cityIndustryTotal: number;
+    showPanelTooltip: (kind: PanelTooltipKind) => void;
+    hidePanelTooltip: () => void;
     formatCount: (value: number) => string;
 };
 
@@ -46,6 +51,8 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
         cityIndustryActive,
         cityIndustryParked,
         cityIndustryTotal,
+        showPanelTooltip,
+        hidePanelTooltip,
         formatCount
     } = props;
 
@@ -68,19 +75,25 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
         label: string,
         values: number[],
         rowKey: string,
-        iconIdleRem: number,
-        iconHoverRem: number
+        tooltipKind: PanelTooltipKind,
+        iconSizeRem: number
     ) => {
         const isHovered = hoveredRowKey === rowKey;
 
         return (
             <div
-                onMouseEnter={() => setHoveredRowKey(rowKey)}
-                onMouseLeave={() => setHoveredRowKey(null)}
+                onMouseEnter={() => {
+                    setHoveredRowKey(rowKey);
+                    showPanelTooltip(tooltipKind);
+                }}
+                onMouseLeave={() => {
+                    setHoveredRowKey(null);
+                    hidePanelTooltip();
+                }}
                 style={{
                     display: "flex",
                     alignItems: "center",
-                    minHeight: isHovered ? "27rem" : "23rem"
+                    minHeight: "23rem"
                 }}
             >
                 <div
@@ -96,10 +109,8 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                         src={iconSrc}
                         alt={label}
                         style={{
-                            // Per-row size (car 22/25, bike 23/26) so both icons read the same despite
-                            // the bike's thinner art. Kept within the 23/27 row so heights stay even.
-                            width: isHovered ? `${iconHoverRem}rem` : `${iconIdleRem}rem`,
-                            height: isHovered ? `${iconHoverRem}rem` : `${iconIdleRem}rem`,
+                            width: `${iconSizeRem}rem`,
+                            height: `${iconSizeRem}rem`,
                             opacity: isHovered ? 1 : 0.85
                         }}
                     />
@@ -112,7 +123,7 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                     alignItems: "center",
                     width: `${statColumnWidth * columns.length}rem`,
                     minWidth: `${statColumnWidth * columns.length}rem`,
-                    minHeight: isHovered ? "27rem" : "23rem",
+                    minHeight: "23rem",
                     backgroundColor: isHovered ? "rgba(255, 255, 255, 0.105)" : "rgba(255, 255, 255, 0.045)",
                     borderRadius: "3rem"
                 }}>
@@ -127,7 +138,7 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                                 paddingBottom: "2rem",
                                 paddingLeft: "0",
                                 textAlign: "right",
-                                fontSize: isHovered ? "14rem" : "12rem",
+                                fontSize: "12.5rem",
                                 fontWeight: "bold",
                                 color: "rgba(255, 255, 255, 0.92)",
                                 whiteSpace: "nowrap"
@@ -149,11 +160,11 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                 display: "flex",
                 flexDirection: "column"
             }}>
-                {renderStatsRow(carIcon, carsLabel, columns.map(column => column.cars), "cars", 22, 25)}
+                {renderStatsRow(bikeIcon, bikesLabel, columns.map(column => column.bikes), "bikes", "statsBikes", 23)}
                 <div style={{ height: "2rem" }} />
-                {renderStatsRow(bikeIcon, bikesLabel, columns.map(column => column.bikes), "bikes", 23, 26)}
+                {renderStatsRow(carIcon, carsLabel, columns.map(column => column.cars), "cars", "statsCars", 22)}
                 <div style={{ height: "2rem" }} />
-                {renderStatsRow(carIcon, industryLabel, columns.map(column => column.industry), "industry", 22, 25)}
+                {renderStatsRow(cargoTruckIcon, industryLabel, columns.map(column => column.industry), "industry", "statsIndustry", 24)}
             </div>
         </div>
     );

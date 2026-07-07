@@ -1,7 +1,7 @@
 // File: UI/src/panel/components/PresetControls.tsx
 // Purpose: Renders preset speed circles plus the unlimited preset badge at the far right.
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Button } from "../../shared/Button";
 import unlimitedIcon from "../../images/icon-Unlimited.svg";
 import unlimitedSelectedIcon from "../../images/icon-Unlimited-Selected.svg";
@@ -13,8 +13,6 @@ type PresetControlsProps = {
     maxDisplay: number;
     unlimitedValue: number;
     unitLabel: string;
-    hoveredPresetSpeed: number | null;
-    setHoveredPresetSpeed: (value: number | null) => void;
     onPresetSelect: (value: number) => void;
     getPresetTitle: (value: number) => string | undefined;
     unlimitedTitle?: string;
@@ -31,8 +29,6 @@ export const PresetControls = memo((props: PresetControlsProps) => {
         maxDisplay,
         unlimitedValue,
         unitLabel,
-        hoveredPresetSpeed,
-        setHoveredPresetSpeed,
         onPresetSelect,
         getPresetTitle,
         unlimitedTitle,
@@ -43,10 +39,11 @@ export const PresetControls = memo((props: PresetControlsProps) => {
 
     // Unlimited now rides in the preset grid as a normal-size circle (sentinel value -1 in a row).
     const unlimitedSelected = Math.abs(displayValue - unlimitedValue) <= 0.5;
+    const [hoveredPresetKey, setHoveredPresetKey] = useState<string | null>(null);
 
     return (
         <div style={{
-            marginTop: "-2rem",
+            marginTop: "2rem",
             marginBottom: "7rem"
         }}>
             <div style={{
@@ -67,31 +64,32 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                             {row.map((preset, index) => {
                                 const isUnlimited = preset === -1;
                                 const disabled = !isUnlimited && (preset < minDisplay || preset > maxDisplay);
+                                const presetKey = isUnlimited ? "unlimited" : `preset-${preset}`;
+                                const numberHovered = !isUnlimited && !disabled && hoveredPresetKey === presetKey;
                                 const selected = isUnlimited
                                     ? unlimitedSelected
                                     : (!disabled && Math.abs(displayValue - preset) <= 0.5);
-                                const hovered = !disabled && hoveredPresetSpeed === preset;
 
                                 return (
                                     <div
                                         key={`preset-${preset}`}
                                         onMouseEnter={() => {
                                             if (!disabled) {
-                                                setHoveredPresetSpeed(preset);
+                                                setHoveredPresetKey(presetKey);
                                             }
                                             if (isUnlimited) {
                                                 onUnlimitedMouseEnter?.();
                                             }
                                         }}
                                         onMouseLeave={() => {
-                                            setHoveredPresetSpeed(null);
+                                            setHoveredPresetKey(null);
                                             if (isUnlimited) {
                                                 onUnlimitedMouseLeave?.();
                                             }
                                         }}
                                         style={{
-                                            width: "23rem",
-                                            minWidth: "23rem",
+                                            width: "25rem",
+                                            minWidth: "25rem",
                                             marginRight: index === row.length - 1 ? "0" : "2rem"
                                         }}
                                     >
@@ -103,8 +101,8 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                             variant="neutral"
                                             style={{
                                                 width: "100%",
-                                                minHeight: "23rem",
-                                                height: "23rem",
+                                                minHeight: "25rem",
+                                                height: "25rem",
                                                 paddingTop: "0",
                                                 paddingRight: "0",
                                                 paddingBottom: "0",
@@ -121,8 +119,8 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                     : disabled ? "rgba(255, 255, 255, 0.08)" : "rgba(245, 245, 245, 0.92)",
                                                 color: selected ? "#fff" : "rgba(8, 10, 12, 1)",
                                                 fontSize: preset >= 100
-                                                    ? hovered ? "10.6rem" : "9.6rem"
-                                                    : hovered ? "11.8rem" : "10.8rem",
+                                                    ? (numberHovered ? "11rem" : "10.4rem")
+                                                    : (numberHovered ? "12rem" : "11.4rem"),
                                                 fontWeight: 900,
                                                 letterSpacing: "0",
                                                 opacity: disabled ? 0.40 : 1
@@ -133,7 +131,7 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                 <img
                                                     src={unlimitedSelected ? unlimitedSelectedIcon : unlimitedIcon}
                                                     alt=""
-                                                    style={{ width: "23rem", height: "23rem", display: "block" }}
+                                                    style={{ width: "25rem", height: "25rem", display: "block" }}
                                                 />
                                             ) : (
                                                 <span style={{ position: "relative", top: "1rem" }}>{preset}</span>

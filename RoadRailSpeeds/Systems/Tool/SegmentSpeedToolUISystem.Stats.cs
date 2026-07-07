@@ -13,7 +13,6 @@ namespace RoadRailSpeeds.Systems
 {
     using Game.Prefabs;
     using Game.Vehicles;
-    using Unity.Collections;
     using Unity.Entities;
 
     public partial class SegmentSpeedToolUISystem
@@ -178,28 +177,44 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            using (NativeArray<Entity> deliveryTruckEntities = m_DeliveryTruckStatsQuery.ToEntityArray(Allocator.Temp))
+            // Third stats row: all road-using work/service/freight cars, while leaving private cars,
+            // bicycles, taxis, public transit, trailers, rail, water, and air vehicles out.
+            foreach (var (prefabRef, vehicle) in SystemAPI
+                .Query<RefRO<PrefabRef>>()
+                .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
+                .WithNone<Game.Vehicles.PersonalCar, Game.Vehicles.PublicTransport, Game.Vehicles.Taxi>()
+                .WithNone<Game.Vehicles.CarTrailer, Game.Common.Deleted, Game.Common.Destroyed>()
+                .WithNone<Game.Tools.Temp>()
+                .WithEntityAccess())
             {
-                for (int i = 0; i < deliveryTruckEntities.Length; i++)
+                Entity prefab = prefabRef.ValueRO.m_Prefab;
+                if (prefab == Entity.Null)
                 {
-                    Entity vehicle = deliveryTruckEntities[i];
+                    continue;
+                }
 
-                    bool isParked = SystemAPI.HasComponent<ParkedCar>(vehicle);
-                    bool isActive = !isParked && SystemAPI.HasComponent<CarCurrentLane>(vehicle);
-                    if (!isParked && !isActive)
-                    {
-                        continue;
-                    }
+                if (SystemAPI.HasComponent<BicycleData>(prefab) ||
+                    SystemAPI.HasComponent<PublicTransportVehicleData>(prefab) ||
+                    SystemAPI.HasComponent<TaxiData>(prefab))
+                {
+                    continue;
+                }
 
-                    industryTotal++;
-                    if (isParked)
-                    {
-                        industryParked++;
-                    }
-                    else
-                    {
-                        industryActive++;
-                    }
+                bool isParked = SystemAPI.HasComponent<ParkedCar>(vehicle);
+                bool isActive = !isParked && SystemAPI.HasComponent<CarCurrentLane>(vehicle);
+                if (!isParked && !isActive)
+                {
+                    continue;
+                }
+
+                industryTotal++;
+                if (isParked)
+                {
+                    industryParked++;
+                }
+                else
+                {
+                    industryActive++;
                 }
             }
 

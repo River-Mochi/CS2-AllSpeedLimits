@@ -81,6 +81,11 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
         focusKey
     } = props;
 
+    const openResetAction = (action: CityActionKind) => {
+        setSelectedRoadGroup(null);
+        setPendingCityAction(action);
+    };
+
     return (
         <>
             <div style={{
@@ -96,6 +101,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                     label={text.panel.wholeCity}
                     expanded={wholeCityExpanded}
                     onToggle={toggleWholeCityExpanded}
+                    compactCollapsed={true}
                     focusKey={focusKey}
                 />
             </div>
@@ -189,10 +195,10 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                             resetWaterLabel={text.buttons.resetWater}
                             resetAllTypesLabel={text.buttons.resetAllTypes}
                             focusKey={focusKey}
-                            onOpenResetRoads={() => setPendingCityAction("resetRoads")}
-                            onOpenResetRails={() => setPendingCityAction("resetRails")}
-                            onOpenResetWater={() => setPendingCityAction("resetWater")}
-                            onOpenResetAll={() => setPendingCityAction("resetAll")}
+                            onOpenResetRoads={() => openResetAction("resetRoads")}
+                            onOpenResetRails={() => openResetAction("resetRails")}
+                            onOpenResetWater={() => openResetAction("resetWater")}
+                            onOpenResetAll={() => openResetAction("resetAll")}
                         />
                     </div>
                     {cityResetInProgress && (
@@ -226,6 +232,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                         label={text.panel.stats}
                         expanded={statsExpanded}
                         onToggle={toggleStatsExpanded}
+                        compactCollapsed={true}
                         focusKey={focusKey}
                         trailing={statsExpanded ? (
                             <>
@@ -266,6 +273,8 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                         cityIndustryActive={cityIndustryActive}
                         cityIndustryParked={cityIndustryParked}
                         cityIndustryTotal={cityIndustryTotal}
+                        showPanelTooltip={showPanelTooltip}
+                        hidePanelTooltip={hidePanelTooltip}
                         formatCount={formatCount}
                     />
                 )}

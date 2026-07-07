@@ -13,12 +13,14 @@ type CollapsibleSectionHeaderProps = {
     // Optional right-aligned content shown on the header line, just left of the chevron.
     // Used by the Stats section to put the Moving/Parked/Total column headers on the title row.
     trailing?: ReactNode;
+    compactCollapsed?: boolean;
     focusKey?: unknown;
 };
 
 export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) => {
-    const { label, expanded, onToggle, leading, trailing, focusKey } = props;
+    const { label, expanded, onToggle, leading, trailing, compactCollapsed = false, focusKey } = props;
     const [hovered, setHovered] = useState(false);
+    const compact = compactCollapsed && !expanded;
 
     return (
         <Button
@@ -31,10 +33,10 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                 alignItems: "center",
                 justifyContent: "flex-start",
                 width: "100%",
-                minHeight: "18rem",
+                minHeight: compact ? "14rem" : "18rem",
                 paddingTop: "0",
                 paddingRight: "0",
-                paddingBottom: "3rem",
+                paddingBottom: compact ? "1rem" : "3rem",
                 paddingLeft: "0",
                 // Was 5rem — shared by every section header (Selected segment/Presets/Whole city/
                 // Stats), so this tightens the gap to each section's content uniformly.
@@ -44,7 +46,7 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                 borderStyle: "solid",
                 color: hovered ? "rgba(255, 255, 255, 0.94)" : "rgba(226, 236, 241, 0.78)",
                 cursor: "pointer",
-                fontSize: "12rem",
+                fontSize: "12.5rem",
                 fontWeight: 500,
                 textAlign: "left",
                 lineHeight: "1",
@@ -82,13 +84,12 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                 alt=""
                 style={{
                     display: "block",
-                    width: hovered ? "14rem" : "13rem",
-                    height: hovered ? "14rem" : "13rem",
+                    width: "14.5rem",
+                    height: "14.5rem",
                     marginTop: "2rem",
                     marginLeft: "6rem",
                     filter: "brightness(0) invert(1)",
                     opacity: hovered ? 1 : (expanded ? 0.78 : 0.58),
-                    transform: hovered ? "scale(1.04)" : "none",
                     pointerEvents: "none"
                 }}
             />

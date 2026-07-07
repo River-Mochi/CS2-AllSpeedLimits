@@ -195,6 +195,10 @@ export function ToggleUnit() {
   trigger(MOD_ID, "TRIGGER:TOGGLE_UNIT");
 }
 
+export function SetPanelSpeedUnit(showMetric: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_PANEL_SPEED_UNIT", showMetric);
+}
+
 export function SetPanelTooltipsEnabled(enabled: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_PANEL_TOOLTIPS_ENABLED", enabled);
 }

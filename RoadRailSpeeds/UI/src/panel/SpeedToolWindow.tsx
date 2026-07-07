@@ -51,6 +51,7 @@ import {
     ResetCityWaterwayDefaults,
     ResetCityAllDefaults,
     ToggleUnit,
+    SetPanelSpeedUnit,
     SetPanelTooltipsEnabled,
     SetHideSpeedMarkers,
     SetStatsExpanded,
@@ -165,7 +166,6 @@ export const SpeedToolWindow = () => {
     const [isMarkersHovered, setIsMarkersHovered] = useState(false);
     const [isExpandAllHovered, setIsExpandAllHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
-    const [hoveredPresetSpeed, setHoveredPresetSpeed] = useState<number | null>(null);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
     // Default OPEN on first install so the "First segment selected" summary is discoverable (its
     // label sits tight on the slider and players missed that it expands). Once the player toggles
@@ -523,6 +523,9 @@ export const SpeedToolWindow = () => {
         const action = pendingCityAction;
         setPendingCityAction(null);
         setCityActionApplying(action);
+        if (action === "resetRoads" || action === "resetRails" || action === "resetWater" || action === "resetAll") {
+            setSelectedRoadGroup(null);
+        }
 
         if (action === "applyRoadGroup") {
             if (selectedRoadGroup === null) {
@@ -554,6 +557,7 @@ export const SpeedToolWindow = () => {
     };
 
     const handleClose = () => {
+        setSelectedRoadGroup(null);
         SetToolActive(false);
     };
 
@@ -561,6 +565,9 @@ export const SpeedToolWindow = () => {
         const nextValue = !wholeCityExpanded;
         setWholeCityExpanded(nextValue);
         writePanelExpanded("wholeCityExpanded", nextValue);
+        if (!nextValue) {
+            setSelectedRoadGroup(null);
+        }
     };
 
     const toggleSelectionInfoExpanded = () => {
@@ -586,6 +593,9 @@ export const SpeedToolWindow = () => {
         writePanelExpanded("wholeCityExpanded", nextValue);
         setStatsExpanded(nextValue);
         writePanelExpanded("statsExpanded", nextValue);
+        if (!nextValue) {
+            setSelectedRoadGroup(null);
+        }
     };
 
     const toggleStatsExpanded = () => {
@@ -892,6 +902,7 @@ export const SpeedToolWindow = () => {
                                     height: "30rem",
                                     minHeight: "30rem",
                                     marginLeft: "6rem",
+                                    marginRight: "-8rem",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -916,7 +927,6 @@ export const SpeedToolWindow = () => {
                                         height: "22rem",
                                         filter: "brightness(0) invert(1)",
                                         opacity: isExpandAllHovered ? 1 : 0.68,
-                                        transform: isExpandAllHovered ? "scale(1.08)" : "none",
                                         pointerEvents: "none"
                                     }}
                                 />
@@ -931,10 +941,10 @@ export const SpeedToolWindow = () => {
                             focusKey={FOCUS_DISABLED}
                             trailing={selectionInfoExpanded ? (
                                 <div style={{
-                                    width: "133rem",
-                                    minWidth: "133rem",
+                                    width: "139rem",
+                                    minWidth: "139rem",
                                     textAlign: "left",
-                                    fontSize: "9rem",
+                                    fontSize: "11rem",
                                     fontWeight: 500,
                                     color: "rgba(255, 255, 255, 0.58)",
                                     lineHeight: "1"
@@ -952,7 +962,7 @@ export const SpeedToolWindow = () => {
                                         newSpeedNumber={`${Math.round(displaySpeed)}`}
                                         newSpeedUnit={unitLabel}
                                         unitToggleTitle={panelTitle("kmh / mph")}
-                                        onToggleUnit={ToggleUnit}
+                                        onToggleUnit={() => SetPanelSpeedUnit(!showMetric)}
                                         currentSpeedTitle={panelTitle(TEXT.tooltips.currentSpeed)}
                                         gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
                                         currentSpeedLabelText={TEXT.panel.currentSpeed}
@@ -971,8 +981,6 @@ export const SpeedToolWindow = () => {
                                         maxDisplay={sliderMax}
                                         unlimitedValue={Math.round(getDisplaySpeed(getMaxSpeedKmh()))}
                                         unitLabel={unitLabel}
-                                        hoveredPresetSpeed={hoveredPresetSpeed}
-                                        setHoveredPresetSpeed={setHoveredPresetSpeed}
                                         onPresetSelect={handlePresetSpeed}
                                         getPresetTitle={preset => panelTitle(`${preset} ${unitLabel}`)}
                                         unlimitedTitle={panelTitle(TEXT.tooltips.presetUnlimited.title)}

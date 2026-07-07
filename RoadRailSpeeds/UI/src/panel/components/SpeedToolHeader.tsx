@@ -138,12 +138,12 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 >
                     <div style={{
                         position: "absolute",
-                        top: "3rem",
-                        left: "3rem",
-                        width: "20rem",
-                        height: "20rem",
+                        top: "4rem",
+                        left: "4rem",
+                        width: "18rem",
+                        height: "18rem",
                         borderRadius: "50%",
-                        borderWidth: speedMarkersHidden ? "2rem" : "1rem",
+                        borderWidth: speedMarkersHidden ? "2rem" : "1.6rem",
                         borderStyle: "solid",
                         borderColor: speedMarkersHidden
                             ? "rgba(110, 200, 235, 0.88)"
@@ -159,7 +159,6 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             height: isMarkersHovered ? "15rem" : "13.5rem",
                             filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
                             opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 1 : 0.58),
-                            transform: isMarkersHovered ? "scale(1.05)" : "none",
                             pointerEvents: "none"
                         }}
                     />
@@ -199,8 +198,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         src={advisorInfoIcon}
                         alt=""
                         style={{
-                            width: isHelpHovered ? "25rem" : "23rem",
-                            height: isHelpHovered ? "25rem" : "23rem",
+                            width: isHelpHovered ? "26rem" : "24.5rem",
+                            height: isHelpHovered ? "26rem" : "24.5rem",
                             filter: selectionTooltipIconFilter,
                             opacity: selectionTooltipIconActive ? 1 : isHelpHovered ? 0.96 : 0.64,
                             pointerEvents: "none"

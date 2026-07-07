@@ -22,7 +22,7 @@ export const PRECISE_STEP_HOLD_DELAY_MS = 350;
 export const PRECISE_STEP_REPEAT_MS = 150;
 
 // Main panel sizing. Smaller values leave more city visible behind the tool.
-export const PANEL_WIDTH_REM = 286;
+export const PANEL_WIDTH_REM = 296;
 
 // On a brand-new selection (nothing was selected before this click), the panel re-anchors near the
 // cursor instead of opening wherever it was left. This nudges it down-right of the click so the
@@ -59,6 +59,9 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     speedFaster: 154,
     speedSlower: 154,
     stats: 340,
+    statsBikes: 340,
+    statsCars: 340,
+    statsIndustry: 340,
     unit: 28,
     wholeCity: 300,
     // Filter chips sit just under the title bar; Apply is in the main edit block.

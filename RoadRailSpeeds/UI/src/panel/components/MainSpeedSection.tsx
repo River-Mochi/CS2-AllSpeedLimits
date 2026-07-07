@@ -1,5 +1,5 @@
 // File: UI/src/panel/components/MainSpeedSection.tsx
-// Purpose: Collapsible "Slider" section — slider + precise stepper + reset on one row, Apply below.
+// Purpose: Collapsible "Slider" section — slider + precise stepper, with Apply + reset below.
 // Presets auto-apply, so Apply lives here with the slider/stepper (the only controls that need it).
 
 import { useState } from "react";
@@ -56,7 +56,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
 
     return (
         <div style={{ marginBottom: "8rem" }}>
-            {/* Row 1: slider (with min/max labels) + stepper + reset, all on one line. */}
+            {/* Row 1: slider (with min/max labels) + stepper, all on one line. */}
             <div style={{ display: "flex", alignItems: "center", marginBottom: "8rem" }}>
                 <div style={{ flex: 1, minWidth: "0", marginRight: "8rem" }}>
                     <Slider
@@ -78,74 +78,74 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                     </div>
                 </div>
                 {stepper}
-                <Button
-                    focusKey={focusKey}
-                    selected={isResetting}
-                    disabled={isResetting}
-                    onSelect={onReset}
-                    variant="neutral"
-                    title={resetTitle}
-                    onMouseEnter={() => { setResetHovered(true); onResetMouseEnter?.(); }}
-                    onMouseLeave={() => { setResetHovered(false); onControlMouseLeave?.(); }}
-                    style={{
-                        width: "30.7rem",
-                        minWidth: "30.7rem",
-                        minHeight: controlHeight,
-                        height: controlHeight,
-                        marginLeft: "6rem",
-                        paddingTop: "0",
-                        paddingRight: "0",
-                        paddingBottom: "0",
-                        paddingLeft: "0",
-                        overflow: "visible"
-                    }}
-                >
-                    {isResetting ? (
-                        <span style={{ fontSize: "16rem", fontWeight: "bold", color: "#fff" }}>✓</span>
-                    ) : (
-                        <img
-                            src={resetIcon}
-                            alt=""
-                            style={{
-                                width: "20rem",
-                                height: "20rem",
-                                transform: resetHovered ? "scaleX(-1) scale(1.22)" : "scaleX(-1) scale(1)",
-                                transformOrigin: "50% 50%",
-                                transitionProperty: "transform",
-                                transitionDuration: "120ms",
-                                transitionTimingFunction: "ease-out",
-                                pointerEvents: "none"
-                            }}
-                        />
-                    )}
-                </Button>
             </div>
-            {/* Row 2: Apply, right-aligned. */}
+            {/* Row 2: Apply + reset, right-aligned under the stepper area. */}
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                    focusKey={focusKey}
-                    selected={isApplying}
-                    disabled={isApplying}
-                    onSelect={onApply}
-                    onMouseEnter={onApplyMouseEnter}
-                    onMouseLeave={onControlMouseLeave}
-                    style={{
-                        // Match the combined width of the stepper (76) + gap (6) + reset (30.7) above,
-                        // so Apply sits under just those and not under the slider.
-                        width: "112.7rem",
-                        minWidth: "112.7rem",
-                        minHeight: controlHeight,
-                        height: controlHeight,
-                        paddingTop: "0",
-                        paddingRight: "0",
-                        paddingBottom: "0",
-                        paddingLeft: "0",
-                        fontSize: "15rem",
-                        fontWeight: 800
-                    }}
-                >
-                    {applyButtonText}
-                </Button>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Button
+                        focusKey={focusKey}
+                        selected={isApplying}
+                        disabled={isApplying}
+                        onSelect={onApply}
+                        onMouseEnter={onApplyMouseEnter}
+                        onMouseLeave={onControlMouseLeave}
+                        style={{
+                            width: "76rem",
+                            minWidth: "76rem",
+                            minHeight: controlHeight,
+                            height: controlHeight,
+                            paddingTop: "0",
+                            paddingRight: "0",
+                            paddingBottom: "0",
+                            paddingLeft: "0",
+                            fontSize: "15rem",
+                            fontWeight: 800
+                        }}
+                    >
+                        {applyButtonText}
+                    </Button>
+                    <Button
+                        focusKey={focusKey}
+                        selected={isResetting}
+                        disabled={isResetting}
+                        onSelect={onReset}
+                        variant="neutral"
+                        title={resetTitle}
+                        onMouseEnter={() => { setResetHovered(true); onResetMouseEnter?.(); }}
+                        onMouseLeave={() => { setResetHovered(false); onControlMouseLeave?.(); }}
+                        style={{
+                            width: "28rem",
+                            minWidth: "28rem",
+                            minHeight: controlHeight,
+                            height: controlHeight,
+                            marginLeft: "4rem",
+                            paddingTop: "0",
+                            paddingRight: "0",
+                            paddingBottom: "0",
+                            paddingLeft: "0",
+                            overflow: "visible"
+                        }}
+                    >
+                        {isResetting ? (
+                            <span style={{ fontSize: "15rem", fontWeight: "bold", color: "#fff" }}>✓</span>
+                        ) : (
+                            <img
+                                src={resetIcon}
+                                alt=""
+                                style={{
+                                    width: "18rem",
+                                    height: "18rem",
+                                    transform: resetHovered ? "scaleX(-1) scale(1.14)" : "scaleX(-1) scale(1)",
+                                    transformOrigin: "50% 50%",
+                                    transitionProperty: "transform",
+                                    transitionDuration: "120ms",
+                                    transitionTimingFunction: "ease-out",
+                                    pointerEvents: "none"
+                                }}
+                            />
+                        )}
+                    </Button>
+                </div>
             </div>
         </div>
     );

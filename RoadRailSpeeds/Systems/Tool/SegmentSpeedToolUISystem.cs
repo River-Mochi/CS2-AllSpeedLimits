@@ -40,7 +40,6 @@ namespace RoadRailSpeeds.Systems
         private readonly List<Entity> m_SelectedEdges = new();
         private readonly List<float> m_Speeds = new();
         private EntityQuery m_AdjustableEdgeQuery;
-        private EntityQuery m_DeliveryTruckStatsQuery;
 
         private ValueBindingHelper<float> m_InitialSpeedBinding = null!;
         private ValueBindingHelper<bool> m_ToolActiveBinding = null!;
@@ -125,21 +124,6 @@ namespace RoadRailSpeeds.Systems
                 }
             });
 
-            m_DeliveryTruckStatsQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new[]
-                {
-                    ComponentType.ReadOnly<Game.Vehicles.DeliveryTruck>()
-                },
-                None = new[]
-                {
-                    ComponentType.ReadOnly<Game.Vehicles.CarTrailer>(),
-                    ComponentType.ReadOnly<Deleted>(),
-                    ComponentType.ReadOnly<Destroyed>(),
-                    ComponentType.ReadOnly<Temp>()
-                }
-            });
-
             // These keys are read by the React/COHTML UI.
             m_InitialSpeedBinding = CreateBinding("INFOPANEL_ROAD_SPEED", 50f);
             m_ToolActiveBinding = CreateBinding("TOOL_ACTIVE", false);
@@ -190,6 +174,7 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<float>("APPLY_CITY_SUBWAY_SPEED", HandleApplyCitySubwaySpeed);
             CreateTrigger("RESET_SPEED", HandleResetSpeed);
             CreateTrigger("TOGGLE_UNIT", HandleToggleUnit);
+            CreateTrigger<bool>("SET_PANEL_SPEED_UNIT", HandleSetPanelSpeedUnit);
             CreateTrigger<bool>("ACTIVATE_TOOL", HandleActivateTool);
             CreateTrigger<bool>("SET_PANEL_TOOLTIPS_ENABLED", HandleSetPanelTooltipsEnabled);
             CreateTrigger<bool>("SET_HIDE_SPEED_MARKERS", HandleSetHideSpeedMarkers);
@@ -560,6 +545,29 @@ namespace RoadRailSpeeds.Systems
             };
 
             m_Settings.ApplyAndSave();
+
+            m_ShowMetricBinding.Value = ShouldShowMetric();
+            m_UnitModeBinding.Value = (int)m_Settings.SpeedUnitPreference;
+
+            RequestUpdate();
+        }
+
+        private void HandleSetPanelSpeedUnit(bool showMetric)
+        {
+            if (m_Settings == null)
+            {
+                return;
+            }
+
+            Setting.SpeedUnit nextPreference = showMetric
+                ? Setting.SpeedUnit.Metric
+                : Setting.SpeedUnit.Imperial;
+
+            if (m_Settings.SpeedUnitPreference != nextPreference)
+            {
+                m_Settings.SpeedUnitPreference = nextPreference;
+                m_Settings.ApplyAndSave();
+            }
 
             m_ShowMetricBinding.Value = ShouldShowMetric();
             m_UnitModeBinding.Value = (int)m_Settings.SpeedUnitPreference;
