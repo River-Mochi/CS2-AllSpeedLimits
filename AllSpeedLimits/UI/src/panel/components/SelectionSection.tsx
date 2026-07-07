@@ -160,7 +160,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 }}>
                     {newSpeedLabel}
                 </span>
-                <div style={{ display: "flex", alignItems: "flex-end", marginTop: "2rem" }}>
+                <div style={{ display: "flex", alignItems: "flex-end", marginTop: "3rem" }}>
                     <span style={{
                         fontSize: "20rem",
                         fontWeight: "bold",
@@ -210,7 +210,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
             </div>
 
             {/* Current / Default, tied to New speed inside the same outlined group. */}
-            <div style={{ marginTop: "8rem", paddingLeft: "0", paddingRight: "1rem" }}>
+            <div style={{ marginTop: "7rem", paddingLeft: "0", paddingRight: "1rem" }}>
                 <div
                     onMouseEnter={onCurrentSpeedMouseEnter}
                     onMouseLeave={onCurrentSpeedMouseLeave}
