@@ -66,7 +66,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         color: "rgba(226, 236, 241, 0.74)",
         width: "42rem",
         minWidth: "42rem",
-        marginRight: "2rem",
+        marginRight: "3rem",
         whiteSpace: "nowrap" as const,
         textAlign: "left" as const
     };
@@ -160,7 +160,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 }}>
                     {newSpeedLabel}
                 </span>
-                <div style={{ display: "flex", alignItems: "flex-end", marginTop: "1rem" }}>
+                <div style={{ display: "flex", alignItems: "flex-end", marginTop: "2rem" }}>
                     <span style={{
                         fontSize: "20rem",
                         fontWeight: "bold",
