@@ -6,8 +6,10 @@ export type CityActionKind = "applyRoadGroup" | "applyTrain" | "applySubway" | "
 export type RoadGroupKind = "small" | "medium" | "large" | "highway";
 
 export type PanelTooltipKind =
+    | "currentSpeed"
     | "gameDefault"
     | "panelTitle"
+    | "presets"
     | "presetUnlimited"
     | "resetAll"
     | "resetSelected"
@@ -22,6 +24,7 @@ export type PanelTooltipKind =
     | "statsBikes"
     | "statsCars"
     | "statsIndustry"
+    | "selectedSegment"
     | "unit"
     | "wholeCity"
     | "filterRoads"

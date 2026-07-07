@@ -910,7 +910,7 @@ export const SpeedToolWindow = () => {
                                     height: "30rem",
                                     minHeight: "30rem",
                                     marginLeft: "6rem",
-                                    marginRight: "-8rem",
+                                    marginRight: "-7rem",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -947,16 +947,24 @@ export const SpeedToolWindow = () => {
                             expanded={selectionInfoExpanded}
                             onToggle={toggleSelectionInfoExpanded}
                             focusKey={FOCUS_DISABLED}
+                            labelTitle={panelTitle(TEXT.tooltips.selectedSegment)}
+                            onLabelMouseEnter={() => showPanelTooltip("selectedSegment")}
+                            onLabelMouseLeave={hidePanelTooltip}
                             trailing={selectionInfoExpanded ? (
-                                <div style={{
-                                    width: "139rem",
-                                    minWidth: "139rem",
-                                    textAlign: "left",
-                                    fontSize: "11rem",
-                                    fontWeight: 500,
-                                    color: "rgba(255, 255, 255, 0.58)",
-                                    lineHeight: "1"
-                                }}>
+                                <div
+                                    onMouseEnter={() => showPanelTooltip("presets")}
+                                    onMouseLeave={hidePanelTooltip}
+                                    title={panelTitle(TEXT.tooltips.presets)}
+                                    style={{
+                                        width: "139rem",
+                                        minWidth: "139rem",
+                                        textAlign: "left",
+                                        fontSize: "11rem",
+                                        fontWeight: 500,
+                                        color: "rgba(255, 255, 255, 0.58)",
+                                        lineHeight: "1"
+                                    }}
+                                >
                                     {TEXT.panel.presets}
                                 </div>
                             ) : undefined}
@@ -977,6 +985,8 @@ export const SpeedToolWindow = () => {
                                         currentSpeedValueText={currentSpeedLabel}
                                         defaultSpeedLabelText={TEXT.panel.gameDefault}
                                         defaultSpeedValueText={vanillaSpeedLabel}
+                                        onCurrentSpeedMouseEnter={() => showPanelTooltip("currentSpeed")}
+                                        onCurrentSpeedMouseLeave={hidePanelTooltip}
                                         onGameDefaultMouseEnter={() => showPanelTooltip("gameDefault")}
                                         onGameDefaultMouseLeave={hidePanelTooltip}
                                     />

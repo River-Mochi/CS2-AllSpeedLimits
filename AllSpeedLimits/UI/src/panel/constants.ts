@@ -46,8 +46,10 @@ export const RIGHT_TOOLTIP_GAP_PX = 10;
 
 // Right-side tooltip vertical positions, measured from the panel top.
 export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
+    currentSpeed: 142,
     gameDefault: 82,
     panelTitle: 28,
+    presets: 118,
     presetUnlimited: 244,
     resetAll: 300,
     resetSelected: 142,
@@ -62,6 +64,7 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     statsBikes: 340,
     statsCars: 340,
     statsIndustry: 340,
+    selectedSegment: 118,
     unit: 28,
     wholeCity: 300,
     // Filter chips sit just under the title bar; Apply is in the main edit block.

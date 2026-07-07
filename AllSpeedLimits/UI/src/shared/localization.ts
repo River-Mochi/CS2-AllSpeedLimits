@@ -100,7 +100,9 @@ const buildText = (lookup: TextLookup) => ({
         },
         tooltips: {
             panelTitle: text(lookup, "inCity.tooltips.panelTitle"),
+            selectedSegment: text(lookup, "inCity.tooltips.selectedSegment"),
             currentSpeed: text(lookup, "inCity.tooltips.currentSpeed"),
+            presets: text(lookup, "inCity.tooltips.presets"),
             filterRoads: text(lookup, "inCity.tooltips.filterRoads"),
             filterRails: text(lookup, "inCity.tooltips.filterRails"),
             filterWater: text(lookup, "inCity.tooltips.filterWater"),

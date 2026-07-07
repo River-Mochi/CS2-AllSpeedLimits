@@ -15,10 +15,24 @@ type CollapsibleSectionHeaderProps = {
     trailing?: ReactNode;
     compactCollapsed?: boolean;
     focusKey?: unknown;
+    labelTitle?: string;
+    onLabelMouseEnter?: () => void;
+    onLabelMouseLeave?: () => void;
 };
 
 export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) => {
-    const { label, expanded, onToggle, leading, trailing, compactCollapsed = false, focusKey } = props;
+    const {
+        label,
+        expanded,
+        onToggle,
+        leading,
+        trailing,
+        compactCollapsed = false,
+        focusKey,
+        labelTitle,
+        onLabelMouseEnter,
+        onLabelMouseLeave
+    } = props;
     const [hovered, setHovered] = useState(false);
     const compact = compactCollapsed && !expanded;
 
@@ -68,7 +82,13 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                         {leading}
                     </span>
                 )}
-                <span>{label}</span>
+                <span
+                    title={labelTitle}
+                    onMouseEnter={onLabelMouseEnter}
+                    onMouseLeave={onLabelMouseLeave}
+                >
+                    {label}
+                </span>
             </span>
             {trailing && (
                 <span style={{

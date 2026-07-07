@@ -88,9 +88,15 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         if (roadGroupTooltip !== null) {
             maxWidth = "220rem";
             content = renderTooltipBlock(roadGroupTooltip.title, roadGroupTooltip.lines);
+        } else if (panelTooltip === "currentSpeed") {
+            maxWidth = "190rem";
+            content = renderTooltipBlock(text.panel.currentSpeed, text.tooltips.currentSpeed.split("\n"));
         } else if (panelTooltip === "panelTitle") {
             maxWidth = "170rem";
             content = renderTooltipBlock("", [text.tooltips.panelTitle]);
+        } else if (panelTooltip === "presets") {
+            maxWidth = "190rem";
+            content = renderTooltipBlock(text.panel.presets, [text.tooltips.presets]);
         } else if (panelTooltip === "gameDefault") {
             maxWidth = "210rem";
             fontSize = `${12 * tooltipFontScale / 100}rem`;
@@ -152,6 +158,9 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "markers") {
             maxWidth = "210rem";
             content = renderTooltipBlock("", [markersTooltipText]);
+        } else if (panelTooltip === "selectedSegment") {
+            maxWidth = "210rem";
+            content = renderTooltipBlock(text.panel.selectedSegment, [text.tooltips.selectedSegment]);
         } else {
             maxWidth = "120rem";
             content = renderTooltipBlock(text.tooltips.unit.title, text.tooltips.unit.lines);

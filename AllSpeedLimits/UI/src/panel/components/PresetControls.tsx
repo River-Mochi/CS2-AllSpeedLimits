@@ -66,6 +66,7 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                 const disabled = !isUnlimited && (preset < minDisplay || preset > maxDisplay);
                                 const presetKey = isUnlimited ? "unlimited" : `preset-${preset}`;
                                 const numberHovered = !isUnlimited && !disabled && hoveredPresetKey === presetKey;
+                                const unlimitedHovered = isUnlimited && hoveredPresetKey === presetKey;
                                 const selected = isUnlimited
                                     ? unlimitedSelected
                                     : (!disabled && Math.abs(displayValue - preset) <= 0.5);
@@ -123,7 +124,9 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                     : (numberHovered ? "13.4rem" : "11.6rem"),
                                                 fontWeight: 900,
                                                 letterSpacing: "0",
-                                                opacity: disabled ? 0.40 : 1
+                                                opacity: disabled ? 0.40 : 1,
+                                                transform: unlimitedHovered ? "scale(1.07)" : "scale(1)",
+                                                transformOrigin: "center"
                                             }}
                                             title={isUnlimited ? unlimitedTitle : (getPresetTitle(preset) ?? `${preset} ${unitLabel}`)}
                                         >

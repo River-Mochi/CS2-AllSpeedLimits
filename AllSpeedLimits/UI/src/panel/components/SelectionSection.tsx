@@ -18,6 +18,8 @@ type SelectionSectionProps = {
     currentSpeedValueText: string;
     defaultSpeedLabelText: string;
     defaultSpeedValueText: string;
+    onCurrentSpeedMouseEnter: () => void;
+    onCurrentSpeedMouseLeave: () => void;
     onGameDefaultMouseEnter: () => void;
     onGameDefaultMouseLeave: () => void;
 };
@@ -36,6 +38,8 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         currentSpeedValueText,
         defaultSpeedLabelText,
         defaultSpeedValueText,
+        onCurrentSpeedMouseEnter,
+        onCurrentSpeedMouseLeave,
         onGameDefaultMouseEnter,
         onGameDefaultMouseLeave
     } = props;
@@ -62,7 +66,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         color: "rgba(226, 236, 241, 0.74)",
         width: "42rem",
         minWidth: "42rem",
-        marginRight: "4rem",
+        marginRight: "1rem",
         whiteSpace: "nowrap" as const,
         textAlign: "left" as const
     };
@@ -79,14 +83,14 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     };
 
     const valueNumberStyle = {
-        width: "24rem",
-        minWidth: "24rem",
+        width: "29rem",
+        minWidth: "29rem",
         textAlign: "right" as const
     };
 
     const valueUnitStyle = {
-        width: "24rem",
-        minWidth: "24rem",
+        width: "22rem",
+        minWidth: "22rem",
         marginLeft: "1rem",
         textAlign: "left" as const
     };
@@ -173,7 +177,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                             paddingRight: "4rem",
                             paddingBottom: "0",
                             paddingLeft: "4rem",
-                            backgroundColor: unitHovered ? "rgba(255, 255, 255, 0.09)" : "rgba(255, 255, 255, 0.045)",
+                            backgroundColor: unitHovered ? "rgba(255, 255, 255, 0.09)" : "transparent",
                             borderWidth: "1rem",
                             borderStyle: "solid",
                             borderColor: unitHovered ? "rgba(255, 255, 255, 0.24)" : "rgba(255, 255, 255, 0.11)",
@@ -192,7 +196,12 @@ export const SelectionSection = (props: SelectionSectionProps) => {
 
             {/* Current / Default, tied to New speed inside the same outlined group. */}
             <div style={{ marginTop: "8rem", paddingLeft: "0", paddingRight: "1rem" }}>
-                <div title={currentSpeedTitle} style={factRowStyle}>
+                <div
+                    onMouseEnter={onCurrentSpeedMouseEnter}
+                    onMouseLeave={onCurrentSpeedMouseLeave}
+                    title={currentSpeedTitle}
+                    style={factRowStyle}
+                >
                     <span style={labelStyle}>{currentSpeedLabelText}</span>
                     {renderSpeedValue(currentSpeedValueText)}
                 </div>
