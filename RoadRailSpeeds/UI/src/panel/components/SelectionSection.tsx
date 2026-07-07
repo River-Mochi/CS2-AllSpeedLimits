@@ -87,7 +87,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     const valueUnitStyle = {
         width: "24rem",
         minWidth: "24rem",
-        marginLeft: "2rem",
+        marginLeft: "1rem",
         textAlign: "left" as const
     };
 
@@ -167,7 +167,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                             height: "20rem",
                             minHeight: "20rem",
                             minWidth: "41rem",
-                            marginLeft: "9rem",
+                            marginLeft: "7rem",
                             marginBottom: "1rem",
                             paddingTop: "0",
                             paddingRight: "4rem",

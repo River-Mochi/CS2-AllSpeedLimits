@@ -910,7 +910,7 @@ export const SpeedToolWindow = () => {
                                     height: "30rem",
                                     minHeight: "30rem",
                                     marginLeft: "6rem",
-                                    marginRight: "-5rem",
+                                    marginRight: "-6rem",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
