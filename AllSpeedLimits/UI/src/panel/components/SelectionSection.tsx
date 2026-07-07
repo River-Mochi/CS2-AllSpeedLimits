@@ -66,9 +66,9 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         color: "rgba(226, 236, 241, 0.74)",
         width: "42rem",
         minWidth: "42rem",
-        marginRight: "4rem",
+        marginRight: "2rem",
         whiteSpace: "nowrap" as const,
-        textAlign: "right" as const
+        textAlign: "left" as const
     };
 
     const valueStyle = {
