@@ -113,12 +113,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "roadGroupApply") {
             maxWidth = "210rem";
             content = renderTooltipBlock(text.tooltips.roadGroupApply.title, text.tooltips.roadGroupApply.lines);
-        } else if (panelTooltip === "speedSlower") {
-            maxWidth = "188rem";
-            content = renderTooltipBlock(text.buttons.slower, [text.tooltips.slower]);
-        } else if (panelTooltip === "speedFaster") {
-            maxWidth = "188rem";
-            content = renderTooltipBlock(text.buttons.faster, [text.tooltips.faster]);
         } else if (panelTooltip === "stats") {
             maxWidth = "190rem";
             content = renderTooltipBlock(text.tooltips.stats.title, text.tooltips.stats.lines);
@@ -180,90 +174,33 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         );
     };
 
-    const renderMarkerTooltip = () => {
-        if (markerTooltipText.length === 0) {
-            return null;
-        }
-
-        const markerTooltipWidth = 168;
-        const markerTooltipLeftShift = 50;
-        const left = Math.max(8, Math.min(window.innerWidth - markerTooltipWidth - 8, markerTooltipX - (markerTooltipWidth / 2) - markerTooltipLeftShift));
-        const top = Math.max(8, Math.min(window.innerHeight - 44, markerTooltipY + 4));
-
-        return (
-            <div style={{
-                position: "fixed",
-                left: `${left}px`,
-                top: `${top}px`,
-                zIndex: 1000001,
-                pointerEvents: "none",
-                backgroundColor: "transparent",
-                color: "rgba(255, 255, 255, 1.0)",
-                fontSize: markerTooltipFontSize,
-                lineHeight: "1.2",
-                fontWeight: "900",
-                textShadow: "0 0 4rem rgba(0,0,0,0.95), 0 0 2rem rgba(0,0,0,0.95)",
-                paddingTop: "5rem",
-                paddingRight: "10rem",
-                paddingBottom: "5rem",
-                paddingLeft: "10rem",
-                borderWidth: "1rem",
-                borderStyle: "solid",
-                borderColor: "rgba(120, 220, 255, 0.7)",
-                borderRadius: "4rem",
-                minWidth: "126rem",
-                textAlign: "center"
-            }}>
-                {markerTooltipText}
-            </div>
-        );
-    };
-
     return (
         <>
-            {renderSideTooltip()}
-            {renderMarkerTooltip()}
-
-            {isGuideHovered && panelTooltipsEnabled && (
-                <div style={{
-                    ...tooltipBaseStyle,
-                    left: `${position.x + panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}px`,
-                    top: `${position.y + 30}px`,
-                    maxWidth: "236rem"
-                }}>
-                    <div style={{
-                        color: "rgba(255, 255, 255, 0.92)",
-                        fontWeight: "bold",
-                        marginBottom: "7rem"
-                    }}>
-                        {text.hint.title}
-                    </div>
-                    {text.help.directions.map((line: string, index: number) => (
-                        <div
-                            key={`help-${index}`}
-                            style={index === 0 ? undefined : { marginTop: "5rem" }}
-                        >
-                            {line}
-                        </div>
-                    ))}
-                </div>
+            {isGuideHovered && (
+                <PanelSideTooltip
+                    visible={true}
+                    position={position}
+                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    topOffsetPx={20}
+                    maxWidth="200rem"
+                    fontSize={tooltipFontSize}
+                    tooltipBaseStyle={tooltipBaseStyle}
+                    content={renderTooltipBlock("", text.help.directions)}
+                />
             )}
-
             {isHelpHovered && (
-                <div style={{
-                    ...tooltipBaseStyle,
-                    left: `${position.x + panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}px`,
-                    top: `${position.y + 30}px`,
-                    maxWidth: "210rem"
-                }}>
-                    <div style={{
-                        color: panelTooltipsEnabled ? "rgba(255, 255, 255, 0.92)" : "rgba(111, 218, 255, 0.98)",
-                        fontWeight: "bold"
-                    }}>
-                        {panelTooltipsEnabled ? text.help.tooltipsOn : text.help.tooltipsOff}
-                    </div>
-                </div>
+                <PanelSideTooltip
+                    visible={true}
+                    position={position}
+                    leftOffsetPx={markerTooltipX}
+                    topOffsetPx={markerTooltipY}
+                    maxWidth="210rem"
+                    fontSize={markerTooltipFontSize}
+                    tooltipBaseStyle={tooltipBaseStyle}
+                    content={renderTooltipBlock("", [markerTooltipText])}
+                />
             )}
+            {renderSideTooltip()}
         </>
     );
 };
