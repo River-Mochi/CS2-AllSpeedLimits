@@ -78,8 +78,6 @@ const buildText = (lookup: TextLookup) => ({
             parked: text(lookup, "inCity.stats.parked")
         },
         buttons: {
-            slower: text(lookup, "inCity.buttons.slower"),
-            faster: text(lookup, "inCity.buttons.faster"),
             apply: text(lookup, "inCity.buttons.apply"),
             applied: text(lookup, "inCity.buttons.applied"),
             reset: text(lookup, "inCity.buttons.reset"),
@@ -162,8 +160,6 @@ const buildText = (lookup: TextLookup) => ({
             preciseStepper: text(lookup, "inCity.tooltips.preciseStepper"),
             decreaseTarget: text(lookup, "inCity.tooltips.decreaseTarget"),
             increaseTarget: text(lookup, "inCity.tooltips.increaseTarget"),
-            slower: text(lookup, "inCity.tooltips.slower"),
-            faster: text(lookup, "inCity.tooltips.faster"),
             apply: text(lookup, "inCity.tooltips.apply"),
             reset: text(lookup, "inCity.tooltips.reset"),
             markersHide: text(lookup, "inCity.tooltips.markersHide"),
@@ -171,7 +167,7 @@ const buildText = (lookup: TextLookup) => ({
         },
         help: {
             // Guide popup (hover the title-bar speed-limit icon) shows only the action directions.
-            // line4 (50% buttons) is intentionally left out: those buttons carry their own tooltips.
+            // line4 (presets) is intentionally left out: preset buttons carry their own tooltips.
             // line5 is shown on the "First segment selected" header (firstSegmentHint), not here.
             directions: [
                 optionalText(lookup, "inCity.help.line1"),
