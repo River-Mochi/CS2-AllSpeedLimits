@@ -124,9 +124,7 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                     : (numberHovered ? "13.4rem" : "11.6rem"),
                                                 fontWeight: 900,
                                                 letterSpacing: "0",
-                                                opacity: disabled ? 0.40 : 1,
-                                                transform: unlimitedHovered ? "scale(1.07)" : "scale(1)",
-                                                transformOrigin: "center"
+                                                opacity: disabled ? 0.40 : 1
                                             }}
                                             title={isUnlimited ? unlimitedTitle : (getPresetTitle(preset) ?? `${preset} ${unitLabel}`)}
                                         >
@@ -134,7 +132,11 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                 <img
                                                     src={unlimitedSelected ? unlimitedSelectedIcon : unlimitedIcon}
                                                     alt=""
-                                                    style={{ width: "25rem", height: "25rem", display: "block" }}
+                                                    style={{
+                                                        width: unlimitedHovered ? "27rem" : "25rem",
+                                                        height: unlimitedHovered ? "27rem" : "25rem",
+                                                        display: "block"
+                                                    }}
                                                 />
                                             ) : (
                                                 <span style={{ position: "relative", top: "1rem" }}>{preset}</span>

@@ -66,7 +66,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         color: "rgba(226, 236, 241, 0.74)",
         width: "42rem",
         minWidth: "42rem",
-        marginRight: "1rem",
+        marginRight: "4rem",
         whiteSpace: "nowrap" as const,
         textAlign: "left" as const
     };
@@ -75,23 +75,25 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         fontSize: "12.2rem",
         fontWeight: 800,
         color: "rgba(255, 255, 255, 0.78)",
-        flex: 1,
         display: "flex" as const,
-        justifyContent: "flex-end" as const,
+        justifyContent: "flex-start" as const,
+        width: "49rem",
+        minWidth: "49rem",
+        flexShrink: 0,
         whiteSpace: "nowrap" as const,
         textAlign: "right" as const
     };
 
     const valueNumberStyle = {
-        width: "29rem",
-        minWidth: "29rem",
+        width: "24rem",
+        minWidth: "24rem",
         textAlign: "right" as const
     };
 
     const valueUnitStyle = {
         width: "22rem",
         minWidth: "22rem",
-        marginLeft: "1rem",
+        marginLeft: "3rem",
         textAlign: "left" as const
     };
 
@@ -105,6 +107,17 @@ export const SelectionSection = (props: SelectionSectionProps) => {
 
     const renderSpeedValue = (value: string) => {
         const split = splitSpeedValue(value);
+
+        if (split.unit.length === 0) {
+            return (
+                <span style={{
+                    ...valueStyle,
+                    justifyContent: "flex-end" as const
+                }}>
+                    {split.number}
+                </span>
+            );
+        }
 
         return (
             <span style={valueStyle}>
@@ -152,7 +165,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         color: "#fff",
                         whiteSpace: "nowrap",
                         lineHeight: "1.05",
-                        minWidth: "39rem"
+                        minWidth: "0"
                     }}>
                         {newSpeedNumber}
                     </span>
