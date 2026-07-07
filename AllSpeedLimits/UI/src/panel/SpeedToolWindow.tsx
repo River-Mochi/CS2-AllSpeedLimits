@@ -41,7 +41,6 @@ import {
     SELECTION_CLICK_Y,
     MOD_ID,
     ApplySpeed,
-    ApplySelectionMultiplier,
     ApplyCityRoadGroupSpeed,
     ApplyCityTrainSpeed,
     ApplyCitySubwaySpeed,
@@ -490,18 +489,6 @@ export const SpeedToolWindow = () => {
                 handlePreciseStep(direction);
             }, PRECISE_STEP_REPEAT_MS);
         }, PRECISE_STEP_HOLD_DELAY_MS);
-    };
-
-    const handleHalfSpeed = () => {
-        setIsApplying(true);
-        ApplySelectionMultiplier(0.5);
-        setTimeout(() => setIsApplying(false), 500);
-    };
-
-    const handleFasterSpeed = () => {
-        setIsApplying(true);
-        ApplySelectionMultiplier(1.5);
-        setTimeout(() => setIsApplying(false), 500);
     };
 
     const handleApply = () => {
@@ -1012,7 +999,7 @@ export const SpeedToolWindow = () => {
 
                         {/* Custom: slider + stepper + reset on one row, Apply below. TODO(stage2): localize title. */}
                         <CollapsibleSectionHeader
-                            label="Custom"
+                            label={TEXT.panel.custom}
                             expanded={sliderExpanded}
                             onToggle={toggleSliderExpanded}
                             focusKey={FOCUS_DISABLED}

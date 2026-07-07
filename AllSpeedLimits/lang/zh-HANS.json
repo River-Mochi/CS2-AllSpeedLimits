@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "提示已开。点击关闭。",
   "inCity.help.tooltipsOff": "提示已关。点击开启。",
   "inCity.panel.presets": "预设",
+  "inCity.panel.custom": "自定义",
   "inCity.tooltips.presets": "预设会立即应用。不需要点应用。",
   "inCity.reminder.saveAfterReset": "重置完成 — 保存城市。",
   "inCity.reminder.dismiss": "关闭",

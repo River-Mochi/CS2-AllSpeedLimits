@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "Tooltips ACTIVÉS. Cliquez pour couper.",
   "inCity.help.tooltipsOff": "Tooltips COUPÉS. Cliquez pour activer.",
   "inCity.panel.presets": "Préréglages",
+  "inCity.panel.custom": "Personnalisé",
   "inCity.tooltips.presets": "Les préréglages s'appliquent tout de suite. Appliquer inutile.",
   "inCity.reminder.saveAfterReset": "Réinit. faite — SAUVEGARDEZ.",
   "inCity.reminder.dismiss": "Fermer",

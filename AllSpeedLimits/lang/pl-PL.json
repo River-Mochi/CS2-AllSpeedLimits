@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "Podpowiedzi WŁ. Kliknij, aby wyłączyć.",
   "inCity.help.tooltipsOff": "Podpowiedzi WYŁ. Kliknij, aby włączyć.",
   "inCity.panel.presets": "Presety",
+  "inCity.panel.custom": "Własne",
   "inCity.tooltips.presets": "Presety działają od razu. Zastosuj niepotrzebne.",
   "inCity.reminder.saveAfterReset": "Reset gotowy — ZAPISZ miasto.",
   "inCity.reminder.dismiss": "Zamknij",

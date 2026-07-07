@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "툴팁 켜짐. 클릭해 끄기.",
   "inCity.help.tooltipsOff": "툴팁 꺼짐. 클릭해 켜기.",
   "inCity.panel.presets": "프리셋",
+  "inCity.panel.custom": "사용자 지정",
   "inCity.tooltips.presets": "프리셋은 즉시 적용. 적용 버튼 불필요.",
   "inCity.reminder.saveAfterReset": "초기화 완료 — 도시 저장.",
   "inCity.reminder.dismiss": "닫기",

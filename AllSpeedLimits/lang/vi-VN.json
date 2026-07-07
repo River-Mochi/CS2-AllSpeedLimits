@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "Tooltip BẬT. Bấm để tắt.",
   "inCity.help.tooltipsOff": "Tooltip TẮT. Bấm để bật.",
   "inCity.panel.presets": "Preset",
+  "inCity.panel.custom": "Tùy chỉnh",
   "inCity.tooltips.presets": "Preset áp dụng ngay. Không cần Áp dụng.",
   "inCity.reminder.saveAfterReset": "Reset xong — LƯU thành phố.",
   "inCity.reminder.dismiss": "Đóng",

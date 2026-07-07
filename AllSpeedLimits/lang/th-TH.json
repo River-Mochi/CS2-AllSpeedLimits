@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "ทูลทิปเปิดอยู่ คลิกเพื่อปิด",
   "inCity.help.tooltipsOff": "ทูลทิปปิดอยู่ คลิกเพื่อเปิด",
   "inCity.panel.presets": "พรีเซ็ต",
+  "inCity.panel.custom": "กำหนดเอง",
   "inCity.tooltips.presets": "พรีเซ็ตใช้ทันที ไม่ต้องกด ใช้",
   "inCity.reminder.saveAfterReset": "รีเซ็ตแล้ว — บันทึกเมือง",
   "inCity.reminder.dismiss": "ปิด",

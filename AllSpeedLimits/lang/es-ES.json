@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "Tooltips ACTIVOS. Clic para apagar.",
   "inCity.help.tooltipsOff": "Tooltips APAGADOS. Clic para activar.",
   "inCity.panel.presets": "Preajustes",
+  "inCity.panel.custom": "Personalizado",
   "inCity.tooltips.presets": "Los preajustes se aplican al instante. No hace falta Aplicar.",
   "inCity.reminder.saveAfterReset": "Reset hecho — GUARDA la ciudad.",
   "inCity.reminder.dismiss": "Cerrar",

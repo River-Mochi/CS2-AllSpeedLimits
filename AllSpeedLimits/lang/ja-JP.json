@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "ツールチップON。クリックでOFF。",
   "inCity.help.tooltipsOff": "ツールチップOFF。クリックでON。",
   "inCity.panel.presets": "プリセット",
+  "inCity.panel.custom": "カスタム",
   "inCity.tooltips.presets": "プリセットは即適用。適用ボタン不要。",
   "inCity.reminder.saveAfterReset": "リセット完了 — 都市を保存。",
   "inCity.reminder.dismiss": "閉じる",

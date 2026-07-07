@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "İpuçları AÇIK. Kapatmak için tıkla.",
   "inCity.help.tooltipsOff": "İpuçları KAPALI. Açmak için tıkla.",
   "inCity.panel.presets": "Presetler",
+  "inCity.panel.custom": "Özel",
   "inCity.tooltips.presets": "Presetler hemen uygulanır. Uygula gerekmez.",
   "inCity.reminder.saveAfterReset": "Sıfırlandı — şehri KAYDET.",
   "inCity.reminder.dismiss": "Kapat",

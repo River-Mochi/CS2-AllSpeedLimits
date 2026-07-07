@@ -52,6 +52,7 @@ const buildText = (lookup: TextLookup) => ({
             notAvailable: text(lookup, "inCity.panel.notAvailable"),
             mixed: text(lookup, "inCity.panel.mixed"),
             presets: text(lookup, "inCity.panel.presets"),
+            custom: text(lookup, "inCity.panel.custom"),
             wholeCity: text(lookup, "inCity.panel.wholeCity"),
             stats: text(lookup, "inCity.panel.stats"),
             selectFilter: text(lookup, "inCity.panel.selectFilter"),

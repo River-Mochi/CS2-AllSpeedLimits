@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "Tooltips LIGADOS. Clique para desligar.",
   "inCity.help.tooltipsOff": "Tooltips DESLIGADOS. Clique para ligar.",
   "inCity.panel.presets": "Predef.",
+  "inCity.panel.custom": "Personalizado",
   "inCity.tooltips.presets": "Predefinições aplicam logo. Aplicar não é preciso.",
   "inCity.reminder.saveAfterReset": "Reposição feita — GUARDE a cidade.",
   "inCity.reminder.dismiss": "Fechar",

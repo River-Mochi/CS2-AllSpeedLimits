@@ -140,6 +140,7 @@
   "inCity.help.tooltipsOn": "Tooltips sind AN. Klicken zum Ausschalten.",
   "inCity.help.tooltipsOff": "Tooltips sind AUS. Klicken zum Einschalten.",
   "inCity.panel.presets": "Presets",
+  "inCity.panel.custom": "Eigene",
   "inCity.tooltips.presets": "Presets wirken sofort. Anwenden ist nicht nötig.",
   "inCity.reminder.saveAfterReset": "Reset fertig — Stadt SPEICHERN.",
   "inCity.reminder.dismiss": "Schließen",
