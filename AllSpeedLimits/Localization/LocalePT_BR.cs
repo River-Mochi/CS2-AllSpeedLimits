@@ -123,7 +123,7 @@ namespace RoadRailSpeeds
                     "1. Clique ou arraste para selecionar segmentos.\n" +
                     "2. Defina <Nova velocidade> e clique em <Aplicar>.\n" +
                     "3. <Reset> restaura os segmentos selecionados.\n" +
-                    "4. Botões <50%> aplicam na hora.\n" +
+                    "4. Botões de preset aplicam na hora.\n" +
                     "\n" +
                     "<Cidade inteira>\n" +
                     "Escolha um grupo de estradas e aplique <Nova velocidade> a esse grupo.\n" +

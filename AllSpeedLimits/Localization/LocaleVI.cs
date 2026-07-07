@@ -123,7 +123,7 @@ namespace RoadRailSpeeds
                     "1. Bấm hoặc kéo chọn các đoạn.\n" +
                     "2. Đặt <Tốc độ mới>, rồi bấm <Áp dụng>.\n" +
                     "3. <Reset> khôi phục các đoạn đã chọn.\n" +
-                    "4. Nút <50%> áp dụng ngay.\n" +
+                    "4. Nút preset áp dụng ngay.\n" +
                     "\n" +
                     "<Toàn thành phố>\n" +
                     "Chọn nhóm đường, rồi áp dụng <Tốc độ mới> cho nhóm đó.\n" +

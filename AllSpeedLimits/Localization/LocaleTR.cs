@@ -123,7 +123,7 @@ namespace RoadRailSpeeds
                     "1. Bölümlere tıkla veya sürükleyerek seç.\n" +
                     "2. <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
                     "3. <Reset> seçili bölümleri geri yükler.\n" +
-                    "4. <50%> düğmeleri hemen uygulanır.\n" +
+                    "4. Ön ayar düğmeleri hemen uygulanır.\n" +
                     "\n" +
                     "<Tüm şehir>\n" +
                     "Bir yol grubu seç, sonra o gruba <Yeni hız> uygula.\n" +
