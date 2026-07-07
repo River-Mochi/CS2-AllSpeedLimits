@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -81,12 +82,13 @@ namespace RoadRailSpeeds
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Hiện tốc độ nhân đôi của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Tắt> hiển thị thang đơn giản hơn, thường gần với ký hiệu trên đường.\\n" +
-                    "<Bật> bảng và chữ nổi hiển thị thang tốc độ nội bộ cao hơn của game.\\n" +
-                    "Hữu ích nếu mod tooltip khác hiện giá trị nội bộ nhân đôi và bạn muốn khớp.\\n" +
-                    "Đây chỉ là hiển thị; tốc độ đã lưu <không thật sự thay đổi>.\\n" +
-                    "Ký hiệu trên đường là hình trang trí và có thể không khớp dữ liệu tốc độ prefab.\\n" +
-                    "Nếu thấy khó hiểu, cứ để Tắt. Xe nhìn vẫn chạy giống nhau dù Bật hay Tắt." },
+                    "<Tắt> hiển thị thang đơn giản hơn, thường gần với ký hiệu trên đường.\n" +
+                    "<Bật> bảng và chữ nổi hiển thị thang tốc độ nội bộ cao hơn của game.\n" +
+                    "Hữu ích nếu mod tooltip khác hiện giá trị nội bộ nhân đôi và bạn muốn khớp.\n" +
+                    "Đây chỉ là hiển thị; tốc độ đã lưu <không thật sự thay đổi>.\n" +
+                    "Ký hiệu trên đường là hình trang trí và có thể không khớp dữ liệu tốc độ prefab.\n" +
+                    "Nếu thấy khó hiểu, cứ để Tắt. Xe nhìn vẫn chạy giống nhau dù Bật hay Tắt."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +96,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Xóa mọi tốc độ tùy chỉnh" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Khôi phục tốc độ mặc định của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Khôi phục các đường, ray và tuyến nước được hỗ trợ trong thành phố này về <mặc định của game>.\\n" +
-                    "<Lưu sau đó để giữ việc đặt lại.>\\n" +
-                    "- Hữu ích trước khi gỡ mod nếu bạn không muốn giữ tốc độ tùy chỉnh.\\n" +
-                    "- Nếu gỡ mod mà không xóa, tốc độ đã lưu thường vẫn còn, nhưng không còn hỗ trợ đặt lại/áp dụng lại." },
+                    "Dọn dẹp tùy chọn trước khi gỡ mod.\n" +
+                    "Chỉ dùng mục này nếu bạn không muốn giữ tốc độ tùy chỉnh của mod này.\n" +
+                    "Không bắt buộc để gỡ mod. Tốc độ tùy chỉnh vẫn có thể ở lại trong thành phố khi không có mod này.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "Mục này khôi phục các tốc độ tùy chỉnh do mod áp dụng về mặc định game đã biết.\n" +
+                    "Sau khi xong, hãy tạo **SAVE MỚI** trước khi gỡ mod.\n" +
+                    "Nếu gỡ mod mà không dùng mục này, tốc độ tùy chỉnh sẽ còn lại cho đến khi bạn đổi đường, v.v.."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Xóa mọi tốc độ tùy chỉnh khỏi các đoạn đường bộ, đường ray và đường thủy được hỗ trợ trong thành phố này?\n" +
-                    "Không thể hoàn tác."
+                    "Mục này sẽ khôi phục mọi giới hạn tốc độ tùy chỉnh được hỗ trợ về mặc định game đã biết.\n" +
+                    "Không thể tự động hoàn tác.\n" +
+                    "Sau khi xong, hãy lưu thành phố thành một save MỚI trước khi gỡ mod."
                 },
 
                 // Usage instructions
@@ -137,11 +145,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Ghi báo cáo debug vào log" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<Không cần cho chơi bình thường.>\\n" +
-                    "Ghi một báo cáo một lần vào Logs/AllSpeedLimits.log." },
+                    "<Không cần cho chơi bình thường.>\n" +
+                    "Ghi một báo cáo một lần vào Logs/AllSpeedLimits.log."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Mở log" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Mở <Logs/AllSpeedLimits.log>. Nếu tệp không tồn tại, sẽ mở thư mục Logs." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Mở <Logs/AllSpeedLimits.log>. Nếu tệp không tồn tại, sẽ mở thư mục Logs." },
             };
         }
 

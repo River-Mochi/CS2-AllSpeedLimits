@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -81,12 +82,13 @@ namespace RoadRailSpeeds
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "แสดงค่าความเร็วสองเท่าของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<ปิด> แสดงสเกลที่ง่ายกว่า มักใกล้กับตัวเลขบนถนน\\n" +
-                    "<เปิด> แผงและข้อความลอยจะแสดงสเกลภายในของเกมที่สูงกว่า\\n" +
-                    "มีประโยชน์ถ้าม็อด tooltip อื่นแสดงค่าภายในแบบคูณสองและคุณอยากให้ตรงกัน\\n" +
-                    "นี่เป็นแค่การแสดงผล ความเร็วที่บันทึกไว้ <ไม่ได้เปลี่ยนจริง>\\n" +
-                    "ตัวเลขบนถนนเป็นภาพตกแต่ง และอาจไม่ตรงกับข้อมูลความเร็วของ prefab\\n" +
-                    "ถ้าสับสน ให้ปิดไว้ รถจะดูเคลื่อนที่เหมือนเดิมไม่ว่าจะเปิดหรือปิด" },
+                    "<ปิด> แสดงสเกลที่ง่ายกว่า มักใกล้กับตัวเลขบนถนน\n" +
+                    "<เปิด> แผงและข้อความลอยจะแสดงสเกลภายในของเกมที่สูงกว่า\n" +
+                    "มีประโยชน์ถ้าม็อด tooltip อื่นแสดงค่าภายในแบบคูณสองและคุณอยากให้ตรงกัน\n" +
+                    "นี่เป็นแค่การแสดงผล ความเร็วที่บันทึกไว้ <ไม่ได้เปลี่ยนจริง>\n" +
+                    "ตัวเลขบนถนนเป็นภาพตกแต่ง และอาจไม่ตรงกับข้อมูลความเร็วของ prefab\n" +
+                    "ถ้าสับสน ให้ปิดไว้ รถจะดูเคลื่อนที่เหมือนเดิมไม่ว่าจะเปิดหรือปิด"
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +96,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "ล้างความเร็วที่กำหนดเองทั้งหมด" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "คืนค่าความเร็วเริ่มต้นของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "คืนค่าถนน ราง และทางน้ำที่รองรับในเมืองนี้กลับเป็น <ค่าเริ่มต้นของเกม>\\n" +
-                    "<บันทึกหลังจากนั้นเพื่อเก็บการรีเซ็ต>\\n" +
-                    "- มีประโยชน์ก่อนลบม็อด ถ้าไม่ต้องการเก็บความเร็วที่กำหนดเอง\\n" +
-                    "- ถ้าลบม็อดโดยไม่ล้าง ความเร็วที่บันทึกมักยังอยู่ แต่จะไม่มีตัวช่วยรีเซ็ต/ใช้ซ้ำ" },
+                    "ตัวเลือกสำหรับล้างค่าก่อนลบม็อด\n" +
+                    "ใช้ <เฉพาะ> ถ้าคุณไม่ต้องการเก็บความเร็วที่ม็อดนี้ตั้งไว้\n" +
+                    "ไม่จำเป็นสำหรับการลบม็อด ความเร็วที่กำหนดเองยังอยู่ในเมืองได้แม้ไม่มีม็อดนี้\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "สิ่งนี้จะคืนค่าความเร็วที่ม็อดตั้งไว้กลับเป็นค่าเริ่มต้นของเกมที่รู้จัก\n" +
+                    "เมื่อเสร็จแล้ว ให้ทำ **เซฟใหม่** ก่อนลบม็อด\n" +
+                    "ถ้าลบม็อดโดยไม่ใช้สิ่งนี้ ความเร็วที่กำหนดเองจะอยู่จนกว่าคุณจะเปลี่ยนถนน ฯลฯ"
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "ล้างความเร็วที่กำหนดเองทั้งหมดจากช่วงถนน ราง และทางน้ำที่รองรับในเมืองนี้หรือไม่?\n" +
-                    "ย้อนกลับไม่ได้"
+                    "สิ่งนี้จะคืนค่าขีดจำกัดความเร็วที่กำหนดเองทั้งหมดที่รองรับกลับเป็นค่าเริ่มต้นของเกมที่รู้จัก\n" +
+                    "ไม่สามารถย้อนกลับอัตโนมัติได้\n" +
+                    "เมื่อเสร็จแล้ว ให้บันทึกเมืองเป็นเซฟใหม่ก่อนลบม็อด"
                 },
 
                 // Usage instructions
@@ -137,11 +145,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "รายงานดีบักลงล็อก" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<ไม่จำเป็นสำหรับการเล่นปกติ>\\n" +
-                    "เขียนรายงานครั้งเดียวไปที่ Logs/AllSpeedLimits.log" },
+                    "<ไม่จำเป็นสำหรับการเล่นปกติ>\n" +
+                    "เขียนรายงานครั้งเดียวไปที่ Logs/AllSpeedLimits.log"
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "เปิดล็อก" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "เปิด <Logs/AllSpeedLimits.log> ถ้าไม่มีไฟล์ จะเปิดโฟลเดอร์ Logs แทน" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "เปิด <Logs/AllSpeedLimits.log> ถ้าไม่มีไฟล์ จะเปิดโฟลเดอร์ Logs แทน" },
             };
         }
 

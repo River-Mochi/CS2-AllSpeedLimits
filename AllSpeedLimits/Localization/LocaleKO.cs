@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -32,8 +33,8 @@ namespace RoadRailSpeeds
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-
             // Options menu title keeps English first for stable sorting.
+            // Version still appears on the About tab through VersionText.
             string title = $"{Mod.ModName} (모든 속도 제한)";
 
             return new Dictionary<string, string>
@@ -76,18 +77,19 @@ namespace RoadRailSpeeds
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "도움말 글자 크기" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "모드 팝업과 도움말 글자를 키웁니다.\n" +
+                    "모드 항목에 마우스를 올릴 때 나오는 도움말 글자를 더 크게 할 수 있습니다.\n" +
                     "<기본값 110%>" },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "게임의 2배 속도 표시" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<끄기>는 더 단순한 눈금을 보여 주며 보통 도로 표시와 더 가깝습니다.\\n" +
-                    "<켜기>는 패널과 떠 있는 텍스트에 게임 내부의 더 높은 속도 눈금을 표시합니다.\\n" +
-                    "다른 툴팁 모드가 내부 두 배 값을 보여 줄 때 맞추고 싶다면 유용합니다.\\n" +
-                    "표시만 바뀝니다. 저장된 속도는 <실제로 바뀌지 않습니다>.\\n" +
-                    "도로 표시는 장식이라 prefab 속도 데이터와 정확히 맞지 않을 수 있습니다.\\n" +
-                    "헷갈리면 끄기로 두세요. 켜도 꺼도 차량 움직임은 같아 보입니다." },
+                    "<끄기>는 더 단순한 눈금을 보여 주며 보통 도로 표시와 더 가깝습니다.\n" +
+                    "<켜기>는 패널과 떠 있는 텍스트에 게임 내부의 더 높은 속도 눈금을 표시합니다.\n" +
+                    "다른 툴팁 모드가 내부 두 배 값을 보여 줄 때 맞추고 싶다면 유용합니다.\n" +
+                    "표시만 바뀝니다. 저장된 속도는 <실제로 바뀌지 않습니다>.\n" +
+                    "도로 표시는 장식이라 prefab 속도 데이터와 정확히 맞지 않을 수 있습니다.\n" +
+                    "헷갈리면 끄기로 두세요. 켜도 꺼도 차량 움직임은 같아 보입니다."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -95,16 +97,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "모든 사용자 속도 지우기" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "게임 기본 속도 복원" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "이 도시의 지원되는 도로, 철도, 수로를 <게임 기본값>으로 되돌립니다.\\n" +
-                    "<초기화를 유지하려면 이후 저장하세요.>\\n" +
-                    "- 사용자 속도를 원하지 않는다면 모드를 제거하기 전에 유용합니다.\\n" +
-                    "- 지우지 않고 모드를 제거하면 저장된 속도는 보통 남지만, 초기화/재적용 지원은 없어집니다." },
+                    "모드를 제거하기 전 선택적으로 정리하는 기능입니다.\n" +
+                    "이 모드의 사용자 지정 속도를 유지하고 싶지 않을 때만 사용하세요.\n" +
+                    "모드를 제거하는 데 필수는 아닙니다. 사용자 지정 도로 속도는 이 모드 없이도 도시에 남을 수 있습니다.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "이 모드가 적용한 사용자 지정 속도를 알려진 게임 기본값으로 되돌립니다.\n" +
+                    "완료 후 모드를 제거하기 전에 **새 저장**을 만드세요.\n" +
+                    "이 기능을 쓰지 않고 모드를 제거하면 도로를 바꾸기 전까지 사용자 지정 속도는 남습니다."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "이 도시의 지원되는 도로, 철도, 수로 구간에서 모든 사용자 속도를 지울까요?\n" +
-                    "되돌릴 수 없습니다."
+                    "지원되는 모든 사용자 지정 속도 제한을 알려진 게임 기본값으로 되돌립니다.\n" +
+                    "자동으로 되돌릴 수 없습니다.\n" +
+                    "완료 후 모드를 제거하기 전에 도시를 새 저장으로 저장하세요."
                 },
 
                 // Usage instructions
@@ -138,11 +146,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "디버그 보고서를 로그에 기록" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<일반 플레이에는 필요 없습니다.>\\n" +
-                    "Logs/AllSpeedLimits.log에 한 번 보고서를 씁니다." },
+                    "<일반 플레이에는 필요 없습니다.>\n" +
+                    "Logs/AllSpeedLimits.log에 한 번 보고서를 씁니다."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "로그 열기" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "<Logs/AllSpeedLimits.log>를 엽니다. 파일이 없으면 Logs 폴더를 엽니다." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "<Logs/AllSpeedLimits.log>를 엽니다. 파일이 없으면 Logs 폴더를 엽니다." },
             };
         }
 

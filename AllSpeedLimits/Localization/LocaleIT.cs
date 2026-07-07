@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -33,6 +34,7 @@ namespace RoadRailSpeeds
             Dictionary<string, int> indexCounts)
         {
             // Options menu title keeps English first for stable sorting.
+            // Version still appears on the About tab through VersionText.
             string title = $"{Mod.ModName} (Tutti i limiti)";
 
             return new Dictionary<string, string>
@@ -61,7 +63,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "Sincronizza slider col segmento" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
                     "<Consigliato attivo>\n" +
-                    "Attivo: cliccare un segmento porta lo slider alla velocità attuale del primo segmento.\n" +
+                    "Attivo: cliccare un segmento porta lo slider alla velocità attuale del primo segmento selezionato.\n" +
                     "Disattivo: cliccare un altro segmento mantiene l’ultimo valore scelto.\n" +
                     "Se selezioni più parti, il primo segmento imposta comunque la posizione iniziale."
                 },
@@ -75,18 +77,19 @@ namespace RoadRailSpeeds
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Dimensione testo aiuti" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Ingrandisce popup del mod e testo di aiuto.\n" +
+                    "Questo mod può avere testo più grande nelle caselle di aiuto mentre passi sugli elementi del mod.\n" +
                     "<Predefinito 110%>" },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Mostra velocità doppie del gioco" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Off> mostra una scala più semplice, di solito più vicina ai cartelli stradali.\\n" +
-                    "<On> mostra nel pannello e nel testo flottante la scala interna più alta del gioco.\\n" +
-                    "Utile se un altro mod tooltip mostra i valori interni raddoppiati e vuoi farli combaciare.\\n" +
-                    "È solo visuale; le velocità salvate <non cambiano davvero>.\\n" +
-                    "I segni stradali sono grafica e possono non corrispondere ai dati prefab.\\n" +
-                    "Se crea confusione, lascia Off. Le auto si muoveranno allo stesso modo con On o Off." },
+                    "<Disattivo> mostra una scala più semplice, di solito più vicina ai segni stradali.\n" +
+                    "<Attivo> mostra nel pannello e nel testo flottante la scala interna più alta del gioco.\n" +
+                    "Utile se un altro mod tooltip mostra i valori interni raddoppiati e vuoi farli combaciare.\n" +
+                    "È solo visuale; le velocità salvate <non cambiano davvero>.\n" +
+                    "I segni stradali sono grafica e possono non corrispondere ai dati prefab.\n" +
+                    "Se crea confusione, lascia Disattivo. Le auto si muoveranno allo stesso modo con Attivo o Disattivo."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +97,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Cancella velocità personalizzate" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Ripristina velocità predefinite del gioco" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Ripristina strade, binari e vie d’acqua supportati in questa città ai <valori di gioco>.\\n" +
-                    "<Salva dopo per mantenere il reset.>\\n" +
-                    "- Utile prima di rimuovere il mod se non vuoi le velocità personalizzate.\\n" +
-                    "- Se rimuovi il mod senza cancellare, le velocità salvate di solito restano, ma reset/reapplica non sarà più disponibile." },
+                    "Pulizia opzionale prima di rimuovere il mod.\n" +
+                    "Usalo <solo> se non vuoi tenere le velocità personalizzate di questo mod.\n" +
+                    "Non è necessario per rimuovere il mod. Le velocità personalizzate delle strade possono restare in città senza questo mod.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "Ripristina ai valori di gioco noti le velocità personalizzate applicate da questo mod.\n" +
+                    "Quando finisce, fai un **NUOVO SALVATAGGIO** prima di rimuovere il mod.\n" +
+                    "Se rimuovi il mod senza usarlo, le velocità personalizzate restano finché non cambi le strade, ecc."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Cancellare tutte le velocità personalizzate dai segmenti supportati di strada, binario e acqua in questa città?\n" +
-                    "Non si può annullare."
+                    "Ripristinerà tutti i limiti di velocità personalizzati supportati ai valori di gioco noti.\n" +
+                    "Non si può annullare automaticamente.\n" +
+                    "Quando finisce, salva la città come NUOVO salvataggio prima di rimuovere il mod."
                 },
 
                 // Usage instructions
@@ -137,11 +146,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Report debug nel log" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<Non serve per il gioco normale.>\\n" +
-                    "Scrive un rapporto una sola volta in Logs/AllSpeedLimits.log." },
+                    "<Non serve per il gioco normale.>\n" +
+                    "Scrive un rapporto una sola volta in Logs/AllSpeedLimits.log."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Apri log" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Apre <Logs/AllSpeedLimits.log>. Se il file non esiste, apre la cartella Logs." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Apre <Logs/AllSpeedLimits.log>. Se il file non esiste, apre la cartella Logs." },
             };
         }
 

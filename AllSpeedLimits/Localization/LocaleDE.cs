@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -33,6 +34,7 @@ namespace RoadRailSpeeds
             Dictionary<string, int> indexCounts)
         {
             // Options menu title keeps English first for stable sorting.
+            // Version still appears on the About tab through VersionText.
             string title = $"{Mod.ModName} (Alle Tempolimits)";
 
             return new Dictionary<string, string>
@@ -44,7 +46,7 @@ namespace RoadRailSpeeds
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "Anzeigeoptionen" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "Spiel-Standards zurücksetzen" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "Spielstandards zurücksetzen" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "Nutzung" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
@@ -75,18 +77,19 @@ namespace RoadRailSpeeds
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tooltip-Textgröße" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Macht Mod-Popups und Hilfetext größer.\n" +
+                    "Macht Mod-Hinweise größer, wenn du über Mod-Elemente fährst.\n" +
                     "<Standard 110%>" },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Verdoppelte Spielwerte anzeigen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Aus> zeigt eine einfachere Skala, meist näher an Straßenschildern.\\n" +
-                    "<Ein> zeigt im Panel und schwebenden Text die höheren internen Spielwerte.\\n" +
-                    "Nützlich, wenn ein anderes Tooltip-Mod diese internen doppelten Werte zeigt und du sie anpassen willst.\\n" +
-                    "Das ist nur Anzeige; gespeicherte Geschwindigkeiten <ändern sich nicht wirklich>.\\n" +
-                    "Straßenmarkierungen sind Grafik und passen nicht immer genau zu den Prefab-Daten.\\n" +
-                    "Wenn das verwirrend ist, lass es einfach Aus. Autos fahren gleich, egal ob Ein oder Aus." },
+                    "<Aus> zeigt eine einfachere Skala, meist näher an Straßenmarkierungen.\n" +
+                    "<Ein> zeigt im Panel und schwebenden Text die höheren internen Spielwerte.\n" +
+                    "Nützlich, wenn ein anderes Tooltip-Mod diese internen doppelten Werte zeigt und du sie anpassen willst.\n" +
+                    "Das ist nur Anzeige; gespeicherte Geschwindigkeiten <ändern sich nicht wirklich>.\n" +
+                    "Straßenmarkierungen sind Grafik und passen nicht immer genau zu den Prefab-Daten.\n" +
+                    "Wenn das verwirrend ist, lass es einfach Aus. Autos fahren gleich, egal ob Ein oder Aus."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,21 +97,27 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Alle eigenen Geschwindigkeiten löschen" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Spielstandard-Geschwindigkeiten wiederherstellen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Setzt unterstützte Straßen, Schienen und Wasserwege dieser Stadt auf <Spielstandard> zurück.\\n" +
-                    "<Danach speichern, um die Rücksetzung zu behalten.>\\n" +
-                    "- Nützlich vor dem Entfernen des Mods, wenn du die eigenen Geschwindigkeiten nicht behalten willst.\\n" +
-                    "- Wenn du den Mod ohne Löschen entfernst, bleiben gespeicherte Geschwindigkeiten meist erhalten, aber Reset/Reapply-Hilfe ist weg." },
+                    "Optionaler Aufräum-Schritt vor dem Entfernen des Mods.\n" +
+                    "Nutze das <nur>, wenn du die eigenen Geschwindigkeiten dieses Mods nicht behalten willst.\n" +
+                    "Zum Entfernen des Mods ist das nicht erforderlich. Eigene Straßengeschwindigkeiten können in der Stadt bleiben, auch ohne diesen Mod.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "Dadurch werden die bekannten Spielstandards für die vom Mod geänderten Geschwindigkeiten wiederhergestellt.\n" +
+                    "Nach Abschluss: als **NEUEN SPIELSTAND** speichern, bevor du den Mod entfernst.\n" +
+                    "Wenn du den Mod ohne diesen Schritt entfernst, bleiben eigene Geschwindigkeiten erhalten, bis du die Straßen änderst usw."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Alle eigenen Geschwindigkeiten von unterstützten Straßen-, Schienen- und Wasserweg-Segmenten in dieser Stadt löschen?\n" +
-                    "Das kann nicht rückgängig gemacht werden."
+                    "Dadurch werden alle unterstützten eigenen Tempolimits auf bekannte Spielstandards zurückgesetzt.\n" +
+                    "Das kann nicht automatisch rückgängig gemacht werden.\n" +
+                    "Nach Abschluss als NEUEN Spielstand speichern, bevor du den Mod entfernst."
                 },
 
                 // Usage instructions
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Anleitung anzeigen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Kurze Anleitung unten anzeigen." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Zeigt kurze Hinweise unten an." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Stadt-Panel>\n" +
@@ -137,11 +146,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Debug-Bericht ins Log" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<Für normales Spielen nicht nötig.>\\n" +
-                    "Schreibt einmalig einen Bericht nach Logs/AllSpeedLimits.log." },
+                    "<Für normales Spielen nicht nötig.>\n" +
+                    "Schreibt einmalig einen Bericht nach Logs/AllSpeedLimits.log."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Log öffnen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Öffnet <Logs/AllSpeedLimits.log>. Fällt auf den Logs-Ordner zurück, wenn die Datei nicht existiert." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Öffnet <Logs/AllSpeedLimits.log>. Fällt auf den Logs-Ordner zurück, wenn die Datei nicht existiert." },
             };
         }
 

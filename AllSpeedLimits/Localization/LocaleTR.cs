@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -81,12 +82,13 @@ namespace RoadRailSpeeds
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Oyunun çift hızlarını göster" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Kapalı> daha basit bir ölçek gösterir, genelde yol işaretlerine daha yakındır.\\n" +
-                    "<Açık> panel ve yüzen yazıda oyunun daha yüksek iç hız ölçeğini gösterir.\\n" +
-                    "Başka bir tooltip modu içteki iki kat değerleri gösteriyorsa eşleştirmek için yararlıdır.\\n" +
-                    "Bu sadece görseldir; kaydedilen hızlar <gerçekte değişmez>.\\n" +
-                    "Yol işaretleri görseldir ve prefab hız verisiyle tam örtüşmeyebilir.\\n" +
-                    "Kafa karıştırıyorsa Kapalı bırak. Arabalar Açık veya Kapalı aynı hareket ediyor görünür." },
+                    "<Kapalı> daha basit bir ölçek gösterir, genelde yol işaretlerine daha yakındır.\n" +
+                    "<Açık> panel ve yüzen yazıda oyunun daha yüksek iç hız ölçeğini gösterir.\n" +
+                    "Başka bir tooltip modu içteki iki kat değerleri gösteriyorsa eşleştirmek için yararlıdır.\n" +
+                    "Bu sadece görseldir; kaydedilen hızlar <gerçekte değişmez>.\n" +
+                    "Yol işaretleri görseldir ve prefab hız verisiyle tam örtüşmeyebilir.\n" +
+                    "Kafa karıştırıyorsa Kapalı bırak. Arabalar Açık veya Kapalı aynı hareket ediyor görünür."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +96,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Tüm özel hızları temizle" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Oyun varsayılan hızlarına dön" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Bu şehirde desteklenen yolları, rayları ve su yollarını <oyun varsayılanlarına> döndürür.\\n" +
-                    "<Sıfırlamayı korumak için sonra kaydet.>\\n" +
-                    "- Özel hızları istemiyorsan modu kaldırmadan önce yararlıdır.\\n" +
-                    "- Modu temizlemeden kaldırırsan kayıtlı hızlar genelde kalır, ama sıfırla/yeniden uygula desteği gider." },
+                    "Modu kaldırmadan önce isteğe bağlı temizlik.\n" +
+                    "Bunu <yalnızca> bu modun özel hızlarını saklamak istemiyorsan kullan.\n" +
+                    "Modu kaldırmak için gerekli değildir. Özel hızlar bu mod olmadan da şehirde kalabilir.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "Bu, modun uyguladığı özel hızları bilinen oyun varsayılanlarına döndürür.\n" +
+                    "Bittiğinde modu kaldırmadan önce **YENİ KAYIT** yap.\n" +
+                    "Bunu kullanmadan modu kaldırırsan özel hızlar yolları değiştirene kadar kalır vb.."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Bu şehirde desteklenen yol, ray ve su yolu bölümlerinden tüm özel hızlar temizlensin mi?\n" +
-                    "Bu geri alınamaz."
+                    "Bu, desteklenen tüm özel hız sınırlarını bilinen oyun varsayılanlarına döndürür.\n" +
+                    "Bu otomatik olarak geri alınamaz.\n" +
+                    "Bittiğinde modu kaldırmadan önce şehri YENİ kayıt olarak kaydet."
                 },
 
                 // Usage instructions
@@ -137,11 +145,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Debug raporunu loga yaz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<Normal oyun için gerekmez.>\\n" +
-                    "Logs/AllSpeedLimits.log içine tek seferlik rapor yazar." },
+                    "<Normal oyun için gerekmez.>\n" +
+                    "Logs/AllSpeedLimits.log içine tek seferlik rapor yazar."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Logu aç" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "<Logs/AllSpeedLimits.log> dosyasını açar. Dosya yoksa Logs klasörüne gider." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "<Logs/AllSpeedLimits.log> dosyasını açar. Dosya yoksa Logs klasörüne gider." },
             };
         }
 

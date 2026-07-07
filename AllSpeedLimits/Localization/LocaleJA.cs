@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -32,8 +33,8 @@ namespace RoadRailSpeeds
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-
             // Options menu title keeps English first for stable sorting.
+            // Version still appears on the About tab through VersionText.
             string title = $"{Mod.ModName} (全速度制限)";
 
             return new Dictionary<string, string>
@@ -76,18 +77,19 @@ namespace RoadRailSpeeds
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "ヘルプ文字サイズ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Mod のポップアップとヘルプ文字を大きくします。\n" +
+                    "Mod 項目にカーソルを合わせた時のヘルプ文字を大きくできます。\n" +
                     "<既定 110%>" },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "ゲーム内の倍速表示を使う" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Off> はよりシンプルな目盛りで、道路表示に近いことが多いです。\\n" +
-                    "<On> はパネルと浮動テキストにゲーム内部の高い速度目盛りを表示します。\\n" +
-                    "別のツールチップModが内部の2倍値を表示する場合、それに合わせたい時に便利です。\\n" +
-                    "これは表示だけです。保存される速度は<実際には変わりません>。\\n" +
-                    "道路の数字は見た目用で、Prefabの速度データと完全には一致しない場合があります。\\n" +
-                    "迷う場合は Off のままで大丈夫です。On/Off で車の動きの見た目は同じです。" },
+                    "<オフ> はよりシンプルな目盛りで、道路表示に近いことが多いです。\n" +
+                    "<オン> はパネルと浮動テキストにゲーム内部の高い速度目盛りを表示します。\n" +
+                    "別のツールチップModが内部の2倍値を表示する場合、それに合わせたい時に便利です。\n" +
+                    "これは表示だけです。保存される速度は<実際には変わりません>。\n" +
+                    "道路の数字は見た目用で、Prefabの速度データと完全には一致しない場合があります。\n" +
+                    "迷う場合はオフのままで大丈夫です。オン/オフで車の動きの見た目は同じです。"
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -95,16 +97,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "全カスタム速度を消去" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "ゲーム既定の速度に戻す" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "この都市の対応する道路、線路、水路を<ゲーム既定値>に戻します。\\n" +
-                    "<リセットを残すには、その後セーブしてください。>\\n" +
-                    "- カスタム速度を残したくない場合、Mod削除前に便利です。\\n" +
-                    "- 消去せずにModを削除すると、保存済み速度は通常残りますが、リセット/再適用サポートはなくなります。" },
+                    "Mod を削除する前の任意のクリーンアップです。\n" +
+                    "この Mod のカスタム速度を残したくない場合だけ使ってください。\n" +
+                    "Mod の削除に必須ではありません。カスタム道路速度は、この Mod がなくても都市に残せます。\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "この Mod が適用したカスタム速度を、分かっているゲーム既定値に戻します。\n" +
+                    "完了後、Mod を削除する前に **新しい保存** を作ってください。\n" +
+                    "これを使わずに Mod を削除すると、道路を変更するまでカスタム速度は残ります。"
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "この都市の対応する道路、線路、水路セグメントから全カスタム速度を消去しますか？\n" +
-                    "元に戻せません。"
+                    "対応するすべてのカスタム速度制限を、分かっているゲーム既定値に戻します。\n" +
+                    "自動では元に戻せません。\n" +
+                    "完了後、Mod を削除する前に都市を新しい保存として保存してください。"
                 },
 
                 // Usage instructions
@@ -138,11 +146,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "デバッグレポートをログへ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<通常プレイでは不要です。>\\n" +
-                    "Logs/AllSpeedLimits.log に一度だけレポートを書き込みます。" },
+                    "<通常プレイでは不要です。>\n" +
+                    "Logs/AllSpeedLimits.log に一度だけレポートを書き込みます。"
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "ログを開く" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "<Logs/AllSpeedLimits.log> を開きます。ファイルがない場合は Logs フォルダーを開きます。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "<Logs/AllSpeedLimits.log> を開きます。ファイルがない場合は Logs フォルダーを開きます。" },
             };
         }
 

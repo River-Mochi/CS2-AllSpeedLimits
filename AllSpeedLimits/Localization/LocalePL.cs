@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -33,7 +34,7 @@ namespace RoadRailSpeeds
             Dictionary<string, int> indexCounts)
         {
             // Options menu title keeps English first for stable sorting.
-            string title = $"{Mod.ModName} (Wszystkie limity)";
+            string title = $"{Mod.ModName} (Wszystkie limity prędkości)";
 
             return new Dictionary<string, string>
             {
@@ -81,12 +82,13 @@ namespace RoadRailSpeeds
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Pokaż podwojone prędkości gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Wył.> pokazuje prostszą skalę, zwykle bliższą oznaczeniom na drogach.\\n" +
-                    "<Wł.> pokazuje w panelu i tekście pływającym wyższą wewnętrzną skalę gry.\\n" +
-                    "Przydatne, jeśli inny mod z podpowiedziami pokazuje podwojone wartości wewnętrzne i chcesz je dopasować.\\n" +
-                    "To tylko wygląd; zapisane prędkości <naprawdę się nie zmieniają>.\\n" +
-                    "Oznaczenia na drogach są grafiką i mogą nie zgadzać się dokładnie z danymi prefabów.\\n" +
-                    "Jeśli to myli, zostaw Wył. Samochody będą wyglądać tak samo w ruchu przy Wł. i Wył." },
+                    "<Wył.> pokazuje prostszą skalę, zwykle bliższą oznaczeniom na drogach.\n" +
+                    "<Wł.> panel i tekst pływający pokazują wyższą wewnętrzną skalę gry.\n" +
+                    "Przydatne, jeśli inny mod z podpowiedziami pokazuje podwojone wartości wewnętrzne i chcesz je dopasować.\n" +
+                    "To tylko wygląd; zapisane prędkości <naprawdę się nie zmieniają>.\n" +
+                    "Oznaczenia na drogach są grafiką i mogą nie zgadzać się dokładnie z danymi prefabów.\n" +
+                    "Jeśli to myli, zostaw Wył. Samochody będą wyglądać tak samo w ruchu przy Wł. i Wył."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +96,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Wyczyść wszystkie własne prędkości" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Przywróć domyślne prędkości gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Przywraca obsługiwane drogi, tory i drogi wodne w tym mieście do <domyślnych gry>.\\n" +
-                    "<Zapisz potem, aby zachować reset.>\\n" +
-                    "- Przydatne przed usunięciem moda, jeśli nie chcesz własnych prędkości.\\n" +
-                    "- Jeśli usuniesz mod bez czyszczenia, zapisane prędkości zwykle zostają, ale wsparcie resetu/ponownego zastosowania znika." },
+                    "Opcjonalne czyszczenie przed usunięciem moda.\n" +
+                    "Użyj tego <tylko>, jeśli nie chcesz zachować własnych prędkości tego moda.\n" +
+                    "Nie jest to wymagane do usunięcia moda. Własne prędkości mogą zostać w mieście bez tego moda.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "Przywraca znane domyślne wartości gry dla prędkości ustawionych przez ten mod.\n" +
+                    "Po zakończeniu zrób **NOWY ZAPIS** przed usunięciem moda.\n" +
+                    "Jeśli usuniesz mod bez tej opcji, własne prędkości zostaną, aż zmienisz drogi itd.."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Wyczyścić wszystkie własne prędkości z obsługiwanych segmentów dróg, torów i dróg wodnych w tym mieście?\n" +
-                    "Tego nie można cofnąć."
+                    "To przywróci wszystkie obsługiwane własne limity prędkości do znanych domyślnych wartości gry.\n" +
+                    "Tej operacji nie da się cofnąć automatycznie.\n" +
+                    "Po zakończeniu zapisz miasto jako NOWY zapis przed usunięciem moda."
                 },
 
                 // Usage instructions
@@ -137,11 +145,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Raport debug do logu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<Niepotrzebne do normalnej gry.>\\n" +
-                    "Zapisuje jednorazowy raport do Logs/AllSpeedLimits.log." },
+                    "<Niepotrzebne do normalnej gry.>\n" +
+                    "Zapisuje jednorazowy raport do Logs/AllSpeedLimits.log."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Otwórz log" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Otwiera <Logs/AllSpeedLimits.log>. Jeśli plik nie istnieje, otwiera folder Logs." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Otwiera <Logs/AllSpeedLimits.log>. Jeśli plik nie istnieje, otwiera folder Logs." },
             };
         }
 

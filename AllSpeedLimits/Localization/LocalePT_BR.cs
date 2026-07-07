@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -33,7 +34,7 @@ namespace RoadRailSpeeds
             Dictionary<string, int> indexCounts)
         {
             // Options menu title keeps English first for stable sorting.
-            string title = $"{Mod.ModName} (Todos os limites)";
+            string title = $"{Mod.ModName} (Todos os limites de velocidade)";
 
             return new Dictionary<string, string>
             {
@@ -81,12 +82,13 @@ namespace RoadRailSpeeds
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Mostrar velocidades dobradas do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<Desligado> mostra uma escala mais simples, geralmente mais próxima das marcações da via.\\n" +
-                    "<Ligado> mostra no painel e no texto flutuante a escala interna mais alta do jogo.\\n" +
-                    "Útil se outro mod de tooltip mostra valores internos dobrados e você quer combinar.\\n" +
-                    "Isso é só visual; as velocidades salvas <não mudam de verdade>.\\n" +
-                    "Marcações na via são arte e podem não bater exatamente com os dados do prefab.\\n" +
-                    "Se isso confundir, deixe Desligado. Os carros vão parecer iguais em movimento com Ligado ou Desligado." },
+                    "<Desligado> mostra uma escala mais simples, geralmente mais próxima das marcações da via.\n" +
+                    "<Ligado> painel e texto flutuante mostram a escala interna mais alta do jogo.\n" +
+                    "Útil se outro mod de tooltip mostra valores internos dobrados e você quer combinar.\n" +
+                    "Isso é só visual; as velocidades salvas <não mudam de verdade>.\n" +
+                    "Marcações na via são arte e podem não bater exatamente com os dados do prefab.\n" +
+                    "Se isso confundir, deixe Desligado. Os carros vão parecer iguais em movimento com Ligado ou Desligado."
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +96,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Limpar velocidades personalizadas" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Restaurar velocidades padrão do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Restaura estradas, trilhos e vias navegáveis compatíveis desta cidade para os <padrões do jogo>.\\n" +
-                    "<Salve depois para manter a redefinição.>\\n" +
-                    "- Útil antes de remover o mod se você não quiser as velocidades personalizadas.\\n" +
-                    "- Se remover o mod sem limpar, as velocidades salvas geralmente ficam, mas o suporte de redefinir/reaplicar desaparece." },
+                    "Limpeza opcional antes de remover o mod.\n" +
+                    "Use isto <somente> se você não quiser manter as velocidades personalizadas deste mod.\n" +
+                    "Não é obrigatório para remover o mod. Velocidades personalizadas podem continuar na cidade sem este mod.\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "Isto restaura para padrões conhecidos do jogo as velocidades personalizadas aplicadas por este mod.\n" +
+                    "Depois de terminar, faça um **NOVO SAVE** antes de remover o mod.\n" +
+                    "Se remover o mod sem usar isto, as velocidades personalizadas ficam até você mudar as vias etc.."
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "Limpar todas as velocidades personalizadas dos segmentos compatíveis de estrada, trilho e hidrovia nesta cidade?\n" +
-                    "Isso não pode ser desfeito."
+                    "Isto vai restaurar todos os limites de velocidade personalizados suportados para padrões conhecidos do jogo.\n" +
+                    "Isso não pode ser desfeito automaticamente.\n" +
+                    "Depois de terminar, salve a cidade como um NOVO save antes de remover o mod."
                 },
 
                 // Usage instructions
@@ -137,11 +145,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Relatório de debug no log" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<Não é necessário para jogar normalmente.>\\n" +
-                    "Grava um relatório único em Logs/AllSpeedLimits.log." },
+                    "<Não é necessário para jogar normalmente.>\n" +
+                    "Grava um relatório único em Logs/AllSpeedLimits.log."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Abrir log" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Abre <Logs/AllSpeedLimits.log>. Se o arquivo não existir, abre a pasta Logs." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Abre <Logs/AllSpeedLimits.log>. Se o arquivo não existir, abre a pasta Logs." },
             };
         }
 

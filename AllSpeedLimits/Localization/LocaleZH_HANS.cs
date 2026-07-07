@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
+    using Colossal.PSI.Common;
     using Game.Areas;
     using Game.Citizens;
     using Game.City;
@@ -81,12 +82,13 @@ namespace RoadRailSpeeds
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "显示游戏双倍速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
-                    "<关> 显示更简单的刻度，通常更接近道路标线。\\n" +
-                    "<开> 在面板和悬浮文字中显示游戏较高的内部速度刻度。\\n" +
-                    "如果其他提示模组显示游戏内部双倍值，并且你想保持一致，这会有用。\\n" +
-                    "这只是视觉显示；保存的速度<不会真的改变>。\\n" +
-                    "道路标线是美术表现，可能不完全等于 prefab 速度数据。\\n" +
-                    "如果觉得混乱，就保持关闭。开或关时车辆移动看起来一样。" },
+                    "<关> 显示更简单的刻度，通常更接近道路标线。\n" +
+                    "<开> 面板和悬浮文字会显示游戏较高的内部速度刻度。\n" +
+                    "如果其他提示模组显示游戏内部双倍值，并且你想保持一致，这会有用。\n" +
+                    "这只是视觉显示；保存的速度<不会真的改变>。\n" +
+                    "道路标线是美术表现，可能不完全等于 prefab 速度数据。\n" +
+                    "如果觉得混乱，就保持关闭。开或关时车辆移动看起来一样。"
+                },
 
                 // Enum values
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
@@ -94,16 +96,22 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "清除所有自定义速度" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "恢复游戏默认速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "将本城市支持的道路、轨道和水路恢复为<游戏默认值>。\\n" +
-                    "<之后保存，才能保留重置结果。>\\n" +
-                    "- 如果不想保留自定义速度，卸载模组前很有用。\\n" +
-                    "- 如果不清除就卸载模组，已保存速度通常会保留，但重置/重新应用支持会消失。" },
+                    "卸载模组前的可选清理。\n" +
+                    "只有在不想保留本模组的自定义速度时才使用。\n" +
+                    "卸载模组不一定需要它。没有本模组，自定义道路速度也可以留在城市里。\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "这会把本模组应用的自定义速度恢复为已知的游戏默认值。\n" +
+                    "完成后，在卸载模组前请做一个**新存档**。\n" +
+                    "如果不使用它就卸载模组，自定义速度会保留，直到你修改道路等。"
+                },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
-                    "要清除此城市中支持的道路、轨道和水道路段的所有自定义速度吗？\n" +
-                    "此操作无法撤销。"
+                    "这会把所有支持的自定义限速恢复为已知的游戏默认值。\n" +
+                    "此操作无法自动撤销。\n" +
+                    "完成后，在卸载模组前请将城市保存为新存档。"
                 },
 
                 // Usage instructions
@@ -137,11 +145,13 @@ namespace RoadRailSpeeds
                 // Debug
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "调试报告写入日志" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
-                    "<正常游戏不需要。>\\n" +
-                    "向 Logs/AllSpeedLimits.log 写入一次性报告。" },
+                    "<正常游戏不需要。>\n" +
+                    "向 Logs/AllSpeedLimits.log 写入一次性报告。"
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "打开日志" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "打开 <Logs/AllSpeedLimits.log>。如果文件不存在，则打开 Logs 文件夹。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "打开 <Logs/AllSpeedLimits.log>。如果文件不存在，则打开 Logs 文件夹。" },
             };
         }
 
