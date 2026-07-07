@@ -71,7 +71,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "ช่วงขั้นของสไลเดอร์" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "ตั้งค่าขนาดขั้นในแผงเมือง\n" +
-                    "<ค่าเริ่มต้น = 5>" },
+                    "<ค่าเริ่มต้น = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "ขนาดข้อความช่วยเหลือ" },

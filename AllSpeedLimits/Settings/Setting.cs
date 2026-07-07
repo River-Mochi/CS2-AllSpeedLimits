@@ -158,7 +158,7 @@ namespace RoadRailSpeeds
             SpeedUnitPreference = SpeedUnit.Auto;
             DoubleSpeedDisplay = false;
             SyncSliderWithSelection = true;
-            PanelSliderIncrement = 5;
+            PanelSliderIncrement = 10;
             TooltipFontScale = 110;
             PanelTooltipsEnabled = true;
             HideSpeedMarkers = false;

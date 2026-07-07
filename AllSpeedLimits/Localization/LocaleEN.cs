@@ -55,24 +55,26 @@ namespace RoadRailSpeeds
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "Speed Units" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.SpeedUnitPreference)),
-                    "Choose panel and floating sign units.\n" +
-                    "<AUTO> follows the map type: EU = KM/H, NA = MPH.\n" +
-                    "<KM/H> and <MPH> force that display." },
+                    "<AUTO> follows the map type automatically:\n" +
+                    "- EU = KM/H, NA = MPH.\n" +
+                    "<KM/H> or <MPH> sets that unit."
+                    },
              
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "Sync Slider With Selected Segment" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
-                    "<Enabled is recommended>\n" +
-                    "Enabled: clicking a segment moves the slider to the first selected segment's current speed.\n" +
+                    "<Enabled is highly Recommended>\n" +
+                    "Enabled: click a segment and the slider instantly changes to the current speed of that segment.\n" +
+                    "Enabled means you no longer start everything at the lowest 5 km/h\n" +
                     "Disabled: clicking another segment keeps your last slider target.\n" +
                      "If you select multiple parts, the first segment still sets the start position on the slider."
                 },
 
                 // Slider increment
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Panel Slider Increment" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Slider Increment Step" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
-                    "Sets slider step size in the city panel.\n" +
-                    "<Default = 5>" },
+                    "Sets slider step size.\n" +
+                    "<Default = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tooltip Text Size" },

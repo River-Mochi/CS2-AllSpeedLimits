@@ -71,7 +71,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Bước thanh trượt" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Đặt bước nhảy của thanh trượt trong bảng thành phố.\n" +
-                    "<Mặc định = 5>" },
+                    "<Mặc định = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Cỡ chữ trợ giúp" },
