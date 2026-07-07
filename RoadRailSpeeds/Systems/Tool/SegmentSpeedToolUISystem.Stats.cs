@@ -11,6 +11,9 @@
 
 namespace RoadRailSpeeds.Systems
 {
+    using System.Collections.Generic;       // Dictionary, KeyValuePair
+    using System.Linq;                      // OrderByDescending, ThenBy
+    using CS2Shared.RiverMochi;             // LogUtils
     using Game.Prefabs;
     using Game.Vehicles;
     using Unity.Entities;
@@ -19,6 +22,7 @@ namespace RoadRailSpeeds.Systems
     {
         // Tweak this if the open panel should refresh city vehicle stats more or less often.
         private const int kVehicleStatsRefreshFrames = 512;
+        private const int kVehicleStatsReportMaxRows = 80;
 
         private readonly struct CityVehicleStats
         {
@@ -53,6 +57,13 @@ namespace RoadRailSpeeds.Systems
                 IndustryActive = industryActive;
                 IndustryParked = industryParked;
             }
+        }
+
+        private sealed class VehicleReportRow
+        {
+            public int Active;
+            public int Parked;
+            public int Other;
         }
 
         private void RefreshVehicleStatsIfNeeded(bool force)
@@ -228,6 +239,183 @@ namespace RoadRailSpeeds.Systems
                 industryTotal,
                 industryActive,
                 industryParked);
+        }
+
+        public void LogVehicleStatsReportToLog()
+        {
+            try
+            {
+                CityVehicleStats stats = BuildCityVehicleStats();
+                PrefabSystem prefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+                Dictionary<string, VehicleReportRow> rows = new Dictionary<string, VehicleReportRow>(System.StringComparer.Ordinal);
+
+                int scannedRoadCars = 0;
+                int excludedBikes = 0;
+                int excludedPrivate = 0;
+                int excludedPublicTransport = 0;
+                int excludedTaxi = 0;
+                int includedCandidates = 0;
+                int includedActive = 0;
+                int includedParked = 0;
+                int includedOther = 0;
+                int deliveryTruckHints = 0;
+                int maintenanceHints = 0;
+                int garbageHints = 0;
+                int emergencyHints = 0;
+                int hearseHints = 0;
+
+                foreach (var (prefabRef, vehicle) in SystemAPI
+                    .Query<RefRO<PrefabRef>>()
+                    .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
+                    .WithNone<Game.Vehicles.CarTrailer, Game.Common.Deleted, Game.Common.Destroyed>()
+                    .WithNone<Game.Tools.Temp>()
+                    .WithEntityAccess())
+                {
+                    scannedRoadCars++;
+
+                    Entity prefab = prefabRef.ValueRO.m_Prefab;
+                    if (prefab == Entity.Null)
+                    {
+                        continue;
+                    }
+
+                    bool prefabIsBike = SystemAPI.HasComponent<BicycleData>(prefab);
+                    bool prefabIsPublicTransport = SystemAPI.HasComponent<PublicTransportVehicleData>(prefab);
+                    bool prefabIsTaxi = SystemAPI.HasComponent<TaxiData>(prefab);
+                    bool vehicleIsPersonal = SystemAPI.HasComponent<Game.Vehicles.PersonalCar>(vehicle);
+                    bool vehicleIsPublicTransport = SystemAPI.HasComponent<Game.Vehicles.PublicTransport>(vehicle);
+                    bool vehicleIsTaxi = SystemAPI.HasComponent<Game.Vehicles.Taxi>(vehicle);
+
+                    if (prefabIsBike)
+                    {
+                        excludedBikes++;
+                        continue;
+                    }
+
+                    if (vehicleIsPersonal)
+                    {
+                        excludedPrivate++;
+                        continue;
+                    }
+
+                    if (prefabIsPublicTransport || vehicleIsPublicTransport)
+                    {
+                        excludedPublicTransport++;
+                        continue;
+                    }
+
+                    if (prefabIsTaxi || vehicleIsTaxi)
+                    {
+                        excludedTaxi++;
+                        continue;
+                    }
+
+                    includedCandidates++;
+
+                    bool isParked = SystemAPI.HasComponent<ParkedCar>(vehicle);
+                    bool isActive = !isParked && SystemAPI.HasComponent<CarCurrentLane>(vehicle);
+
+                    if (SystemAPI.HasComponent<Game.Vehicles.DeliveryTruck>(vehicle))
+                    {
+                        deliveryTruckHints++;
+                    }
+
+                    if (SystemAPI.HasComponent<Game.Vehicles.MaintenanceVehicle>(vehicle))
+                    {
+                        maintenanceHints++;
+                    }
+
+                    if (SystemAPI.HasComponent<Game.Vehicles.GarbageTruck>(vehicle))
+                    {
+                        garbageHints++;
+                    }
+
+                    if (SystemAPI.HasComponent<Game.Vehicles.Ambulance>(vehicle) ||
+                        SystemAPI.HasComponent<Game.Vehicles.FireEngine>(vehicle) ||
+                        SystemAPI.HasComponent<Game.Vehicles.PoliceCar>(vehicle))
+                    {
+                        emergencyHints++;
+                    }
+
+                    if (SystemAPI.HasComponent<Game.Vehicles.Hearse>(vehicle))
+                    {
+                        hearseHints++;
+                    }
+
+                    string prefabName = GetVehicleStatsPrefabName(prefabSystem, prefab);
+                    if (!rows.TryGetValue(prefabName, out VehicleReportRow row))
+                    {
+                        row = new VehicleReportRow();
+                        rows[prefabName] = row;
+                    }
+
+                    if (isParked)
+                    {
+                        includedParked++;
+                        row.Parked++;
+                    }
+                    else if (isActive)
+                    {
+                        includedActive++;
+                        row.Active++;
+                    }
+                    else
+                    {
+                        includedOther++;
+                        row.Other++;
+                    }
+                }
+
+                LogUtils.Info(() => $"{Mod.ModTag} Vehicle stats report BEGIN");
+                LogUtils.Info(
+                    () => $"{Mod.ModTag} Vehicle stats panel rows: bikes active={stats.BikeActive} parked={stats.BikeParked} total={stats.BikeTotal}; private active={stats.CarActive} parked={stats.CarParked} total={stats.CarTotal}; roadWork active={stats.IndustryActive} parked={stats.IndustryParked} total={stats.IndustryTotal}");
+                LogUtils.Info(
+                    () => $"{Mod.ModTag} Vehicle stats road-car scan: scanned={scannedRoadCars}, includedCandidates={includedCandidates}, countedActive={includedActive}, countedParked={includedParked}, pendingOther={includedOther}, excludedBikes={excludedBikes}, excludedPrivate={excludedPrivate}, excludedPublicTransit={excludedPublicTransport}, excludedTaxi={excludedTaxi}");
+                LogUtils.Info(
+                    () => $"{Mod.ModTag} Vehicle stats included component hints: deliveryTruck={deliveryTruckHints}, maintenance={maintenanceHints}, garbage={garbageHints}, emergency={emergencyHints}, hearse={hearseHints}");
+
+                int logged = 0;
+                foreach (KeyValuePair<string, VehicleReportRow> item in rows
+                    .OrderByDescending(row => row.Value.Active + row.Value.Parked + row.Value.Other)
+                    .ThenBy(row => row.Key))
+                {
+                    if (logged >= kVehicleStatsReportMaxRows)
+                    {
+                        break;
+                    }
+
+                    VehicleReportRow row = item.Value;
+                    int total = row.Active + row.Parked + row.Other;
+                    LogUtils.Info(
+                        () => $"{Mod.ModTag} Vehicle stats prefab: total={total}, active={row.Active}, parked={row.Parked}, other={row.Other}, prefab='{item.Key}'");
+                    logged++;
+                }
+
+                if (rows.Count > logged)
+                {
+                    LogUtils.Info(
+                        () => $"{Mod.ModTag} Vehicle stats prefab: omitted {rows.Count - logged} additional prefab rows.");
+                }
+
+                LogUtils.Info(() => $"{Mod.ModTag} Vehicle stats report END");
+            }
+            catch (System.Exception ex)
+            {
+                LogUtils.Warn(() => $"{Mod.ModTag} Failed to log vehicle stats report: {ex.GetType().Name}: {ex.Message}", ex);
+            }
+        }
+
+        private static string GetVehicleStatsPrefabName(PrefabSystem prefabSystem, Entity prefab)
+        {
+            try
+            {
+                PrefabBase prefabBase = prefabSystem.GetPrefab<PrefabBase>(prefab);
+                return prefabBase?.name ?? $"Entity({prefab.Index}:{prefab.Version})";
+            }
+            catch
+            {
+                return $"Entity({prefab.Index}:{prefab.Version})";
+            }
         }
 
         private void ClearCityVehicleStatsBindings()

@@ -35,7 +35,7 @@ export const SPEED_STEPPER_NUMBER_WIDTH_REM = 32;
 
 // Stats table column geometry. Shared so the column headers (rendered on the "Stats" section
 // line) line up with the number columns in the table below them.
-export const STATS_COLUMN_WIDTH_REM = 72;
+export const STATS_COLUMN_WIDTH_REM = 76;
 export const STATS_LABEL_WIDTH_REM = 30;
 
 // Tooltip layout knobs.

@@ -230,16 +230,24 @@ namespace RoadRailSpeeds.Systems
                     position.y += isWaterwayType ? 12.4f : 10.8f;
                     float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
                     float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
-                    float normalizedZoom = Mathf.Pow(rawZoom, 0.7f);
+                    float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
                     Vector3 markerPosition = position;
 
                     // Floating world-speed marker size:
-                    // 1) textMesh.fontSize below sets base glyph size for the number mesh.
-                    // 2) These zoom lerps control how much that mesh grows as the camera zooms out.
-                    // If numbers are generally too small/large adjust lerp ranges.
+                    // 1. textMesh.fontSize below sets the base glyph size before world scaling.
+                    //    Raise/lower it when every zoom level should look bigger/smaller.
+                    // 2. normalizedZoom is 0 near the ground and 1 when zoomed far out.
+                    //    Mathf.Lerp(closeScale, farScale, normalizedZoom) blends between them.
+                    // 3. Raise first lerp value to make close and near-mid zoom bigger.
+                    //    Raise second lerp value to make far zoom bigger.
+                    //    Lower either value to shrink that end of the zoom range.
+                    // 4. If only middle zoom feels wrong, tune normalizedZoom above:
+                    //    smaller Pow exponent grows sooner; larger exponent grows later.
+                    // Waterways use larger values because their markers sit higher and are
+                    // usually read from farther away than road/rail markers.
                     float textScaleMultiplier = isWaterwayType
-                        ? Mathf.Lerp(1.9f, 3.8f, normalizedZoom)
-                        : Mathf.Lerp(1.45f, 2.7f, normalizedZoom);
+                        ? Mathf.Lerp(2.0f, 4.0f, normalizedZoom)
+                        : Mathf.Lerp(1.55f, 2.85f, normalizedZoom);
 
                     if (canUpdateMarkerTooltip &&
                         hoverCamera != null &&

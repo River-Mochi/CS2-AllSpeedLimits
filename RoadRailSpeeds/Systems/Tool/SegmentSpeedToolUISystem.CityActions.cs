@@ -101,6 +101,8 @@ namespace RoadRailSpeeds.Systems
                         () => $"{Mod.ModTag} Debug report prefab: omitted {rows.Count - logged} additional prefab rows.");
                 }
 
+                LogVehicleStatsReportToLog();
+
                 LogUtils.Info(() => $"{Mod.ModTag} Debug report END");
             }
             catch (System.Exception ex)

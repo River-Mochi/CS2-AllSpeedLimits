@@ -2,15 +2,15 @@
 // Purpose: Compact moving/parked/total stats table for bikes, personal cars, and road work vehicles.
 
 import { useState } from "react";
-// Bundled "_max" icons: same game art with the glyph enlarged inside the same square so it reads
-// bigger here (the stock game icons have transparent padding we can't trim from CSS). These replaced
-// the Coches/Bicis text labels, which overflowed in some languages ("Bisikletler", "Bicicletas").
-// Bundled = always present, so no runtime game-path fallback is needed.
-import carIcon from "../images/GenericVehicle_max.svg";
-import bikeIcon from "../images/Bicycle_max.svg";
+// Prefer stock game icons so the stats rows match the rest of CS2. Bundled icons stay as fallbacks
+// in case a game update moves the media path.
+import carIconFallback from "../images/GenericVehicle_max.svg";
+import bikeIconFallback from "../images/Bicycle_max.svg";
 import { STATS_COLUMN_WIDTH_REM, STATS_LABEL_WIDTH_REM } from "./constants";
 import type { PanelTooltipKind } from "./types";
 
+const bikeIcon = "Media/Game/Icons/Bicycle.svg";
+const carIcon = "Media/Game/Icons/GenericVehicle.svg";
 const cargoTruckIcon = "Media/Game/Icons/CargoTruck.svg";
 
 type VehicleStatsTableProps = {
@@ -72,6 +72,7 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
     // for both rows (see fontSize below), so any size difference you see is the icon, not the text.
     const renderStatsRow = (
         iconSrc: string,
+        fallbackIconSrc: string | undefined,
         label: string,
         values: number[],
         rowKey: string,
@@ -108,6 +109,11 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                     <img
                         src={iconSrc}
                         alt={label}
+                        onError={(event) => {
+                            if (fallbackIconSrc !== undefined && event.currentTarget.getAttribute("src") !== fallbackIconSrc) {
+                                event.currentTarget.setAttribute("src", fallbackIconSrc);
+                            }
+                        }}
                         style={{
                             width: `${iconSizeRem}rem`,
                             height: `${iconSizeRem}rem`,
@@ -160,11 +166,11 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                 display: "flex",
                 flexDirection: "column"
             }}>
-                {renderStatsRow(bikeIcon, bikesLabel, columns.map(column => column.bikes), "bikes", "statsBikes", 23)}
+                {renderStatsRow(bikeIcon, bikeIconFallback, bikesLabel, columns.map(column => column.bikes), "bikes", "statsBikes", 23)}
                 <div style={{ height: "2rem" }} />
-                {renderStatsRow(carIcon, carsLabel, columns.map(column => column.cars), "cars", "statsCars", 22)}
+                {renderStatsRow(carIcon, carIconFallback, carsLabel, columns.map(column => column.cars), "cars", "statsCars", 22)}
                 <div style={{ height: "2rem" }} />
-                {renderStatsRow(cargoTruckIcon, industryLabel, columns.map(column => column.industry), "industry", "statsIndustry", 24)}
+                {renderStatsRow(cargoTruckIcon, undefined, industryLabel, columns.map(column => column.industry), "industry", "statsIndustry", 24)}
             </div>
         </div>
     );

@@ -161,7 +161,7 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
           minWidth: "0"
         }}>
           <span style={{
-            fontSize: "10.5rem",
+            fontSize: "11rem",
             color: "rgba(226, 236, 241, 0.74)",
             marginRight: "4rem",
             whiteSpace: "nowrap",

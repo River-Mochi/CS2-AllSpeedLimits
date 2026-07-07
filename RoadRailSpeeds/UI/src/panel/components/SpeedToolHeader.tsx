@@ -138,12 +138,12 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 >
                     <div style={{
                         position: "absolute",
-                        top: "4rem",
-                        left: "4rem",
-                        width: "18rem",
-                        height: "18rem",
+                        top: "4.5rem",
+                        left: "4.5rem",
+                        width: "17rem",
+                        height: "17rem",
                         borderRadius: "50%",
-                        borderWidth: speedMarkersHidden ? "2rem" : "1.6rem",
+                        borderWidth: speedMarkersHidden ? "2.2rem" : "2rem",
                         borderStyle: "solid",
                         borderColor: speedMarkersHidden
                             ? "rgba(110, 200, 235, 0.88)"

@@ -63,6 +63,7 @@ import { Button } from "../shared/Button";
 import expandCollapseAllIcon from "../images/icon-expandCollapseAll.svg";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useToolPanelPosition } from "../shared/useSharedPanelPosition";
+import { SaveToolPanelPosition, TOOL_PANEL_X, TOOL_PANEL_Y } from "../shared/bindings";
 import { CollapsibleSectionHeader } from "./CollapsibleSectionHeader";
 import { PANEL_CLICK_OFFSET_PX, PANEL_WIDTH_REM, PRECISE_STEP_HOLD_DELAY_MS, PRECISE_STEP_REPEAT_MS, ROAD_GROUPS, METRIC_PRESET_SPEEDS, IMPERIAL_PRESET_SPEEDS, SPEED_STEPPER_BUTTON_WIDTH_REM, SPEED_STEPPER_NUMBER_WIDTH_REM, SPEED_STEPPER_WIDTH_REM } from "./constants";
 import { CityActionModal } from "./components/CityActionModal";
@@ -155,7 +156,12 @@ export const SpeedToolWindow = () => {
     const preciseStepRepeatRef = useRef<number | null>(null);
     const preciseStepMouseDownRef = useRef(false);
 
-    const { panelRef, position, isDragging, startDragging, snapTo } = useToolPanelPosition();
+    const savedToolPanelX = useSafeBinding(TOOL_PANEL_X, -1);
+    const savedToolPanelY = useSafeBinding(TOOL_PANEL_Y, -1);
+    const { panelRef, position, isDragging, startDragging, snapTo } = useToolPanelPosition(
+        { x: savedToolPanelX, y: savedToolPanelY },
+        nextPosition => SaveToolPanelPosition(nextPosition.x, nextPosition.y)
+    );
 
     const [isCloseHovered, setIsCloseHovered] = useState(false);
     // While the cursor is over the panel it can sit above a road, so hide the world speed-sign
@@ -224,7 +230,9 @@ export const SpeedToolWindow = () => {
     const snapDisplayToIncrement = (value: number): number => {
         const min = getDisplayMin();
         const max = getDisplayMax();
-        const snapped = min + Math.round((value - min) / panelSliderIncrement) * panelSliderIncrement;
+        const snapped = value <= min
+            ? min
+            : Math.round(value / panelSliderIncrement) * panelSliderIncrement;
         return Math.max(min, Math.min(max, snapped));
     };
 
@@ -902,7 +910,7 @@ export const SpeedToolWindow = () => {
                                     height: "30rem",
                                     minHeight: "30rem",
                                     marginLeft: "6rem",
-                                    marginRight: "-8rem",
+                                    marginRight: "-5rem",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",

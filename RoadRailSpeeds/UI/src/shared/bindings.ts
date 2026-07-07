@@ -150,6 +150,14 @@ export const SELECTION_CLICK_Y = bindValue<number>(
   MOD_ID,
   "BINDING:SELECTION_CLICK_Y"
 );
+export const TOOL_PANEL_X = bindValue<number>(
+  MOD_ID,
+  "BINDING:TOOL_PANEL_X"
+);
+export const TOOL_PANEL_Y = bindValue<number>(
+  MOD_ID,
+  "BINDING:TOOL_PANEL_Y"
+);
 
 export function ApplySpeed(speed: number) {
   trigger(MOD_ID, "TRIGGER:APPLY_SPEED", speed);
@@ -209,6 +217,10 @@ export function SetHideSpeedMarkers(hidden: boolean) {
 
 export function SetStatsExpanded(expanded: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_STATS_EXPANDED", expanded);
+}
+
+export function SaveToolPanelPosition(x: number, y: number) {
+  trigger(MOD_ID, "TRIGGER:SET_TOOL_PANEL_POSITION", Math.round(x), Math.round(y));
 }
 
 export function ActivateTool() {

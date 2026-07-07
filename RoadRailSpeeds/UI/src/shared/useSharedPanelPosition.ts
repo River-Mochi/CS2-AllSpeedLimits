@@ -47,11 +47,33 @@ export const shouldIgnorePanelDragTarget = (target: EventTarget | null): boolean
 
 const nearlyEqual = (a: number, b: number) => Math.abs(a - b) < 0.5;
 
+const clampToViewport = (position: PanelPosition): PanelPosition => {
+    const maxX = Math.max(PANEL_LEFT_MARGIN_PX, window.innerWidth - PANEL_RIGHT_MARGIN_PX);
+    const maxY = Math.max(PANEL_TOP_MARGIN_PX, window.innerHeight - PANEL_BOTTOM_MARGIN_PX);
+
+    return {
+        x: Math.min(Math.max(PANEL_LEFT_MARGIN_PX, position.x), maxX),
+        y: Math.min(Math.max(PANEL_TOP_MARGIN_PX, position.y), maxY)
+    };
+};
+
 const usePanelPosition = (
     getStoredPosition: () => PanelPosition,
-    setStoredPosition: (position: PanelPosition) => void
+    setStoredPosition: (position: PanelPosition) => void,
+    savedPosition?: PanelPosition,
+    saveStoredPosition?: (position: PanelPosition) => void
 ) => {
-    const [position, setPositionState] = useState<PanelPosition>(getStoredPosition());
+    const getInitialPosition = () => {
+        if (savedPosition !== undefined && savedPosition.x >= 0 && savedPosition.y >= 0) {
+            const clamped = clampToViewport(savedPosition);
+            setStoredPosition(clamped);
+            return clamped;
+        }
+
+        return getStoredPosition();
+    };
+
+    const [position, setPositionState] = useState<PanelPosition>(getInitialPosition);
     const [isDragging, setIsDragging] = useState(false);
     const panelRef = useRef<HTMLDivElement | null>(null);
     const positionRef = useRef<PanelPosition>(position);
@@ -94,7 +116,8 @@ const usePanelPosition = (
             return;
         }
 
-        setPosition({ x: nextX, y: nextY });
+        const nextPosition = { x: nextX, y: nextY };
+        setPosition(nextPosition);
     };
 
     useEffect(() => {
@@ -110,6 +133,22 @@ const usePanelPosition = (
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    useEffect(() => {
+        if (savedPosition === undefined || savedPosition.x < 0 || savedPosition.y < 0) {
+            return;
+        }
+
+        const nextPosition = clampToViewport(savedPosition);
+        if (nearlyEqual(nextPosition.x, positionRef.current.x) && nearlyEqual(nextPosition.y, positionRef.current.y)) {
+            return;
+        }
+
+        positionRef.current = nextPosition;
+        setStoredPosition(nextPosition);
+        setPositionState(nextPosition);
+        window.requestAnimationFrame(clampMountedPanel);
+    }, [savedPosition?.x, savedPosition?.y]);
 
     useEffect(() => {
         if (!isDragging) {
@@ -152,6 +191,7 @@ const usePanelPosition = (
         const handleMouseUp = () => {
             dragRef.current = null;
             setIsDragging(false);
+            saveStoredPosition?.(positionRef.current);
         };
 
         window.addEventListener("mousemove", handleMouseMove);
@@ -202,4 +242,7 @@ const usePanelPosition = (
 
 export const useHintPanelPosition = () => usePanelPosition(getHintPanelPosition, setHintPanelPosition);
 
-export const useToolPanelPosition = () => usePanelPosition(getToolPanelPosition, setToolPanelPosition);
+export const useToolPanelPosition = (
+    savedPosition?: PanelPosition,
+    saveStoredPosition?: (position: PanelPosition) => void
+) => usePanelPosition(getToolPanelPosition, setToolPanelPosition, savedPosition, saveStoredPosition);

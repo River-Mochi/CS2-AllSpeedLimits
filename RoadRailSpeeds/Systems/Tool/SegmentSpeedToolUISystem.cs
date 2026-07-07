@@ -81,6 +81,8 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<float> m_MarkerTooltipYBinding = null!;
         private ValueBindingHelper<float> m_SelectionClickXBinding = null!;
         private ValueBindingHelper<float> m_SelectionClickYBinding = null!;
+        private ValueBindingHelper<int> m_ToolPanelXBinding = null!;
+        private ValueBindingHelper<int> m_ToolPanelYBinding = null!;
 
         private Setting? m_Settings;
         private int m_LastVehicleStatsFrame = -1;
@@ -162,6 +164,8 @@ namespace RoadRailSpeeds.Systems
             m_MarkerTooltipYBinding = CreateBinding("MARKER_TOOLTIP_Y", 0f);
             m_SelectionClickXBinding = CreateBinding("SELECTION_CLICK_X", 0f);
             m_SelectionClickYBinding = CreateBinding("SELECTION_CLICK_Y", 0f);
+            m_ToolPanelXBinding = CreateBinding("TOOL_PANEL_X", -1);
+            m_ToolPanelYBinding = CreateBinding("TOOL_PANEL_Y", -1);
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
@@ -186,6 +190,7 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<bool>("SET_SELECT_ROADS", HandleSetSelectRoads);
             CreateTrigger<bool>("SET_SELECT_RAILS", HandleSetSelectRails);
             CreateTrigger<bool>("SET_SELECT_WATER", HandleSetSelectWater);
+            CreateTrigger<int, int>("SET_TOOL_PANEL_POSITION", HandleSetToolPanelPosition);
 
             m_InitialSpeedBinding.Value = 50f;
             m_ToolActiveBinding.Value = false;
@@ -224,6 +229,8 @@ namespace RoadRailSpeeds.Systems
             m_MarkerTooltipYBinding.Value = 0f;
             m_SelectionClickXBinding.Value = 0f;
             m_SelectionClickYBinding.Value = 0f;
+            m_ToolPanelXBinding.Value = m_Settings?.ToolPanelPositionX ?? -1;
+            m_ToolPanelYBinding.Value = m_Settings?.ToolPanelPositionY ?? -1;
 
             // Push initial binding values so React does not read uninitialized values.
             RequestUpdate();
@@ -359,6 +366,18 @@ namespace RoadRailSpeeds.Systems
                 m_HideSpeedMarkersBinding.Value = hideSpeedMarkers;
             }
 
+            int toolPanelX = m_Settings?.ToolPanelPositionX ?? -1;
+            if (m_ToolPanelXBinding.Value != toolPanelX)
+            {
+                m_ToolPanelXBinding.Value = toolPanelX;
+            }
+
+            int toolPanelY = m_Settings?.ToolPanelPositionY ?? -1;
+            if (m_ToolPanelYBinding.Value != toolPanelY)
+            {
+                m_ToolPanelYBinding.Value = toolPanelY;
+            }
+
             UpdateCityResetBindings();
             UpdateCityApplyBindings();
             UpdateMarkerTooltipBindings(toolActive);
@@ -437,6 +456,29 @@ namespace RoadRailSpeeds.Systems
             RequestUpdate();
         }
 
+        private void HandleSetToolPanelPosition(int x, int y)
+        {
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null)
+            {
+                return;
+            }
+
+            x = ClampPanelPosition(x);
+            y = ClampPanelPosition(y);
+            if (m_Settings.ToolPanelPositionX == x && m_Settings.ToolPanelPositionY == y)
+            {
+                return;
+            }
+
+            m_Settings.ToolPanelPositionX = x;
+            m_Settings.ToolPanelPositionY = y;
+            m_Settings.ApplyAndSave();
+            m_ToolPanelXBinding.Value = x;
+            m_ToolPanelYBinding.Value = y;
+            RequestUpdate();
+        }
+
         private void HandleSetStatsExpanded(bool expanded)
         {
             if (m_StatsExpandedBinding.Value == expanded)
@@ -466,6 +508,17 @@ namespace RoadRailSpeeds.Systems
         {
             m_SegmentSpeedTool.IncludeWater = enabled;
             m_SelectWaterBinding.Value = enabled;
+        }
+
+        private static int ClampPanelPosition(int value)
+        {
+            const int limit = 20000;
+            if (value < 0)
+            {
+                return -1;
+            }
+
+            return value > limit ? limit : value;
         }
 
         public override void OnWriteProperties(IJsonWriter writer)

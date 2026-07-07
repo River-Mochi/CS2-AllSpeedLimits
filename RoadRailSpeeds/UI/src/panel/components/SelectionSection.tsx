@@ -42,6 +42,21 @@ export const SelectionSection = (props: SelectionSectionProps) => {
 
     const [unitHovered, setUnitHovered] = useState(false);
 
+    const splitSpeedValue = (value: string) => {
+        const parts = value.trim().split(/\s+/);
+        if (parts.length >= 2) {
+            return {
+                number: parts.slice(0, parts.length - 1).join(" "),
+                unit: parts[parts.length - 1]
+            };
+        }
+
+        return {
+            number: value,
+            unit: ""
+        };
+    };
+
     const labelStyle = {
         fontSize: "11.5rem",
         color: "rgba(226, 236, 241, 0.74)",
@@ -57,8 +72,23 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         fontWeight: 800,
         color: "rgba(255, 255, 255, 0.78)",
         flex: 1,
+        display: "flex" as const,
+        justifyContent: "flex-end" as const,
         whiteSpace: "nowrap" as const,
         textAlign: "right" as const
+    };
+
+    const valueNumberStyle = {
+        width: "24rem",
+        minWidth: "24rem",
+        textAlign: "right" as const
+    };
+
+    const valueUnitStyle = {
+        width: "24rem",
+        minWidth: "24rem",
+        marginLeft: "2rem",
+        textAlign: "left" as const
     };
 
     const factRowStyle = {
@@ -69,6 +99,17 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         minWidth: "0"
     };
 
+    const renderSpeedValue = (value: string) => {
+        const split = splitSpeedValue(value);
+
+        return (
+            <span style={valueStyle}>
+                <span style={valueNumberStyle}>{split.number}</span>
+                <span style={valueUnitStyle}>{split.unit}</span>
+            </span>
+        );
+    };
+
     return (
         <div style={{
             display: "flex",
@@ -76,9 +117,9 @@ export const SelectionSection = (props: SelectionSectionProps) => {
             justifyContent: "space-between",
             minHeight: "78rem",
             paddingTop: "4rem",
-            paddingRight: "6rem",
-            paddingBottom: "5rem",
-            paddingLeft: "8rem",
+            paddingRight: "3rem",
+            paddingBottom: "3rem",
+            paddingLeft: "7rem",
             backgroundColor: "rgba(255, 255, 255, 0.02)",
             borderWidth: "1rem",
             borderStyle: "solid",
@@ -92,7 +133,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 justifyContent: "center"
             }}>
                 <span style={{
-                    fontSize: "11rem",
+                    fontSize: "11.6rem",
                     fontWeight: 800,
                     color: "rgba(78, 215, 255, 0.98)",
                     whiteSpace: "nowrap",
@@ -102,11 +143,12 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 </span>
                 <div style={{ display: "flex", alignItems: "flex-end", marginTop: "1rem" }}>
                     <span style={{
-                        fontSize: "18.5rem",
+                        fontSize: "20rem",
                         fontWeight: "bold",
                         color: "#fff",
                         whiteSpace: "nowrap",
-                        lineHeight: "1.1"
+                        lineHeight: "1.05",
+                        minWidth: "39rem"
                     }}>
                         {newSpeedNumber}
                     </span>
@@ -122,11 +164,11 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            height: "19rem",
-                            minHeight: "19rem",
-                            minWidth: "39rem",
-                            marginLeft: "5rem",
-                            marginBottom: "2rem",
+                            height: "20rem",
+                            minHeight: "20rem",
+                            minWidth: "41rem",
+                            marginLeft: "9rem",
+                            marginBottom: "1rem",
                             paddingTop: "0",
                             paddingRight: "4rem",
                             paddingBottom: "0",
@@ -137,7 +179,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                             borderColor: unitHovered ? "rgba(255, 255, 255, 0.36)" : "rgba(255, 255, 255, 0.20)",
                             borderRadius: "3rem",
                             boxSizing: "border-box",
-                            fontSize: unitHovered ? "16rem" : "15.5rem",
+                            fontSize: unitHovered ? "16.9rem" : "16.2rem",
                             fontWeight: 800,
                             color: unitHovered ? "rgba(255, 255, 255, 0.98)" : "rgba(255, 255, 255, 0.78)",
                             lineHeight: "1"
@@ -149,10 +191,10 @@ export const SelectionSection = (props: SelectionSectionProps) => {
             </div>
 
             {/* Current / Default, tied to New speed inside the same outlined group. */}
-            <div style={{ marginTop: "5rem", paddingLeft: "0", paddingRight: "1rem" }}>
+            <div style={{ marginTop: "8rem", paddingLeft: "0", paddingRight: "1rem" }}>
                 <div title={currentSpeedTitle} style={factRowStyle}>
                     <span style={labelStyle}>{currentSpeedLabelText}</span>
-                    <span style={valueStyle}>{currentSpeedValueText}</span>
+                    {renderSpeedValue(currentSpeedValueText)}
                 </div>
                 <div
                     onMouseEnter={onGameDefaultMouseEnter}
@@ -161,7 +203,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                     style={factRowStyle}
                 >
                     <span style={labelStyle}>{defaultSpeedLabelText}</span>
-                    <span style={valueStyle}>{defaultSpeedValueText}</span>
+                    {renderSpeedValue(defaultSpeedValueText)}
                 </div>
             </div>
         </div>

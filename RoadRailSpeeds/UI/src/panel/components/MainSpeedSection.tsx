@@ -84,28 +84,6 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <Button
                         focusKey={focusKey}
-                        selected={isApplying}
-                        disabled={isApplying}
-                        onSelect={onApply}
-                        onMouseEnter={onApplyMouseEnter}
-                        onMouseLeave={onControlMouseLeave}
-                        style={{
-                            width: "76rem",
-                            minWidth: "76rem",
-                            minHeight: controlHeight,
-                            height: controlHeight,
-                            paddingTop: "0",
-                            paddingRight: "0",
-                            paddingBottom: "0",
-                            paddingLeft: "0",
-                            fontSize: "15rem",
-                            fontWeight: 800
-                        }}
-                    >
-                        {applyButtonText}
-                    </Button>
-                    <Button
-                        focusKey={focusKey}
                         selected={isResetting}
                         disabled={isResetting}
                         onSelect={onReset}
@@ -118,7 +96,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                             minWidth: "28rem",
                             minHeight: controlHeight,
                             height: controlHeight,
-                            marginLeft: "4rem",
+                            marginRight: "4rem",
                             paddingTop: "0",
                             paddingRight: "0",
                             paddingBottom: "0",
@@ -144,6 +122,28 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                                 }}
                             />
                         )}
+                    </Button>
+                    <Button
+                        focusKey={focusKey}
+                        selected={isApplying}
+                        disabled={isApplying}
+                        onSelect={onApply}
+                        onMouseEnter={onApplyMouseEnter}
+                        onMouseLeave={onControlMouseLeave}
+                        style={{
+                            width: "76rem",
+                            minWidth: "76rem",
+                            minHeight: controlHeight,
+                            height: controlHeight,
+                            paddingTop: "0",
+                            paddingRight: "0",
+                            paddingBottom: "0",
+                            paddingLeft: "0",
+                            fontSize: "15rem",
+                            fontWeight: 800
+                        }}
+                    >
+                        {applyButtonText}
                     </Button>
                 </div>
             </div>

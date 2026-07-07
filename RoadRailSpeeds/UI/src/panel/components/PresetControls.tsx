@@ -119,8 +119,8 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                     : disabled ? "rgba(255, 255, 255, 0.08)" : "rgba(245, 245, 245, 0.92)",
                                                 color: selected ? "#fff" : "rgba(8, 10, 12, 1)",
                                                 fontSize: preset >= 100
-                                                    ? (numberHovered ? "11rem" : "10.4rem")
-                                                    : (numberHovered ? "12rem" : "11.4rem"),
+                                                    ? (numberHovered ? "12.4rem" : "10.6rem")
+                                                    : (numberHovered ? "13.4rem" : "11.6rem"),
                                                 fontWeight: 900,
                                                 letterSpacing: "0",
                                                 opacity: disabled ? 0.40 : 1
