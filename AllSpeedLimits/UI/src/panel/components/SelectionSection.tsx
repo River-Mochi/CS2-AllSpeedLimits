@@ -68,7 +68,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         minWidth: "42rem",
         marginRight: "4rem",
         whiteSpace: "nowrap" as const,
-        textAlign: "left" as const
+        textAlign: "right" as const
     };
 
     const valueStyle = {
@@ -85,23 +85,17 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     };
 
     const valueNumberStyle = {
-        width: "24rem",
-        minWidth: "24rem",
+        width: "25rem",
+        minWidth: "25rem",
         display: "flex" as const,
         justifyContent: "flex-end" as const,
         textAlign: "right" as const
     };
 
-    const valueDigitStyle = {
-        width: "8rem",
-        minWidth: "8rem",
-        textAlign: "center" as const
-    };
-
     const valueUnitStyle = {
         width: "22rem",
         minWidth: "22rem",
-        marginLeft: "3rem",
+        marginLeft: "2rem",
         textAlign: "left" as const
     };
 
@@ -129,15 +123,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
 
         return (
             <span style={valueStyle}>
-                <span style={valueNumberStyle}>
-                    {split.number.match(/^\d{1,3}$/)
-                        ? split.number.padStart(3, " ").split("").map((char, index) => (
-                            <span key={`digit-${index}`} style={valueDigitStyle}>
-                                {char === " " ? "\u00a0" : char}
-                            </span>
-                        ))
-                        : split.number}
-                </span>
+                <span style={valueNumberStyle}>{split.number}</span>
                 <span style={valueUnitStyle}>{split.unit}</span>
             </span>
         );
