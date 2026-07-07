@@ -72,7 +72,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Regler-Schrittweite" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Legt die Schrittweite im Stadt-Panel fest.\n" +
-                    "<Standard = 10>" },
+                    "<Standard = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tooltip-Textgröße" },
@@ -124,7 +124,7 @@ namespace RoadRailSpeeds
                     "1. Segmente anklicken oder per Ziehen auswählen.\n" +
                     "2. <Neue Geschwindigkeit> setzen, dann <Anwenden> klicken.\n" +
                     "3. <Reset> stellt ausgewählte Segmente wieder her.\n" +
-                    "4. <50%>-Buttons wirken sofort.\n" +
+                    "4. Preset-Buttons wirken sofort.\n" +
                     "\n" +
                     "<Ganze Stadt>\n" +
                     "Eine Straßengruppe wählen, dann <Neue Geschwindigkeit> darauf anwenden.\n" +
