@@ -58,8 +58,6 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     roadGroupMedium: 300,
     roadGroupLarge: 300,
     roadGroupHighway: 300,
-    speedFaster: 154,
-    speedSlower: 154,
     stats: 340,
     statsBikes: 340,
     statsCars: 340,
