@@ -71,9 +71,9 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <ChangeLog>
 - All new UX + UI layout, more intuitive, easier to use.
 - removed 50% buttons
-- change from kmh to mph using the button in New Speeds section.
+- Switch button for kmh in New Speeds section.
 - updated all translations.
-- internal refactor split code file.
+- internal refactor, clean and organize.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
     <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AllSpeedLimits" />
