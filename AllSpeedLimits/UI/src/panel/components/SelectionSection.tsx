@@ -176,7 +176,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                             backgroundColor: unitHovered ? "rgba(255, 255, 255, 0.09)" : "rgba(255, 255, 255, 0.045)",
                             borderWidth: "1rem",
                             borderStyle: "solid",
-                            borderColor: unitHovered ? "rgba(255, 255, 255, 0.36)" : "rgba(255, 255, 255, 0.20)",
+                            borderColor: unitHovered ? "rgba(255, 255, 255, 0.24)" : "rgba(255, 255, 255, 0.11)",
                             borderRadius: "3rem",
                             boxSizing: "border-box",
                             fontSize: unitHovered ? "16.9rem" : "16.2rem",
