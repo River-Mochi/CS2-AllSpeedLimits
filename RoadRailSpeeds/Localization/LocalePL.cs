@@ -32,9 +32,8 @@ namespace RoadRailSpeeds
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            // Options menu title intentionally omits version.
-            // Version still appears on the About tab through VersionText.
-            string title = Mod.ModName;
+            // Options menu title keeps English first for stable sorting.
+            string title = $"{Mod.ModName} (Wszystkie limity)";
 
             return new Dictionary<string, string>
             {
