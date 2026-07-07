@@ -82,7 +82,7 @@
   "inCity.tooltips.stats.line3": "Service + freight excludes private cars, bikes, and public transit.",
   "inCity.tooltips.statsRows.bikes": "All bikes + scooters.",
   "inCity.tooltips.statsRows.cars": "Personal vehicles only: excludes Bikes, trailers.",
-  "inCity.tooltips.statsRows.industry": "Industry delivery + Service (e.g.garbage, repair trucks). Excludes public transit, private vehicles/bikes1.",
+  "inCity.tooltips.statsRows.industry": "Industry delivery + Service (e.g. garbage, repair trucks). Excludes public transit, private vehicles/bikes.",
   "inCity.tooltips.wholeCity.title": "Whole city",
   "inCity.tooltips.wholeCity.line1": "Apply New speed to a road group.",
   "inCity.tooltips.wholeCity.line2": "Reset clears custom speeds by type.",
