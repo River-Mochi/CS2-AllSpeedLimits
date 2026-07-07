@@ -227,7 +227,7 @@ namespace RoadRailSpeeds.Systems
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
                     // Height above segment midpoint. Keep markers off the road surface for segment mode.
-                    position.y += isWaterwayType ? 12.4f : 10.8f;
+                    position.y += isWaterwayType ? 13.2f : 10.8f;
                     float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
                     float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
                     float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
@@ -244,7 +244,7 @@ namespace RoadRailSpeeds.Systems
                     // 4. If only middle zoom feels wrong, tune normalizedZoom above:
                     //    smaller Pow exponent grows sooner; larger exponent grows later.
                     float textScaleMultiplier = isWaterwayType
-                        ? Mathf.Lerp(2.0f, 4.0f, normalizedZoom)    // Waterway markers are bigger bc they sit higher; usually read from farther away.
+                        ? Mathf.Lerp(2.0f, 4.45f, normalizedZoom)   // Waterway markers are bigger bc they sit higher; usually read from farther away.
                         : Mathf.Lerp(1.55f, 2.85f, normalizedZoom); // road/track markers
 
                     if (canUpdateMarkerTooltip &&

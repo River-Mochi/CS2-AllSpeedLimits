@@ -139,7 +139,7 @@ namespace RoadRailSpeeds.Systems
             m_VanillaSpeedBinding = CreateBinding("VANILLA_SPEED", -1f);
             m_VanillaSpeedMixedBinding = CreateBinding("VANILLA_SPEED_MIXED", false);
             m_SyncSliderWithSelectionBinding = CreateBinding("SYNC_SLIDER_WITH_SELECTION", true);
-            m_PanelSliderIncrementBinding = CreateBinding("PANEL_SLIDER_INCREMENT", 5);
+            m_PanelSliderIncrementBinding = CreateBinding("PANEL_SLIDER_INCREMENT", 10);
             m_TooltipFontScaleBinding = CreateBinding("TOOLTIP_FONT_SCALE", 110);
             m_PanelTooltipsEnabledBinding = CreateBinding("PANEL_TOOLTIPS_ENABLED", true);
             m_HideSpeedMarkersBinding = CreateBinding("HIDE_SPEED_MARKERS", false);
@@ -551,7 +551,7 @@ namespace RoadRailSpeeds.Systems
 
         private int GetPanelSliderIncrement()
         {
-            int increment = m_Settings?.PanelSliderIncrement ?? 5;
+            int increment = m_Settings?.PanelSliderIncrement ?? 10;
             if (increment < 5)
             {
                 return 5;

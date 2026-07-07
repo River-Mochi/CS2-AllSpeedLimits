@@ -91,7 +91,7 @@ export const SpeedToolWindow = () => {
     const vanillaSpeedKmh = useSafeBinding(VANILLA_SPEED, -1);
     const vanillaSpeedMixed = useSafeBinding(VANILLA_SPEED_MIXED, false);
     const syncSliderWithSelection = useSafeBinding(SYNC_SLIDER_WITH_SELECTION, true);
-    const panelSliderIncrement = Math.max(5, Math.min(25, useSafeBinding(PANEL_SLIDER_INCREMENT, 5)));
+    const panelSliderIncrement = Math.max(5, Math.min(25, useSafeBinding(PANEL_SLIDER_INCREMENT, 10)));
     const tooltipFontScale = Math.max(100, Math.min(140, useSafeBinding(TOOLTIP_FONT_SCALE, 110)));
     const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
     const hideSpeedMarkers = useSafeBinding(HIDE_SPEED_MARKERS, false);

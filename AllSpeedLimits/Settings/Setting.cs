@@ -56,7 +56,7 @@ namespace RoadRailSpeeds
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
         [SettingsUISlider(min = 5f, max = 25f, step = 5f, unit = "integer")]
-        public int PanelSliderIncrement { get; set; } = 5;
+        public int PanelSliderIncrement { get; set; } = 10;
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
         [SettingsUISlider(min = 100f, max = 140f, step = 5f, unit = Unit.kPercentage)]
