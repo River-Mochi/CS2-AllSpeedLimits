@@ -18,8 +18,6 @@ export type PanelTooltipKind =
     | "roadGroupMedium"
     | "roadGroupLarge"
     | "roadGroupHighway"
-    | "speedFaster"
-    | "speedSlower"
     | "stats"
     | "statsBikes"
     | "statsCars"
