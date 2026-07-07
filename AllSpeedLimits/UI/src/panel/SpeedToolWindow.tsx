@@ -971,7 +971,7 @@ export const SpeedToolWindow = () => {
                         />
                         {selectionInfoExpanded && (
                             <div style={{ display: "flex", marginBottom: "8rem" }}>
-                                <div style={{ width: "111rem", minWidth: "111rem", flexShrink: 0 }}>
+                                <div style={{ width: "116rem", minWidth: "116rem", flexShrink: 0 }}>
                                     <SelectionSection
                                         focusKey={FOCUS_DISABLED}
                                         newSpeedLabel={TEXT.panel.newSpeedLimit}

@@ -64,8 +64,8 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     const labelStyle = {
         fontSize: "11.5rem",
         color: "rgba(226, 236, 241, 0.74)",
-        width: "42rem",
-        minWidth: "42rem",
+        width: "47rem",
+        minWidth: "47rem",
         marginRight: "3rem",
         whiteSpace: "nowrap" as const,
         textAlign: "left" as const
