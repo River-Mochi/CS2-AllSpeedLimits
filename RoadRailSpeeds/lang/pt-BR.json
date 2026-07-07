@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Ajuste velocidades de ruas, trilhos e água",
   "inCity.hint.title": "Ruas • Trilhos • Água",
   "inCity.hint.instruction": "Clique ou arraste para escolher segmentos de rua, trilho ou hidrovia",
-  "inCity.panel.title": "Todos os limites",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocidades de ruas, trilhos e água.",
   "inCity.panel.selectedSegment": "Selecionado",
   "inCity.panel.firstSegment": "Primeiro segmento",

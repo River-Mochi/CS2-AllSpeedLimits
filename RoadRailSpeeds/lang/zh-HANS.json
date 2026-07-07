@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "调整道路、轨道和水路速度",
   "inCity.hint.title": "道路 • 轨道 • 水路速度",
   "inCity.hint.instruction": "点击或拖动，选择道路、轨道或水路路段",
-  "inCity.panel.title": "全部速度限制",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "道路、轨道、水路速度。",
   "inCity.panel.selectedSegment": "已选择",
   "inCity.panel.firstSegment": "第一段",

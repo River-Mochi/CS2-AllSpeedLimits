@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "ปรับความเร็วถนน ราง และทางน้ำ",
   "inCity.hint.title": "ถนน • ราง • ทางน้ำ",
   "inCity.hint.instruction": "คลิกหรือคลิกลากเพื่อเลือกช่วงถนน ราง หรือทางน้ำ",
-  "inCity.panel.title": "จำกัดความเร็วทั้งหมด",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "ความเร็วถนน ราง ทางน้ำ",
   "inCity.panel.selectedSegment": "เลือกแล้ว",
   "inCity.panel.firstSegment": "ช่วงแรก",

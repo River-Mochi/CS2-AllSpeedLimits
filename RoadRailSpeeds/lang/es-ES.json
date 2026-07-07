@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Ajusta velocidades de carretera, tren y agua",
   "inCity.hint.title": "Carretera • Tren • Agua",
   "inCity.hint.instruction": "Haz clic o arrastra para elegir segmentos de carretera, vía o agua",
-  "inCity.panel.title": "Todos los límites",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocidad de carretera, tren y agua.",
   "inCity.panel.selectedSegment": "Seleccionado",
   "inCity.panel.firstSegment": "Primer segmento",

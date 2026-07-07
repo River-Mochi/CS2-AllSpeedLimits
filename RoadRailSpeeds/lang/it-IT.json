@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Regola velocità di strade, rotaie e acqua",
   "inCity.hint.title": "Strade • Rotaie • Acqua",
   "inCity.hint.instruction": "Clicca o trascina per scegliere segmenti di strada, rotaia o acqua",
-  "inCity.panel.title": "Tutti i limiti",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocità strade, rotaie, acqua.",
   "inCity.panel.selectedSegment": "Selezionato",
   "inCity.panel.firstSegment": "Primo segmento",

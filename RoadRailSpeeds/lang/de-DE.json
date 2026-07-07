@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Straßen-, Schienen- und Wasser-Tempo ändern",
   "inCity.hint.title": "Straße • Schiene • Wasser Tempo",
   "inCity.hint.instruction": "Klicken oder ziehen, um Straßen-, Schienen- oder Wassersegmente zu wählen",
-  "inCity.panel.title": "Alle Tempolimits",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Tempo für Straße, Schiene, Wasser.",
   "inCity.panel.selectedSegment": "Ausgewählt",
   "inCity.panel.firstSegment": "Erstes Segment",

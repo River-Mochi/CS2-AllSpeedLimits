@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "道路・鉄道・水路の速度を調整",
   "inCity.hint.title": "道路 • 鉄道 • 水路速度",
   "inCity.hint.instruction": "クリック、またはドラッグで道路・線路・水路セグメントを選択",
-  "inCity.panel.title": "全速度制限",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "道路、鉄道、水路の速度。",
   "inCity.panel.selectedSegment": "選択中",
   "inCity.panel.firstSegment": "最初のセグメント",

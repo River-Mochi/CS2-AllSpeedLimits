@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Zmieniaj prędkości dróg, torów i wody",
   "inCity.hint.title": "Drogi • Tory • Woda",
   "inCity.hint.instruction": "Kliknij lub przeciągnij, aby wybrać segmenty drogi, torów albo wody",
-  "inCity.panel.title": "Wszystkie limity",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Prędkości dróg, torów i wody.",
   "inCity.panel.selectedSegment": "Wybrane",
   "inCity.panel.firstSegment": "Pierwszy segment",

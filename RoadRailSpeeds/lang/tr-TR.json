@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Yol, ray ve su hızlarını ayarla",
   "inCity.hint.title": "Yol • Ray • Su Hızları",
   "inCity.hint.instruction": "Yol, ray veya su yolu segmentlerini seçmek için tıkla ya da sürükle",
-  "inCity.panel.title": "Tüm Hız Limitleri",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Yol, ray, su hızları.",
   "inCity.panel.selectedSegment": "Seçili",
   "inCity.panel.firstSegment": "İlk segment",

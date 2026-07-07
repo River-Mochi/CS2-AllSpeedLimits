@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Ajuster les vitesses route, rail et eau",
   "inCity.hint.title": "Route • Rail • Eau",
   "inCity.hint.instruction": "Cliquez ou glissez pour choisir des segments de route, rail ou voie d'eau",
-  "inCity.panel.title": "Toutes les limites",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Vitesses route, rail, eau.",
   "inCity.panel.selectedSegment": "Sélection",
   "inCity.panel.firstSegment": "Premier segment",

@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "도로, 철도, 수로 속도 조정",
   "inCity.hint.title": "도로 • 철도 • 수로 속도",
   "inCity.hint.instruction": "클릭하거나 드래그해서 도로, 선로, 수로 세그먼트를 선택",
-  "inCity.panel.title": "모든 속도 제한",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "도로, 철도, 수로 속도.",
   "inCity.panel.selectedSegment": "선택됨",
   "inCity.panel.firstSegment": "첫 세그먼트",

@@ -2,7 +2,7 @@
   "inCity.toolbar.tooltip": "Ajustar velocidades de estradas, carris e água",
   "inCity.hint.title": "Estradas • Carris • Água",
   "inCity.hint.instruction": "Clica ou arrasta para escolher segmentos de estrada, carril ou via fluvial",
-  "inCity.panel.title": "Todos os limites",
+  "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocidades de estradas, carris e água.",
   "inCity.panel.selectedSegment": "Selecionado",
   "inCity.panel.firstSegment": "Primeiro segmento",
