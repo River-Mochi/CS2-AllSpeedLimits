@@ -138,10 +138,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "调试报告写入日志" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
                     "<正常游戏不需要。>\\n" +
-                    "向 Logs/AdjustSpeedLimits.log 写入一次性报告。" },
+                    "向 Logs/AllSpeedLimits.log 写入一次性报告。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "打开日志" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "打开 <Logs/AdjustSpeedLimits.log>。如果文件不存在，则打开 Logs 文件夹。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "打开 <Logs/AllSpeedLimits.log>。如果文件不存在，则打开 Logs 文件夹。" },
             };
         }
 

@@ -76,7 +76,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 - internal refactor split code file.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
-    <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AdjustSpeedLimits" />
+    <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AllSpeedLimits" />
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
 	
 </Publish>

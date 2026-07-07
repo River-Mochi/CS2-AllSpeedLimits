@@ -1,4 +1,4 @@
-# Adjust Road/Rail Speeds
+# Adjust All Speed Limits
 
 Adjust Road/Rail Speeds is a Cities: Skylines II mod for changing speed limits on road, rail, and waterway segments.
 
@@ -41,4 +41,4 @@ For a clean uninstall, use **Clear All Custom Speeds**, save the city, then remo
 - Whole-city actions run in batches to avoid long freezes.
 - Floating speed signs and selection overlays render only while the tool is active.
 
-Source: https://github.com/River-Mochi/CS2-RoadRailSpeeds
+Source: https://github.com/River-Mochi/CS2-AllSpeedLimits

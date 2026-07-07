@@ -138,10 +138,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Debug-Bericht ins Log" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
                     "<Für normales Spielen nicht nötig.>\\n" +
-                    "Schreibt einmalig einen Bericht nach Logs/AdjustSpeedLimits.log." },
+                    "Schreibt einmalig einen Bericht nach Logs/AllSpeedLimits.log." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Log öffnen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Öffnet <Logs/AdjustSpeedLimits.log>. Fällt auf den Logs-Ordner zurück, wenn die Datei nicht existiert." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Öffnet <Logs/AllSpeedLimits.log>. Fällt auf den Logs-Ordner zurück, wenn die Datei nicht existiert." },
             };
         }
 

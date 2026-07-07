@@ -139,10 +139,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "디버그 보고서를 로그에 기록" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
                     "<일반 플레이에는 필요 없습니다.>\\n" +
-                    "Logs/AdjustSpeedLimits.log에 한 번 보고서를 씁니다." },
+                    "Logs/AllSpeedLimits.log에 한 번 보고서를 씁니다." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "로그 열기" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "<Logs/AdjustSpeedLimits.log>를 엽니다. 파일이 없으면 Logs 폴더를 엽니다." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "<Logs/AllSpeedLimits.log>를 엽니다. 파일이 없으면 Logs 폴더를 엽니다." },
             };
         }
 
