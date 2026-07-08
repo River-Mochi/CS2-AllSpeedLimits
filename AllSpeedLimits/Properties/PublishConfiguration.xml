@@ -52,9 +52,9 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/thumbnail-asmithphoto01.jpg" />
 	<!--Screenshot, can be set multiple times-->
-    <Screenshot Value="Properties/10-image-MiniPanel.jpg" />
-	<Screenshot Value="Properties/15-image-FullPanel.jpg" />
-
+    <Screenshot Value="Properties/10-image-FullPanel.jpg" />
+    <Screenshot Value="Properties/15-image-MiniPanel.jpg" />
+    <Screenshot Value="Properties/25-image-OptionsMenu.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -71,7 +71,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <ChangeLog>
 - All new UX + UI layout, more intuitive, easier to use.
 - removed 50% buttons
-- Switch button for kmh in New Speeds section.
+- Add button for kmh in New Speeds section.
 - updated all translations.
 - internal refactor, clean and organize.
 </ChangeLog>
