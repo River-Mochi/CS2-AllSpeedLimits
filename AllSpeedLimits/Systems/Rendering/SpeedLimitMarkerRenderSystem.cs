@@ -226,8 +226,9 @@ namespace RoadRailSpeeds.Systems
 
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
-                    // Height above segment midpoint. Keep markers close enough to read as map labels.
-                    position.y += isWaterwayType ? 10.8f : 9.2f;
+                    // Height above segment midpoint. Water is already good; roads/rails sit lower so
+                    // close zoom reads closer to street-sign height instead of floating above lights.
+                    position.y += isWaterwayType ? 10.8f : 8.2f;
                     float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
                     float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
                     float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
@@ -243,9 +244,19 @@ namespace RoadRailSpeeds.Systems
                     //    Lower either value to shrink that end of the zoom range.
                     // 4. If only middle zoom feels wrong, tune normalizedZoom above:
                     //    smaller Pow exponent grows sooner; larger exponent grows later.
-                    float textScaleMultiplier = isWaterwayType
-                        ? Mathf.Lerp(2.0f, 4.45f, normalizedZoom)   // Waterway markers are bigger bc they sit higher; usually read from farther away.
-                        : Mathf.Lerp(1.50f, 2.75f, normalizedZoom); // road/track markers
+                    float textScaleMultiplier;
+                    if (isWaterwayType)
+                    {
+                        textScaleMultiplier = Mathf.Lerp(2.0f, 4.45f, normalizedZoom);
+                    }
+                    else
+                    {
+                        // Roads/rails: smaller close-up, with a mid-zoom readability bump.
+                        // This keeps near-camera labels quieter without shrinking the scanning range.
+                        float roadBaseScale = Mathf.Lerp(1.38f, 2.75f, normalizedZoom);
+                        float roadMidZoomBoost = 0.24f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        textScaleMultiplier = roadBaseScale + roadMidZoomBoost;
+                    }
 
                     if (canUpdateMarkerTooltip &&
                         hoverCamera != null &&
@@ -268,6 +279,8 @@ namespace RoadRailSpeeds.Systems
                                 hasHover = true;
                                 bestDistanceSq = distanceSq;
                                 bestTooltipText = FormatMarkerTooltip(customSpeed.m_Speed);
+                                // UI marker tooltip expects screen coordinates. X is the marker center;
+                                // Y is just below the screen bounds so React can center the tooltip under it.
                                 bestTooltipX = center.x;
                                 bestTooltipY = Screen.height - screenBounds.yMin;
                             }

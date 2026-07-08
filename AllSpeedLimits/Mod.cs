@@ -140,12 +140,14 @@ namespace RoadRailSpeeds
                 world.GetOrCreateSystemManaged<SegmentSpeedToolUISystem>();
                 updateSystem.UpdateAt<SegmentSpeedToolUISystem>(SystemUpdatePhase.UIUpdate);
 
-                world.GetOrCreateSystemManaged<SpeedLimitMarkerRenderSystem>();
-                updateSystem.UpdateAt<SpeedLimitMarkerRenderSystem>(SystemUpdatePhase.Rendering);
-
                 // Waterway overlay only. Road/rail selection uses the game's Highlighted outline.
                 world.GetOrCreateSystemManaged<SegmentSelectionOverlayRenderSystem>();
                 updateSystem.UpdateAt<SegmentSelectionOverlayRenderSystem>(SystemUpdatePhase.Rendering);
+
+                // Draw speed numbers after the waterway selection overlay so transparent overlay
+                // colors do not wash out waterway speed labels when they overlap on screen.
+                world.GetOrCreateSystemManaged<SpeedLimitMarkerRenderSystem>();
+                updateSystem.UpdateAt<SpeedLimitMarkerRenderSystem>(SystemUpdatePhase.Rendering);
             }
             catch (Exception ex)
             {

@@ -172,6 +172,49 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         );
     };
 
+    const renderMarkerTooltip = () => {
+        if (markerTooltipText.length === 0) {
+            return null;
+        }
+
+        // Floating speed-number tooltips are NOT panel tooltips.
+        // Do not render this with PanelSideTooltip: that component adds the dark panel-help
+        // background/border and treats offsets as panel-relative. markerTooltipX/Y are screen
+        // coordinates from C#, and X is the marker center, so this renderer centers itself.
+        const markerTooltipWidth = 320;
+        const left = Math.max(8, Math.min(window.innerWidth - markerTooltipWidth - 8, markerTooltipX - (markerTooltipWidth / 2)));
+        const top = Math.max(8, Math.min(window.innerHeight - 44, markerTooltipY + 4));
+
+        return (
+            <div style={{
+                position: "fixed",
+                left: `${left}px`,
+                top: `${top}px`,
+                width: `${markerTooltipWidth}px`,
+                zIndex: 1000001,
+                pointerEvents: "none",
+                backgroundColor: "transparent",
+                color: "rgba(255, 255, 255, 1)",
+                fontSize: markerTooltipFontSize,
+                lineHeight: "1.2",
+                fontWeight: 900,
+                textShadow: "0 0 4rem rgba(0,0,0,0.95), 0 0 2rem rgba(0,0,0,0.95)",
+                paddingTop: "0",
+                paddingRight: "0",
+                paddingBottom: "0",
+                paddingLeft: "0",
+                borderWidth: "0",
+                borderStyle: "solid",
+                borderColor: "transparent",
+                textAlign: "center",
+                whiteSpace: "nowrap",
+                boxSizing: "border-box"
+            }}>
+                {markerTooltipText}
+            </div>
+        );
+    };
+
     return (
         <>
             {isGuideHovered && (
@@ -186,18 +229,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
                     content={renderTooltipBlock("", text.help.directions)}
                 />
             )}
-            {markerTooltipText.length > 0 && (
-                <PanelSideTooltip
-                    visible={true}
-                    position={{ x: 0, y: 0 }}
-                    leftOffsetPx={markerTooltipX}
-                    topOffsetPx={markerTooltipY}
-                    maxWidth="210rem"
-                    fontSize={markerTooltipFontSize}
-                    tooltipBaseStyle={tooltipBaseStyle}
-                    content={renderTooltipBlock("", [markerTooltipText])}
-                />
-            )}
+            {renderMarkerTooltip()}
             {renderSideTooltip()}
         </>
     );
