@@ -229,10 +229,11 @@ namespace RoadRailSpeeds.Systems
                     float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
                     float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
-                    // Height above segment midpoint. Water is already good. Roads/rails sit lower
-                    // close to the camera, but ease back upward at far zoom for readability.
+                    // Height above segment midpoint. Water sits a little higher so the number clears
+                    // the waterway selection band. Roads/rails sit lower close to the camera, but
+                    // ease back upward at far zoom for readability.
                     float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
-                    position.y += isWaterwayType ? 10.8f : roadMarkerHeight;
+                    position.y += isWaterwayType ? 11.4f : roadMarkerHeight;
                     Vector3 markerPosition = position;
 
                     // Floating world-speed marker size:
@@ -248,7 +249,9 @@ namespace RoadRailSpeeds.Systems
                     float textScaleMultiplier;
                     if (isWaterwayType)
                     {
-                        textScaleMultiplier = Mathf.Lerp(2.0f, 4.45f, normalizedZoom);
+                        float waterBaseScale = Mathf.Lerp(2.0f, 5.6f, normalizedZoom);
+                        float waterMidZoomBoost = 0.95f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        textScaleMultiplier = waterBaseScale + waterMidZoomBoost;
                     }
                     else
                     {
