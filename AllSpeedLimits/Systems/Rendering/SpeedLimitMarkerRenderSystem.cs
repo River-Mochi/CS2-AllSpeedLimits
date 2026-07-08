@@ -254,7 +254,7 @@ namespace RoadRailSpeeds.Systems
                         // Roads/rails: smaller close-up, with a mid-zoom readability bump.
                         // This keeps near-camera labels quieter without shrinking the scanning range.
                         float roadBaseScale = Mathf.Lerp(1.38f, 2.75f, normalizedZoom);
-                        float roadMidZoomBoost = 0.24f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float roadMidZoomBoost = 0.36f * Mathf.Sin(normalizedZoom * Mathf.PI);
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost;
                     }
 

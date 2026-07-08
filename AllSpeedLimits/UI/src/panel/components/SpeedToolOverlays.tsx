@@ -1,5 +1,5 @@
 // File: UI/src/panel/components/SpeedToolOverlays.tsx
-// Purpose: Floating side/help/marker tooltips for the speed tool panel.
+// Purpose: Floating side/help tooltips for the speed tool panel.
 
 import type { CSSProperties, ReactNode } from "react";
 import { REM_TO_TOOLTIP_PX, RIGHT_TOOLTIP_GAP_PX, RIGHT_TOOLTIP_TOP_OFFSETS } from "../constants";
@@ -25,13 +25,11 @@ type SpeedToolOverlaysProps = {
     tooltipBaseStyle: CSSProperties;
     tooltipFontSize: string;
     tooltipFontScale: number;
-    markerTooltipText: string;
     markersTooltipText: string;
     expandAllTooltipText: string;
-    markerTooltipX: number;
-    markerTooltipY: number;
-    markerTooltipFontSize: string;
     isGuideHovered: boolean;
+    isHelpHovered: boolean;
+    isMarkersHovered: boolean;
     getRoadGroupTooltip: (kind: PanelTooltipKind) => RoadGroupTooltip | null;
 };
 
@@ -45,13 +43,11 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         tooltipBaseStyle,
         tooltipFontSize,
         tooltipFontScale,
-        markerTooltipText,
         markersTooltipText,
         expandAllTooltipText,
-        markerTooltipX,
-        markerTooltipY,
-        markerTooltipFontSize,
         isGuideHovered,
+        isHelpHovered,
+        isMarkersHovered,
         getRoadGroupTooltip
     } = props;
 
@@ -172,49 +168,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         );
     };
 
-    const renderMarkerTooltip = () => {
-        if (markerTooltipText.length === 0) {
-            return null;
-        }
-
-        // Floating speed-number tooltips are NOT panel tooltips.
-        // Do not render this with PanelSideTooltip: that component adds the dark panel-help
-        // background/border and treats offsets as panel-relative. markerTooltipX/Y are screen
-        // coordinates from C#, and X is the marker center, so this renderer centers itself.
-        const markerTooltipWidth = 320;
-        const left = Math.max(8, Math.min(window.innerWidth - markerTooltipWidth - 8, markerTooltipX - (markerTooltipWidth / 2)));
-        const top = Math.max(8, Math.min(window.innerHeight - 44, markerTooltipY + 4));
-
-        return (
-            <div style={{
-                position: "fixed",
-                left: `${left}px`,
-                top: `${top}px`,
-                width: `${markerTooltipWidth}px`,
-                zIndex: 1000001,
-                pointerEvents: "none",
-                backgroundColor: "transparent",
-                color: "rgba(255, 255, 255, 1)",
-                fontSize: markerTooltipFontSize,
-                lineHeight: "1.2",
-                fontWeight: 900,
-                textShadow: "0 0 4rem rgba(0,0,0,0.95), 0 0 2rem rgba(0,0,0,0.95)",
-                paddingTop: "0",
-                paddingRight: "0",
-                paddingBottom: "0",
-                paddingLeft: "0",
-                borderWidth: "0",
-                borderStyle: "solid",
-                borderColor: "transparent",
-                textAlign: "center",
-                whiteSpace: "nowrap",
-                boxSizing: "border-box"
-            }}>
-                {markerTooltipText}
-            </div>
-        );
-    };
-
     return (
         <>
             {isGuideHovered && (
@@ -229,7 +182,37 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
                     content={renderTooltipBlock("", text.help.directions)}
                 />
             )}
-            {renderMarkerTooltip()}
+            {isMarkersHovered && (
+                <PanelSideTooltip
+                    visible={true}
+                    position={position}
+                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    topOffsetPx={28}
+                    maxWidth="210rem"
+                    fontSize={tooltipFontSize}
+                    tooltipBaseStyle={tooltipBaseStyle}
+                    content={renderTooltipBlock("", [markersTooltipText])}
+                />
+            )}
+            {isHelpHovered && (
+                <PanelSideTooltip
+                    visible={true}
+                    position={position}
+                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    topOffsetPx={30}
+                    maxWidth="210rem"
+                    fontSize={tooltipFontSize}
+                    tooltipBaseStyle={tooltipBaseStyle}
+                    content={(
+                        <div style={{
+                            color: panelTooltipsEnabled ? "rgba(255, 255, 255, 0.92)" : "rgba(111, 218, 255, 0.98)",
+                            fontWeight: "bold"
+                        }}>
+                            {panelTooltipsEnabled ? text.help.tooltipsOn : text.help.tooltipsOff}
+                        </div>
+                    )}
+                />
+            )}
             {renderSideTooltip()}
         </>
     );

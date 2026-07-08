@@ -34,9 +34,6 @@ import {
     CITY_APPLY_IN_PROGRESS,
     CITY_APPLY_APPLIED,
     CITY_APPLY_TOTAL,
-    MARKER_TOOLTIP_TEXT,
-    MARKER_TOOLTIP_X,
-    MARKER_TOOLTIP_Y,
     SELECTION_CLICK_X,
     SELECTION_CLICK_Y,
     MOD_ID,
@@ -110,9 +107,6 @@ export const SpeedToolWindow = () => {
     const cityApplyInProgress = useSafeBinding(CITY_APPLY_IN_PROGRESS, false);
     const cityApplyApplied = useSafeBinding(CITY_APPLY_APPLIED, 0);
     const cityApplyTotal = useSafeBinding(CITY_APPLY_TOTAL, 0);
-    const markerTooltipText = useSafeBinding(MARKER_TOOLTIP_TEXT, "");
-    const markerTooltipX = useSafeBinding(MARKER_TOOLTIP_X, 0);
-    const markerTooltipY = useSafeBinding(MARKER_TOOLTIP_Y, 0);
     const selectionClickX = useSafeBinding(SELECTION_CLICK_X, 0);
     const selectionClickY = useSafeBinding(SELECTION_CLICK_Y, 0);
 
@@ -163,9 +157,6 @@ export const SpeedToolWindow = () => {
     );
 
     const [isCloseHovered, setIsCloseHovered] = useState(false);
-    // While the cursor is over the panel it can sit above a road, so hide the world speed-sign
-    // tooltip (the "249 mph | 400 km/h" marker) to keep the panel controls readable.
-    const [isPanelHovered, setIsPanelHovered] = useState(false);
     const [isGuideHovered, setIsGuideHovered] = useState(false);
     const [isHelpHovered, setIsHelpHovered] = useState(false);
     const [isMarkersHovered, setIsMarkersHovered] = useState(false);
@@ -649,7 +640,6 @@ export const SpeedToolWindow = () => {
     const speedMarkersTooltipText = hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide;
     const panelWidth = PANEL_WIDTH_REM;
     const tooltipFontSize = `${10 * tooltipFontScale / 100}rem`;
-    const markerTooltipFontSize = `${20 * tooltipFontScale / 100}rem`;
     const tooltipLineHeight = `${1.35 * tooltipFontScale / 100}`;
     const confirmFontSize = `${10.5 * tooltipFontScale / 100}rem`;
     const confirmTitleFontSize = `${12.5 * tooltipFontScale / 100}rem`;
@@ -742,8 +732,9 @@ export const SpeedToolWindow = () => {
         <>
             <div
                 ref={panelRef}
-                onMouseEnter={() => setIsPanelHovered(true)}
-                onMouseLeave={() => setIsPanelHovered(false)}
+                // The world marker tooltip overlay is mounted outside this panel. This attribute
+                // keeps marker tooltips from appearing over ASL controls when a road is behind them.
+                data-asl-marker-tooltip-block="true"
                 style={{
                     position: "absolute",
                     left: `${position.x}px`,
@@ -773,8 +764,6 @@ export const SpeedToolWindow = () => {
                             onClose={handleClose}
                             onToggleTooltips={() => SetPanelTooltipsEnabled(!panelTooltipsEnabled)}
                             onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
-                            showPanelTitleTooltip={() => showPanelTooltip("panelTitle")}
-                            showMarkersTooltip={() => showPanelTooltip("markers")}
                             hidePanelTooltip={hidePanelTooltip}
                         />
                     }
@@ -1105,13 +1094,11 @@ export const SpeedToolWindow = () => {
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}
                 tooltipFontScale={tooltipFontScale}
-                markerTooltipText={isPanelHovered ? "" : markerTooltipText}
                 markersTooltipText={speedMarkersTooltipText}
                 expandAllTooltipText={expandAllTooltipText}
-                markerTooltipX={markerTooltipX}
-                markerTooltipY={markerTooltipY}
-                markerTooltipFontSize={markerTooltipFontSize}
                 isGuideHovered={isGuideHovered}
+                isHelpHovered={isHelpHovered}
+                isMarkersHovered={isMarkersHovered}
                 getRoadGroupTooltip={getRoadGroupTooltip}
             />
         </>

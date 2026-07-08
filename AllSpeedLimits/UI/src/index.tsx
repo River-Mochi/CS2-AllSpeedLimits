@@ -4,6 +4,7 @@
 import { ModRegistrar, ModuleRegistry } from "cs2/modding";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
 import { SpeedToolHint } from "./entry/SpeedToolHint";
+import { SpeedMarkerTooltipOverlay } from "./entry/SpeedMarkerTooltipOverlay";
 import { SpeedToolToolbarButton } from "./entry/SpeedToolToolbarButton";
 import { SpeedToolWindow } from "./panel/SpeedToolWindow";
 import "./images/icon-speedlimit30-classic1.svg";
@@ -17,6 +18,9 @@ const register: ModRegistrar = (moduleRegistry: ModuleRegistry) => {
 
     // Append our custom window to the Game component (shows after selection)
     moduleRegistry.append("Game", SpeedToolWindow);
+
+    // Always-mounted world marker tooltip layer. It must not depend on the selected-segment panel.
+    moduleRegistry.append("Game", SpeedMarkerTooltipOverlay);
 
     // Add our toolbar button to the top-left game UI area
     moduleRegistry.append("GameTopLeft", SpeedToolToolbarButton);

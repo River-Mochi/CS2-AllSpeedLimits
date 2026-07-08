@@ -3,7 +3,6 @@
 
 import { Button, Tooltip } from "cs2/ui";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
-import type { PanelTooltipKind } from "../types";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
 import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
@@ -28,8 +27,6 @@ type SpeedToolHeaderProps = {
     onClose: () => void;
     onToggleTooltips: () => void;
     onToggleMarkers: () => void;
-    showPanelTitleTooltip: () => void;
-    showMarkersTooltip: () => void;
     hidePanelTooltip: () => void;
 };
 
@@ -53,8 +50,6 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
         onClose,
         onToggleTooltips,
         onToggleMarkers,
-        showPanelTitleTooltip,
-        showMarkersTooltip,
         hidePanelTooltip
     } = props;
 
@@ -81,12 +76,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     src={speedLimitIcon}
                     alt=""
                     onMouseEnter={() => {
+                        hidePanelTooltip();
                         setIsGuideHovered(true);
-                        showPanelTitleTooltip();
                     }}
                     onMouseLeave={() => {
                         setIsGuideHovered(false);
-                        hidePanelTooltip();
                     }}
                     style={{
                         width: isGuideHovered ? "25rem" : "23rem",
@@ -107,13 +101,10 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     aria-label={markersTooltip}
                     onSelect={onToggleMarkers}
                     onMouseEnter={() => {
-                        setIsMarkersHovered(true);
-                        showMarkersTooltip();
-                    }}
-                    onMouseLeave={() => {
-                        setIsMarkersHovered(false);
                         hidePanelTooltip();
+                        setIsMarkersHovered(true);
                     }}
+                    onMouseLeave={() => setIsMarkersHovered(false)}
                     style={{
                         position: "relative",
                         backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
@@ -169,7 +160,10 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     focusKey={focusDisabled}
                     theme={{ button: "" }}
                     onSelect={onToggleTooltips}
-                    onMouseEnter={() => setIsHelpHovered(true)}
+                    onMouseEnter={() => {
+                        hidePanelTooltip();
+                        setIsHelpHovered(true);
+                    }}
                     onMouseLeave={() => setIsHelpHovered(false)}
                     style={{
                         backgroundColor: selectionTooltipIconActive

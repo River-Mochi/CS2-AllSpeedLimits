@@ -41,13 +41,18 @@ export const SpeedToolHint = () => {
     const PanelTheme = resolver.panelTheme;
 
     return (
-        <div ref={panelRef} style={{
-            position: "absolute",
-            left: `${position.x}px`,
-            top: `${position.y}px`,
-            width: "350rem",
-            pointerEvents: "auto"
-        }}>
+        <div
+            ref={panelRef}
+            // The world marker tooltip overlay is mounted outside this hint panel. This attribute
+            // keeps marker tooltips from appearing while the player is using ASL panel UI.
+            data-asl-marker-tooltip-block="true"
+            style={{
+                position: "absolute",
+                left: `${position.x}px`,
+                top: `${position.y}px`,
+                width: "350rem",
+                pointerEvents: "auto"
+            }}>
             <Panel
                 header={
                     <div 
