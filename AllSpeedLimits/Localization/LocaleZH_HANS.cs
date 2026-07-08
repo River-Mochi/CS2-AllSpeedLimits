@@ -1,0 +1,162 @@
+// <copyright file="LocaleZH_HANS.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi. All rights reserved.
+// Licensed under the MIT License. You may not use this file except in compliance with this License.
+// See LICENSE file in the project root for full license information.
+// This notice and the MIT License notice must be kept with
+// all copies or substantial portions of this code.
+// ================= </copyright> ======================
+
+// File: Localization/LocaleZH_HANS.cs
+// Purpose: Simplified Chinese locale Options UI settings.
+
+namespace RoadRailSpeeds
+{
+    using System.Collections.Generic;
+    using Colossal;
+    using Colossal.PSI.Common;
+    using Game.Areas;
+    using Game.Citizens;
+    using Game.City;
+    using Game.Objects;
+    using Game.UI;
+
+    public sealed class LocaleZH_HANS : IDictionarySource
+    {
+        private readonly Setting m_Setting;
+
+        public LocaleZH_HANS(Setting setting)
+        {
+            m_Setting = setting;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> ReadEntries(
+            IList<IDictionaryEntryError> errors,
+            Dictionary<string, int> indexCounts)
+        {
+            // Options menu title keeps English first for stable sorting.
+            string title = $"{Mod.ModName} (所有限速)";
+
+            return new Dictionary<string, string>
+            {
+                // Mod title and tabs
+                { m_Setting.GetSettingsLocaleID(), title },
+                { m_Setting.GetOptionTabLocaleID(Setting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(Setting.kAboutTab), "关于" },
+
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "显示选项" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "恢复游戏默认值" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "使用方法" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "调试 / 日志" },
+
+                // Speed unit preference
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "速度单位" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SpeedUnitPreference)),
+                    "选择面板和浮动标志的单位。\n" +
+                    "<AUTO> 按地图类型：EU = KM/H，NA = MPH。\n" +
+                    "<KM/H> 和 <MPH> 强制使用该显示。" },
+
+                // Panel behavior
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "滑块跟随所选路段" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
+                    "<建议开启>\n" +
+                    "开启：点击路段时，滑块会跳到第一个所选路段的当前速度。\n" +
+                    "关闭：点击其他路段时，保留上一次滑块目标值。\n" +
+                    "选择多个部分时，仍由第一个路段决定滑块起点。"
+                },
+
+                // Slider increment
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "面板滑块步长" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
+                    "设置城市面板里的滑块步长。\n" +
+                    "<默认 = 10>" },
+
+                // Tooltip font scale
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "提示文字大小" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
+                    "放大本模组弹窗和帮助文字。\n" +
+                    "<默认 110%>" },
+
+                // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "显示游戏双倍速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
+                    "<关> 显示更简单的刻度，通常更接近道路标线。\n" +
+                    "<开> 面板和悬浮文字会显示游戏较高的内部速度刻度。\n" +
+                    "如果其他提示模组显示游戏内部双倍值，并且你想保持一致，这会有用。\n" +
+                    "这只是视觉显示；保存的速度<不会真的改变>。\n" +
+                    "道路标线是美术表现，可能不完全等于 prefab 速度数据。\n" +
+                    "如果觉得混乱，就保持关闭。开或关时车辆移动看起来一样。"
+                },
+
+                // Enum values
+                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
+                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Metric), "KM/H" },
+                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
+
+                // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "恢复游戏默认速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                    "卸载模组前的可选清理。\n" +
+                    "只有在不想保留本模组的自定义速度时才使用。\n" +
+                    "卸载模组不一定需要它。没有本模组，自定义道路速度也可以留在城市里。\n" +
+                    "<============>\n" +
+                    "\n" +
+                    "这会把本模组应用的自定义速度恢复为已知的游戏默认值。\n" +
+                    "完成后，在卸载模组前请做一个**新存档**。\n" +
+                    "如果不使用它就卸载模组，自定义速度会保留，直到你修改道路等。"
+                },
+
+                { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                    "这会把所有支持的自定义限速恢复为已知的游戏默认值。\n" +
+                    "此操作无法自动撤销。\n" +
+                    "完成后，在卸载模组前请将城市保存为新存档。"
+                },
+
+                // Usage instructions
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "显示说明" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "在下方显示简短说明。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                    "<城市面板>\n" +
+                    "1. 点击或拖动选择路段。\n" +
+                    "2. 设置 <新速度>，然后点击 <应用>。\n" +
+                    "3. <重置> 会恢复所选路段。\n" +
+                    "4. 预设按钮会立即生效。\n" +
+                    "\n" +
+                    "<全城>\n" +
+                    "选择一个道路组，然后把 <新速度> 应用到该组。\n" +
+                    "用 <道路>、<轨道>、<水道> 或 <全部> 清除自定义速度。\n" +
+                    "全城修改后请 <保存城市>。"
+                },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
+
+                // About
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "模组" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.NameText)), string.Empty },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "版本" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.VersionText)), string.Empty },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "打开作者的 Paradox Mods 页面。" },
+
+                // Debug
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "调试报告写入日志" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
+                    "<正常游戏不需要。>\n" +
+                    "向 Logs/AllSpeedLimits.log 写入一次性报告。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "打开日志" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "打开 <Logs/AllSpeedLimits.log>。如果文件不存在，则打开 Logs 文件夹。" },
+            };
+        }
+
+        public void Unload()
+        {
+        }
+    }
+}

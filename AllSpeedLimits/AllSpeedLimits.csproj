@@ -1,0 +1,189 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!--
+    RoadRailSpeeds.csproj   CS2 mod: "Adjust Speed Limits" [ASL]
+    - CS2 toolchain (Mod.props / Mod.targets) supplies TargetFramework, game ref resolution, analyzers.
+    - No LangVersion override: CS2 toolchain stays on the supported C# version.
+    - Nullable enable to match River-Mochi mod defaults.
+    - UI build (under UI/) runs after C# build; webpack writes directly into the CS2 Mods folder.
+      Release fails hard on npm errors; Debug warns and continues.
+    - Version is the single source of truth here; Scripts/Update-PublishConfig.ps1 syncs it
+      into Properties/PublishConfiguration.xml + UI/mod.json on Build.
+    -->
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <Configurations>Debug;Release</Configurations>
+        <Nullable>enable</Nullable>
+
+        <!-- Paradox Mods publish config -->
+        <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+        <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
+        <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
+
+        <!-- Versioning: single source of truth -->
+        <GameVersion>1.6.*</GameVersion>
+        <Version>1.2.0</Version>
+        <AssemblyVersion>$(Version).0</AssemblyVersion>
+        <FileVersion>$(Version).0</FileVersion>
+
+        <!-- Assembly DLL name and default namespace -->
+        <RootNamespace>RoadRailSpeeds</RootNamespace>
+        <AssemblyName>RoadRailSpeeds</AssemblyName>
+        <AssemblyTitle>Adjust Speed Limits</AssemblyTitle>
+        <Product>Adjust Speed Limits</Product>
+        <Copyright>Copyright © 2026 River-Mochi</Copyright>
+
+        <!-- Configurable npm timeouts (ms). Prevents "looks stuck forever" without a hard cap on success. -->
+        <RRSNpmCiTimeoutMs Condition="'$(RRSNpmCiTimeoutMs)'==''">450000</RRSNpmCiTimeoutMs>
+        <RRSNpmBuildTimeoutMs Condition="'$(RRSNpmBuildTimeoutMs)'==''">300000</RRSNpmBuildTimeoutMs>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <UpToDateCheckInput Include="UI\**\*.tsx" />
+        <UpToDateCheckInput Include="UI\**\*.scss" />
+    </ItemGroup>
+
+    <!-- Imports must come after PropertyGroup -->
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
+
+    <!-- Keep bin/ out of the C# compile set. -->
+    <ItemGroup>
+        <Compile Remove="bin\**" />
+        <EmbeddedResource Remove="bin\**" />
+        <None Remove="bin\**" />
+        <UpToDateCheckInput Remove="bin\**" />
+    </ItemGroup>
+
+    <!-- Game / Colossal / Unity refs (toolchain resolves these via $(ManagedPath) + AssemblySearchPaths). -->
+    <ItemGroup>
+        <Reference Include="Game">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.Core">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.Logging">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.IO.AssetDatabase">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.Localization">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.PSI.Common">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.Mathematics">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.UI">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Colossal.UI.Binding">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Burst">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Collections">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Entities">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+            <Private>false</Private>
+        </Reference>
+        <!-- Required by HighlightColorGuardSystem to keep the vanilla-style outline visible while RRS is active. -->
+        <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Update="System">
+            <Private>false</Private>
+        </Reference>
+        <Reference Update="System.Core">
+            <Private>false</Private>
+        </Reference>
+        <Reference Update="System.Data">
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- Convenience link of CS2 toolchain files in Properties/ for easy viewing in VS. -->
+    <ItemGroup>
+        <None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
+        <None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
+    </ItemGroup>
+    <!--
+    In-city UI translations:
+    - EmbeddedResource lets C# register them from the DLL in both local and PDX installs.
+    - Content keeps the files visible in local build output for easy inspection/debugging.
+    -->
+    <ItemGroup>
+        <EmbeddedResource Include="lang\*.json" />
+        <Content Include="lang\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <!-- AUTO UPDATE PublishConfiguration.xml GameVersion + ModVersion + nested mod.json "version" from $(Version). -->
+    <Target Name="UpdatePublishConfigVersion" BeforeTargets="PrepareForBuild" Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
+
+        <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion/GameVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
+
+        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -GameVersion &quot;$(GameVersion)&quot; -Eol lf -LeftAlignBlocks" />
+    </Target>
+
+    <!-- Run npm ci AFTER C# build, only when needed (first time, or package-lock.json changed). -->
+    <Target Name="NpmInstallIfNeeded" AfterTargets="Build" Condition="Exists('$(ProjectDir)UI\package.json') AND Exists('$(ProjectDir)UI\package-lock.json')" Inputs="$(ProjectDir)UI\package-lock.json" Outputs="$(ProjectDir)UI\node_modules\.stamp">
+
+        <Message Text="$(AssemblyTitle) UI: npm ci (first-time or lockfile changed)..." Importance="high" />
+
+        <Exec Command="npm ci" WorkingDirectory="$(ProjectDir)UI" IgnoreExitCode="true" Timeout="$(RRSNpmCiTimeoutMs)">
+            <Output TaskParameter="ExitCode" PropertyName="NpmCiExit" />
+        </Exec>
+
+        <Error Condition="'$(Configuration)'=='Release' AND '$(NpmCiExit)'!='0'" Text="$(AssemblyTitle) UI: 'npm ci' failed (exit $(NpmCiExit)). Release build aborted." />
+
+        <Warning Condition="'$(Configuration)'!='Release' AND '$(NpmCiExit)'!='0'" Text="$(AssemblyTitle) UI: 'npm ci' failed (exit $(NpmCiExit)). Continuing (non-Release)." />
+
+        <WriteLinesToFile Condition="'$(NpmCiExit)'=='0'" File="$(ProjectDir)UI\node_modules\.stamp" Lines="ok" Overwrite="true" />
+    </Target>
+
+    <!-- Always run npm build AFTER C# build; webpack writes directly into the CS2 Mods folder. -->
+    <Target Name="BuildUI" AfterTargets="Build" DependsOnTargets="NpmInstallIfNeeded" Condition="Exists('$(ProjectDir)UI\package.json')">
+
+        <Message Text="$(AssemblyTitle) UI: npm run build ($(Configuration))..." Importance="high" />
+
+        <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)UI" IgnoreExitCode="true" Timeout="$(RRSNpmBuildTimeoutMs)">
+            <Output TaskParameter="ExitCode" PropertyName="NpmBuildExit" />
+        </Exec>
+
+        <Error Condition="'$(Configuration)'=='Release' AND '$(NpmBuildExit)'!='0'" Text="$(AssemblyTitle) UI: 'npm run build' failed (exit $(NpmBuildExit)). Release build aborted." />
+
+        <Warning Condition="'$(Configuration)'!='Release' AND '$(NpmBuildExit)'!='0'" Text="$(AssemblyTitle) UI: 'npm run build' failed (exit $(NpmBuildExit)). Continuing (non-Release)." />
+    </Target>
+</Project>
