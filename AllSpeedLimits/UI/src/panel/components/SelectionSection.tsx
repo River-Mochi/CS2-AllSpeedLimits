@@ -164,7 +164,13 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                 }}>
                     {newSpeedLabel}
                 </span>
-                <div style={{ display: "flex", alignItems: "flex-end", marginTop: "3rem" }}>
+                <div style={{
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    minHeight: "24rem",
+                    marginTop: "5rem"
+                }}>
                     <span style={{
                         fontSize: "20rem",
                         fontWeight: "bold",
@@ -191,13 +197,16 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         title={unitToggleTitle}
                         style={{
                             display: "flex",
+                            position: "absolute",
+                            left: "53rem",
+                            bottom: "1rem",
                             alignItems: "center",
                             justifyContent: "center",
                             height: "20rem",
                             minHeight: "20rem",
                             minWidth: "41rem",
-                            marginLeft: "7rem",
-                            marginBottom: "1rem",
+                            marginLeft: "0",
+                            marginBottom: "0",
                             paddingTop: "0",
                             paddingRight: "4rem",
                             paddingBottom: "0",

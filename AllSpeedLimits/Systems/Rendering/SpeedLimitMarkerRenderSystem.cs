@@ -225,13 +225,14 @@ namespace RoadRailSpeeds.Systems
                     }
 
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
-                    float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
-                    // Height above segment midpoint. Water is already good; roads/rails sit lower so
-                    // close zoom reads closer to street-sign height instead of floating above lights.
-                    position.y += isWaterwayType ? 10.8f : 8.2f;
                     float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
                     float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
                     float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
+                    float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
+                    // Height above segment midpoint. Water is already good. Roads/rails sit lower
+                    // close to the camera, but ease back upward at far zoom for readability.
+                    float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
+                    position.y += isWaterwayType ? 10.8f : roadMarkerHeight;
                     Vector3 markerPosition = position;
 
                     // Floating world-speed marker size:
