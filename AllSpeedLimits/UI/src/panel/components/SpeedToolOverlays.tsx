@@ -152,6 +152,9 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "selectedSegment") {
             maxWidth = "210rem";
             content = renderTooltipBlock(text.panel.selectedSegment, [text.tooltips.selectedSegment]);
+        } else if (panelTooltip === "newSpeedUnit") {
+            maxWidth = "160rem";
+            content = renderTooltipBlock("", [text.tooltips.newSpeedUnit]);
         } else {
             maxWidth = "120rem";
             content = renderTooltipBlock(text.tooltips.unit.title, text.tooltips.unit.lines);

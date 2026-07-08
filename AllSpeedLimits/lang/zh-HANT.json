@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "新速度只切換 kmh/mph。小按鈕仍可用 Auto。",
+  "inCity.tooltips.newSpeedUnit": "在 kmh 和 mph 之間切換。",
   "inCity.tooltips.preciseStepper": "每次調 1。長按重複。",
   "inCity.tooltips.decreaseTarget": "目標減 1",
   "inCity.tooltips.increaseTarget": "目標加 1",

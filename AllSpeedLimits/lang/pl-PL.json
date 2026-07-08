@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "Nowa prędkość przełącza tylko kmh/mph. Mały przycisk może użyć Auto.",
+  "inCity.tooltips.newSpeedUnit": "Przełącz kmh/mph.",
   "inCity.tooltips.preciseStepper": "Reguluj co 1. Przytrzymaj, aby powtarzać.",
   "inCity.tooltips.decreaseTarget": "Zmniejsz cel o 1",
   "inCity.tooltips.increaseTarget": "Zwiększ cel o 1",

@@ -12,6 +12,8 @@ type SelectionSectionProps = {
     newSpeedUnit: string;
     unitToggleTitle?: string;
     onToggleUnit: () => void;
+    onUnitMouseEnter: () => void;
+    onUnitMouseLeave: () => void;
     currentSpeedTitle?: string;
     gameDefaultTitle?: string;
     currentSpeedLabelText: string;
@@ -32,6 +34,8 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         newSpeedUnit,
         unitToggleTitle,
         onToggleUnit,
+        onUnitMouseEnter,
+        onUnitMouseLeave,
         currentSpeedTitle,
         gameDefaultTitle,
         currentSpeedLabelText,
@@ -176,8 +180,14 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         focusKey={focusKey}
                         variant="neutral"
                         onSelect={onToggleUnit}
-                        onMouseEnter={() => setUnitHovered(true)}
-                        onMouseLeave={() => setUnitHovered(false)}
+                        onMouseEnter={() => {
+                            setUnitHovered(true);
+                            onUnitMouseEnter();
+                        }}
+                        onMouseLeave={() => {
+                            setUnitHovered(false);
+                            onUnitMouseLeave();
+                        }}
                         title={unitToggleTitle}
                         style={{
                             display: "flex",

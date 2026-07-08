@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "ความเร็วใหม่สลับเฉพาะ kmh/mph ปุ่มเล็กยังใช้ Auto ได้",
+  "inCity.tooltips.newSpeedUnit": "สลับระหว่าง kmh และ mph",
   "inCity.tooltips.preciseStepper": "ปรับทีละ 1 กดค้างเพื่อซ้ำ",
   "inCity.tooltips.decreaseTarget": "ลดเป้าหมาย 1",
   "inCity.tooltips.increaseTarget": "เพิ่มเป้าหมาย 1",

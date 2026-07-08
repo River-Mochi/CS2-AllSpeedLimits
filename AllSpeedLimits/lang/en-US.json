@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "New Speed toggles only kmh/mph. The small unit button can still use Auto.",
+  "inCity.tooltips.newSpeedUnit": "Flip between kmh and mph.",
   "inCity.tooltips.preciseStepper": "Fine tune by 1 unit. Hold to repeat.",
   "inCity.tooltips.decreaseTarget": "Decrease target by 1",
   "inCity.tooltips.increaseTarget": "Increase target by 1",

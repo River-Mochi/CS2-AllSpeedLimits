@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "Yeni hız sadece kmh/mph değiştirir. Küçük düğme Auto kullanabilir.",
+  "inCity.tooltips.newSpeedUnit": "kmh ve mph arasında geçiş yap.",
   "inCity.tooltips.preciseStepper": "1 birim ayarla. Tekrar için basılı tut.",
   "inCity.tooltips.decreaseTarget": "Hedefi 1 azalt",
   "inCity.tooltips.increaseTarget": "Hedefi 1 artır",

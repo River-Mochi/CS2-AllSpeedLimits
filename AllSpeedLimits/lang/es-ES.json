@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "Nueva velocidad solo alterna kmh/mph. El botón pequeño puede usar Auto.",
+  "inCity.tooltips.newSpeedUnit": "Cambiar entre kmh y mph.",
   "inCity.tooltips.preciseStepper": "Ajusta de 1 en 1. Mantén para repetir.",
   "inCity.tooltips.decreaseTarget": "Bajar objetivo en 1",
   "inCity.tooltips.increaseTarget": "Subir objetivo en 1",

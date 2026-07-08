@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "새 속도는 kmh/mph만 전환. 작은 버튼은 Auto 가능.",
+  "inCity.tooltips.newSpeedUnit": "kmh와 mph 전환.",
   "inCity.tooltips.preciseStepper": "1씩 조정. 길게 눌러 반복.",
   "inCity.tooltips.decreaseTarget": "목표 1 감소",
   "inCity.tooltips.increaseTarget": "목표 1 증가",

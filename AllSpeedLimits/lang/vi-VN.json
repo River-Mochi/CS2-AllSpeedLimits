@@ -91,6 +91,7 @@
   "inCity.tooltips.unit.line1": "km = km/h",
   "inCity.tooltips.unit.line2": "mi = mph",
   "inCity.tooltips.unit.line3": "Tốc độ mới chỉ đổi kmh/mph. Nút nhỏ vẫn dùng Auto.",
+  "inCity.tooltips.newSpeedUnit": "Đổi giữa kmh và mph.",
   "inCity.tooltips.preciseStepper": "Chỉnh từng 1. Giữ để lặp.",
   "inCity.tooltips.decreaseTarget": "Giảm mục tiêu 1",
   "inCity.tooltips.increaseTarget": "Tăng mục tiêu 1",

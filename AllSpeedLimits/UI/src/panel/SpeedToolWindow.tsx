@@ -954,8 +954,10 @@ export const SpeedToolWindow = () => {
                                         newSpeedLabel={TEXT.panel.newSpeedLimit}
                                         newSpeedNumber={`${Math.round(displaySpeed)}`}
                                         newSpeedUnit={unitLabel}
-                                        unitToggleTitle={panelTitle("kmh / mph")}
+                                        unitToggleTitle={panelTitle(TEXT.tooltips.newSpeedUnit)}
                                         onToggleUnit={() => SetPanelSpeedUnit(!showMetric)}
+                                        onUnitMouseEnter={() => showPanelTooltip("newSpeedUnit")}
+                                        onUnitMouseLeave={hidePanelTooltip}
                                         currentSpeedTitle={panelTitle(TEXT.tooltips.currentSpeed)}
                                         gameDefaultTitle={panelTitle(TEXT.panel.gameDefault)}
                                         currentSpeedLabelText={TEXT.panel.currentSpeed}

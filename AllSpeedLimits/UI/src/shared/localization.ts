@@ -156,6 +156,7 @@ const buildText = (lookup: TextLookup) => ({
                 title: text(lookup, "inCity.tooltips.unit.title"),
                 lines: lines(lookup, "inCity.tooltips.unit", 3)
             },
+            newSpeedUnit: text(lookup, "inCity.tooltips.newSpeedUnit"),
             applyTrain: text(lookup, "inCity.tooltips.applyTrain"),
             applySubway: text(lookup, "inCity.tooltips.applySubway"),
             preciseStepper: text(lookup, "inCity.tooltips.preciseStepper"),
