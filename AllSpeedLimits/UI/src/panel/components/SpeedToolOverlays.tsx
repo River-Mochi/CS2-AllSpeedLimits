@@ -27,6 +27,7 @@ type SpeedToolOverlaysProps = {
     tooltipFontScale: number;
     markersTooltipText: string;
     expandAllTooltipText: string;
+    speedMarkersHidden: boolean;
     isGuideHovered: boolean;
     isHelpHovered: boolean;
     isMarkersHovered: boolean;
@@ -45,6 +46,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         tooltipFontScale,
         markersTooltipText,
         expandAllTooltipText,
+        speedMarkersHidden,
         isGuideHovered,
         isHelpHovered,
         isMarkersHovered,
@@ -83,7 +85,8 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             maxWidth = "220rem";
             content = renderTooltipBlock(roadGroupTooltip.title, roadGroupTooltip.lines);
         } else if (panelTooltip === "currentSpeed") {
-            maxWidth = "190rem";
+            maxWidth = "210rem";
+            fontSize = `${12 * tooltipFontScale / 100}rem`;
             content = renderTooltipBlock(text.panel.currentSpeed, text.tooltips.currentSpeed.split("\n"));
         } else if (panelTooltip === "panelTitle") {
             maxWidth = "170rem";
@@ -191,7 +194,14 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
                     maxWidth="210rem"
                     fontSize={tooltipFontSize}
                     tooltipBaseStyle={tooltipBaseStyle}
-                    content={renderTooltipBlock("", [markersTooltipText])}
+                    content={speedMarkersHidden ? (
+                        <div style={{
+                            color: "rgba(111, 218, 255, 0.98)",
+                            fontWeight: "bold"
+                        }}>
+                            {markersTooltipText}
+                        </div>
+                    ) : renderTooltipBlock("", [markersTooltipText])}
                 />
             )}
             {isHelpHovered && (

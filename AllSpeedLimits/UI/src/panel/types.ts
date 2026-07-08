@@ -24,6 +24,7 @@ export type PanelTooltipKind =
     | "statsIndustry"
     | "selectedSegment"
     | "unit"
+    | "newSpeedUnit"
     | "wholeCity"
     | "filterRoads"
     | "filterRails"

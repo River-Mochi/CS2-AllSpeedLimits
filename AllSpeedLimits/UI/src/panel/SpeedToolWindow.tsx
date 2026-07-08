@@ -568,11 +568,12 @@ export const SpeedToolWindow = () => {
         writePanelExpanded("sliderExpanded", nextValue);
     };
 
-    // Expand-or-collapse-all button in the filter row: if anything is open, close everything; else open all.
+    // Expand-or-collapse-all keeps the Selected/Presets tools open so the panel never collapses
+    // into a state where the player has no useful speed buttons available.
     const collapseAllSections = () => {
-        const nextValue = !(selectionInfoExpanded || sliderExpanded || wholeCityExpanded || statsExpanded);
-        setSelectionInfoExpanded(nextValue);
-        writePanelExpanded("selectionInfoExpanded", nextValue);
+        const nextValue = !(sliderExpanded || wholeCityExpanded || statsExpanded);
+        setSelectionInfoExpanded(true);
+        writePanelExpanded("selectionInfoExpanded", true);
         setSliderExpanded(nextValue);
         writePanelExpanded("sliderExpanded", nextValue);
         setWholeCityExpanded(nextValue);
@@ -635,7 +636,7 @@ export const SpeedToolWindow = () => {
     const presetRows = [presetSpeeds.slice(0, 6), presetSpeeds.slice(6, 12), presetSpeeds.slice(12)];
     const cityActionInfo = pendingCityAction !== null ? getCityActionInfo(pendingCityAction) : null;
     const cityActionBusy = cityActionApplying !== null || cityResetInProgress || cityApplyInProgress;
-    const anySectionExpanded = selectionInfoExpanded || sliderExpanded || wholeCityExpanded || statsExpanded;
+    const anySectionExpanded = sliderExpanded || wholeCityExpanded || statsExpanded;
     const expandAllTooltipText = anySectionExpanded ? TEXT.buttons.collapseAll : TEXT.buttons.expandAll;
     const speedMarkersTooltipText = hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide;
     const panelWidth = PANEL_WIDTH_REM;
@@ -1096,6 +1097,7 @@ export const SpeedToolWindow = () => {
                 tooltipFontScale={tooltipFontScale}
                 markersTooltipText={speedMarkersTooltipText}
                 expandAllTooltipText={expandAllTooltipText}
+                speedMarkersHidden={hideSpeedMarkers}
                 isGuideHovered={isGuideHovered}
                 isHelpHovered={isHelpHovered}
                 isMarkersHovered={isMarkersHovered}

@@ -64,6 +64,7 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     statsIndustry: 340,
     selectedSegment: 118,
     unit: 28,
+    newSpeedUnit: 128,
     wholeCity: 300,
     // Filter chips sit just under the title bar; Apply is in the main edit block.
     filterRoads: 58,
