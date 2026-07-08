@@ -78,6 +78,18 @@ namespace RoadRailSpeeds
         [SettingsUIHidden]
         public int ToolPanelPositionY { get; set; } = -1;
 
+        [SettingsUIHidden]
+        public bool SelectionInfoExpanded { get; set; } = true;
+
+        [SettingsUIHidden]
+        public bool SliderExpanded { get; set; } = true;
+
+        [SettingsUIHidden]
+        public bool WholeCityExpanded { get; set; }
+
+        [SettingsUIHidden]
+        public bool StatsExpanded { get; set; }
+
         [SettingsUIButton]
         [SettingsUIConfirmation]
         [SettingsUISection(kMainTab, kResetGroup)]
@@ -164,6 +176,10 @@ namespace RoadRailSpeeds
             HideSpeedMarkers = false;
             ToolPanelPositionX = -1;
             ToolPanelPositionY = -1;
+            SelectionInfoExpanded = true;
+            SliderExpanded = true;
+            WholeCityExpanded = false;
+            StatsExpanded = false;
             ShowUsage = false;
         }
 

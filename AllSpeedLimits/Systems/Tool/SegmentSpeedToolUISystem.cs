@@ -83,6 +83,9 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<float> m_SelectionClickYBinding = null!;
         private ValueBindingHelper<int> m_ToolPanelXBinding = null!;
         private ValueBindingHelper<int> m_ToolPanelYBinding = null!;
+        private ValueBindingHelper<bool> m_SelectionInfoExpandedBinding = null!;
+        private ValueBindingHelper<bool> m_SliderExpandedBinding = null!;
+        private ValueBindingHelper<bool> m_WholeCityExpandedBinding = null!;
 
         private Setting? m_Settings;
         private int m_LastVehicleStatsFrame = -1;
@@ -166,6 +169,9 @@ namespace RoadRailSpeeds.Systems
             m_SelectionClickYBinding = CreateBinding("SELECTION_CLICK_Y", 0f);
             m_ToolPanelXBinding = CreateBinding("TOOL_PANEL_X", -1);
             m_ToolPanelYBinding = CreateBinding("TOOL_PANEL_Y", -1);
+            m_SelectionInfoExpandedBinding = CreateBinding("SELECTION_INFO_EXPANDED", true);
+            m_SliderExpandedBinding = CreateBinding("SLIDER_EXPANDED", true);
+            m_WholeCityExpandedBinding = CreateBinding("WHOLE_CITY_EXPANDED", false);
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
@@ -182,6 +188,9 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<bool>("ACTIVATE_TOOL", HandleActivateTool);
             CreateTrigger<bool>("SET_PANEL_TOOLTIPS_ENABLED", HandleSetPanelTooltipsEnabled);
             CreateTrigger<bool>("SET_HIDE_SPEED_MARKERS", HandleSetHideSpeedMarkers);
+            CreateTrigger<bool>("SET_SELECTION_INFO_EXPANDED", HandleSetSelectionInfoExpanded);
+            CreateTrigger<bool>("SET_SLIDER_EXPANDED", HandleSetSliderExpanded);
+            CreateTrigger<bool>("SET_WHOLE_CITY_EXPANDED", HandleSetWholeCityExpanded);
             CreateTrigger<bool>("SET_STATS_EXPANDED", HandleSetStatsExpanded);
             CreateTrigger("RESET_CITY_ROADS", HandleResetCityRoads);
             CreateTrigger("RESET_CITY_RAILS", HandleResetCityRails);
@@ -231,6 +240,10 @@ namespace RoadRailSpeeds.Systems
             m_SelectionClickYBinding.Value = 0f;
             m_ToolPanelXBinding.Value = m_Settings?.ToolPanelPositionX ?? -1;
             m_ToolPanelYBinding.Value = m_Settings?.ToolPanelPositionY ?? -1;
+            m_SelectionInfoExpandedBinding.Value = m_Settings?.SelectionInfoExpanded ?? true;
+            m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
+            m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? false;
+            m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? false;
 
             // Push initial binding values so React does not read uninitialized values.
             RequestUpdate();
@@ -252,7 +265,10 @@ namespace RoadRailSpeeds.Systems
             m_IsWaterwayTypeBinding.Value = false;
             m_PanelTooltipsEnabledBinding.Value = m_Settings?.PanelTooltipsEnabled ?? true;
             m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
-            m_StatsExpandedBinding.Value = false;
+            m_SelectionInfoExpandedBinding.Value = m_Settings?.SelectionInfoExpanded ?? true;
+            m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
+            m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? false;
+            m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? false;
             ClearCityVehicleStatsBindings();
             ClearCityResetBindings();
             ClearCityApplyBindings();
@@ -378,6 +394,30 @@ namespace RoadRailSpeeds.Systems
                 m_ToolPanelYBinding.Value = toolPanelY;
             }
 
+            bool selectionInfoExpanded = m_Settings?.SelectionInfoExpanded ?? true;
+            if (m_SelectionInfoExpandedBinding.Value != selectionInfoExpanded)
+            {
+                m_SelectionInfoExpandedBinding.Value = selectionInfoExpanded;
+            }
+
+            bool sliderExpanded = m_Settings?.SliderExpanded ?? true;
+            if (m_SliderExpandedBinding.Value != sliderExpanded)
+            {
+                m_SliderExpandedBinding.Value = sliderExpanded;
+            }
+
+            bool wholeCityExpanded = m_Settings?.WholeCityExpanded ?? false;
+            if (m_WholeCityExpandedBinding.Value != wholeCityExpanded)
+            {
+                m_WholeCityExpandedBinding.Value = wholeCityExpanded;
+            }
+
+            bool statsExpanded = m_Settings?.StatsExpanded ?? false;
+            if (m_StatsExpandedBinding.Value != statsExpanded)
+            {
+                m_StatsExpandedBinding.Value = statsExpanded;
+            }
+
             UpdateCityResetBindings();
             UpdateCityApplyBindings();
             UpdateMarkerTooltipBindings(toolActive);
@@ -479,13 +519,58 @@ namespace RoadRailSpeeds.Systems
             RequestUpdate();
         }
 
-        private void HandleSetStatsExpanded(bool expanded)
+        private void HandleSetSelectionInfoExpanded(bool expanded)
         {
-            if (m_StatsExpandedBinding.Value == expanded)
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null || m_Settings.SelectionInfoExpanded == expanded)
             {
                 return;
             }
 
+            m_Settings.SelectionInfoExpanded = expanded;
+            m_Settings.ApplyAndSave();
+            m_SelectionInfoExpandedBinding.Value = expanded;
+            RequestUpdate();
+        }
+
+        private void HandleSetSliderExpanded(bool expanded)
+        {
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null || m_Settings.SliderExpanded == expanded)
+            {
+                return;
+            }
+
+            m_Settings.SliderExpanded = expanded;
+            m_Settings.ApplyAndSave();
+            m_SliderExpandedBinding.Value = expanded;
+            RequestUpdate();
+        }
+
+        private void HandleSetWholeCityExpanded(bool expanded)
+        {
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null || m_Settings.WholeCityExpanded == expanded)
+            {
+                return;
+            }
+
+            m_Settings.WholeCityExpanded = expanded;
+            m_Settings.ApplyAndSave();
+            m_WholeCityExpandedBinding.Value = expanded;
+            RequestUpdate();
+        }
+
+        private void HandleSetStatsExpanded(bool expanded)
+        {
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null || m_Settings.StatsExpanded == expanded)
+            {
+                return;
+            }
+
+            m_Settings.StatsExpanded = expanded;
+            m_Settings.ApplyAndSave();
             m_StatsExpandedBinding.Value = expanded;
             m_LastVehicleStatsFrame = -1;
             RequestUpdate();

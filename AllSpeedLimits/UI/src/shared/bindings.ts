@@ -158,6 +158,22 @@ export const TOOL_PANEL_Y = bindValue<number>(
   MOD_ID,
   "BINDING:TOOL_PANEL_Y"
 );
+export const SELECTION_INFO_EXPANDED = bindValue<boolean>(
+  MOD_ID,
+  "BINDING:SELECTION_INFO_EXPANDED"
+);
+export const SLIDER_EXPANDED = bindValue<boolean>(
+  MOD_ID,
+  "BINDING:SLIDER_EXPANDED"
+);
+export const WHOLE_CITY_EXPANDED = bindValue<boolean>(
+  MOD_ID,
+  "BINDING:WHOLE_CITY_EXPANDED"
+);
+export const STATS_EXPANDED = bindValue<boolean>(
+  MOD_ID,
+  "BINDING:STATS_EXPANDED"
+);
 
 export function ApplySpeed(speed: number) {
   trigger(MOD_ID, "TRIGGER:APPLY_SPEED", speed);
@@ -221,6 +237,18 @@ export function SetStatsExpanded(expanded: boolean) {
 
 export function SaveToolPanelPosition(x: number, y: number) {
   trigger(MOD_ID, "TRIGGER:SET_TOOL_PANEL_POSITION", Math.round(x), Math.round(y));
+}
+
+export function SetSelectionInfoExpanded(expanded: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_SELECTION_INFO_EXPANDED", expanded);
+}
+
+export function SetSliderExpanded(expanded: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_SLIDER_EXPANDED", expanded);
+}
+
+export function SetWholeCityExpanded(expanded: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_WHOLE_CITY_EXPANDED", expanded);
 }
 
 export function ActivateTool() {

@@ -36,7 +36,10 @@ import {
     CITY_APPLY_TOTAL,
     SELECTION_CLICK_X,
     SELECTION_CLICK_Y,
-    MOD_ID,
+    SELECTION_INFO_EXPANDED,
+    SLIDER_EXPANDED,
+    WHOLE_CITY_EXPANDED,
+    STATS_EXPANDED,
     ApplySpeed,
     ApplyCityRoadGroupSpeed,
     ApplyCityTrainSpeed,
@@ -50,6 +53,9 @@ import {
     SetPanelSpeedUnit,
     SetPanelTooltipsEnabled,
     SetHideSpeedMarkers,
+    SetSelectionInfoExpanded,
+    SetSliderExpanded,
+    SetWholeCityExpanded,
     SetStatsExpanded,
     SetToolActive
 } from "../shared/bindings";
@@ -110,30 +116,10 @@ export const SpeedToolWindow = () => {
     const selectionClickX = useSafeBinding(SELECTION_CLICK_X, 0);
     const selectionClickY = useSafeBinding(SELECTION_CLICK_Y, 0);
 
-    const readPanelExpanded = (key: string, defaultValue: boolean): boolean => {
-        try {
-            const value = window.localStorage?.getItem(`${MOD_ID}.${key}`);
-            if (value === "true") {
-                return true;
-            }
-
-            if (value === "false") {
-                return false;
-            }
-        } catch (e) {
-            return defaultValue;
-        }
-
-        return defaultValue;
-    };
-
-    const writePanelExpanded = (key: string, value: boolean) => {
-        try {
-            window.localStorage?.setItem(`${MOD_ID}.${key}`, value ? "true" : "false");
-        } catch (e) {
-            // Preference persistence is best-effort only.
-        }
-    };
+    const savedSelectionInfoExpanded = useSafeBinding(SELECTION_INFO_EXPANDED, true);
+    const savedSliderExpanded = useSafeBinding(SLIDER_EXPANDED, true);
+    const savedWholeCityExpanded = useSafeBinding(WHOLE_CITY_EXPANDED, false);
+    const savedStatsExpanded = useSafeBinding(STATS_EXPANDED, false);
 
     const [visible, setVisible] = useState(false);
     const [pendingSpeedKmh, setPendingSpeedKmh] = useState(5);
@@ -163,13 +149,28 @@ export const SpeedToolWindow = () => {
     const [isExpandAllHovered, setIsExpandAllHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
-    // Default OPEN on first install so the "First segment selected" summary is discoverable (its
-    // label sits tight on the slider and players missed that it expands). Once the player toggles
-    // it, the stored preference wins on every later open, same as the other sections.
-    const [selectionInfoExpanded, setSelectionInfoExpanded] = useState(() => readPanelExpanded("selectionInfoExpanded", true));
-    const [sliderExpanded, setSliderExpanded] = useState(() => readPanelExpanded("sliderExpanded", true));
-    const [wholeCityExpanded, setWholeCityExpanded] = useState(() => readPanelExpanded("wholeCityExpanded", false));
-    const [statsExpanded, setStatsExpanded] = useState(() => readPanelExpanded("statsExpanded", false));
+    // Default OPEN on first install so the "First segment selected" summary is discoverable. These
+    // states are persisted through hidden ModSetting values, not COHTML/browser localStorage.
+    const [selectionInfoExpanded, setSelectionInfoExpanded] = useState(savedSelectionInfoExpanded);
+    const [sliderExpanded, setSliderExpanded] = useState(savedSliderExpanded);
+    const [wholeCityExpanded, setWholeCityExpanded] = useState(savedWholeCityExpanded);
+    const [statsExpanded, setStatsExpanded] = useState(savedStatsExpanded);
+
+    useEffect(() => {
+        setSelectionInfoExpanded(savedSelectionInfoExpanded);
+    }, [savedSelectionInfoExpanded]);
+
+    useEffect(() => {
+        setSliderExpanded(savedSliderExpanded);
+    }, [savedSliderExpanded]);
+
+    useEffect(() => {
+        setWholeCityExpanded(savedWholeCityExpanded);
+    }, [savedWholeCityExpanded]);
+
+    useEffect(() => {
+        setStatsExpanded(savedStatsExpanded);
+    }, [savedStatsExpanded]);
 
     const resolver = VanillaComponentResolver.instance;
     const Panel = resolver.Panel;
@@ -550,7 +551,7 @@ export const SpeedToolWindow = () => {
     const toggleWholeCityExpanded = () => {
         const nextValue = !wholeCityExpanded;
         setWholeCityExpanded(nextValue);
-        writePanelExpanded("wholeCityExpanded", nextValue);
+        SetWholeCityExpanded(nextValue);
         if (!nextValue) {
             setSelectedRoadGroup(null);
         }
@@ -559,13 +560,13 @@ export const SpeedToolWindow = () => {
     const toggleSelectionInfoExpanded = () => {
         const nextValue = !selectionInfoExpanded;
         setSelectionInfoExpanded(nextValue);
-        writePanelExpanded("selectionInfoExpanded", nextValue);
+        SetSelectionInfoExpanded(nextValue);
     };
 
     const toggleSliderExpanded = () => {
         const nextValue = !sliderExpanded;
         setSliderExpanded(nextValue);
-        writePanelExpanded("sliderExpanded", nextValue);
+        SetSliderExpanded(nextValue);
     };
 
     // Expand-or-collapse-all keeps the Selected/Presets tools open so the panel never collapses
@@ -573,13 +574,13 @@ export const SpeedToolWindow = () => {
     const collapseAllSections = () => {
         const nextValue = !(sliderExpanded || wholeCityExpanded || statsExpanded);
         setSelectionInfoExpanded(true);
-        writePanelExpanded("selectionInfoExpanded", true);
+        SetSelectionInfoExpanded(true);
         setSliderExpanded(nextValue);
-        writePanelExpanded("sliderExpanded", nextValue);
+        SetSliderExpanded(nextValue);
         setWholeCityExpanded(nextValue);
-        writePanelExpanded("wholeCityExpanded", nextValue);
+        SetWholeCityExpanded(nextValue);
         setStatsExpanded(nextValue);
-        writePanelExpanded("statsExpanded", nextValue);
+        SetStatsExpanded(nextValue);
         if (!nextValue) {
             setSelectedRoadGroup(null);
         }
@@ -588,7 +589,7 @@ export const SpeedToolWindow = () => {
     const toggleStatsExpanded = () => {
         const nextValue = !statsExpanded;
         setStatsExpanded(nextValue);
-        writePanelExpanded("statsExpanded", nextValue);
+        SetStatsExpanded(nextValue);
     };
 
     const handleMouseDown = (event: React.MouseEvent) => {
