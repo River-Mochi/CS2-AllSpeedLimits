@@ -32,7 +32,6 @@ type SpeedToolOverlaysProps = {
     markerTooltipY: number;
     markerTooltipFontSize: string;
     isGuideHovered: boolean;
-    isHelpHovered: boolean;
     getRoadGroupTooltip: (kind: PanelTooltipKind) => RoadGroupTooltip | null;
 };
 
@@ -53,7 +52,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         markerTooltipY,
         markerTooltipFontSize,
         isGuideHovered,
-        isHelpHovered,
         getRoadGroupTooltip
     } = props;
 
@@ -188,10 +186,10 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
                     content={renderTooltipBlock("", text.help.directions)}
                 />
             )}
-            {isHelpHovered && (
+            {markerTooltipText.length > 0 && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
+                    position={{ x: 0, y: 0 }}
                     leftOffsetPx={markerTooltipX}
                     topOffsetPx={markerTooltipY}
                     maxWidth="210rem"

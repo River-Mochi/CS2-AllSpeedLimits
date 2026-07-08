@@ -56,10 +56,10 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease them when the tooltip feels too eager.
-        // Tightened so the cursor has to sit closer to the floating sign before the tooltip shows.
-        private const float s_MarkerTooltipPaddingPx = 2f;
-        private const float s_MarkerTooltipMinWidthPx = 44f;
-        private const float s_MarkerTooltipMinHeightPx = 24f;
+        // Keep the hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
+        private const float s_MarkerTooltipPaddingPx = 6f;
+        private const float s_MarkerTooltipMinWidthPx = 52f;
+        private const float s_MarkerTooltipMinHeightPx = 30f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;
@@ -226,8 +226,8 @@ namespace RoadRailSpeeds.Systems
 
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
-                    // Height above segment midpoint. Keep markers off the road surface for segment mode.
-                    position.y += isWaterwayType ? 13.2f : 10.8f;
+                    // Height above segment midpoint. Keep markers close enough to read as map labels.
+                    position.y += isWaterwayType ? 10.8f : 9.2f;
                     float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
                     float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
                     float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
@@ -245,7 +245,7 @@ namespace RoadRailSpeeds.Systems
                     //    smaller Pow exponent grows sooner; larger exponent grows later.
                     float textScaleMultiplier = isWaterwayType
                         ? Mathf.Lerp(2.0f, 4.45f, normalizedZoom)   // Waterway markers are bigger bc they sit higher; usually read from farther away.
-                        : Mathf.Lerp(1.55f, 2.85f, normalizedZoom); // road/track markers
+                        : Mathf.Lerp(1.50f, 2.75f, normalizedZoom); // road/track markers
 
                     if (canUpdateMarkerTooltip &&
                         hoverCamera != null &&

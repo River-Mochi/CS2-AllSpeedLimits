@@ -1112,7 +1112,6 @@ export const SpeedToolWindow = () => {
                 markerTooltipY={markerTooltipY}
                 markerTooltipFontSize={markerTooltipFontSize}
                 isGuideHovered={isGuideHovered}
-                isHelpHovered={isHelpHovered}
                 getRoadGroupTooltip={getRoadGroupTooltip}
             />
         </>
