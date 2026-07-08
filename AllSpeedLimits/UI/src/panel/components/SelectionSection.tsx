@@ -49,6 +49,8 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     } = props;
 
     const [unitHovered, setUnitHovered] = useState(false);
+    const detailValueColor = "rgba(255, 255, 255, 0.74)";
+    const unitToggleIdleColor = "rgba(255, 255, 255, 0.86)";
 
     const splitSpeedValue = (value: string) => {
         const parts = value.trim().split(/\s+/);
@@ -78,7 +80,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     const valueStyle = {
         fontSize: "12.2rem",
         fontWeight: 800,
-        color: "rgba(255, 255, 255, 0.78)",
+        color: detailValueColor,
         display: "flex" as const,
         justifyContent: "flex-start" as const,
         width: "49rem",
@@ -91,6 +93,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
     const valueNumberStyle = {
         width: "25rem",
         minWidth: "25rem",
+        color: detailValueColor,
         display: "flex" as const,
         justifyContent: "flex-end" as const,
         textAlign: "right" as const
@@ -100,6 +103,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         width: "22rem",
         minWidth: "22rem",
         marginLeft: "2rem",
+        color: detailValueColor,
         textAlign: "left" as const
     };
 
@@ -107,7 +111,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         display: "flex",
         alignItems: "center" as const,
         justifyContent: "flex-start" as const,
-        minHeight: "18rem",
+        minHeight: "16rem",
         minWidth: "0"
     };
 
@@ -137,11 +141,12 @@ export const SelectionSection = (props: SelectionSectionProps) => {
         <div style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            minHeight: "78rem",
-            paddingTop: "4rem",
+            justifyContent: "flex-start",
+            height: "84rem",
+            minHeight: "84rem",
+            paddingTop: "3rem",
             paddingRight: "3rem",
-            paddingBottom: "3rem",
+            paddingBottom: "2rem",
             paddingLeft: "7rem",
             backgroundColor: "rgba(255, 255, 255, 0.02)",
             borderWidth: "1rem",
@@ -168,16 +173,18 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                     position: "relative",
                     display: "flex",
                     alignItems: "flex-end",
-                    minHeight: "24rem",
-                    marginTop: "5rem"
+                    minHeight: "21rem",
+                    marginTop: "4rem"
                 }}>
                     <span style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
                         fontSize: "20rem",
                         fontWeight: "bold",
                         color: "#fff",
                         whiteSpace: "nowrap",
                         lineHeight: "1.05",
-                        minWidth: "0"
+                        width: "36rem"
                     }}>
                         {newSpeedNumber}
                     </span>
@@ -198,19 +205,20 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                         style={{
                             display: "flex",
                             position: "absolute",
-                            left: "53rem",
-                            bottom: "1rem",
+                            left: "55.5rem",
+                            bottom: "0",
                             alignItems: "center",
                             justifyContent: "center",
                             height: "20rem",
                             minHeight: "20rem",
-                            minWidth: "41rem",
+                            width: "45rem",
+                            minWidth: "45rem",
                             marginLeft: "0",
                             marginBottom: "0",
                             paddingTop: "0",
-                            paddingRight: "4rem",
+                            paddingRight: "0",
                             paddingBottom: "0",
-                            paddingLeft: "4rem",
+                            paddingLeft: "0",
                             backgroundColor: unitHovered ? "rgba(255, 255, 255, 0.09)" : "transparent",
                             borderWidth: "1rem",
                             borderStyle: "solid",
@@ -219,7 +227,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
                             boxSizing: "border-box",
                             fontSize: unitHovered ? "16.9rem" : "16.2rem",
                             fontWeight: 800,
-                            color: unitHovered ? "rgba(255, 255, 255, 0.98)" : "rgba(255, 255, 255, 0.78)",
+                            color: unitHovered ? "rgba(255, 255, 255, 0.98)" : unitToggleIdleColor,
                             lineHeight: "1"
                         }}
                     >
@@ -229,7 +237,7 @@ export const SelectionSection = (props: SelectionSectionProps) => {
             </div>
 
             {/* Current / Default, tied to New speed inside the same outlined group. */}
-            <div style={{ marginTop: "7rem", paddingLeft: "0", paddingRight: "1rem" }}>
+            <div style={{ marginTop: "4rem", paddingLeft: "0", paddingRight: "1rem" }}>
                 <div
                     onMouseEnter={onCurrentSpeedMouseEnter}
                     onMouseLeave={onCurrentSpeedMouseLeave}
