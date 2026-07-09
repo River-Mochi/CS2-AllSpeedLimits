@@ -49,6 +49,67 @@ namespace RoadRailSpeeds.Systems
             Rail = 2
         }
 
+        private enum MarkerNetworkKind
+        {
+            Road = 0,
+            Rail = 1,
+            Water = 2
+        }
+
+        private readonly struct MarkerGroupKey : IEquatable<MarkerGroupKey>
+        {
+            public readonly int SpeedKmh;
+            public readonly MarkerVisualKind VisualKind;
+            public readonly MarkerNetworkKind NetworkKind;
+
+            public MarkerGroupKey(int speedKmh, MarkerVisualKind visualKind, MarkerNetworkKind networkKind)
+            {
+                SpeedKmh = speedKmh;
+                VisualKind = visualKind;
+                NetworkKind = networkKind;
+            }
+
+            public bool Equals(MarkerGroupKey other)
+            {
+                return SpeedKmh == other.SpeedKmh &&
+                    VisualKind == other.VisualKind &&
+                    NetworkKind == other.NetworkKind;
+            }
+
+            public override bool Equals(object? obj)
+            {
+                return obj is MarkerGroupKey other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return (SpeedKmh * 397) ^ ((int)VisualKind * 31) ^ (int)NetworkKind;
+            }
+        }
+
+        private readonly struct MarkerRenderIdentity
+        {
+            public readonly float SpeedKmh;
+            public readonly int RoundedSpeedKmh;
+            public readonly bool IsWaterwayType;
+            public readonly MarkerVisualKind VisualKind;
+            public readonly MarkerGroupKey GroupKey;
+
+            public MarkerRenderIdentity(
+                float speedKmh,
+                int roundedSpeedKmh,
+                bool isWaterwayType,
+                MarkerVisualKind visualKind,
+                MarkerGroupKey groupKey)
+            {
+                SpeedKmh = speedKmh;
+                RoundedSpeedKmh = roundedSpeedKmh;
+                IsWaterwayType = isWaterwayType;
+                VisualKind = visualKind;
+                GroupKey = groupKey;
+            }
+        }
+
         private RenderingSystem m_RenderingSystem = null!;
         private OverlayRenderSystem m_OverlayRenderSystem = null!;
         private SegmentSpeedToolSystem m_SegmentSpeedToolSystem = null!;
@@ -58,10 +119,21 @@ namespace RoadRailSpeeds.Systems
 
         private EntityQuery m_CustomSpeedQuery;
         private readonly Dictionary<int, TextMeshInfo> m_TextMeshCache = new Dictionary<int, TextMeshInfo>();
+        private readonly Dictionary<Entity, MarkerRenderIdentity> m_FrameMarkerIdentities =
+            new Dictionary<Entity, MarkerRenderIdentity>();
+        private readonly HashSet<Entity> m_FrameVisibleMarkerEdges = new HashSet<Entity>();
+        private readonly HashSet<Entity> m_FrameVisitedMarkerEdges = new HashSet<Entity>();
+        private readonly List<Entity> m_FrameMarkerStack = new List<Entity>();
+        private readonly List<Entity> m_FrameMarkerGroup = new List<Entity>();
+        private readonly Dictionary<MarkerGroupKey, List<Vector2>> m_FrameDrawnMarkerCenters =
+            new Dictionary<MarkerGroupKey, List<Vector2>>();
         // Floating number color knobs. These are text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
+        private const float s_MarkerGroupingStartZoom = 0.35f;
+        private const float s_MarkerDuplicateMinDistancePx = 64f;
+        private const float s_MarkerDuplicateMaxDistancePx = 120f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease them when the tooltip feels too eager.
         // Keep the hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
@@ -207,6 +279,22 @@ namespace RoadRailSpeeds.Systems
                 string bestTooltipText = string.Empty;
                 float bestTooltipX = 0f;
                 float bestTooltipY = 0f;
+                float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
+                float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
+                float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
+                bool groupMarkers = normalizedZoom >= s_MarkerGroupingStartZoom;
+                float duplicateDistancePx = Mathf.Lerp(
+                    s_MarkerDuplicateMinDistancePx,
+                    s_MarkerDuplicateMaxDistancePx,
+                    normalizedZoom);
+                float duplicateDistanceSq = duplicateDistancePx * duplicateDistancePx;
+
+                ClearFrameMarkerCollections();
+                if (groupMarkers)
+                {
+                    BuildFrameMarkerIdentities(entities);
+                    BuildVisibleMarkerGroups(entities);
+                }
 
                 foreach (Entity edge in entities)
                 {
@@ -215,16 +303,25 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
-                    CustomSpeed customSpeed = EntityManager.GetComponentData<CustomSpeed>(edge);
-                    bool isWaterwayType = IsWaterwayEdge(edge);
-                    int speedKmh = Mathf.RoundToInt(customSpeed.m_Speed);
-                    bool isDefaultSpeed = IsDefaultSpeed(edge, customSpeed.m_Speed);
-                    MarkerVisualKind visualKind = GetMarkerVisualKind(edge, isDefaultSpeed);
-                    int cacheKey = GetTextMeshCacheKey(speedKmh, visualKind);
+                    MarkerRenderIdentity identity;
+                    if (groupMarkers)
+                    {
+                        if (!m_FrameVisibleMarkerEdges.Contains(edge) ||
+                            !m_FrameMarkerIdentities.TryGetValue(edge, out identity))
+                        {
+                            continue;
+                        }
+                    }
+                    else if (!TryGetMarkerRenderIdentity(edge, out identity))
+                    {
+                        continue;
+                    }
+
+                    int cacheKey = GetTextMeshCacheKey(identity.RoundedSpeedKmh, identity.VisualKind);
 
                     if (!m_TextMeshCache.TryGetValue(cacheKey, out TextMeshInfo meshInfo))
                     {
-                        meshInfo = CreateTextMesh(speedKmh, visualKind);
+                        meshInfo = CreateTextMesh(identity.RoundedSpeedKmh, identity.VisualKind);
                         m_TextMeshCache[cacheKey] = meshInfo;
                     }
 
@@ -234,15 +331,12 @@ namespace RoadRailSpeeds.Systems
                     }
 
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
-                    float zoomLevel = m_CameraUpdateSystem != null ? m_CameraUpdateSystem.zoom : 5000f;
-                    float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
-                    float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
                     // Height above segment midpoint. Water sits a little higher so the number clears
                     // the waterway selection band. Roads/rails sit lower close to the camera, but
                     // ease back upward at far zoom for readability.
                     float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
-                    position.y += isWaterwayType ? 11.4f : roadMarkerHeight;
+                    position.y += identity.IsWaterwayType ? 11.4f : roadMarkerHeight;
                     Vector3 markerPosition = position;
 
                     // Floating world-speed marker size:
@@ -256,7 +350,7 @@ namespace RoadRailSpeeds.Systems
                     // 4. If only middle zoom feels wrong, tune normalizedZoom above:
                     //    smaller Pow exponent grows sooner; larger exponent grows later.
                     float textScaleMultiplier;
-                    if (isWaterwayType)
+                    if (identity.IsWaterwayType)
                     {
                         float waterBaseScale = Mathf.Lerp(2.0f, 5.6f, normalizedZoom);
                         float waterMidZoomBoost = 0.95f * Mathf.Sin(normalizedZoom * Mathf.PI);
@@ -271,14 +365,28 @@ namespace RoadRailSpeeds.Systems
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost;
                     }
 
-                    if (canUpdateMarkerTooltip &&
-                        hoverCamera != null &&
+                    Rect screenBounds = default;
+                    bool hasScreenBounds = hoverCamera != null &&
                         TryGetMarkerScreenBounds(
                             hoverCamera,
                             markerPosition,
                             meshInfo.Mesh,
                             textScaleMultiplier,
-                            out Rect screenBounds))
+                            out screenBounds);
+
+                    if (groupMarkers &&
+                        hasScreenBounds &&
+                        ShouldSkipNearbyDuplicateMarker(identity.GroupKey, screenBounds.center, duplicateDistanceSq))
+                    {
+                        continue;
+                    }
+
+                    if (groupMarkers && hasScreenBounds)
+                    {
+                        RegisterDrawnMarkerCenter(identity.GroupKey, screenBounds.center);
+                    }
+
+                    if (canUpdateMarkerTooltip && hasScreenBounds)
                     {
                         if (screenBounds.Contains(new Vector2(mousePosition.x, mousePosition.y)))
                         {
@@ -291,7 +399,7 @@ namespace RoadRailSpeeds.Systems
                             {
                                 hasHover = true;
                                 bestDistanceSq = distanceSq;
-                                bestTooltipText = FormatMarkerTooltip(customSpeed.m_Speed);
+                                bestTooltipText = FormatMarkerTooltip(identity.SpeedKmh);
                                 // UI marker tooltip expects screen coordinates. X is the marker center;
                                 // Y is just below the screen bounds so React can center the tooltip under it.
                                 bestTooltipX = center.x;
@@ -511,6 +619,211 @@ namespace RoadRailSpeeds.Systems
             return EntityManager.HasComponent<Waterway>(edge);
         }
 
+        private void ClearFrameMarkerCollections()
+        {
+            m_FrameMarkerIdentities.Clear();
+            m_FrameVisibleMarkerEdges.Clear();
+            m_FrameVisitedMarkerEdges.Clear();
+            m_FrameMarkerStack.Clear();
+            m_FrameMarkerGroup.Clear();
+
+            foreach (List<Vector2> centers in m_FrameDrawnMarkerCenters.Values)
+            {
+                centers.Clear();
+            }
+        }
+
+        private void BuildFrameMarkerIdentities(NativeArray<Entity> entities)
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity edge = entities[i];
+                if (!EntityManager.Exists(edge))
+                {
+                    continue;
+                }
+
+                if (TryGetMarkerRenderIdentity(edge, out MarkerRenderIdentity identity))
+                {
+                    m_FrameMarkerIdentities[edge] = identity;
+                }
+            }
+        }
+
+        private void BuildVisibleMarkerGroups(NativeArray<Entity> entities)
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity edge = entities[i];
+                if (m_FrameVisitedMarkerEdges.Contains(edge) ||
+                    !m_FrameMarkerIdentities.TryGetValue(edge, out MarkerRenderIdentity identity))
+                {
+                    continue;
+                }
+
+                m_FrameMarkerGroup.Clear();
+                CollectConnectedMarkerGroup(edge, identity.GroupKey);
+
+                Entity representative = ChooseMarkerGroupRepresentative();
+                if (representative != Entity.Null)
+                {
+                    m_FrameVisibleMarkerEdges.Add(representative);
+                }
+            }
+        }
+
+        private void CollectConnectedMarkerGroup(Entity startEdge, MarkerGroupKey groupKey)
+        {
+            m_FrameMarkerStack.Clear();
+            m_FrameMarkerStack.Add(startEdge);
+
+            while (m_FrameMarkerStack.Count > 0)
+            {
+                int lastIndex = m_FrameMarkerStack.Count - 1;
+                Entity edge = m_FrameMarkerStack[lastIndex];
+                m_FrameMarkerStack.RemoveAt(lastIndex);
+                if (m_FrameVisitedMarkerEdges.Contains(edge) ||
+                    !m_FrameMarkerIdentities.TryGetValue(edge, out MarkerRenderIdentity identity) ||
+                    !identity.GroupKey.Equals(groupKey))
+                {
+                    continue;
+                }
+
+                m_FrameVisitedMarkerEdges.Add(edge);
+                m_FrameMarkerGroup.Add(edge);
+
+                if (!EntityManager.HasComponent<Edge>(edge))
+                {
+                    continue;
+                }
+
+                Edge edgeData = EntityManager.GetComponentData<Edge>(edge);
+                AddSameGroupNeighbors(edge, edgeData.m_Start, groupKey);
+                AddSameGroupNeighbors(edge, edgeData.m_End, groupKey);
+            }
+        }
+
+        private void AddSameGroupNeighbors(Entity currentEdge, Entity node, MarkerGroupKey groupKey)
+        {
+            if (!EntityManager.HasBuffer<ConnectedEdge>(node))
+            {
+                return;
+            }
+
+            DynamicBuffer<ConnectedEdge> connectedEdges = EntityManager.GetBuffer<ConnectedEdge>(node);
+            if (connectedEdges.Length > 2)
+            {
+                return;
+            }
+
+            for (int i = 0; i < connectedEdges.Length; i++)
+            {
+                Entity nextEdge = connectedEdges[i].m_Edge;
+                if (nextEdge == currentEdge ||
+                    m_FrameVisitedMarkerEdges.Contains(nextEdge) ||
+                    !m_FrameMarkerIdentities.TryGetValue(nextEdge, out MarkerRenderIdentity nextIdentity) ||
+                    !nextIdentity.GroupKey.Equals(groupKey))
+                {
+                    continue;
+                }
+
+                m_FrameMarkerStack.Add(nextEdge);
+            }
+        }
+
+        private Entity ChooseMarkerGroupRepresentative()
+        {
+            if (m_FrameMarkerGroup.Count == 0)
+            {
+                return Entity.Null;
+            }
+
+            if (m_FrameMarkerGroup.Count == 1)
+            {
+                return m_FrameMarkerGroup[0];
+            }
+
+            float3 center = default;
+            int validCount = 0;
+            for (int i = 0; i < m_FrameMarkerGroup.Count; i++)
+            {
+                Entity edge = m_FrameMarkerGroup[i];
+                if (!EntityManager.HasComponent<Curve>(edge))
+                {
+                    continue;
+                }
+
+                Curve curve = EntityManager.GetComponentData<Curve>(edge);
+                center += MathUtils.Position(curve.m_Bezier, 0.5f);
+                validCount++;
+            }
+
+            if (validCount == 0)
+            {
+                return m_FrameMarkerGroup[0];
+            }
+
+            center /= (float)validCount;
+            Entity bestEdge = m_FrameMarkerGroup[0];
+            float bestDistanceSq = float.MaxValue;
+            for (int i = 0; i < m_FrameMarkerGroup.Count; i++)
+            {
+                Entity edge = m_FrameMarkerGroup[i];
+                if (!EntityManager.HasComponent<Curve>(edge))
+                {
+                    continue;
+                }
+
+                Curve curve = EntityManager.GetComponentData<Curve>(edge);
+                float distanceSq = math.distancesq(center, MathUtils.Position(curve.m_Bezier, 0.5f));
+                if (distanceSq < bestDistanceSq)
+                {
+                    bestDistanceSq = distanceSq;
+                    bestEdge = edge;
+                }
+            }
+
+            return bestEdge;
+        }
+
+        private bool TryGetMarkerRenderIdentity(Entity edge, out MarkerRenderIdentity identity)
+        {
+            identity = default;
+
+            if (!EntityManager.HasComponent<CustomSpeed>(edge))
+            {
+                return false;
+            }
+
+            CustomSpeed customSpeed = EntityManager.GetComponentData<CustomSpeed>(edge);
+            int speedKmh = Mathf.RoundToInt(customSpeed.m_Speed);
+            bool isWaterwayType = IsWaterwayEdge(edge);
+            bool isDefaultSpeed = IsDefaultSpeed(edge, customSpeed.m_Speed);
+            MarkerVisualKind visualKind = GetMarkerVisualKind(edge, isDefaultSpeed);
+            MarkerNetworkKind networkKind = GetMarkerNetworkKind(edge);
+
+            identity = new MarkerRenderIdentity(
+                customSpeed.m_Speed,
+                speedKmh,
+                isWaterwayType,
+                visualKind,
+                new MarkerGroupKey(speedKmh, visualKind, networkKind));
+
+            return true;
+        }
+
+        private MarkerNetworkKind GetMarkerNetworkKind(Entity edge)
+        {
+            if (IsWaterwayEdge(edge))
+            {
+                return MarkerNetworkKind.Water;
+            }
+
+            return IsTrainOrSubwayEdge(edge)
+                ? MarkerNetworkKind.Rail
+                : MarkerNetworkKind.Road;
+        }
+
         private MarkerVisualKind GetMarkerVisualKind(Entity edge, bool isDefaultSpeed)
         {
             if (isDefaultSpeed)
@@ -532,6 +845,39 @@ namespace RoadRailSpeeds.Systems
 
             return EntityManager.HasComponent<TrainTrack>(edge) ||
                 EntityManager.HasComponent<SubwayTrack>(edge);
+        }
+
+        private bool ShouldSkipNearbyDuplicateMarker(
+            MarkerGroupKey groupKey,
+            Vector2 screenCenter,
+            float duplicateDistanceSq)
+        {
+            if (!m_FrameDrawnMarkerCenters.TryGetValue(groupKey, out List<Vector2> centers))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < centers.Count; i++)
+            {
+                Vector2 delta = centers[i] - screenCenter;
+                if (delta.sqrMagnitude <= duplicateDistanceSq)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void RegisterDrawnMarkerCenter(MarkerGroupKey groupKey, Vector2 screenCenter)
+        {
+            if (!m_FrameDrawnMarkerCenters.TryGetValue(groupKey, out List<Vector2> centers))
+            {
+                centers = new List<Vector2>();
+                m_FrameDrawnMarkerCenters[groupKey] = centers;
+            }
+
+            centers.Add(screenCenter);
         }
 
         private static Camera? GetGameCamera(List<Camera> cameras)
