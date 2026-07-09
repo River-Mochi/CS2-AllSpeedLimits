@@ -127,17 +127,17 @@ namespace RoadRailSpeeds.Systems
         private readonly List<Entity> m_FrameMarkerGroup = new List<Entity>();
         private readonly Dictionary<MarkerGroupKey, List<Vector2>> m_FrameDrawnMarkerCenters =
             new Dictionary<MarkerGroupKey, List<Vector2>>();
-        // Floating number color knobs. These are text-only markers, not road-selection outlines.
+        // Floating number color knobs. Text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
-        private const float s_MarkerGroupingStartZoom = 0.35f;
+        private const float s_MarkerGroupingStartZoom = 0.42f;
         private const float s_MarkerDuplicateMinDistancePx = 64f;
         private const float s_MarkerDuplicateMaxDistancePx = 120f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 28f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
-        // Increase padding/min size for easier hover, decrease them when the tooltip feels too eager.
-        // Keep the hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
+        // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
+        // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
         private const float s_MarkerTooltipPaddingPx = 6f;
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
@@ -181,7 +181,7 @@ namespace RoadRailSpeeds.Systems
 
             m_FaceColorID = Shader.PropertyToID("_FaceColor");
 
-            // Unity render-pipeline event. This is not Harmony patching.
+            // Unity render-pipeline event.
             RenderPipelineManager.beginContextRendering += Render;
         }
 
@@ -284,6 +284,7 @@ namespace RoadRailSpeeds.Systems
                 float rawZoom = Mathf.Clamp01((zoomLevel - 1000f) / 13000f);
                 float normalizedZoom = Mathf.Pow(rawZoom, 0.6f);
                 bool groupMarkers = normalizedZoom >= s_MarkerGroupingStartZoom;
+                int markerGroupStride = GetMarkerGroupStride(normalizedZoom);
                 float duplicateDistancePx = Mathf.Lerp(
                     s_MarkerDuplicateMinDistancePx,
                     s_MarkerDuplicateMaxDistancePx,
@@ -297,7 +298,7 @@ namespace RoadRailSpeeds.Systems
                 if (groupMarkers)
                 {
                     BuildFrameMarkerIdentities(entities);
-                    BuildVisibleMarkerGroups(entities);
+                    BuildVisibleMarkerGroups(entities, markerGroupStride);
                 }
 
                 foreach (Entity edge in entities)
@@ -654,7 +655,7 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        private void BuildVisibleMarkerGroups(NativeArray<Entity> entities)
+        private void BuildVisibleMarkerGroups(NativeArray<Entity> entities, int markerGroupStride)
         {
             for (int i = 0; i < entities.Length; i++)
             {
@@ -667,8 +668,57 @@ namespace RoadRailSpeeds.Systems
 
                 m_FrameMarkerGroup.Clear();
                 CollectConnectedMarkerGroup(edge, identity.GroupKey);
+                AddVisibleMarkerGroupRepresentatives(markerGroupStride);
+            }
+        }
 
-                Entity representative = ChooseMarkerGroupRepresentative();
+        private static int GetMarkerGroupStride(float normalizedZoom)
+        {
+            if (normalizedZoom >= 0.82f)
+            {
+                return int.MaxValue;
+            }
+
+            if (normalizedZoom >= 0.68f)
+            {
+                return 10;
+            }
+
+            if (normalizedZoom >= 0.56f)
+            {
+                return 7;
+            }
+
+            if (normalizedZoom >= 0.48f)
+            {
+                return 4;
+            }
+
+            return 2;
+        }
+
+        private void AddVisibleMarkerGroupRepresentatives(int markerGroupStride)
+        {
+            if (m_FrameMarkerGroup.Count == 0)
+            {
+                return;
+            }
+
+            if (markerGroupStride >= m_FrameMarkerGroup.Count)
+            {
+                Entity representative = ChooseMarkerGroupRepresentative(0, m_FrameMarkerGroup.Count);
+                if (representative != Entity.Null)
+                {
+                    m_FrameVisibleMarkerEdges.Add(representative);
+                }
+
+                return;
+            }
+
+            for (int startIndex = 0; startIndex < m_FrameMarkerGroup.Count; startIndex += markerGroupStride)
+            {
+                int endIndex = Math.Min(startIndex + markerGroupStride, m_FrameMarkerGroup.Count);
+                Entity representative = ChooseMarkerGroupRepresentative(startIndex, endIndex);
                 if (representative != Entity.Null)
                 {
                     m_FrameVisibleMarkerEdges.Add(representative);
@@ -735,21 +785,21 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        private Entity ChooseMarkerGroupRepresentative()
+        private Entity ChooseMarkerGroupRepresentative(int startIndex, int endIndex)
         {
-            if (m_FrameMarkerGroup.Count == 0)
+            if (startIndex >= endIndex)
             {
                 return Entity.Null;
             }
 
-            if (m_FrameMarkerGroup.Count == 1)
+            if (endIndex - startIndex == 1)
             {
-                return m_FrameMarkerGroup[0];
+                return m_FrameMarkerGroup[startIndex];
             }
 
             float3 center = default;
             int validCount = 0;
-            for (int i = 0; i < m_FrameMarkerGroup.Count; i++)
+            for (int i = startIndex; i < endIndex; i++)
             {
                 Entity edge = m_FrameMarkerGroup[i];
                 if (!EntityManager.HasComponent<Curve>(edge))
@@ -764,13 +814,13 @@ namespace RoadRailSpeeds.Systems
 
             if (validCount == 0)
             {
-                return m_FrameMarkerGroup[0];
+                return m_FrameMarkerGroup[startIndex];
             }
 
             center /= (float)validCount;
-            Entity bestEdge = m_FrameMarkerGroup[0];
+            Entity bestEdge = m_FrameMarkerGroup[startIndex];
             float bestDistanceSq = float.MaxValue;
-            for (int i = 0; i < m_FrameMarkerGroup.Count; i++)
+            for (int i = startIndex; i < endIndex; i++)
             {
                 Entity edge = m_FrameMarkerGroup[i];
                 if (!EntityManager.HasComponent<Curve>(edge))
