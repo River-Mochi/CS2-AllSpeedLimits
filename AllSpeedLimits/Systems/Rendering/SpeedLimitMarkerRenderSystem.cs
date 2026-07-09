@@ -134,6 +134,7 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerGroupingStartZoom = 0.35f;
         private const float s_MarkerDuplicateMinDistancePx = 64f;
         private const float s_MarkerDuplicateMaxDistancePx = 120f;
+        private const float s_MarkerDuplicateMidZoomBoostPx = 28f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease them when the tooltip feels too eager.
         // Keep the hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
@@ -287,6 +288,9 @@ namespace RoadRailSpeeds.Systems
                     s_MarkerDuplicateMinDistancePx,
                     s_MarkerDuplicateMaxDistancePx,
                     normalizedZoom);
+                // Extra duplicate cleanup only in the middle zoom range; this is zero at close/far zoom.
+                duplicateDistancePx += s_MarkerDuplicateMidZoomBoostPx *
+                    Mathf.Sin(normalizedZoom * Mathf.PI);
                 float duplicateDistanceSq = duplicateDistancePx * duplicateDistancePx;
 
                 ClearFrameMarkerCollections();
@@ -360,7 +364,7 @@ namespace RoadRailSpeeds.Systems
                     {
                         // Roads/rails: smaller close-up, with a mid-zoom readability bump.
                         // This keeps near-camera labels quieter without shrinking the scanning range.
-                        float roadBaseScale = Mathf.Lerp(1.38f, 3.15f, normalizedZoom);
+                        float roadBaseScale = Mathf.Lerp(1.25f, 3.15f, normalizedZoom);
                         float roadMidZoomBoost = 0.82f * Mathf.Sin(normalizedZoom * Mathf.PI);
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost;
                     }
