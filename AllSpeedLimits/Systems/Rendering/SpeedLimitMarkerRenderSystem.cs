@@ -131,7 +131,7 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
-        private const float s_MarkerGroupingStartZoom = 0.42f;
+        private const float s_MarkerGroupingStartZoom = 0.35f;
         private const float s_MarkerDuplicateMinDistancePx = 64f;
         private const float s_MarkerDuplicateMaxDistancePx = 120f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 28f;
