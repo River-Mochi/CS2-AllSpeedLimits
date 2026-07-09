@@ -42,6 +42,13 @@ namespace RoadRailSpeeds.Systems
             public Material? Material;
         }
 
+        private enum MarkerVisualKind
+        {
+            Default = 0,
+            Custom = 1,
+            Rail = 2
+        }
+
         private RenderingSystem m_RenderingSystem = null!;
         private OverlayRenderSystem m_OverlayRenderSystem = null!;
         private SegmentSpeedToolSystem m_SegmentSpeedToolSystem = null!;
@@ -54,6 +61,7 @@ namespace RoadRailSpeeds.Systems
         // Floating number color knobs. These are text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
+        private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease them when the tooltip feels too eager.
         // Keep the hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
@@ -211,11 +219,12 @@ namespace RoadRailSpeeds.Systems
                     bool isWaterwayType = IsWaterwayEdge(edge);
                     int speedKmh = Mathf.RoundToInt(customSpeed.m_Speed);
                     bool isDefaultSpeed = IsDefaultSpeed(edge, customSpeed.m_Speed);
-                    int cacheKey = GetTextMeshCacheKey(speedKmh, isDefaultSpeed);
+                    MarkerVisualKind visualKind = GetMarkerVisualKind(edge, isDefaultSpeed);
+                    int cacheKey = GetTextMeshCacheKey(speedKmh, visualKind);
 
                     if (!m_TextMeshCache.TryGetValue(cacheKey, out TextMeshInfo meshInfo))
                     {
-                        meshInfo = CreateTextMesh(speedKmh, isDefaultSpeed);
+                        meshInfo = CreateTextMesh(speedKmh, visualKind);
                         m_TextMeshCache[cacheKey] = meshInfo;
                     }
 
@@ -351,7 +360,7 @@ namespace RoadRailSpeeds.Systems
             return !string.IsNullOrEmpty(m_MarkerTooltipText);
         }
 
-        private TextMeshInfo CreateTextMesh(int speedKmh, bool isDefaultSpeed)
+        private TextMeshInfo CreateTextMesh(int speedKmh, MarkerVisualKind visualKind)
         {
             // The game shares ONE TextMeshPro instance (OverlayRenderSystem.GetTextMesh) across
             // every world-UI overlay label, including vanilla road and district name labels.
@@ -375,7 +384,7 @@ namespace RoadRailSpeeds.Systems
                 bool showMetric = m_Settings?.ShouldShowMetric(isEUMap) ?? isEUMap;
                 bool doubleDisplay = m_Settings?.DoubleSpeedDisplay ?? false;
                 int multiplier = doubleDisplay ? 2 : 1;
-                Color textColor = isDefaultSpeed ? s_DefaultMarkerTextColor : s_CustomMarkerTextColor;
+                Color textColor = GetMarkerTextColor(visualKind);
 
                 textMesh.rectTransform.sizeDelta = new Vector2(176f, 92f);
                 // Base font size for floating speed number before zoom scaling is applied above.
@@ -413,7 +422,7 @@ namespace RoadRailSpeeds.Systems
 
                 string unitSuffix = showMetric ? "kmh" : "mph";
                 string doubleSuffix = doubleDisplay ? "_2x" : string.Empty;
-                string styleSuffix = isDefaultSpeed ? "default" : "custom";
+                string styleSuffix = GetMarkerVisualKindSuffix(visualKind);
 
                 Mesh mesh = new Mesh
                 {
@@ -500,6 +509,29 @@ namespace RoadRailSpeeds.Systems
         private bool IsWaterwayEdge(Entity edge)
         {
             return EntityManager.HasComponent<Waterway>(edge);
+        }
+
+        private MarkerVisualKind GetMarkerVisualKind(Entity edge, bool isDefaultSpeed)
+        {
+            if (isDefaultSpeed)
+            {
+                return MarkerVisualKind.Default;
+            }
+
+            return IsTrainOrSubwayEdge(edge)
+                ? MarkerVisualKind.Rail
+                : MarkerVisualKind.Custom;
+        }
+
+        private bool IsTrainOrSubwayEdge(Entity edge)
+        {
+            if (EntityManager.HasComponent<TramTrack>(edge))
+            {
+                return false;
+            }
+
+            return EntityManager.HasComponent<TrainTrack>(edge) ||
+                EntityManager.HasComponent<SubwayTrack>(edge);
         }
 
         private static Camera? GetGameCamera(List<Camera> cameras)
@@ -660,9 +692,29 @@ namespace RoadRailSpeeds.Systems
             };
         }
 
-        private static int GetTextMeshCacheKey(int speedKmh, bool isDefaultSpeed)
+        private static Color GetMarkerTextColor(MarkerVisualKind visualKind)
         {
-            return (speedKmh * 2) + (isDefaultSpeed ? 1 : 0);
+            return visualKind switch
+            {
+                MarkerVisualKind.Default => s_DefaultMarkerTextColor,
+                MarkerVisualKind.Rail => s_RailMarkerTextColor,
+                _ => s_CustomMarkerTextColor
+            };
+        }
+
+        private static string GetMarkerVisualKindSuffix(MarkerVisualKind visualKind)
+        {
+            return visualKind switch
+            {
+                MarkerVisualKind.Default => "default",
+                MarkerVisualKind.Rail => "rail",
+                _ => "custom"
+            };
+        }
+
+        private static int GetTextMeshCacheKey(int speedKmh, MarkerVisualKind visualKind)
+        {
+            return (speedKmh * 4) + (int)visualKind;
         }
 
         private string GetCurrentMapTheme()

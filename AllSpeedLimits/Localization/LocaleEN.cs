@@ -86,9 +86,9 @@ namespace RoadRailSpeeds
                     "<Off> shows a simpler scale, usually closer to road decals.\n" +
                     "<On> panel and floating text show the game's higher internal speed scale.\n" +
                     "Useful if another tooltip mod shows game internal doubled values and you want to match.\n" +
-                    "This is visual Display only; saved speeds <do not really change>.\n" +
-                    "Road decals are art and may not exactly match the game's prefab speed data.\n" +
-                    "If this is confusing, just keep it Off. Cars will look the same moving if this is on or off."
+                    "**This is visual Display only;** saved speeds <do not really change>.\n" +
+                    "If this is confusing, just keep it Off. Cars will look the same moving if this is on or off.\n" +
+                    "Note: road decals are Art and may not match the game's real prefab speed data. 35 mph sign may be 31 mph. Game does roads in metric first, then converts."
                 },
 
                 // Enum values

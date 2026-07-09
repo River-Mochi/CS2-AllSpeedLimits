@@ -2,8 +2,6 @@
     <!--
     RoadRailSpeeds.csproj   CS2 mod: "Adjust Speed Limits" [ASL]
     - CS2 toolchain (Mod.props / Mod.targets) supplies TargetFramework, game ref resolution, analyzers.
-    - No LangVersion override: CS2 toolchain stays on the supported C# version.
-    - Nullable enable to match River-Mochi mod defaults.
     - UI build (under UI/) runs after C# build; webpack writes directly into the CS2 Mods folder.
       Release fails hard on npm errors; Debug warns and continues.
     - Version is the single source of truth here; Scripts/Update-PublishConfig.ps1 syncs it
@@ -22,7 +20,7 @@
 
         <!-- Versioning: single source of truth -->
         <GameVersion>1.6.*</GameVersion>
-        <Version>1.2.0</Version>
+        <Version>1.2.3</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
 

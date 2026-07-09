@@ -60,7 +60,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.2.0" />
+	<ModVersion Value="1.2.3" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
@@ -69,11 +69,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- All new UX + UI layout, more intuitive, easier to use.
-- removed 50% buttons
-- Add button for kmh in New Speeds section.
-- updated all translations.
-- internal refactor, clean and organize.
+- Train + Subway floating speed numbers in high visibility green, roads + water stay blue.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
     <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AllSpeedLimits" />
