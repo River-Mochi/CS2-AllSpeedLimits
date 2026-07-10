@@ -21,7 +21,8 @@ namespace RoadRailSpeeds.Systems
     public partial class SegmentSpeedToolUISystem
     {
         // Tweak this if the open panel should refresh city vehicle stats more or less often.
-        private const int kVehicleStatsRefreshFrames = 512;
+        // Use real time instead of frames so low FPS does not make the stats look stale.
+        private const float kVehicleStatsRefreshSeconds = 2f;
         private const int kVehicleStatsReportMaxRows = 80;
 
         private readonly struct CityVehicleStats
@@ -68,15 +69,15 @@ namespace RoadRailSpeeds.Systems
 
         private void RefreshVehicleStatsIfNeeded(bool force)
         {
-            int frame = UnityEngine.Time.frameCount;
+            float now = UnityEngine.Time.unscaledTime;
             if (!force &&
-                m_LastVehicleStatsFrame >= 0 &&
-                frame - m_LastVehicleStatsFrame < kVehicleStatsRefreshFrames)
+                m_LastVehicleStatsRefreshTime >= 0f &&
+                now - m_LastVehicleStatsRefreshTime < kVehicleStatsRefreshSeconds)
             {
                 return;
             }
 
-            m_LastVehicleStatsFrame = frame;
+            m_LastVehicleStatsRefreshTime = now;
 
             CityVehicleStats stats = BuildCityVehicleStats();
 

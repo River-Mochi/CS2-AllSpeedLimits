@@ -88,7 +88,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_WholeCityExpandedBinding = null!;
 
         private Setting? m_Settings;
-        private int m_LastVehicleStatsFrame = -1;
+        private float m_LastVehicleStatsRefreshTime = -1f;
 
         protected override string group => Mod.ModId + ".Systems.Tool." + nameof(SegmentSpeedToolUISystem);
 
@@ -274,7 +274,7 @@ namespace RoadRailSpeeds.Systems
             ClearCityApplyBindings();
             ClearMarkerTooltipBindings();
             ClearSelectionClickBindings();
-            m_LastVehicleStatsFrame = -1;
+            m_LastVehicleStatsRefreshTime = -1f;
 
             visible = false;
         }
@@ -436,7 +436,7 @@ namespace RoadRailSpeeds.Systems
                 ClearCityApplyBindings();
                 ClearMarkerTooltipBindings();
                 ClearSelectionClickBindings();
-                m_LastVehicleStatsFrame = -1;
+                m_LastVehicleStatsRefreshTime = -1f;
                 visible = false;
                 m_SelectedEdges.Clear();
                 m_SelectedEntity = Entity.Null;
@@ -572,7 +572,7 @@ namespace RoadRailSpeeds.Systems
             m_Settings.StatsExpanded = expanded;
             m_Settings.ApplyAndSave();
             m_StatsExpandedBinding.Value = expanded;
-            m_LastVehicleStatsFrame = -1;
+            m_LastVehicleStatsRefreshTime = -1f;
             RequestUpdate();
         }
 
@@ -728,7 +728,7 @@ namespace RoadRailSpeeds.Systems
                 ClearCityApplyBindings();
                 ClearMarkerTooltipBindings();
                 ClearSelectionClickBindings();
-                m_LastVehicleStatsFrame = -1;
+                m_LastVehicleStatsRefreshTime = -1f;
                 visible = false;
                 m_SelectedEdges.Clear();
                 m_SelectedEntity = Entity.Null;

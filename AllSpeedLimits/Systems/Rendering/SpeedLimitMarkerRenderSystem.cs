@@ -131,7 +131,7 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
-        private const float s_MarkerGroupingStartZoom = 0.35f;
+        private const float s_MarkerGroupingStartZoom = 0.28f;
         private const float s_MarkerDuplicateMinDistancePx = 64f;
         private const float s_MarkerDuplicateMaxDistancePx = 120f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 28f;
@@ -357,16 +357,16 @@ namespace RoadRailSpeeds.Systems
                     float textScaleMultiplier;
                     if (identity.IsWaterwayType)
                     {
-                        float waterBaseScale = Mathf.Lerp(2.0f, 7.7f, normalizedZoom);
-                        float waterMidZoomBoost = 1.2f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float waterBaseScale = Mathf.Lerp(2.0f, 12.0f, normalizedZoom);
+                        float waterMidZoomBoost = 2.8f * Mathf.Sin(normalizedZoom * Mathf.PI);
                         textScaleMultiplier = waterBaseScale + waterMidZoomBoost;
                     }
                     else
                     {
                         // Roads/rails: smaller close-up, with a mid-zoom readability bump.
                         // This keeps near-camera labels quieter without shrinking the scanning range.
-                        float roadBaseScale = Mathf.Lerp(1.25f, 4.8f, normalizedZoom);
-                        float roadMidZoomBoost = 1.2f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float roadBaseScale = Mathf.Lerp(1.25f, 9.0f, normalizedZoom);
+                        float roadMidZoomBoost = 2.6f * Mathf.Sin(normalizedZoom * Mathf.PI);
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost;
                     }
 
