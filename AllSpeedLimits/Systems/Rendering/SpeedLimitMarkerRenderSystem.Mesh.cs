@@ -97,15 +97,34 @@ namespace RoadRailSpeeds.Systems
                 string doubleSuffix = doubleDisplay ? "_2x" : string.Empty;
                 string styleSuffix = GetMarkerVisualKindSuffix(visualKind);
 
+                int vertexCount = tmpMeshInfo.vertexCount;
+                int triangleCount = (vertexCount >> 2) * 6;
+                Vector3[] vertices = new Vector3[vertexCount];
+                Vector2[] uvs0 = new Vector2[vertexCount];
+                Vector2[] uvs2 = new Vector2[vertexCount];
+                Color32[] colors = new Color32[vertexCount];
+                int[] triangles = new int[triangleCount];
+
+                Array.Copy(tmpMeshInfo.vertices, 0, vertices, 0, vertexCount);
+                Array.Copy(tmpMeshInfo.uvs0, 0, uvs0, 0, vertexCount);
+                Array.Copy(tmpMeshInfo.uvs2, 0, uvs2, 0, vertexCount);
+                Array.Copy(tmpMeshInfo.colors32, 0, colors, 0, vertexCount);
+                Array.Copy(tmpMeshInfo.triangles, 0, triangles, 0, triangleCount);
+
                 Mesh mesh = new Mesh
                 {
-                    name = $"SpeedLimit_{styleSuffix}_{speedKmh}_{unitSuffix}{doubleSuffix}",
-                    vertices = tmpMeshInfo.vertices,
-                    triangles = tmpMeshInfo.triangles,
-                    uv = tmpMeshInfo.uvs0,
-                    uv2 = tmpMeshInfo.uvs2,
-                    colors32 = tmpMeshInfo.colors32
+                    name = $"SpeedLimit_{styleSuffix}_{speedKmh}_{unitSuffix}{doubleSuffix}"
                 };
+                if (vertexCount > 65535)
+                {
+                    mesh.indexFormat = IndexFormat.UInt32;
+                }
+
+                mesh.vertices = vertices;
+                mesh.uv = uvs0;
+                mesh.uv2 = uvs2;
+                mesh.colors32 = colors;
+                mesh.triangles = triangles;
 
                 mesh.RecalculateBounds();
                 Material material = new Material(tmpMeshInfo.material)
