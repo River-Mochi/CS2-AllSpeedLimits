@@ -167,6 +167,17 @@ namespace RoadRailSpeeds.Systems
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost + roadFarZoomBoost;
                     }
 
+                    if (hoverCamera != null)
+                    {
+                        textScaleMultiplier = ApplyReadableScreenScale(
+                            hoverCamera,
+                            markerPosition,
+                            meshInfo.Mesh,
+                            textScaleMultiplier,
+                            normalizedZoom,
+                            identity.IsWaterwayType);
+                    }
+
                     Rect screenBounds = default;
                     bool hasScreenBounds = hoverCamera != null &&
                         TryGetMarkerScreenBounds(
@@ -259,6 +270,65 @@ namespace RoadRailSpeeds.Systems
                     () => $"SpeedLimitMarkerRenderSystem.Render failed: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
+        }
+
+
+        private static float ApplyReadableScreenScale(
+            Camera camera,
+            Vector3 markerPosition,
+            Mesh mesh,
+            float textScaleMultiplier,
+            float normalizedZoom,
+            bool isWaterwayType)
+        {
+            float localTextHeight = Mathf.Max(mesh.bounds.size.y, 0.01f);
+            float pixelsPerWorldUnit;
+
+            if (camera.orthographic)
+            {
+                pixelsPerWorldUnit = camera.pixelHeight / Mathf.Max(camera.orthographicSize * 2f, 0.01f);
+            }
+            else
+            {
+                // The marker tooltip is React UI, so it stays readable after projection. The blue
+                // floating number is a world mesh. Keep a minimum projected pixel height here so it
+                // behaves more like CS2's AreaUtils.CalculateLabelScale map labels instead of
+                // shrinking away at far zoom.
+                float cameraDepth = camera.WorldToScreenPoint(markerPosition).z;
+                if (cameraDepth <= 0.01f)
+                {
+                    return textScaleMultiplier;
+                }
+
+                float verticalWorldSize = 2f *
+                    cameraDepth *
+                    Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
+                pixelsPerWorldUnit = camera.pixelHeight / Mathf.Max(verticalWorldSize, 0.01f);
+            }
+
+            if (pixelsPerWorldUnit <= 0.0001f)
+            {
+                return textScaleMultiplier;
+            }
+
+            float farReadability = Mathf.SmoothStep(
+                0f,
+                1f,
+                Mathf.Clamp01((normalizedZoom - s_MarkerReadableScaleStartZoom) /
+                    (1f - s_MarkerReadableScaleStartZoom)));
+            float targetPixelHeight = Mathf.Lerp(
+                s_MarkerReadableCloseHeightPx,
+                isWaterwayType ? s_WaterMarkerReadableFarHeightPx : s_MarkerReadableFarHeightPx,
+                farReadability);
+            float currentPixelHeight = localTextHeight * textScaleMultiplier * pixelsPerWorldUnit;
+
+            if (currentPixelHeight >= targetPixelHeight)
+            {
+                return textScaleMultiplier;
+            }
+
+            float readableScale = targetPixelHeight / (localTextHeight * pixelsPerWorldUnit);
+            return Mathf.Max(textScaleMultiplier, readableScale);
         }
 
 

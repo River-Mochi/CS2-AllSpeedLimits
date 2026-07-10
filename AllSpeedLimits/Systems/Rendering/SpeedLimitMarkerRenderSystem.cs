@@ -141,6 +141,11 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerTooltipPaddingPx = 6f;
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
+        // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
+        private const float s_MarkerReadableCloseHeightPx = 30f;
+        private const float s_MarkerReadableFarHeightPx = 72f;
+        private const float s_WaterMarkerReadableFarHeightPx = 78f;
+        private const float s_MarkerReadableScaleStartZoom = 0.25f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;
