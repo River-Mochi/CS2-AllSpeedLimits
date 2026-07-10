@@ -367,7 +367,9 @@ namespace RoadRailSpeeds.Systems
                         // This keeps near-camera labels quieter without shrinking the scanning range.
                         float roadBaseScale = Mathf.Lerp(1.25f, 9.0f, normalizedZoom);
                         float roadMidZoomBoost = 2.6f * Mathf.Sin(normalizedZoom * Mathf.PI);
-                        textScaleMultiplier = roadBaseScale + roadMidZoomBoost;
+                        float roadFarZoomBoost = 14.0f *
+                            Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((normalizedZoom - 0.72f) / 0.28f));
+                        textScaleMultiplier = roadBaseScale + roadMidZoomBoost + roadFarZoomBoost;
                     }
 
                     Rect screenBounds = default;

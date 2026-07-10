@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "클릭 또는 드래그로 도로, 철도, 수로 구간 선택",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "도로, 철도, 수로 속도.",
+  "inCity.tooltips.draggable": "드래그 가능",
   "inCity.tooltips.selectedSegment": "처음 고른 구간의 정보를 표시합니다.",
   "inCity.panel.selectedSegment": "선택",
   "inCity.panel.firstSegment": "첫 구간",

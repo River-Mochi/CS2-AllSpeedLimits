@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "クリックまたはドラッグで道路・鉄道・水路セグメントを選択",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "道路、鉄道、水路の速度。",
+  "inCity.tooltips.draggable": "ドラッグ可能",
   "inCity.tooltips.selectedSegment": "最初に選んだセグメントの詳細を表示。",
   "inCity.panel.selectedSegment": "選択",
   "inCity.panel.firstSegment": "最初の区間",

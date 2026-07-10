@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "點擊或拖曳選擇道路、軌道或水路路段",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "道路、軌道、水路速度。",
+  "inCity.tooltips.draggable": "可拖曳",
   "inCity.tooltips.selectedSegment": "顯示你選中第一個路段的詳情。",
   "inCity.panel.selectedSegment": "已選",
   "inCity.panel.firstSegment": "第一路段",

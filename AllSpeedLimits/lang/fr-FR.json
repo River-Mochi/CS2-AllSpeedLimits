@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "Cliquez ou glissez pour choisir route, rail ou voie d'eau",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Vitesses route, rail, eau.",
+  "inCity.tooltips.draggable": "Déplaçable",
   "inCity.tooltips.selectedSegment": "Affiche le détail du premier segment choisi.",
   "inCity.panel.selectedSegment": "Sélection",
   "inCity.panel.firstSegment": "Premier segment",

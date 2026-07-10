@@ -750,6 +750,7 @@ export const SpeedToolWindow = () => {
                         <SpeedToolHeader
                             title={TEXT.panel.title}
                             closeTooltip={TEXT.buttons.close}
+                            draggableTooltip={TEXT.tooltips.draggable}
                             markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}
                             panelTooltipsEnabled={panelTooltipsEnabled}
                             speedMarkersHidden={hideSpeedMarkers}

@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "Clique ou arraste para escolher segmentos de via, trilho ou água",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocidades de via, trilho e água.",
+  "inCity.tooltips.draggable": "Arrastável",
   "inCity.tooltips.selectedSegment": "Mostra detalhes do primeiro segmento escolhido.",
   "inCity.panel.selectedSegment": "Selecionado",
   "inCity.panel.firstSegment": "Primeiro segmento",

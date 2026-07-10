@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "Yol, ray veya su kesimi seçmek için tıkla ya da sürükle",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Yol, ray, su hızları.",
+  "inCity.tooltips.draggable": "Sürüklenebilir",
   "inCity.tooltips.selectedSegment": "Seçtiğin ilk kesimin ayrıntılarını gösterir.",
   "inCity.panel.selectedSegment": "Seçili",
   "inCity.panel.firstSegment": "İlk kesim",

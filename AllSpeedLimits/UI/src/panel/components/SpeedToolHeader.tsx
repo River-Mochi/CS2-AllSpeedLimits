@@ -11,6 +11,7 @@ import starBlueGreenIcon from "../../images/star-all-bluegreen.svg";
 type SpeedToolHeaderProps = {
     title: string;
     closeTooltip: string;
+    draggableTooltip: string;
     markersTooltip: string;
     panelTooltipsEnabled: boolean;
     speedMarkersHidden: boolean;
@@ -34,6 +35,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
     const {
         title,
         closeTooltip,
+        draggableTooltip,
         markersTooltip,
         panelTooltipsEnabled,
         speedMarkersHidden,
@@ -90,7 +92,9 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         opacity: isGuideHovered ? 1 : 0.92
                     }}
                 />
-                <span>{title}</span>
+                <Tooltip tooltip={draggableTooltip} direction="up">
+                    <span>{title}</span>
+                </Tooltip>
             </div>
 
             <div style={{ display: "flex", alignItems: "center" }}>

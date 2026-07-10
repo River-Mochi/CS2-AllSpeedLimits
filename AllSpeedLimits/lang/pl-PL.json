@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "Kliknij lub przeciągnij, aby wybrać odcinki drogi, torów lub wody",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Prędkości dróg, torów i wody.",
+  "inCity.tooltips.draggable": "Można przeciągać",
   "inCity.tooltips.selectedSegment": "Pokazuje dane pierwszego wybranego odcinka.",
   "inCity.panel.selectedSegment": "Wybrane",
   "inCity.panel.firstSegment": "Pierwszy odcinek",

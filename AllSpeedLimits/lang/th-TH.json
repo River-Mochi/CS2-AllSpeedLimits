@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "คลิกหรือลากเพื่อเลือกช่วงถนน ราง หรือน้ำ",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "ความเร็วถนน ราง น้ำ",
+  "inCity.tooltips.draggable": "ลากได้",
   "inCity.tooltips.selectedSegment": "แสดงรายละเอียดของช่วงแรกที่เลือก",
   "inCity.panel.selectedSegment": "เลือก",
   "inCity.panel.firstSegment": "ช่วงแรก",

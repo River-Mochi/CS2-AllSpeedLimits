@@ -4,6 +4,7 @@
   "inCity.hint.title": "Straße • Schiene • Wasser Tempo",
   "inCity.hint.instruction": "Klicken oder ziehen, um Straßen-, Schienen- oder Wassersegmente zu wählen",
   "inCity.tooltips.panelTitle": "Tempo für Straße, Schiene, Wasser.",
+  "inCity.tooltips.draggable": "Ziehbar",
   "inCity.tooltips.selectedSegment": "Zeigt Details zum ersten gewählten Segment.",
   "inCity.panel.selectedSegment": "Ausgewählt",
   "inCity.panel.firstSegment": "Erstes Segment",

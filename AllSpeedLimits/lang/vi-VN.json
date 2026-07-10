@@ -4,6 +4,7 @@
   "inCity.hint.title": "Đường • Ray • Nước",
   "inCity.hint.instruction": "Bấm hoặc kéo để chọn đoạn đường, ray hoặc nước",
   "inCity.tooltips.panelTitle": "Tốc độ đường, ray, nước.",
+  "inCity.tooltips.draggable": "Có thể kéo",
   "inCity.tooltips.selectedSegment": "Hiện chi tiết đoạn đầu tiên bạn chọn.",
   "inCity.panel.selectedSegment": "Đã chọn",
   "inCity.panel.firstSegment": "Đoạn đầu",

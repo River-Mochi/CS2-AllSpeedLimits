@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "Clique ou arraste para escolher troços de estrada, carril ou água",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocidades de estrada, carril e água.",
+  "inCity.tooltips.draggable": "Arrastável",
   "inCity.tooltips.selectedSegment": "Mostra detalhes do primeiro troço escolhido.",
   "inCity.panel.selectedSegment": "Selecionado",
   "inCity.panel.firstSegment": "Primeiro troço",

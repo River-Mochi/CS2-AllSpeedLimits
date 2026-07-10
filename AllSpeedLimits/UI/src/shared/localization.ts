@@ -99,6 +99,7 @@ const buildText = (lookup: TextLookup) => ({
         },
         tooltips: {
             panelTitle: text(lookup, "inCity.tooltips.panelTitle"),
+            draggable: text(lookup, "inCity.tooltips.draggable"),
             selectedSegment: text(lookup, "inCity.tooltips.selectedSegment"),
             currentSpeed: text(lookup, "inCity.tooltips.currentSpeed"),
             presets: text(lookup, "inCity.tooltips.presets"),

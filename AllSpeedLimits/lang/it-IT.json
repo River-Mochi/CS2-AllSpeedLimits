@@ -4,6 +4,7 @@
   "inCity.hint.instruction": "Clic o trascina per scegliere segmenti strada, rotaia o acqua",
   "inCity.panel.title": "All Speed Limits",
   "inCity.tooltips.panelTitle": "Velocità strada, rotaia, acqua.",
+  "inCity.tooltips.draggable": "Trascinabile",
   "inCity.tooltips.selectedSegment": "Mostra i dettagli del primo segmento scelto.",
   "inCity.panel.selectedSegment": "Selezione",
   "inCity.panel.firstSegment": "Primo segmento",

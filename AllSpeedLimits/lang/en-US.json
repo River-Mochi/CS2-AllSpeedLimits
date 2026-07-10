@@ -4,6 +4,7 @@
   "inCity.hint.title": "Road • Rail • Water Speeds",
   "inCity.hint.instruction": "Click (or click and drag multiple) to select road, rail, or waterway segments",
   "inCity.tooltips.panelTitle": "Road, rail, water speeds.",
+  "inCity.tooltips.draggable": "Draggable",
   "inCity.tooltips.selectedSegment": "Selected shows details for the first segment you picked.",
   "inCity.panel.selectedSegment": "Selected",
   "inCity.panel.firstSegment": "First segment",
