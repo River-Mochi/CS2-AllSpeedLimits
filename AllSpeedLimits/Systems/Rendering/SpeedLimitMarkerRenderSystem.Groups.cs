@@ -88,17 +88,22 @@ namespace RoadRailSpeeds.Systems
                 return int.MaxValue;
             }
 
-            if (normalizedZoom >= 0.68f)
+            if (normalizedZoom >= 0.72f)
+            {
+                return 14;
+            }
+
+            if (normalizedZoom >= 0.60f)
             {
                 return 10;
             }
 
-            if (normalizedZoom >= 0.56f)
+            if (normalizedZoom >= 0.48f)
             {
-                return 7;
+                return 6;
             }
 
-            if (normalizedZoom >= 0.48f)
+            if (normalizedZoom >= 0.36f)
             {
                 return 4;
             }

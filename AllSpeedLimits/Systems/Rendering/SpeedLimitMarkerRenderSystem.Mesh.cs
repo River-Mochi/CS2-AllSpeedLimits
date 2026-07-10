@@ -127,21 +127,29 @@ namespace RoadRailSpeeds.Systems
                 mesh.triangles = triangles;
 
                 mesh.RecalculateBounds();
-                Material material = new Material(tmpMeshInfo.material)
+
+                Material material;
+                if (m_PrefabSystem.TryGetSingletonPrefab(
+                    m_OverlaySettingsQuery,
+                    out OverlayConfigurationPrefab overlayConfiguration) &&
+                    overlayConfiguration.m_TextMaterial != null)
                 {
-                    name = $"SpeedLimitMaterial_{styleSuffix}_{speedKmh}_{unitSuffix}{doubleSuffix}"
-                };
+                    material = new Material(overlayConfiguration.m_TextMaterial);
+                }
+                else
+                {
+                    material = new Material(tmpMeshInfo.material);
+                }
 
-                material.SetColor(m_FaceColorID, textColor);
-
-                // Keep the sign number crisp and readable without a TMP outline.
-                material.SetFloat("_FaceDilate", 0f);
-                material.SetFloat("_OutlineWidth", 0f);
-                material.SetFloat("_GlowPower", 0f);
-                material.SetFloat("_WeightNormal", 0.35f);
-                material.SetFloat("_WeightBold", 0.85f);
+                material.name = $"SpeedLimitMaterial_{styleSuffix}_{speedKmh}_{unitSuffix}{doubleSuffix}";
 
                 m_OverlayRenderSystem.CopyFontAtlasParameters(tmpMeshInfo.material, material);
+                material.SetColor(m_FaceColorID, textColor);
+
+                if (material.HasProperty("_OutlineWidth"))
+                {
+                    material.SetFloat("_OutlineWidth", 0f);
+                }
 
                 return new TextMeshInfo
                 {

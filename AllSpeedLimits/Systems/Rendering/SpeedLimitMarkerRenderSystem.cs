@@ -110,6 +110,7 @@ namespace RoadRailSpeeds.Systems
         private PrefabSystem m_PrefabSystem = null!;
 
         private EntityQuery m_CustomSpeedQuery;
+        private EntityQuery m_OverlaySettingsQuery;
         private readonly Dictionary<int, TextMeshInfo> m_TextMeshCache = new Dictionary<int, TextMeshInfo>();
         private readonly Dictionary<Entity, MarkerRenderIdentity> m_FrameMarkerIdentities =
             new Dictionary<Entity, MarkerRenderIdentity>();
@@ -123,10 +124,11 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
-        private const float s_MarkerGroupingStartZoom = 0.28f;
+        // Grouping stays on until this zoom value. Lower means all markers return closer to the ground.
+        private const float s_MarkerGroupingStartZoom = 0.20f;
         private const float s_MarkerDuplicateMinDistancePx = 64f;
-        private const float s_MarkerDuplicateMaxDistancePx = 120f;
-        private const float s_MarkerDuplicateMidZoomBoostPx = 28f;
+        private const float s_MarkerDuplicateMaxDistancePx = 150f;
+        private const float s_MarkerDuplicateMidZoomBoostPx = 36f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
         // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
@@ -134,10 +136,10 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
         // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
-        private const float s_MarkerReadableCloseHeightPx = 30f;
-        private const float s_MarkerReadableFarHeightPx = 72f;
-        private const float s_WaterMarkerReadableFarHeightPx = 78f;
-        private const float s_MarkerReadableScaleStartZoom = 0.25f;
+        private const float s_MarkerReadableCloseHeightPx = 26f;
+        private const float s_MarkerReadableFarHeightPx = 50f;
+        private const float s_WaterMarkerReadableFarHeightPx = 55f;
+        private const float s_MarkerReadableScaleStartZoom = 0.38f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;
@@ -176,6 +178,7 @@ namespace RoadRailSpeeds.Systems
                 .WithAll<Edge, Curve, CustomSpeed>()
                 .Build();
 
+            m_OverlaySettingsQuery = GetEntityQuery(ComponentType.ReadOnly<OverlayConfigurationData>());
             m_FaceColorID = Shader.PropertyToID("_FaceColor");
 
             // Unity render-pipeline event.
