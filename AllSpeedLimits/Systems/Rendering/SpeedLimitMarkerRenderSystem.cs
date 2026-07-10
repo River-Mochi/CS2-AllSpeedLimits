@@ -30,8 +30,6 @@ namespace RoadRailSpeeds.Systems
     using UnityEngine;
     using UnityEngine.Rendering;
     using UnityEngine.Scripting;
-    using SubLane = Game.Net.SubLane;
-    using TrackLane = Game.Net.TrackLane;
 
     [Preserve]
     public partial class SpeedLimitMarkerRenderSystem : GameSystemBase
@@ -90,22 +88,16 @@ namespace RoadRailSpeeds.Systems
         private readonly struct MarkerRenderIdentity
         {
             public readonly float SpeedKmh;
-            public readonly int RoundedSpeedKmh;
             public readonly bool IsWaterwayType;
-            public readonly MarkerVisualKind VisualKind;
             public readonly MarkerGroupKey GroupKey;
 
             public MarkerRenderIdentity(
                 float speedKmh,
-                int roundedSpeedKmh,
                 bool isWaterwayType,
-                MarkerVisualKind visualKind,
                 MarkerGroupKey groupKey)
             {
                 SpeedKmh = speedKmh;
-                RoundedSpeedKmh = roundedSpeedKmh;
                 IsWaterwayType = isWaterwayType;
-                VisualKind = visualKind;
                 GroupKey = groupKey;
             }
         }

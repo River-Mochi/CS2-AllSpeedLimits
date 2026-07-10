@@ -30,8 +30,6 @@ namespace RoadRailSpeeds.Systems
     using UnityEngine;
     using UnityEngine.Rendering;
     using UnityEngine.Scripting;
-    using SubLane = Game.Net.SubLane;
-    using TrackLane = Game.Net.TrackLane;
 
     public partial class SpeedLimitMarkerRenderSystem
     {

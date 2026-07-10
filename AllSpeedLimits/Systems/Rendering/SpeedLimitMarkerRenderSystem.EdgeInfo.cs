@@ -30,37 +30,9 @@ namespace RoadRailSpeeds.Systems
     using UnityEngine;
     using UnityEngine.Rendering;
     using UnityEngine.Scripting;
-    using SubLane = Game.Net.SubLane;
-    using TrackLane = Game.Net.TrackLane;
 
     public partial class SpeedLimitMarkerRenderSystem
     {
-        private bool IsTrackEdge(Entity edge)
-        {
-            if (EntityManager.HasComponent<TrainTrack>(edge) ||
-                EntityManager.HasComponent<TramTrack>(edge) ||
-                EntityManager.HasComponent<SubwayTrack>(edge))
-            {
-                return true;
-            }
-
-            if (!EntityManager.HasBuffer<SubLane>(edge))
-            {
-                return false;
-            }
-
-            DynamicBuffer<SubLane> subLanes = EntityManager.GetBuffer<SubLane>(edge);
-            for (int i = 0; i < subLanes.Length; i++)
-            {
-                if (EntityManager.HasComponent<TrackLane>(subLanes[i].m_SubLane))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         private bool IsWaterwayEdge(Entity edge)
         {
             return EntityManager.HasComponent<Waterway>(edge);
@@ -84,9 +56,7 @@ namespace RoadRailSpeeds.Systems
 
             identity = new MarkerRenderIdentity(
                 customSpeed.m_Speed,
-                speedKmh,
                 isWaterwayType,
-                visualKind,
                 new MarkerGroupKey(speedKmh, visualKind, networkKind));
 
             return true;

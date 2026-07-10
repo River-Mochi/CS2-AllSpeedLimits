@@ -30,8 +30,6 @@ namespace RoadRailSpeeds.Systems
     using UnityEngine;
     using UnityEngine.Rendering;
     using UnityEngine.Scripting;
-    using SubLane = Game.Net.SubLane;
-    using TrackLane = Game.Net.TrackLane;
 
     public partial class SpeedLimitMarkerRenderSystem
     {
@@ -117,11 +115,11 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
-                    int cacheKey = GetTextMeshCacheKey(identity.RoundedSpeedKmh, identity.VisualKind);
+                    int cacheKey = GetTextMeshCacheKey(identity.GroupKey.SpeedKmh, identity.GroupKey.VisualKind);
 
                     if (!m_TextMeshCache.TryGetValue(cacheKey, out TextMeshInfo meshInfo))
                     {
-                        meshInfo = CreateTextMesh(identity.RoundedSpeedKmh, identity.VisualKind);
+                        meshInfo = CreateTextMesh(identity.GroupKey.SpeedKmh, identity.GroupKey.VisualKind);
                         m_TextMeshCache[cacheKey] = meshInfo;
                     }
 
