@@ -125,7 +125,7 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         // Grouping stays on until this zoom value. Lower means all markers return closer to the ground.
-        private const float s_MarkerGroupingStartZoom = 0.20f;
+        private const float s_MarkerGroupingStartZoom = 0.14f;
         private const float s_MarkerDuplicateMinDistancePx = 64f;
         private const float s_MarkerDuplicateMaxDistancePx = 150f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 36f;
@@ -136,10 +136,10 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
         // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
-        private const float s_MarkerReadableCloseHeightPx = 26f;
-        private const float s_MarkerReadableFarHeightPx = 50f;
-        private const float s_WaterMarkerReadableFarHeightPx = 55f;
-        private const float s_MarkerReadableScaleStartZoom = 0.38f;
+        private const float s_MarkerReadableCloseHeightPx = 22f;
+        private const float s_MarkerReadableFarHeightPx = 40f;
+        private const float s_WaterMarkerReadableFarHeightPx = 44f;
+        private const float s_MarkerReadableScaleStartZoom = 0.45f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;

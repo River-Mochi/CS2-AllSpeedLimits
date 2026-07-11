@@ -150,17 +150,17 @@ namespace RoadRailSpeeds.Systems
                     float textScaleMultiplier;
                     if (identity.IsWaterwayType)
                     {
-                        float waterBaseScale = Mathf.Lerp(2.0f, 12.0f, normalizedZoom);
-                        float waterMidZoomBoost = 2.8f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float waterBaseScale = Mathf.Lerp(1.6f, 9.5f, normalizedZoom);
+                        float waterMidZoomBoost = 1.6f * Mathf.Sin(normalizedZoom * Mathf.PI);
                         textScaleMultiplier = waterBaseScale + waterMidZoomBoost;
                     }
                     else
                     {
                         // Roads/rails: smaller close-up, with a mid-zoom readability bump.
                         // This keeps near-camera labels quieter without shrinking the scanning range.
-                        float roadBaseScale = Mathf.Lerp(1.25f, 9.0f, normalizedZoom);
-                        float roadMidZoomBoost = 2.6f * Mathf.Sin(normalizedZoom * Mathf.PI);
-                        float roadFarZoomBoost = 14.0f *
+                        float roadBaseScale = Mathf.Lerp(1.0f, 6.8f, normalizedZoom);
+                        float roadMidZoomBoost = 1.4f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float roadFarZoomBoost = 8.0f *
                             Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((normalizedZoom - 0.72f) / 0.28f));
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost + roadFarZoomBoost;
                     }
