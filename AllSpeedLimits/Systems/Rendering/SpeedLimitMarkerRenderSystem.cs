@@ -167,6 +167,11 @@ namespace RoadRailSpeeds.Systems
         private string m_MarkerTooltipText = string.Empty;
         private float m_MarkerTooltipX;
         private float m_MarkerTooltipY;
+#if DEBUG
+        // Temporary visibility telemetry: reset when the marker tool stops, then log each zoom
+        // handoff once so a user report can show whether grouping or proximity removed markers.
+        private int m_LastMarkerVisibilityDiagnosticZone = -1;
+#endif
 
         [Preserve]
         public SpeedLimitMarkerRenderSystem()

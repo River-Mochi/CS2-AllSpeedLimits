@@ -39,12 +39,18 @@ namespace RoadRailSpeeds.Systems
             {
                 if (!m_SegmentSpeedToolSystem.IsActive)
                 {
+#if DEBUG
+                    ResetMarkerVisibilityDiagnostics();
+#endif
                     ClearMarkerHoverState();
                     return;
                 }
 
                 if (m_RenderingSystem.hideOverlay)
                 {
+#if DEBUG
+                    ResetMarkerVisibilityDiagnostics();
+#endif
                     ClearMarkerHoverState();
                     return;
                 }
@@ -52,6 +58,9 @@ namespace RoadRailSpeeds.Systems
                 // Player toggled the floating numbers off from the panel title bar.
                 if (m_Settings?.HideSpeedMarkers == true)
                 {
+#if DEBUG
+                    ResetMarkerVisibilityDiagnostics();
+#endif
                     ClearMarkerHoverState();
                     return;
                 }
@@ -59,6 +68,9 @@ namespace RoadRailSpeeds.Systems
                 using NativeArray<Entity> entities = m_CustomSpeedQuery.ToEntityArray(Allocator.Temp);
                 if (entities.Length == 0)
                 {
+#if DEBUG
+                    ResetMarkerVisibilityDiagnostics();
+#endif
                     ClearMarkerHoverState();
                     return;
                 }
@@ -86,6 +98,15 @@ namespace RoadRailSpeeds.Systems
                 duplicateDistancePx += s_MarkerDuplicateMidZoomBoostPx *
                     Mathf.Sin(normalizedZoom * Mathf.PI);
                 float duplicateDistanceSq = duplicateDistancePx * duplicateDistancePx;
+#if DEBUG
+                int eligibleMarkerCount = 0;
+                int eligibleWaterMarkerCount = 0;
+                int proximityRejectedCount = 0;
+                int proximityRejectedWaterMarkerCount = 0;
+                int duplicateRejectedCount = 0;
+                int drawnMarkerCount = 0;
+                int drawnWaterMarkerCount = 0;
+#endif
 
                 ClearFrameMarkerCollections();
                 if (groupMarkers)
@@ -115,6 +136,14 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
+#if DEBUG
+                    eligibleMarkerCount++;
+                    if (identity.IsWaterwayType)
+                    {
+                        eligibleWaterMarkerCount++;
+                    }
+#endif
+
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
                     // Height above segment midpoint. Water sits a little higher so the number clears
@@ -132,6 +161,13 @@ namespace RoadRailSpeeds.Systems
                         hoverCamera != null &&
                         !ShouldDrawProximityMarker(hoverCamera, markerPosition, normalizedZoom))
                     {
+#if DEBUG
+                        proximityRejectedCount++;
+                        if (identity.IsWaterwayType)
+                        {
+                            proximityRejectedWaterMarkerCount++;
+                        }
+#endif
                         continue;
                     }
 
@@ -199,6 +235,9 @@ namespace RoadRailSpeeds.Systems
                         hasScreenBounds &&
                         ShouldSkipNearbyDuplicateMarker(identity.GroupKey, screenBounds.center, duplicateDistanceSq))
                     {
+#if DEBUG
+                        duplicateRejectedCount++;
+#endif
                         continue;
                     }
 
@@ -229,6 +268,13 @@ namespace RoadRailSpeeds.Systems
                         }
                     }
 
+#if DEBUG
+                    drawnMarkerCount++;
+                    if (identity.IsWaterwayType)
+                    {
+                        drawnWaterMarkerCount++;
+                    }
+#endif
                     foreach (Camera camera in cameras)
                     {
                         if (camera.cameraType != CameraType.Game &&
@@ -258,6 +304,22 @@ namespace RoadRailSpeeds.Systems
                             receiveShadows: false);
                     }
                 }
+
+#if DEBUG
+                LogMarkerVisibilityTransition(
+                    zoomLevel,
+                    normalizedZoom,
+                    groupMarkers,
+                    entities.Length,
+                    m_FrameVisibleMarkerEdges.Count,
+                    eligibleMarkerCount,
+                    eligibleWaterMarkerCount,
+                    proximityRejectedCount,
+                    proximityRejectedWaterMarkerCount,
+                    duplicateRejectedCount,
+                    drawnMarkerCount,
+                    drawnWaterMarkerCount);
+#endif
 
                 if (hasHover)
                 {
@@ -292,30 +354,90 @@ namespace RoadRailSpeeds.Systems
                 return false;
             }
 
-            // At map scale this starts broad enough to preserve the grouped representatives. The
-            // depth limit stays broad through the group-to-proximity handoff, then contracts only
-            // during truly close zoom so a single wheel notch cannot make every marker disappear.
-            float proximityBlend = Mathf.Clamp01(
-                (s_MarkerProximityStartZoom - normalizedZoom) / s_MarkerProximityStartZoom);
-            float maxCameraDepth = Mathf.Lerp(
-                s_ProximityStartCameraDepth,
-                s_CloseMarkerMaxCameraDepthMin,
-                Mathf.Clamp01(
-                    (proximityBlend - s_ProximityDepthTightenStart) /
-                    (1f - s_ProximityDepthTightenStart)));
+            GetProximityLimits(normalizedZoom, out float maxCameraDepth, out float viewportRadius);
             if (viewportPoint.z > maxCameraDepth)
             {
                 return false;
             }
 
-            float viewportRadius = Mathf.Lerp(
-                s_ProximityStartViewportRadius,
-                s_CloseMarkerViewportRadiusMin,
-                proximityBlend);
             Vector2 fromCenter = new Vector2(viewportPoint.x - 0.5f, viewportPoint.y - 0.5f);
 
             return fromCenter.sqrMagnitude <= viewportRadius * viewportRadius;
         }
+
+        private static void GetProximityLimits(
+            float normalizedZoom,
+            out float maxCameraDepth,
+            out float viewportRadius)
+        {
+            // At map scale this starts broad enough to preserve the grouped representatives. The
+            // depth limit stays broad through the group-to-proximity handoff, then contracts only
+            // during truly close zoom so a single wheel notch cannot make every marker disappear.
+            float proximityBlend = Mathf.Clamp01(
+                (s_MarkerProximityStartZoom - normalizedZoom) / s_MarkerProximityStartZoom);
+            float depthBlend = Mathf.Clamp01(
+                (proximityBlend - s_ProximityDepthTightenStart) /
+                (1f - s_ProximityDepthTightenStart));
+            maxCameraDepth = Mathf.Lerp(
+                s_ProximityStartCameraDepth,
+                s_CloseMarkerMaxCameraDepthMin,
+                depthBlend);
+            viewportRadius = Mathf.Lerp(
+                s_ProximityStartViewportRadius,
+                s_CloseMarkerViewportRadiusMin,
+                proximityBlend);
+        }
+
+#if DEBUG
+        private void ResetMarkerVisibilityDiagnostics()
+        {
+            m_LastMarkerVisibilityDiagnosticZone = -1;
+        }
+
+        private void LogMarkerVisibilityTransition(
+            float zoomLevel,
+            float normalizedZoom,
+            bool groupMarkers,
+            int queriedMarkerCount,
+            int groupedRepresentativeCount,
+            int eligibleMarkerCount,
+            int eligibleWaterMarkerCount,
+            int proximityRejectedCount,
+            int proximityRejectedWaterMarkerCount,
+            int duplicateRejectedCount,
+            int drawnMarkerCount,
+            int drawnWaterMarkerCount)
+        {
+            int zone = normalizedZoom > s_MarkerProximityStartZoom
+                ? 0
+                : normalizedZoom >= s_MarkerGroupingStartZoom
+                    ? 1
+                    : normalizedZoom >= s_MarkerProximityStartZoom * (1f - s_ProximityDepthTightenStart)
+                        ? 2
+                        : 3;
+            if (zone == m_LastMarkerVisibilityDiagnosticZone)
+            {
+                return;
+            }
+
+            m_LastMarkerVisibilityDiagnosticZone = zone;
+            GetProximityLimits(normalizedZoom, out float maxCameraDepth, out float viewportRadius);
+            string zoneName = zone switch
+            {
+                0 => "grouped-map",
+                1 => "grouped-proximity",
+                2 => "close-proximity",
+                _ => "tight-proximity"
+            };
+            LogUtils.Info(
+                () => $"[ASL] MarkerVisibility zone={zoneName} zoom={zoomLevel:0} normalized={normalizedZoom:0.000} " +
+                    $"grouped={groupMarkers} queried={queriedMarkerCount} representatives={groupedRepresentativeCount} " +
+                    $"eligible={eligibleMarkerCount} waterEligible={eligibleWaterMarkerCount} " +
+                    $"proximityRejected={proximityRejectedCount} waterProximityRejected={proximityRejectedWaterMarkerCount} " +
+                    $"duplicateRejected={duplicateRejectedCount} drawn={drawnMarkerCount} " +
+                    $"waterDrawn={drawnWaterMarkerCount} depthLimit={maxCameraDepth:0} viewportRadius={viewportRadius:0.000}");
+        }
+#endif
 
 
         private static float ApplyReadableScreenScale(
