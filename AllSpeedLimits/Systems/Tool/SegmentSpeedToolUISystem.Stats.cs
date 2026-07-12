@@ -198,10 +198,8 @@ namespace RoadRailSpeeds.Systems
             int taxiActive = 0;
             int taxiParked = 0;
 
-            // Read-only count, so the modern DOTS idiom SystemAPI.Query fits: it iterates the matching
-            // chunks directly with no NativeArray copy. The query guarantees PrefabRef and PersonalCar
-            // and excludes trailers/deleted/destroyed/temp. WithEntityAccess gives the entity for the
-            // ParkedCar/CarCurrentLane lookups; BicycleData is checked on the prefab entity.
+            // Read-only count: chunks directly. Query guarantees PrefabRef and PersonalCar
+            // WithEntityAccess gives the entity for the ParkedCar/CarCurrentLane lookups; BicycleData is checked on the prefab entity.
             foreach (var (prefabRef, vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.PersonalCar>()
@@ -248,8 +246,8 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            // Third stats row: all road-using work/service/freight cars, while leaving private cars,
-            // bicycles, taxis, public transit, trailers, rail, water, and air vehicles out.
+            // Third stats row: all road-using work/service/freight cars. Exclude: private cars,
+            // bicycles, taxis, public transit, trailers, rail, water, and air.
             foreach (var (prefabRef, vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
@@ -289,8 +287,8 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            // Road buses only: public transport vehicles whose prefab declares TransportType.Bus.
-            // This keeps trains, trams, subway, ships, and aircraft out of the road stats table.
+            // Buses only: prefab declares TransportType.Bus.
+            // Exclukeeps trains, trams, subway, ships, and aircraft out of the road stats table.
             foreach (var (prefabRef, vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.PublicTransport>()
