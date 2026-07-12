@@ -44,7 +44,8 @@ namespace RoadRailSpeeds.Systems
         {
             Default = 0,
             Custom = 1,
-            Rail = 2
+            Rail = 2,
+            Subway = 3
         }
 
         private enum MarkerNetworkKind
@@ -89,15 +90,18 @@ namespace RoadRailSpeeds.Systems
         {
             public readonly float SpeedKmh;
             public readonly bool IsWaterwayType;
+            public readonly bool IsUndergroundSubway;
             public readonly MarkerGroupKey GroupKey;
 
             public MarkerRenderIdentity(
                 float speedKmh,
                 bool isWaterwayType,
+                bool isUndergroundSubway,
                 MarkerGroupKey groupKey)
             {
                 SpeedKmh = speedKmh;
                 IsWaterwayType = isWaterwayType;
+                IsUndergroundSubway = isUndergroundSubway;
                 GroupKey = groupKey;
             }
         }
@@ -122,8 +126,9 @@ namespace RoadRailSpeeds.Systems
             new Dictionary<MarkerGroupKey, List<Vector2>>();
         // Floating number color knobs. Text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
-        private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
+        private static readonly Color s_CustomMarkerTextColor = new Color(0.41f, 0.90f, 0.92f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
+        private static readonly Color s_SubwayMarkerTextColor = new Color(1.00f, 0.30f, 0.82f, 1f);
         // Grouping stays on until this zoom value. Lower means all markers return closer to the ground.
         private const float s_MarkerGroupingStartZoom = 0.08f;
         private const float s_MarkerDuplicateMinDistancePx = 70f;

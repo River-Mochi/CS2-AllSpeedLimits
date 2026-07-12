@@ -121,7 +121,10 @@ namespace RoadRailSpeeds.Systems
                     // the waterway selection band. Roads/rails sit lower close to the camera, but
                     // ease back upward at far zoom for readability.
                     float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
-                    position.y += identity.IsWaterwayType ? 11.4f : roadMarkerHeight;
+                    float undergroundSubwayMarkerHeight = Mathf.Lerp(14.0f, 16.0f, normalizedZoom);
+                    position.y += identity.IsWaterwayType
+                        ? 11.4f
+                        : (identity.IsUndergroundSubway ? undergroundSubwayMarkerHeight : roadMarkerHeight);
                     Vector3 markerPosition = position;
 
                     if (!groupMarkers &&

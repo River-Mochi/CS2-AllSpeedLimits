@@ -70,6 +70,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Train + Subway floating speed numbers in high visibility green, roads + water stay blue.
+- Floating speed numbers: adjusted the scale at different zoom levels, and added proximity so it's less cluttered.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
     <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AllSpeedLimits" />

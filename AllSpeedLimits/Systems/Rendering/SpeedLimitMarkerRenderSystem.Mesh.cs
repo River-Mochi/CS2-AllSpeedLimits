@@ -64,7 +64,7 @@ namespace RoadRailSpeeds.Systems
                 textMesh.fontSize = 25f;
                 textMesh.alignment = TextAlignmentOptions.Center;
                 textMesh.color = textColor;
-                textMesh.characterSpacing = 0f;
+                textMesh.characterSpacing = 2f;
                 textMesh.fontStyle = FontStyles.Normal;
 
                 string speedText;
@@ -187,6 +187,7 @@ namespace RoadRailSpeeds.Systems
             {
                 MarkerVisualKind.Default => s_DefaultMarkerTextColor,
                 MarkerVisualKind.Rail => s_RailMarkerTextColor,
+                MarkerVisualKind.Subway => s_SubwayMarkerTextColor,
                 _ => s_CustomMarkerTextColor
             };
         }
@@ -197,6 +198,7 @@ namespace RoadRailSpeeds.Systems
             {
                 MarkerVisualKind.Default => "default",
                 MarkerVisualKind.Rail => "rail",
+                MarkerVisualKind.Subway => "subway",
                 _ => "custom"
             };
         }

@@ -50,6 +50,7 @@ namespace RoadRailSpeeds.Systems
             CustomSpeed customSpeed = EntityManager.GetComponentData<CustomSpeed>(edge);
             int speedKmh = Mathf.RoundToInt(customSpeed.m_Speed);
             bool isWaterwayType = IsWaterwayEdge(edge);
+            bool isUndergroundSubway = IsUndergroundSubwayEdge(edge);
             bool isDefaultSpeed = IsDefaultSpeed(edge, customSpeed.m_Speed);
             MarkerVisualKind visualKind = GetMarkerVisualKind(edge, isDefaultSpeed);
             MarkerNetworkKind networkKind = GetMarkerNetworkKind(edge);
@@ -57,6 +58,7 @@ namespace RoadRailSpeeds.Systems
             identity = new MarkerRenderIdentity(
                 customSpeed.m_Speed,
                 isWaterwayType,
+                isUndergroundSubway,
                 new MarkerGroupKey(speedKmh, visualKind, networkKind));
 
             return true;
@@ -81,9 +83,35 @@ namespace RoadRailSpeeds.Systems
                 return MarkerVisualKind.Default;
             }
 
+            if (IsSubwayEdge(edge))
+            {
+                return MarkerVisualKind.Subway;
+            }
+
             return IsTrainOrSubwayEdge(edge)
                 ? MarkerVisualKind.Rail
                 : MarkerVisualKind.Custom;
+        }
+
+        private bool IsSubwayEdge(Entity edge)
+        {
+            if (EntityManager.HasComponent<TramTrack>(edge))
+            {
+                return false;
+            }
+
+            return EntityManager.HasComponent<SubwayTrack>(edge);
+        }
+
+        private bool IsUndergroundSubwayEdge(Entity edge)
+        {
+            if (!IsSubwayEdge(edge) || !EntityManager.HasComponent<Elevation>(edge))
+            {
+                return false;
+            }
+
+            Elevation elevation = EntityManager.GetComponentData<Elevation>(edge);
+            return elevation.m_Elevation.x < -0.1f || elevation.m_Elevation.y < -0.1f;
         }
 
         private bool IsTrainOrSubwayEdge(Entity edge)
@@ -94,7 +122,7 @@ namespace RoadRailSpeeds.Systems
             }
 
             return EntityManager.HasComponent<TrainTrack>(edge) ||
-                EntityManager.HasComponent<SubwayTrack>(edge);
+                IsSubwayEdge(edge);
         }
 
 
