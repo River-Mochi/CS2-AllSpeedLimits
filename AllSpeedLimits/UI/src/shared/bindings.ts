@@ -106,6 +106,30 @@ export const CITY_INDUSTRY_PARKED = bindValue<number>(
   MOD_ID,
   "BINDING:CITY_INDUSTRY_PARKED"
 );
+export const CITY_BUS_TOTAL = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_BUS_TOTAL"
+);
+export const CITY_BUS_ACTIVE = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_BUS_ACTIVE"
+);
+export const CITY_BUS_PARKED = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_BUS_PARKED"
+);
+export const CITY_TAXI_TOTAL = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_TAXI_TOTAL"
+);
+export const CITY_TAXI_ACTIVE = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_TAXI_ACTIVE"
+);
+export const CITY_TAXI_PARKED = bindValue<number>(
+  MOD_ID,
+  "BINDING:CITY_TAXI_PARKED"
+);
 export const CITY_RESET_IN_PROGRESS = bindValue<boolean>(
   MOD_ID,
   "BINDING:CITY_RESET_IN_PROGRESS"

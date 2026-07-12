@@ -22,6 +22,8 @@ export type PanelTooltipKind =
     | "statsBikes"
     | "statsCars"
     | "statsIndustry"
+    | "statsBuses"
+    | "statsTaxis"
     | "selectedSegment"
     | "unit"
     | "newSpeedUnit"

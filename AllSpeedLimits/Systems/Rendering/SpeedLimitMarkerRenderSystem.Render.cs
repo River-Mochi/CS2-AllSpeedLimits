@@ -115,6 +115,22 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
+                    Curve curve = EntityManager.GetComponentData<Curve>(edge);
+                    float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
+                    // Height above segment midpoint. Water sits a little higher so the number clears
+                    // the waterway selection band. Roads/rails sit lower close to the camera, but
+                    // ease back upward at far zoom for readability.
+                    float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
+                    position.y += identity.IsWaterwayType ? 11.4f : roadMarkerHeight;
+                    Vector3 markerPosition = position;
+
+                    if (!groupMarkers &&
+                        hoverCamera != null &&
+                        !ShouldDrawCloseDetailMarker(hoverCamera, markerPosition, normalizedZoom))
+                    {
+                        continue;
+                    }
+
                     int cacheKey = GetTextMeshCacheKey(identity.GroupKey.SpeedKmh, identity.GroupKey.VisualKind);
 
                     if (!m_TextMeshCache.TryGetValue(cacheKey, out TextMeshInfo meshInfo))
@@ -127,15 +143,6 @@ namespace RoadRailSpeeds.Systems
                     {
                         continue;
                     }
-
-                    Curve curve = EntityManager.GetComponentData<Curve>(edge);
-                    float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
-                    // Height above segment midpoint. Water sits a little higher so the number clears
-                    // the waterway selection band. Roads/rails sit lower close to the camera, but
-                    // ease back upward at far zoom for readability.
-                    float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
-                    position.y += identity.IsWaterwayType ? 11.4f : roadMarkerHeight;
-                    Vector3 markerPosition = position;
 
                     // Floating world-speed marker size:
                     // 1. textMesh.fontSize below sets the base glyph size before world scaling.
@@ -150,17 +157,17 @@ namespace RoadRailSpeeds.Systems
                     float textScaleMultiplier;
                     if (identity.IsWaterwayType)
                     {
-                        float waterBaseScale = Mathf.Lerp(1.6f, 9.5f, normalizedZoom);
-                        float waterMidZoomBoost = 1.6f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float waterBaseScale = Mathf.Lerp(1.35f, 6.4f, normalizedZoom);
+                        float waterMidZoomBoost = 0.9f * Mathf.Sin(normalizedZoom * Mathf.PI);
                         textScaleMultiplier = waterBaseScale + waterMidZoomBoost;
                     }
                     else
                     {
                         // Roads/rails: smaller close-up, with a mid-zoom readability bump.
                         // This keeps near-camera labels quieter without shrinking the scanning range.
-                        float roadBaseScale = Mathf.Lerp(1.0f, 6.8f, normalizedZoom);
-                        float roadMidZoomBoost = 1.4f * Mathf.Sin(normalizedZoom * Mathf.PI);
-                        float roadFarZoomBoost = 8.0f *
+                        float roadBaseScale = Mathf.Lerp(0.82f, 4.6f, normalizedZoom);
+                        float roadMidZoomBoost = 0.9f * Mathf.Sin(normalizedZoom * Mathf.PI);
+                        float roadFarZoomBoost = 2.6f *
                             Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((normalizedZoom - 0.72f) / 0.28f));
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost + roadFarZoomBoost;
                     }
@@ -268,6 +275,37 @@ namespace RoadRailSpeeds.Systems
                     () => $"SpeedLimitMarkerRenderSystem.Render failed: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
+        }
+
+
+        private static bool ShouldDrawCloseDetailMarker(
+            Camera camera,
+            Vector3 markerPosition,
+            float normalizedZoom)
+        {
+            Vector3 viewportPoint = camera.WorldToViewportPoint(markerPosition);
+            if (viewportPoint.z <= 0f)
+            {
+                return false;
+            }
+
+            float closeBlend = Mathf.Clamp01(normalizedZoom / s_MarkerGroupingStartZoom);
+            float maxCameraDepth = Mathf.Lerp(
+                s_CloseMarkerMaxCameraDepthMin,
+                s_CloseMarkerMaxCameraDepthMax,
+                closeBlend);
+            if (viewportPoint.z > maxCameraDepth)
+            {
+                return false;
+            }
+
+            float viewportRadius = Mathf.Lerp(
+                s_CloseMarkerViewportRadiusMin,
+                s_CloseMarkerViewportRadiusMax,
+                closeBlend);
+            Vector2 fromCenter = new Vector2(viewportPoint.x - 0.5f, viewportPoint.y - 0.5f);
+
+            return fromCenter.sqrMagnitude <= viewportRadius * viewportRadius;
         }
 
 

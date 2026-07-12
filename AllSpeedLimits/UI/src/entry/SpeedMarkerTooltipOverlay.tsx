@@ -50,10 +50,10 @@ export const SpeedMarkerTooltipOverlay = () => {
     // Do not render this with PanelSideTooltip: that component adds the dark panel-help
     // background/border and treats offsets as panel-relative. markerTooltipX/Y are screen
     // coordinates from C#, and X is the marker center, so this renderer centers itself.
-    const markerTooltipWidth = 320;
+    const markerTooltipWidth = 340;
     const left = Math.max(8, Math.min(window.innerWidth - markerTooltipWidth - 8, markerTooltipX - (markerTooltipWidth / 2)));
-    const top = Math.max(8, Math.min(window.innerHeight - 44, markerTooltipY + 4));
-    const markerTooltipFontSize = `${20 * tooltipFontScale / 100}rem`;
+    const top = Math.max(8, Math.min(window.innerHeight - 48, markerTooltipY + 4));
+    const markerTooltipFontSize = `${22 * tooltipFontScale / 100}rem`;
 
     return (
         <div style={{

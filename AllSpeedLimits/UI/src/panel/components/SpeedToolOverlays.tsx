@@ -122,6 +122,12 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "statsIndustry") {
             maxWidth = "238rem";
             content = renderTooltipBlock(text.stats.industry, [text.tooltips.statsRows.industry]);
+        } else if (panelTooltip === "statsBuses") {
+            maxWidth = "160rem";
+            content = renderTooltipBlock(text.stats.buses, [text.tooltips.statsRows.buses]);
+        } else if (panelTooltip === "statsTaxis") {
+            maxWidth = "160rem";
+            content = renderTooltipBlock(text.stats.taxis, [text.tooltips.statsRows.taxis]);
         } else if (panelTooltip === "wholeCity") {
             maxWidth = "210rem";
             content = renderTooltipBlock(text.tooltips.wholeCity.title, text.tooltips.wholeCity.lines);

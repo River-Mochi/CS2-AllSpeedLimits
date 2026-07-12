@@ -83,29 +83,39 @@ namespace RoadRailSpeeds.Systems
 
         private static int GetMarkerGroupStride(float normalizedZoom)
         {
-            if (normalizedZoom >= 0.82f)
+            if (normalizedZoom >= 0.84f)
             {
                 return int.MaxValue;
             }
 
-            if (normalizedZoom >= 0.72f)
+            if (normalizedZoom >= 0.74f)
             {
-                return 14;
+                return 20;
             }
 
-            if (normalizedZoom >= 0.60f)
+            if (normalizedZoom >= 0.62f)
             {
-                return 10;
+                return 15;
             }
 
-            if (normalizedZoom >= 0.48f)
+            if (normalizedZoom >= 0.50f)
             {
-                return 6;
+                return 11;
             }
 
-            if (normalizedZoom >= 0.36f)
+            if (normalizedZoom >= 0.38f)
             {
-                return 4;
+                return 7;
+            }
+
+            if (normalizedZoom >= 0.24f)
+            {
+                return 5;
+            }
+
+            if (normalizedZoom >= 0.14f)
+            {
+                return 3;
             }
 
             return 2;

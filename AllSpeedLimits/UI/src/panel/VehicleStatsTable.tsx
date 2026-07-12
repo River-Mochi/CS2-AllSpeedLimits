@@ -12,6 +12,8 @@ import type { PanelTooltipKind } from "./types";
 const bikeIcon = "Media/Game/Icons/Bicycle.svg";
 const carIcon = "Media/Game/Icons/GenericVehicle.svg";
 const cargoTruckIcon = "Media/Game/Icons/CargoTruck.svg";
+const busIcon = "Media/Game/Icons/Transportation.svg";
+const taxiIcon = "Media/Game/Icons/Taxi.svg";
 
 type VehicleStatsTableProps = {
     carsLabel: string;
@@ -29,6 +31,14 @@ type VehicleStatsTableProps = {
     cityIndustryActive: number;
     cityIndustryParked: number;
     cityIndustryTotal: number;
+    busesLabel: string;
+    cityBusActive: number;
+    cityBusParked: number;
+    cityBusTotal: number;
+    taxisLabel: string;
+    cityTaxiActive: number;
+    cityTaxiParked: number;
+    cityTaxiTotal: number;
     showPanelTooltip: (kind: PanelTooltipKind) => void;
     hidePanelTooltip: () => void;
     formatCount: (value: number) => string;
@@ -51,6 +61,14 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
         cityIndustryActive,
         cityIndustryParked,
         cityIndustryTotal,
+        busesLabel,
+        cityBusActive,
+        cityBusParked,
+        cityBusTotal,
+        taxisLabel,
+        cityTaxiActive,
+        cityTaxiParked,
+        cityTaxiTotal,
         showPanelTooltip,
         hidePanelTooltip,
         formatCount
@@ -62,9 +80,9 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
     const labelWidth = STATS_LABEL_WIDTH_REM;
     const statColumnWidth = STATS_COLUMN_WIDTH_REM;
     const columns = [
-        { label: movingLabel, cars: cityCarActive, bikes: cityBikeActive, industry: cityIndustryActive },
-        { label: parkedLabel, cars: cityCarParked, bikes: cityBikeParked, industry: cityIndustryParked },
-        { label: totalLabel, cars: cityCarTotal, bikes: cityBikeTotal, industry: cityIndustryTotal }
+        { label: movingLabel, cars: cityCarActive, bikes: cityBikeActive, industry: cityIndustryActive, buses: cityBusActive, taxis: cityTaxiActive },
+        { label: parkedLabel, cars: cityCarParked, bikes: cityBikeParked, industry: cityIndustryParked, buses: cityBusParked, taxis: cityTaxiParked },
+        { label: totalLabel, cars: cityCarTotal, bikes: cityBikeTotal, industry: cityIndustryTotal, buses: cityBusTotal, taxis: cityTaxiTotal }
     ];
 
     // iconIdleRem/iconHoverRem are per-row: the bicycle art is thinner than the chunky car, so the
@@ -171,6 +189,10 @@ export const VehicleStatsTable = (props: VehicleStatsTableProps) => {
                 {renderStatsRow(carIcon, carIconFallback, carsLabel, columns.map(column => column.cars), "cars", "statsCars", 22)}
                 <div style={{ height: "2rem" }} />
                 {renderStatsRow(cargoTruckIcon, undefined, industryLabel, columns.map(column => column.industry), "industry", "statsIndustry", 24)}
+                <div style={{ height: "2rem" }} />
+                {renderStatsRow(busIcon, undefined, busesLabel, columns.map(column => column.buses), "buses", "statsBuses", 23)}
+                <div style={{ height: "2rem" }} />
+                {renderStatsRow(taxiIcon, undefined, taxisLabel, columns.map(column => column.taxis), "taxis", "statsTaxis", 22)}
             </div>
         </div>
     );

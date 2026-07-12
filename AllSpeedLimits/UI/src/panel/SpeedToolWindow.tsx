@@ -28,6 +28,12 @@ import {
     CITY_INDUSTRY_TOTAL,
     CITY_INDUSTRY_ACTIVE,
     CITY_INDUSTRY_PARKED,
+    CITY_BUS_TOTAL,
+    CITY_BUS_ACTIVE,
+    CITY_BUS_PARKED,
+    CITY_TAXI_TOTAL,
+    CITY_TAXI_ACTIVE,
+    CITY_TAXI_PARKED,
     CITY_RESET_IN_PROGRESS,
     CITY_RESET_CLEARED,
     CITY_RESET_TOTAL,
@@ -107,6 +113,12 @@ export const SpeedToolWindow = () => {
     const cityIndustryTotal = useSafeBinding(CITY_INDUSTRY_TOTAL, 0);
     const cityIndustryActive = useSafeBinding(CITY_INDUSTRY_ACTIVE, 0);
     const cityIndustryParked = useSafeBinding(CITY_INDUSTRY_PARKED, 0);
+    const cityBusTotal = useSafeBinding(CITY_BUS_TOTAL, 0);
+    const cityBusActive = useSafeBinding(CITY_BUS_ACTIVE, 0);
+    const cityBusParked = useSafeBinding(CITY_BUS_PARKED, 0);
+    const cityTaxiTotal = useSafeBinding(CITY_TAXI_TOTAL, 0);
+    const cityTaxiActive = useSafeBinding(CITY_TAXI_ACTIVE, 0);
+    const cityTaxiParked = useSafeBinding(CITY_TAXI_PARKED, 0);
     const cityResetInProgress = useSafeBinding(CITY_RESET_IN_PROGRESS, false);
     const cityResetCleared = useSafeBinding(CITY_RESET_CLEARED, 0);
     const cityResetTotal = useSafeBinding(CITY_RESET_TOTAL, 0);
@@ -1058,6 +1070,12 @@ export const SpeedToolWindow = () => {
                             cityIndustryActive={cityIndustryActive}
                             cityIndustryParked={cityIndustryParked}
                             cityIndustryTotal={cityIndustryTotal}
+                            cityBusActive={cityBusActive}
+                            cityBusParked={cityBusParked}
+                            cityBusTotal={cityBusTotal}
+                            cityTaxiActive={cityTaxiActive}
+                            cityTaxiParked={cityTaxiParked}
+                            cityTaxiTotal={cityTaxiTotal}
                             setSelectedRoadGroup={setSelectedRoadGroup}
                             setPendingCityAction={setPendingCityAction}
                             toggleWholeCityExpanded={toggleWholeCityExpanded}

@@ -62,6 +62,8 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     statsBikes: 340,
     statsCars: 340,
     statsIndustry: 340,
+    statsBuses: 340,
+    statsTaxis: 340,
     selectedSegment: 118,
     unit: 28,
     newSpeedUnit: 128,

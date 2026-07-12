@@ -32,6 +32,12 @@ type WholeCityStatsSectionProps = {
     cityIndustryActive: number;
     cityIndustryParked: number;
     cityIndustryTotal: number;
+    cityBusActive: number;
+    cityBusParked: number;
+    cityBusTotal: number;
+    cityTaxiActive: number;
+    cityTaxiParked: number;
+    cityTaxiTotal: number;
     setSelectedRoadGroup: Dispatch<SetStateAction<RoadGroupKind | null>>;
     setPendingCityAction: Dispatch<SetStateAction<CityActionKind | null>>;
     toggleWholeCityExpanded: () => void;
@@ -68,6 +74,12 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
         cityIndustryActive,
         cityIndustryParked,
         cityIndustryTotal,
+        cityBusActive,
+        cityBusParked,
+        cityBusTotal,
+        cityTaxiActive,
+        cityTaxiParked,
+        cityTaxiTotal,
         setSelectedRoadGroup,
         setPendingCityAction,
         toggleWholeCityExpanded,
@@ -273,6 +285,14 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                         cityIndustryActive={cityIndustryActive}
                         cityIndustryParked={cityIndustryParked}
                         cityIndustryTotal={cityIndustryTotal}
+                        busesLabel={text.stats.buses}
+                        cityBusActive={cityBusActive}
+                        cityBusParked={cityBusParked}
+                        cityBusTotal={cityBusTotal}
+                        taxisLabel={text.stats.taxis}
+                        cityTaxiActive={cityTaxiActive}
+                        cityTaxiParked={cityTaxiParked}
+                        cityTaxiTotal={cityTaxiTotal}
                         showPanelTooltip={showPanelTooltip}
                         hidePanelTooltip={hidePanelTooltip}
                         formatCount={formatCount}

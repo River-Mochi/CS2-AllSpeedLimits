@@ -125,10 +125,16 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_CustomMarkerTextColor = new Color(0.24f, 0.88f, 1.00f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         // Grouping stays on until this zoom value. Lower means all markers return closer to the ground.
-        private const float s_MarkerGroupingStartZoom = 0.14f;
-        private const float s_MarkerDuplicateMinDistancePx = 64f;
-        private const float s_MarkerDuplicateMaxDistancePx = 150f;
-        private const float s_MarkerDuplicateMidZoomBoostPx = 36f;
+        private const float s_MarkerGroupingStartZoom = 0.08f;
+        private const float s_MarkerDuplicateMinDistancePx = 70f;
+        private const float s_MarkerDuplicateMaxDistancePx = 180f;
+        private const float s_MarkerDuplicateMidZoomBoostPx = 48f;
+        // In full-detail close zoom, keep markers near the camera focus instead of painting the horizon.
+        // Tooltip sizing is separate; these only decide which world-number meshes are drawn.
+        private const float s_CloseMarkerViewportRadiusMin = 0.58f;
+        private const float s_CloseMarkerViewportRadiusMax = 0.86f;
+        private const float s_CloseMarkerMaxCameraDepthMin = 900f;
+        private const float s_CloseMarkerMaxCameraDepthMax = 2600f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
         // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
@@ -136,9 +142,9 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
         // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
-        private const float s_MarkerReadableCloseHeightPx = 22f;
-        private const float s_MarkerReadableFarHeightPx = 40f;
-        private const float s_WaterMarkerReadableFarHeightPx = 44f;
+        private const float s_MarkerReadableCloseHeightPx = 18f;
+        private const float s_MarkerReadableFarHeightPx = 29f;
+        private const float s_WaterMarkerReadableFarHeightPx = 32f;
         private const float s_MarkerReadableScaleStartZoom = 0.45f;
 
         private Setting? m_Settings;

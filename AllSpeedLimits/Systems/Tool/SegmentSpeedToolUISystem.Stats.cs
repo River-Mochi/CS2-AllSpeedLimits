@@ -13,9 +13,14 @@ namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;       // Dictionary, KeyValuePair
     using System.Linq;                      // OrderByDescending, ThenBy
+
     using CS2Shared.RiverMochi;             // LogUtils
+
+    using Game.Common;                      // Deleted, Destroyed
     using Game.Prefabs;
+    using Game.Tools;                       // Temp
     using Game.Vehicles;
+
     using Unity.Entities;
 
     public partial class SegmentSpeedToolUISystem
@@ -36,6 +41,12 @@ namespace RoadRailSpeeds.Systems
             public readonly int IndustryTotal;
             public readonly int IndustryActive;
             public readonly int IndustryParked;
+            public readonly int BusTotal;
+            public readonly int BusActive;
+            public readonly int BusParked;
+            public readonly int TaxiTotal;
+            public readonly int TaxiActive;
+            public readonly int TaxiParked;
 
             public CityVehicleStats(
                 int carTotal,
@@ -46,7 +57,13 @@ namespace RoadRailSpeeds.Systems
                 int bikeParked,
                 int industryTotal,
                 int industryActive,
-                int industryParked)
+                int industryParked,
+                int busTotal,
+                int busActive,
+                int busParked,
+                int taxiTotal,
+                int taxiActive,
+                int taxiParked)
             {
                 CarTotal = carTotal;
                 CarActive = carActive;
@@ -57,6 +74,12 @@ namespace RoadRailSpeeds.Systems
                 IndustryTotal = industryTotal;
                 IndustryActive = industryActive;
                 IndustryParked = industryParked;
+                BusTotal = busTotal;
+                BusActive = busActive;
+                BusParked = busParked;
+                TaxiTotal = taxiTotal;
+                TaxiActive = taxiActive;
+                TaxiParked = taxiParked;
             }
         }
 
@@ -125,6 +148,36 @@ namespace RoadRailSpeeds.Systems
             {
                 m_CityIndustryParkedBinding.Value = stats.IndustryParked;
             }
+
+            if (m_CityBusTotalBinding.Value != stats.BusTotal)
+            {
+                m_CityBusTotalBinding.Value = stats.BusTotal;
+            }
+
+            if (m_CityBusActiveBinding.Value != stats.BusActive)
+            {
+                m_CityBusActiveBinding.Value = stats.BusActive;
+            }
+
+            if (m_CityBusParkedBinding.Value != stats.BusParked)
+            {
+                m_CityBusParkedBinding.Value = stats.BusParked;
+            }
+
+            if (m_CityTaxiTotalBinding.Value != stats.TaxiTotal)
+            {
+                m_CityTaxiTotalBinding.Value = stats.TaxiTotal;
+            }
+
+            if (m_CityTaxiActiveBinding.Value != stats.TaxiActive)
+            {
+                m_CityTaxiActiveBinding.Value = stats.TaxiActive;
+            }
+
+            if (m_CityTaxiParkedBinding.Value != stats.TaxiParked)
+            {
+                m_CityTaxiParkedBinding.Value = stats.TaxiParked;
+            }
         }
 
         private CityVehicleStats BuildCityVehicleStats()
@@ -138,6 +191,12 @@ namespace RoadRailSpeeds.Systems
             int industryTotal = 0;
             int industryActive = 0;
             int industryParked = 0;
+            int busTotal = 0;
+            int busActive = 0;
+            int busParked = 0;
+            int taxiTotal = 0;
+            int taxiActive = 0;
+            int taxiParked = 0;
 
             // Read-only count, so the modern DOTS idiom SystemAPI.Query fits: it iterates the matching
             // chunks directly with no NativeArray copy. The query guarantees PrefabRef and PersonalCar
@@ -146,8 +205,8 @@ namespace RoadRailSpeeds.Systems
             foreach (var (prefabRef, vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.PersonalCar>()
-                .WithNone<Game.Vehicles.CarTrailer, Game.Common.Deleted, Game.Common.Destroyed>()
-                .WithNone<Game.Tools.Temp>()
+                .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
+                .WithNone<Temp>()
                 .WithEntityAccess())
             {
                 Entity prefab = prefabRef.ValueRO.m_Prefab;
@@ -195,8 +254,8 @@ namespace RoadRailSpeeds.Systems
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
                 .WithNone<Game.Vehicles.PersonalCar, Game.Vehicles.PublicTransport, Game.Vehicles.Taxi>()
-                .WithNone<Game.Vehicles.CarTrailer, Game.Common.Deleted, Game.Common.Destroyed>()
-                .WithNone<Game.Tools.Temp>()
+                .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
+                .WithNone<Temp>()
                 .WithEntityAccess())
             {
                 Entity prefab = prefabRef.ValueRO.m_Prefab;
@@ -230,6 +289,76 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
+            // Road buses only: public transport vehicles whose prefab declares TransportType.Bus.
+            // This keeps trains, trams, subway, ships, and aircraft out of the road stats table.
+            foreach (var (prefabRef, vehicle) in SystemAPI
+                .Query<RefRO<PrefabRef>>()
+                .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.PublicTransport>()
+                .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
+                .WithNone<Temp>()
+                .WithEntityAccess())
+            {
+                Entity prefab = prefabRef.ValueRO.m_Prefab;
+                if (prefab == Entity.Null ||
+                    !SystemAPI.HasComponent<PublicTransportVehicleData>(prefab) ||
+                    EntityManager.GetComponentData<PublicTransportVehicleData>(prefab).m_TransportType != TransportType.Bus)
+                {
+                    continue;
+                }
+
+                bool isParked = SystemAPI.HasComponent<ParkedCar>(vehicle);
+                bool isActive = !isParked && SystemAPI.HasComponent<CarCurrentLane>(vehicle);
+                if (!isParked && !isActive)
+                {
+                    continue;
+                }
+
+                busTotal++;
+                if (isParked)
+                {
+                    busParked++;
+                }
+                else
+                {
+                    busActive++;
+                }
+            }
+
+            // Road taxis only. Count both live Taxi component and TaxiData prefab so the row remains
+            // robust if one side changes in a future game update.
+            foreach (var (prefabRef, vehicle) in SystemAPI
+                .Query<RefRO<PrefabRef>>()
+                .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.Taxi>()
+                .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
+                .WithNone<Temp>()
+                .WithEntityAccess())
+            {
+                Entity prefab = prefabRef.ValueRO.m_Prefab;
+                if (prefab == Entity.Null ||
+                    (!SystemAPI.HasComponent<TaxiData>(prefab) &&
+                        !SystemAPI.HasComponent<Game.Vehicles.Taxi>(vehicle)))
+                {
+                    continue;
+                }
+
+                bool isParked = SystemAPI.HasComponent<ParkedCar>(vehicle);
+                bool isActive = !isParked && SystemAPI.HasComponent<CarCurrentLane>(vehicle);
+                if (!isParked && !isActive)
+                {
+                    continue;
+                }
+
+                taxiTotal++;
+                if (isParked)
+                {
+                    taxiParked++;
+                }
+                else
+                {
+                    taxiActive++;
+                }
+            }
+
             return new CityVehicleStats(
                 carTotal,
                 carActive,
@@ -239,7 +368,13 @@ namespace RoadRailSpeeds.Systems
                 bikeParked,
                 industryTotal,
                 industryActive,
-                industryParked);
+                industryParked,
+                busTotal,
+                busActive,
+                busParked,
+                taxiTotal,
+                taxiActive,
+                taxiParked);
         }
 
         public void LogVehicleStatsReportToLog()
@@ -268,8 +403,8 @@ namespace RoadRailSpeeds.Systems
                 foreach (var (prefabRef, vehicle) in SystemAPI
                     .Query<RefRO<PrefabRef>>()
                     .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
-                    .WithNone<Game.Vehicles.CarTrailer, Game.Common.Deleted, Game.Common.Destroyed>()
-                    .WithNone<Game.Tools.Temp>()
+                    .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
+                    .WithNone<Temp>()
                     .WithEntityAccess())
                 {
                     scannedRoadCars++;
@@ -369,7 +504,7 @@ namespace RoadRailSpeeds.Systems
 
                 LogUtils.Info(() => $"{Mod.ModTag} Vehicle stats report BEGIN");
                 LogUtils.Info(
-                    () => $"{Mod.ModTag} Vehicle stats panel rows: bikes active={stats.BikeActive} parked={stats.BikeParked} total={stats.BikeTotal}; private active={stats.CarActive} parked={stats.CarParked} total={stats.CarTotal}; roadWork active={stats.IndustryActive} parked={stats.IndustryParked} total={stats.IndustryTotal}");
+                    () => $"{Mod.ModTag} Vehicle stats panel rows: bikes active={stats.BikeActive} parked={stats.BikeParked} total={stats.BikeTotal}; private active={stats.CarActive} parked={stats.CarParked} total={stats.CarTotal}; roadWork active={stats.IndustryActive} parked={stats.IndustryParked} total={stats.IndustryTotal}; buses active={stats.BusActive} parked={stats.BusParked} total={stats.BusTotal}; taxis active={stats.TaxiActive} parked={stats.TaxiParked} total={stats.TaxiTotal}");
                 LogUtils.Info(
                     () => $"{Mod.ModTag} Vehicle stats road-car scan: scanned={scannedRoadCars}, includedCandidates={includedCandidates}, countedActive={includedActive}, countedParked={includedParked}, pendingOther={includedOther}, excludedBikes={excludedBikes}, excludedPrivate={excludedPrivate}, excludedPublicTransit={excludedPublicTransport}, excludedTaxi={excludedTaxi}");
                 LogUtils.Info(
@@ -430,6 +565,12 @@ namespace RoadRailSpeeds.Systems
             m_CityIndustryTotalBinding.Value = 0;
             m_CityIndustryActiveBinding.Value = 0;
             m_CityIndustryParkedBinding.Value = 0;
+            m_CityBusTotalBinding.Value = 0;
+            m_CityBusActiveBinding.Value = 0;
+            m_CityBusParkedBinding.Value = 0;
+            m_CityTaxiTotalBinding.Value = 0;
+            m_CityTaxiActiveBinding.Value = 0;
+            m_CityTaxiParkedBinding.Value = 0;
         }
     }
 }

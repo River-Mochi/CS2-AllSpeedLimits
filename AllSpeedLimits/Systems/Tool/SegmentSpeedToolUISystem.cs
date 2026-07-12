@@ -68,6 +68,12 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<int> m_CityIndustryTotalBinding = null!;
         private ValueBindingHelper<int> m_CityIndustryActiveBinding = null!;
         private ValueBindingHelper<int> m_CityIndustryParkedBinding = null!;
+        private ValueBindingHelper<int> m_CityBusTotalBinding = null!;
+        private ValueBindingHelper<int> m_CityBusActiveBinding = null!;
+        private ValueBindingHelper<int> m_CityBusParkedBinding = null!;
+        private ValueBindingHelper<int> m_CityTaxiTotalBinding = null!;
+        private ValueBindingHelper<int> m_CityTaxiActiveBinding = null!;
+        private ValueBindingHelper<int> m_CityTaxiParkedBinding = null!;
         private ValueBindingHelper<bool> m_StatsExpandedBinding = null!;
         private ValueBindingHelper<bool> m_CityResetInProgressBinding = null!;
         private ValueBindingHelper<int> m_CityResetClearedBinding = null!;
@@ -154,6 +160,12 @@ namespace RoadRailSpeeds.Systems
             m_CityIndustryTotalBinding = CreateBinding("CITY_INDUSTRY_TOTAL", 0);
             m_CityIndustryActiveBinding = CreateBinding("CITY_INDUSTRY_ACTIVE", 0);
             m_CityIndustryParkedBinding = CreateBinding("CITY_INDUSTRY_PARKED", 0);
+            m_CityBusTotalBinding = CreateBinding("CITY_BUS_TOTAL", 0);
+            m_CityBusActiveBinding = CreateBinding("CITY_BUS_ACTIVE", 0);
+            m_CityBusParkedBinding = CreateBinding("CITY_BUS_PARKED", 0);
+            m_CityTaxiTotalBinding = CreateBinding("CITY_TAXI_TOTAL", 0);
+            m_CityTaxiActiveBinding = CreateBinding("CITY_TAXI_ACTIVE", 0);
+            m_CityTaxiParkedBinding = CreateBinding("CITY_TAXI_PARKED", 0);
             m_StatsExpandedBinding = CreateBinding("STATS_EXPANDED", false);
             m_CityResetInProgressBinding = CreateBinding("CITY_RESET_IN_PROGRESS", false);
             m_CityResetClearedBinding = CreateBinding("CITY_RESET_CLEARED", 0);
