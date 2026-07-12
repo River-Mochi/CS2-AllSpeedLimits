@@ -128,9 +128,9 @@ namespace RoadRailSpeeds.Systems
                         : (identity.IsUndergroundSubway ? undergroundSubwayMarkerHeight : roadMarkerHeight);
                     Vector3 markerPosition = position;
 
-                    if (!groupMarkers &&
+                    if (normalizedZoom <= s_MarkerProximityStartZoom &&
                         hoverCamera != null &&
-                        !ShouldDrawCloseDetailMarker(hoverCamera, markerPosition, normalizedZoom))
+                        !ShouldDrawProximityMarker(hoverCamera, markerPosition, normalizedZoom))
                     {
                         continue;
                     }
@@ -281,7 +281,7 @@ namespace RoadRailSpeeds.Systems
         }
 
 
-        private static bool ShouldDrawCloseDetailMarker(
+        private static bool ShouldDrawProximityMarker(
             Camera camera,
             Vector3 markerPosition,
             float normalizedZoom)
@@ -292,20 +292,26 @@ namespace RoadRailSpeeds.Systems
                 return false;
             }
 
-            float closeBlend = Mathf.Clamp01(normalizedZoom / s_MarkerGroupingStartZoom);
+            // At map scale this starts broad enough to preserve the grouped representatives. The
+            // depth limit stays broad through the group-to-proximity handoff, then contracts only
+            // during truly close zoom so a single wheel notch cannot make every marker disappear.
+            float proximityBlend = Mathf.Clamp01(
+                (s_MarkerProximityStartZoom - normalizedZoom) / s_MarkerProximityStartZoom);
             float maxCameraDepth = Mathf.Lerp(
+                s_ProximityStartCameraDepth,
                 s_CloseMarkerMaxCameraDepthMin,
-                s_CloseMarkerMaxCameraDepthMax,
-                closeBlend);
+                Mathf.Clamp01(
+                    (proximityBlend - s_ProximityDepthTightenStart) /
+                    (1f - s_ProximityDepthTightenStart)));
             if (viewportPoint.z > maxCameraDepth)
             {
                 return false;
             }
 
             float viewportRadius = Mathf.Lerp(
+                s_ProximityStartViewportRadius,
                 s_CloseMarkerViewportRadiusMin,
-                s_CloseMarkerViewportRadiusMax,
-                closeBlend);
+                proximityBlend);
             Vector2 fromCenter = new Vector2(viewportPoint.x - 0.5f, viewportPoint.y - 0.5f);
 
             return fromCenter.sqrMagnitude <= viewportRadius * viewportRadius;

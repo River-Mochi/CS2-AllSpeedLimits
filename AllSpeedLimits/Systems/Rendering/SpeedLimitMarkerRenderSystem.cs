@@ -133,18 +133,20 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         private static readonly Color s_SubwayMarkerTextColor = new Color(1.00f, 0.30f, 0.82f, 1f);
         private static readonly Color s_WaterMarkerOutlineColor = new Color(1f, 1f, 1f, 1f);
-        // Keep grouped representatives through the handoff to close proximity. Switching earlier
-        // creates a zoom notch where grouped markers are gone before close markers qualify.
-        private const float s_MarkerGroupingStartZoom = 0.045f;
+        // Grouping handles map-scale density. Proximity begins before grouping ends so the two
+        // modes overlap instead of creating a blank zoom notch during the handoff.
+        private const float s_MarkerGroupingStartZoom = 0.08f;
+        private const float s_MarkerProximityStartZoom = 0.24f;
         private const float s_MarkerDuplicateMinDistancePx = 70f;
         private const float s_MarkerDuplicateMaxDistancePx = 180f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 48f;
-        // In full-detail close zoom, keep markers near the camera focus instead of painting the horizon.
+        // Proximity begins broad, then tightens only after grouped markers have handed off.
         // Tooltip sizing is separate; these only decide which world-number meshes are drawn.
-        private const float s_CloseMarkerViewportRadiusMin = 0.54f;
-        private const float s_CloseMarkerViewportRadiusMax = 0.68f;
+        private const float s_ProximityStartViewportRadius = 0.72f;
+        private const float s_CloseMarkerViewportRadiusMin = 0.56f;
+        private const float s_ProximityStartCameraDepth = 5200f;
         private const float s_CloseMarkerMaxCameraDepthMin = 820f;
-        private const float s_CloseMarkerMaxCameraDepthMax = 3000f;
+        private const float s_ProximityDepthTightenStart = 0.84f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
         // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
