@@ -128,6 +128,8 @@ namespace RoadRailSpeeds.Systems
 
                 mesh.RecalculateBounds();
 
+                // Match the game's world-label rendering path so glyphs retain their SDF shape
+                // instead of becoming atlas squares at far zoom.
                 Material material;
                 if (m_PrefabSystem.TryGetSingletonPrefab(
                     m_OverlaySettingsQuery,

@@ -126,7 +126,9 @@ namespace RoadRailSpeeds.Systems
             new Dictionary<MarkerGroupKey, List<Vector2>>();
         // Floating number color knobs. Text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
-        private static readonly Color s_CustomMarkerTextColor = new Color(0.41f, 0.90f, 0.92f, 1f);
+        // Compensated for the game overlay text material so the rendered result matches the
+        // July 5 blue-green reference rather than the material's darker cyan output.
+        private static readonly Color s_CustomMarkerTextColor = new Color(0.64f, 0.96f, 0.96f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         private static readonly Color s_SubwayMarkerTextColor = new Color(1.00f, 0.30f, 0.82f, 1f);
         // Grouping stays on until this zoom value. Lower means all markers return closer to the ground.
