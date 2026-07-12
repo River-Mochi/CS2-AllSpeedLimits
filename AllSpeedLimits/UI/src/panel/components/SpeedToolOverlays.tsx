@@ -115,19 +115,19 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             content = renderTooltipBlock(text.tooltips.stats.title, text.tooltips.stats.lines);
         } else if (panelTooltip === "statsBikes") {
             maxWidth = "220rem";
-            content = renderTooltipBlock(text.stats.bikes, [text.tooltips.statsRows.bikes]);
+            content = renderTooltipBlock(text.stats.bikes, text.tooltips.statsRows.bikes.split("\n"));
         } else if (panelTooltip === "statsCars") {
             maxWidth = "220rem";
-            content = renderTooltipBlock(text.stats.cars, [text.tooltips.statsRows.cars]);
+            content = renderTooltipBlock(text.stats.cars, text.tooltips.statsRows.cars.split("\n"));
         } else if (panelTooltip === "statsIndustry") {
             maxWidth = "238rem";
-            content = renderTooltipBlock(text.stats.industry, [text.tooltips.statsRows.industry]);
+            content = renderTooltipBlock(text.stats.industry, text.tooltips.statsRows.industry.split("\n"));
         } else if (panelTooltip === "statsBuses") {
             maxWidth = "160rem";
-            content = renderTooltipBlock(text.stats.buses, [text.tooltips.statsRows.buses]);
+            content = renderTooltipBlock(text.stats.buses, text.tooltips.statsRows.buses.split("\n"));
         } else if (panelTooltip === "statsTaxis") {
             maxWidth = "160rem";
-            content = renderTooltipBlock(text.stats.taxis, [text.tooltips.statsRows.taxis]);
+            content = renderTooltipBlock(text.stats.taxis, text.tooltips.statsRows.taxis.split("\n"));
         } else if (panelTooltip === "wholeCity") {
             maxWidth = "210rem";
             content = renderTooltipBlock(text.tooltips.wholeCity.title, text.tooltips.wholeCity.lines);

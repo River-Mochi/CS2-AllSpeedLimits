@@ -64,7 +64,8 @@ namespace RoadRailSpeeds.Systems
                 textMesh.fontSize = 25f;
                 textMesh.alignment = TextAlignmentOptions.Center;
                 textMesh.color = textColor;
-                textMesh.characterSpacing = 2f;
+                // A small positive gap keeps enlarged multi-digit markers from touching.
+                textMesh.characterSpacing = 3f;
                 textMesh.fontStyle = FontStyles.Normal;
 
                 string speedText;
@@ -128,8 +129,9 @@ namespace RoadRailSpeeds.Systems
 
                 mesh.RecalculateBounds();
 
-                // Match the game's world-label rendering path so glyphs retain their SDF shape
-                // instead of becoming atlas squares at far zoom.
+                // DO NOT replace m_TextMaterial with tmpMeshInfo.material. Vanilla map labels use
+                // this overlay material plus CopyFontAtlasParameters; the TMP-only material turns
+                // distant glyphs into solid atlas squares instead of readable numbers.
                 Material material;
                 if (m_PrefabSystem.TryGetSingletonPrefab(
                     m_OverlaySettingsQuery,
@@ -148,7 +150,16 @@ namespace RoadRailSpeeds.Systems
                 m_OverlayRenderSystem.CopyFontAtlasParameters(tmpMeshInfo.material, material);
                 material.SetColor(m_FaceColorID, textColor);
 
-                if (material.HasProperty("_OutlineWidth"))
+                if (visualKind == MarkerVisualKind.Water &&
+                    material.HasProperty("_OutlineWidth") &&
+                    material.HasProperty("_OutlineColor"))
+                {
+                    // Water selection bands can sit behind the number at a shallow camera angle.
+                    // A water-only outline preserves digit contrast without changing road, rail, or subway text.
+                    material.SetColor("_OutlineColor", s_WaterMarkerOutlineColor);
+                    material.SetFloat("_OutlineWidth", 0.08f);
+                }
+                else if (material.HasProperty("_OutlineWidth"))
                 {
                     material.SetFloat("_OutlineWidth", 0f);
                 }
@@ -188,6 +199,7 @@ namespace RoadRailSpeeds.Systems
             return visualKind switch
             {
                 MarkerVisualKind.Default => s_DefaultMarkerTextColor,
+                MarkerVisualKind.Water => s_CustomMarkerTextColor,
                 MarkerVisualKind.Rail => s_RailMarkerTextColor,
                 MarkerVisualKind.Subway => s_SubwayMarkerTextColor,
                 _ => s_CustomMarkerTextColor
@@ -199,6 +211,7 @@ namespace RoadRailSpeeds.Systems
             return visualKind switch
             {
                 MarkerVisualKind.Default => "default",
+                MarkerVisualKind.Water => "water",
                 MarkerVisualKind.Rail => "rail",
                 MarkerVisualKind.Subway => "subway",
                 _ => "custom"
@@ -207,7 +220,7 @@ namespace RoadRailSpeeds.Systems
 
         private static int GetTextMeshCacheKey(int speedKmh, MarkerVisualKind visualKind)
         {
-            return (speedKmh * 4) + (int)visualKind;
+            return (speedKmh * 5) + (int)visualKind;
         }
 
         private string GetCurrentMapTheme()

@@ -44,8 +44,9 @@ namespace RoadRailSpeeds.Systems
         {
             Default = 0,
             Custom = 1,
-            Rail = 2,
-            Subway = 3
+            Water = 2,
+            Rail = 3,
+            Subway = 4
         }
 
         private enum MarkerNetworkKind
@@ -126,22 +127,24 @@ namespace RoadRailSpeeds.Systems
             new Dictionary<MarkerGroupKey, List<Vector2>>();
         // Floating number color knobs. Text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
-        // Compensated for the game overlay text material so the rendered result matches the
-        // July 5 blue-green reference rather than the material's darker cyan output.
-        private static readonly Color s_CustomMarkerTextColor = new Color(0.64f, 0.96f, 0.96f, 1f);
+        // Compensated for the game overlay text material. This is tuned from the captured July 5
+        // reference (#6BE8EA), not the raw color shown in the C# value.
+        private static readonly Color s_CustomMarkerTextColor = new Color(0.55f, 0.94f, 0.94f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         private static readonly Color s_SubwayMarkerTextColor = new Color(1.00f, 0.30f, 0.82f, 1f);
-        // Grouping stays on until this zoom value. Lower means all markers return closer to the ground.
-        private const float s_MarkerGroupingStartZoom = 0.08f;
+        private static readonly Color s_WaterMarkerOutlineColor = new Color(1f, 1f, 1f, 1f);
+        // Keep grouped representatives through the handoff to close proximity. Switching earlier
+        // creates a zoom notch where grouped markers are gone before close markers qualify.
+        private const float s_MarkerGroupingStartZoom = 0.045f;
         private const float s_MarkerDuplicateMinDistancePx = 70f;
         private const float s_MarkerDuplicateMaxDistancePx = 180f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 48f;
         // In full-detail close zoom, keep markers near the camera focus instead of painting the horizon.
         // Tooltip sizing is separate; these only decide which world-number meshes are drawn.
-        private const float s_CloseMarkerViewportRadiusMin = 0.58f;
-        private const float s_CloseMarkerViewportRadiusMax = 0.86f;
-        private const float s_CloseMarkerMaxCameraDepthMin = 900f;
-        private const float s_CloseMarkerMaxCameraDepthMax = 2600f;
+        private const float s_CloseMarkerViewportRadiusMin = 0.54f;
+        private const float s_CloseMarkerViewportRadiusMax = 0.68f;
+        private const float s_CloseMarkerMaxCameraDepthMin = 820f;
+        private const float s_CloseMarkerMaxCameraDepthMax = 3000f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
         // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
@@ -151,7 +154,6 @@ namespace RoadRailSpeeds.Systems
         // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
         private const float s_MarkerReadableCloseHeightPx = 18f;
         private const float s_MarkerReadableFarHeightPx = 29f;
-        private const float s_WaterMarkerReadableFarHeightPx = 32f;
         private const float s_MarkerReadableScaleStartZoom = 0.45f;
 
         private Setting? m_Settings;

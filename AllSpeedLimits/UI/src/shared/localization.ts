@@ -20,221 +20,208 @@ const optionalText = (lookup: TextLookup, key: string): string | null => {
     return value === undefined || value === null || value === "" ? null : value;
 };
 
-const lines = (lookup: TextLookup, prefix: string, count: number): string[] => {
-    const values: string[] = [];
-
-    for (let index = 1; index <= count; index++) {
-        const value = optionalText(lookup, `${prefix}.line${index}`);
-        if (value !== null) {
-            values.push(value);
-        }
-    }
-
-    return values;
+const lines = (lookup: TextLookup, prefix: string): string[] => {
+    const value = optionalText(lookup, `${prefix}.text`);
+    return value === null ? [] : value.split("\n");
 };
+
+const splitLines = (value: string | null): string[] => value === null ? [] : value.split("\n");
 
 const buildText = (lookup: TextLookup) => ({
     inCity: {
         toolbar: {
-            tooltip: text(lookup, "inCity.toolbar.tooltip")
+            tooltip: text(lookup, "toolbar.tooltip")
         },
         hint: {
-            title: text(lookup, "inCity.hint.title"),
-            instruction: text(lookup, "inCity.hint.instruction")
+            title: text(lookup, "hint.title"),
+            instruction: text(lookup, "hint.instruction")
         },
         panel: {
-            title: text(lookup, "inCity.panel.title"),
-            selectedSegment: text(lookup, "inCity.panel.selectedSegment"),
-            firstSegment: text(lookup, "inCity.panel.firstSegment"),
-            currentSpeed: text(lookup, "inCity.panel.currentSpeed"),
-            gameDefault: text(lookup, "inCity.panel.gameDefault"),
-            newSpeedLimit: text(lookup, "inCity.panel.newSpeedLimit"),
-            notAvailable: text(lookup, "inCity.panel.notAvailable"),
-            mixed: text(lookup, "inCity.panel.mixed"),
-            presets: text(lookup, "inCity.panel.presets"),
-            custom: text(lookup, "inCity.panel.custom"),
-            wholeCity: text(lookup, "inCity.panel.wholeCity"),
-            stats: text(lookup, "inCity.panel.stats"),
-            selectFilter: text(lookup, "inCity.panel.selectFilter"),
-            filterRoads: text(lookup, "inCity.panel.filterRoads"),
-            filterRails: text(lookup, "inCity.panel.filterRails"),
-            filterWater: text(lookup, "inCity.panel.filterWater"),
-            working: text(lookup, "inCity.panel.working"),
-            resetting: text(lookup, "inCity.panel.resetting"),
-            applying: text(lookup, "inCity.panel.applying"),
-            unitAuto: text(lookup, "inCity.panel.unitAuto"),
-            unitMetric: text(lookup, "inCity.panel.unitMetric"),
-            unitImperial: text(lookup, "inCity.panel.unitImperial")
+            title: text(lookup, "panel.title"),
+            selectedSegment: text(lookup, "panel.selectedSegment"),
+            firstSegment: text(lookup, "panel.firstSegment"),
+            currentSpeed: text(lookup, "panel.currentSpeed"),
+            gameDefault: text(lookup, "panel.gameDefault"),
+            newSpeedLimit: text(lookup, "panel.newSpeedLimit"),
+            notAvailable: text(lookup, "panel.notAvailable"),
+            mixed: text(lookup, "panel.mixed"),
+            presets: text(lookup, "panel.presets"),
+            custom: text(lookup, "panel.custom"),
+            wholeCity: text(lookup, "panel.wholeCity"),
+            stats: text(lookup, "panel.stats"),
+            selectFilter: text(lookup, "panel.selectFilter"),
+            filterRoads: text(lookup, "panel.filterRoads"),
+            filterRails: text(lookup, "panel.filterRails"),
+            filterWater: text(lookup, "panel.filterWater"),
+            working: text(lookup, "panel.working"),
+            resetting: text(lookup, "panel.resetting"),
+            applying: text(lookup, "panel.applying"),
+            unitAuto: text(lookup, "panel.unitAuto"),
+            unitMetric: text(lookup, "panel.unitMetric"),
+            unitImperial: text(lookup, "panel.unitImperial")
         },
         reminder: {
-            saveAfterReset: text(lookup, "inCity.reminder.saveAfterReset"),
-            dismiss: text(lookup, "inCity.reminder.dismiss")
+            saveAfterReset: text(lookup, "reminder.saveAfterReset"),
+            dismiss: text(lookup, "reminder.dismiss")
         },
         stats: {
-            cars: text(lookup, "inCity.stats.cars"),
-            bikes: text(lookup, "inCity.stats.bikes"),
-            industry: text(lookup, "inCity.stats.industry"),
-            buses: text(lookup, "inCity.stats.buses"),
-            taxis: text(lookup, "inCity.stats.taxis"),
-            total: text(lookup, "inCity.stats.total"),
-            moving: text(lookup, "inCity.stats.moving"),
-            parked: text(lookup, "inCity.stats.parked")
+            cars: text(lookup, "stats.cars.label"),
+            bikes: text(lookup, "stats.bikes.label"),
+            industry: text(lookup, "stats.industry.label"),
+            buses: text(lookup, "stats.buses.label"),
+            taxis: text(lookup, "stats.taxis.label"),
+            total: text(lookup, "stats.total"),
+            moving: text(lookup, "stats.moving"),
+            parked: text(lookup, "stats.parked")
         },
         buttons: {
-            apply: text(lookup, "inCity.buttons.apply"),
-            applied: text(lookup, "inCity.buttons.applied"),
-            reset: text(lookup, "inCity.buttons.reset"),
-            resetDone: text(lookup, "inCity.buttons.resetDone"),
-            resetAll: text(lookup, "inCity.buttons.resetAll"),
-            resetAllTypes: text(lookup, "inCity.buttons.resetAllTypes"),
-            chooseRoadGroup: text(lookup, "inCity.buttons.chooseRoadGroup"),
-            applyRoadGroup: text(lookup, "inCity.buttons.applyRoadGroup"),
-            applyTrain: text(lookup, "inCity.buttons.applyTrain"),
-            applySubway: text(lookup, "inCity.buttons.applySubway"),
-            resetRoads: text(lookup, "inCity.buttons.resetRoads"),
-            resetRails: text(lookup, "inCity.buttons.resetRails"),
-            resetWater: text(lookup, "inCity.buttons.resetWater"),
-            expandAll: text(lookup, "inCity.buttons.expandAll"),
-            collapseAll: text(lookup, "inCity.buttons.collapseAll"),
-            cancel: text(lookup, "inCity.buttons.cancel"),
-            close: text(lookup, "inCity.buttons.close")
+            apply: text(lookup, "buttons.apply"),
+            applied: text(lookup, "buttons.applied"),
+            reset: text(lookup, "buttons.reset"),
+            resetDone: text(lookup, "buttons.resetDone"),
+            resetAll: text(lookup, "buttons.resetAll"),
+            resetAllTypes: text(lookup, "buttons.resetAllTypes"),
+            chooseRoadGroup: text(lookup, "buttons.chooseRoadGroup"),
+            applyRoadGroup: text(lookup, "buttons.applyRoadGroup"),
+            applyTrain: text(lookup, "buttons.applyTrain"),
+            applySubway: text(lookup, "buttons.applySubway"),
+            resetRoads: text(lookup, "buttons.resetRoads"),
+            resetRails: text(lookup, "buttons.resetRails"),
+            resetWater: text(lookup, "buttons.resetWater"),
+            expandAll: text(lookup, "buttons.expandAll"),
+            collapseAll: text(lookup, "buttons.collapseAll"),
+            cancel: text(lookup, "buttons.cancel"),
+            close: text(lookup, "buttons.close")
         },
         tooltips: {
-            panelTitle: text(lookup, "inCity.tooltips.panelTitle"),
-            draggable: text(lookup, "inCity.tooltips.draggable"),
-            selectedSegment: text(lookup, "inCity.tooltips.selectedSegment"),
-            currentSpeed: text(lookup, "inCity.tooltips.currentSpeed"),
-            presets: text(lookup, "inCity.tooltips.presets"),
-            filterRoads: text(lookup, "inCity.tooltips.filterRoads"),
-            filterRails: text(lookup, "inCity.tooltips.filterRails"),
-            filterWater: text(lookup, "inCity.tooltips.filterWater"),
+            panelTitle: text(lookup, "tooltips.panelTitle"),
+            draggable: text(lookup, "tooltips.draggable"),
+            selectedSegment: text(lookup, "tooltips.selectedSegment"),
+            currentSpeed: text(lookup, "tooltips.currentSpeed"),
+            presets: text(lookup, "tooltips.presets"),
+            filterRoads: text(lookup, "tooltips.filterRoads"),
+            filterRails: text(lookup, "tooltips.filterRails"),
+            filterWater: text(lookup, "tooltips.filterWater"),
             gameDefault: {
-                title: text(lookup, "inCity.tooltips.gameDefault.title"),
-                lines: lines(lookup, "inCity.tooltips.gameDefault", 3)
+                title: text(lookup, "tooltips.gameDefault.title"),
+                lines: lines(lookup, "tooltips.gameDefault")
             },
             presetUnlimited: {
-                title: text(lookup, "inCity.tooltips.presetUnlimited.title"),
-                lines: lines(lookup, "inCity.tooltips.presetUnlimited", 2)
+                title: text(lookup, "tooltips.presetUnlimited.title"),
+                lines: lines(lookup, "tooltips.presetUnlimited")
             },
             resetAll: {
-                title: text(lookup, "inCity.tooltips.resetAll.title"),
-                lines: lines(lookup, "inCity.tooltips.resetAll", 2)
+                title: text(lookup, "tooltips.resetAll.title"),
+                lines: lines(lookup, "tooltips.resetAll")
             },
             roadGroupApply: {
-                title: text(lookup, "inCity.tooltips.roadGroupApply.title"),
-                lines: lines(lookup, "inCity.tooltips.roadGroupApply", 2)
+                title: text(lookup, "tooltips.roadGroupApply.title"),
+                lines: lines(lookup, "tooltips.roadGroupApply")
             },
             roadGroups: {
                 small: {
-                    title: text(lookup, "inCity.tooltips.roadGroups.small.title"),
-                    lines: lines(lookup, "inCity.tooltips.roadGroups.small", 2)
+                    title: text(lookup, "tooltips.roadGroups.small.title"),
+                    lines: lines(lookup, "tooltips.roadGroups.small")
                 },
                 medium: {
-                    title: text(lookup, "inCity.tooltips.roadGroups.medium.title"),
-                    lines: lines(lookup, "inCity.tooltips.roadGroups.medium", 2)
+                    title: text(lookup, "tooltips.roadGroups.medium.title"),
+                    lines: lines(lookup, "tooltips.roadGroups.medium")
                 },
                 large: {
-                    title: text(lookup, "inCity.tooltips.roadGroups.large.title"),
-                    lines: lines(lookup, "inCity.tooltips.roadGroups.large", 2)
+                    title: text(lookup, "tooltips.roadGroups.large.title"),
+                    lines: lines(lookup, "tooltips.roadGroups.large")
                 },
                 highway: {
-                    title: text(lookup, "inCity.tooltips.roadGroups.highway.title"),
-                    lines: lines(lookup, "inCity.tooltips.roadGroups.highway", 2)
+                    title: text(lookup, "tooltips.roadGroups.highway.title"),
+                    lines: lines(lookup, "tooltips.roadGroups.highway")
                 }
             },
             stats: {
-                title: text(lookup, "inCity.tooltips.stats.title"),
-                lines: lines(lookup, "inCity.tooltips.stats", 3)
+                title: text(lookup, "tooltips.stats.title"),
+                lines: lines(lookup, "tooltips.stats")
             },
             statsRows: {
-                bikes: text(lookup, "inCity.tooltips.statsRows.bikes"),
-                cars: text(lookup, "inCity.tooltips.statsRows.cars"),
-                industry: text(lookup, "inCity.tooltips.statsRows.industry"),
-                buses: text(lookup, "inCity.tooltips.statsRows.buses"),
-                taxis: text(lookup, "inCity.tooltips.statsRows.taxis")
+                bikes: text(lookup, "stats.bikes.tooltip"),
+                cars: text(lookup, "stats.cars.tooltip"),
+                industry: text(lookup, "stats.industry.tooltip"),
+                buses: text(lookup, "stats.buses.tooltip"),
+                taxis: text(lookup, "stats.taxis.tooltip")
             },
             wholeCity: {
-                title: text(lookup, "inCity.tooltips.wholeCity.title"),
-                lines: lines(lookup, "inCity.tooltips.wholeCity", 4)
+                title: text(lookup, "tooltips.wholeCity.title"),
+                lines: lines(lookup, "tooltips.wholeCity")
             },
             unit: {
-                title: text(lookup, "inCity.tooltips.unit.title"),
-                lines: lines(lookup, "inCity.tooltips.unit", 3)
+                title: text(lookup, "tooltips.unit.title"),
+                lines: lines(lookup, "tooltips.unit")
             },
-            newSpeedUnit: text(lookup, "inCity.tooltips.newSpeedUnit"),
-            applyTrain: text(lookup, "inCity.tooltips.applyTrain"),
-            applySubway: text(lookup, "inCity.tooltips.applySubway"),
-            preciseStepper: text(lookup, "inCity.tooltips.preciseStepper"),
-            decreaseTarget: text(lookup, "inCity.tooltips.decreaseTarget"),
-            increaseTarget: text(lookup, "inCity.tooltips.increaseTarget"),
-            apply: text(lookup, "inCity.tooltips.apply"),
-            reset: text(lookup, "inCity.tooltips.reset"),
-            markersHide: text(lookup, "inCity.tooltips.markersHide"),
-            markersShow: text(lookup, "inCity.tooltips.markersShow")
+            newSpeedUnit: text(lookup, "tooltips.newSpeedUnit"),
+            applyTrain: text(lookup, "tooltips.applyTrain"),
+            applySubway: text(lookup, "tooltips.applySubway"),
+            preciseStepper: text(lookup, "tooltips.preciseStepper"),
+            decreaseTarget: text(lookup, "tooltips.decreaseTarget"),
+            increaseTarget: text(lookup, "tooltips.increaseTarget"),
+            apply: text(lookup, "tooltips.apply"),
+            reset: text(lookup, "tooltips.reset"),
+            markersHide: text(lookup, "tooltips.markersHide"),
+            markersShow: text(lookup, "tooltips.markersShow")
         },
         help: {
-            // Guide popup (hover the title-bar speed-limit icon) shows only the action directions.
-            // line4 (presets) is intentionally left out: preset buttons carry their own tooltips.
-            // line5 is shown on the "First segment selected" header (firstSegmentHint), not here.
-            directions: [
-                optionalText(lookup, "inCity.help.line1"),
-                optionalText(lookup, "inCity.help.line2"),
-                optionalText(lookup, "inCity.help.line3"),
-                optionalText(lookup, "inCity.help.line10")
-            ].filter((line): line is string => line !== null),
-            firstSegmentHint: text(lookup, "inCity.help.line5"),
-            tooltipsOn: text(lookup, "inCity.help.tooltipsOn"),
-            tooltipsOff: text(lookup, "inCity.help.tooltipsOff"),
-            unitTitle: text(lookup, "inCity.help.unitTitle"),
-            unitLine: text(lookup, "inCity.help.unitLine")
+            // Guide directions stay together in one JSON value; preset buttons have their own tooltips.
+            directions: splitLines(optionalText(lookup, "help.directions")),
+            firstSegmentHint: text(lookup, "help.firstSegmentHint"),
+            tooltipsOn: text(lookup, "help.tooltipsOn"),
+            tooltipsOff: text(lookup, "help.tooltipsOff"),
+            unitTitle: text(lookup, "help.unitTitle"),
+            unitLine: text(lookup, "help.unitLine")
         },
         confirm: {
             applyRoadGroup: {
-                title: text(lookup, "inCity.confirm.applyRoadGroup.title"),
-                messageStart: text(lookup, "inCity.confirm.applyRoadGroup.messageStart"),
-                messageMiddle: text(lookup, "inCity.confirm.applyRoadGroup.messageMiddle"),
-                confirmLabel: text(lookup, "inCity.confirm.applyRoadGroup.confirmLabel")
+                title: text(lookup, "confirm.applyRoadGroup.title"),
+                messageStart: text(lookup, "confirm.applyRoadGroup.messageStart"),
+                messageMiddle: text(lookup, "confirm.applyRoadGroup.messageMiddle"),
+                confirmLabel: text(lookup, "confirm.applyRoadGroup.confirmLabel")
             },
             applyTrain: {
-                title: text(lookup, "inCity.confirm.applyTrain.title"),
-                message: text(lookup, "inCity.confirm.applyTrain.message"),
-                confirmLabel: text(lookup, "inCity.confirm.applyTrain.confirmLabel")
+                title: text(lookup, "confirm.applyTrain.title"),
+                message: text(lookup, "confirm.applyTrain.message"),
+                confirmLabel: text(lookup, "confirm.applyTrain.confirmLabel")
             },
             applySubway: {
-                title: text(lookup, "inCity.confirm.applySubway.title"),
-                message: text(lookup, "inCity.confirm.applySubway.message"),
-                confirmLabel: text(lookup, "inCity.confirm.applySubway.confirmLabel")
+                title: text(lookup, "confirm.applySubway.title"),
+                message: text(lookup, "confirm.applySubway.message"),
+                confirmLabel: text(lookup, "confirm.applySubway.confirmLabel")
             },
             resetRoads: {
-                title: text(lookup, "inCity.confirm.resetRoads.title"),
-                message: text(lookup, "inCity.confirm.resetRoads.message"),
-                confirmLabel: text(lookup, "inCity.confirm.resetRoads.confirmLabel")
+                title: text(lookup, "confirm.resetRoads.title"),
+                message: text(lookup, "confirm.resetRoads.message"),
+                confirmLabel: text(lookup, "confirm.resetRoads.confirmLabel")
             },
             resetRails: {
-                title: text(lookup, "inCity.confirm.resetRails.title"),
-                message: text(lookup, "inCity.confirm.resetRails.message"),
-                confirmLabel: text(lookup, "inCity.confirm.resetRails.confirmLabel")
+                title: text(lookup, "confirm.resetRails.title"),
+                message: text(lookup, "confirm.resetRails.message"),
+                confirmLabel: text(lookup, "confirm.resetRails.confirmLabel")
             },
             resetWater: {
-                title: text(lookup, "inCity.confirm.resetWater.title"),
-                message: text(lookup, "inCity.confirm.resetWater.message"),
-                confirmLabel: text(lookup, "inCity.confirm.resetWater.confirmLabel")
+                title: text(lookup, "confirm.resetWater.title"),
+                message: text(lookup, "confirm.resetWater.message"),
+                confirmLabel: text(lookup, "confirm.resetWater.confirmLabel")
             },
             resetAll: {
-                title: text(lookup, "inCity.confirm.resetAll.title"),
-                message: text(lookup, "inCity.confirm.resetAll.message"),
-                confirmLabel: text(lookup, "inCity.confirm.resetAll.confirmLabel")
+                title: text(lookup, "confirm.resetAll.title"),
+                message: text(lookup, "confirm.resetAll.message"),
+                confirmLabel: text(lookup, "confirm.resetAll.confirmLabel")
             }
         },
         roadGroups: {
-            small: text(lookup, "inCity.roadGroups.small"),
-            medium: text(lookup, "inCity.roadGroups.medium"),
-            large: text(lookup, "inCity.roadGroups.large"),
-            highway: text(lookup, "inCity.roadGroups.highway"),
-            smallShort: text(lookup, "inCity.roadGroups.smallShort"),
-            mediumShort: text(lookup, "inCity.roadGroups.mediumShort"),
-            largeShort: text(lookup, "inCity.roadGroups.largeShort"),
-            highwayShort: text(lookup, "inCity.roadGroups.highwayShort")
+            small: text(lookup, "roadGroups.small"),
+            medium: text(lookup, "roadGroups.medium"),
+            large: text(lookup, "roadGroups.large"),
+            highway: text(lookup, "roadGroups.highway"),
+            smallShort: text(lookup, "roadGroups.smallShort"),
+            mediumShort: text(lookup, "roadGroups.mediumShort"),
+            largeShort: text(lookup, "roadGroups.largeShort"),
+            highwayShort: text(lookup, "roadGroups.highwayShort")
         }
     }
 } as const);

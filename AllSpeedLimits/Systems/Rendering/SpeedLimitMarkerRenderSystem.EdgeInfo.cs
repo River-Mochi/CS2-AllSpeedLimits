@@ -83,6 +83,11 @@ namespace RoadRailSpeeds.Systems
                 return MarkerVisualKind.Default;
             }
 
+            if (IsWaterwayEdge(edge))
+            {
+                return MarkerVisualKind.Water;
+            }
+
             if (IsSubwayEdge(edge))
             {
                 return MarkerVisualKind.Subway;

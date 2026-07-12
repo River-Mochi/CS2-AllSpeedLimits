@@ -121,7 +121,8 @@ namespace RoadRailSpeeds.Systems
                     // the waterway selection band. Roads/rails sit lower close to the camera, but
                     // ease back upward at far zoom for readability.
                     float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
-                    float undergroundSubwayMarkerHeight = Mathf.Lerp(14.0f, 16.0f, normalizedZoom);
+                    // Underground subway markers clear the terrain without sitting at road-marker height.
+                    float undergroundSubwayMarkerHeight = Mathf.Lerp(12.0f, 14.0f, normalizedZoom);
                     position.y += identity.IsWaterwayType
                         ? 11.4f
                         : (identity.IsUndergroundSubway ? undergroundSubwayMarkerHeight : roadMarkerHeight);
@@ -182,8 +183,7 @@ namespace RoadRailSpeeds.Systems
                             markerPosition,
                             meshInfo.Mesh,
                             textScaleMultiplier,
-                            normalizedZoom,
-                            identity.IsWaterwayType);
+                            normalizedZoom);
                     }
 
                     Rect screenBounds = default;
@@ -317,8 +317,7 @@ namespace RoadRailSpeeds.Systems
             Vector3 markerPosition,
             Mesh mesh,
             float textScaleMultiplier,
-            float normalizedZoom,
-            bool isWaterwayType)
+            float normalizedZoom)
         {
             float localTextHeight = Mathf.Max(mesh.bounds.size.y, 0.01f);
             float pixelsPerWorldUnit;
@@ -357,7 +356,7 @@ namespace RoadRailSpeeds.Systems
                     (1f - s_MarkerReadableScaleStartZoom)));
             float targetPixelHeight = Mathf.Lerp(
                 s_MarkerReadableCloseHeightPx,
-                isWaterwayType ? s_WaterMarkerReadableFarHeightPx : s_MarkerReadableFarHeightPx,
+                s_MarkerReadableFarHeightPx,
                 farReadability);
             float currentPixelHeight = localTextHeight * textScaleMultiplier * pixelsPerWorldUnit;
 
