@@ -198,8 +198,8 @@ namespace RoadRailSpeeds.Systems
             int taxiActive = 0;
             int taxiParked = 0;
 
-            // Read-only count: chunks directly. Query guarantees PrefabRef and PersonalCar
-            // WithEntityAccess gives the entity for the ParkedCar/CarCurrentLane lookups; BicycleData is checked on the prefab entity.
+            // Read-only count over PersonalCar entities.
+            // Entity is needed for ParkedCar/CarCurrentLane; BicycleData is checked on the prefab.
             foreach (var (prefabRef, vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.PersonalCar>()
