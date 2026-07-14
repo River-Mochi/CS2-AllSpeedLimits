@@ -16,6 +16,7 @@ namespace RoadRailSpeeds
     using System.IO;                 // Stream, StreamReader
     using System.Linq;               // OrderBy
     using System.Reflection;         // Assembly
+    using CS2Shared.RiverMochi;      // LogUtils
     using Colossal.Json;             // JSON, Variant
     using Colossal.Localization;     // LocalizationManager, MemorySource
     using Colossal.Logging;          // ILog
@@ -32,7 +33,7 @@ namespace RoadRailSpeeds
             LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
             if (localizationManager == null)
             {
-                log.Warn($"{modTag} InCityLocalization: no LocalizationManager available.");
+                LogUtils.Warn(log, $"{modTag} InCityLocalization: no LocalizationManager available.");
                 return;
             }
 
@@ -44,7 +45,7 @@ namespace RoadRailSpeeds
 
             if (resourceNames.Length == 0)
             {
-                log.Warn($"{modTag} InCityLocalization: no embedded lang/*.json resources found.");
+                LogUtils.Warn(log, $"{modTag} InCityLocalization: no embedded lang/*.json resources found.");
                 return;
             }
 
@@ -54,7 +55,7 @@ namespace RoadRailSpeeds
                 string localeId = GetLocaleId(resourceName);
                 if (string.IsNullOrWhiteSpace(localeId))
                 {
-                    log.Warn($"{modTag} InCityLocalization: could not get locale from '{resourceName}'.");
+                    LogUtils.Warn(log, $"{modTag} InCityLocalization: could not get locale from '{resourceName}'.");
                     continue;
                 }
 
@@ -63,7 +64,7 @@ namespace RoadRailSpeeds
                     Dictionary<string, string> translations = ReadJsonResource(assembly, resourceName);
                     if (translations.Count == 0)
                     {
-                        log.Warn($"{modTag} InCityLocalization: empty translations in '{resourceName}'.");
+                        LogUtils.Warn(log, $"{modTag} InCityLocalization: empty translations in '{resourceName}'.");
                         continue;
                     }
 
@@ -81,11 +82,14 @@ namespace RoadRailSpeeds
                 }
                 catch (Exception ex)
                 {
-                    log.Warn($"{modTag} InCityLocalization: failed loading '{resourceName}': {ex.GetType().Name}: {ex.Message}");
+                    LogUtils.Warn(log, $"{modTag} InCityLocalization: failed loading '{resourceName}': {ex.GetType().Name}: {ex.Message}");
                 }
             }
 
-            log.Info($"{modTag} InCityLocalization: registered {registered}/{resourceNames.Length} embedded locale sources.");
+#if DEBUG
+            // Successful registration is useful while testing translations, but is routine release noise.
+            LogUtils.Info(log, $"{modTag} InCityLocalization: registered {registered}/{resourceNames.Length} embedded locale sources.");
+#endif
         }
 
         private static bool IsLangJsonResource(string resourceName)
