@@ -148,6 +148,10 @@ namespace RoadRailSpeeds.Systems
         // Ground near the camera projects at the bottom of a tilted CS2 view. Bias the focus just
         // above screen center so close-range markers stay in the useful central viewing area.
         private const float s_ProximityViewportFocusY = 0.56f;
+        // At close zoom, labels near the horizon read as distant map clutter rather than nearby
+        // speed information. Gradually trim that upper screen band while preserving the center.
+        private const float s_ProximityStartViewportTopY = 1.10f;
+        private const float s_CloseMarkerViewportTopY = 0.68f;
         private const float s_ProximityStartCameraDepth = 4600f;
         private const float s_CloseMarkerMaxCameraDepthMin = 1600f;
         private const float s_ProximityDepthTightenStart = 0.25f;
@@ -155,6 +159,7 @@ namespace RoadRailSpeeds.Systems
         // marker search a little wider so they arrive with the rest of the useful local view.
         private const float s_WaterProximityDepthMultiplier = 1.35f;
         private const float s_WaterProximityViewportRadiusBonus = 0.08f;
+        private const float s_WaterProximityViewportTopYBonus = 0.10f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
         // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.

@@ -366,8 +366,14 @@ namespace RoadRailSpeeds.Systems
                 normalizedZoom,
                 isWaterway,
                 out float maxCameraDepth,
-                out float viewportRadius);
+                out float viewportRadius,
+                out float maxViewportY);
             if (viewportPoint.z > maxCameraDepth)
+            {
+                return false;
+            }
+
+            if (viewportPoint.y > maxViewportY)
             {
                 return false;
             }
@@ -383,7 +389,8 @@ namespace RoadRailSpeeds.Systems
             float normalizedZoom,
             bool isWaterway,
             out float maxCameraDepth,
-            out float viewportRadius)
+            out float viewportRadius,
+            out float maxViewportY)
         {
             // Start broad enough to preserve grouped representatives, then tighten over most of
             // the proximity transition. A short final tightening window caused the last low-zoom
@@ -401,11 +408,16 @@ namespace RoadRailSpeeds.Systems
                 s_ProximityStartViewportRadius,
                 s_CloseMarkerViewportRadiusMin,
                 proximityBlend);
+            maxViewportY = Mathf.Lerp(
+                s_ProximityStartViewportTopY,
+                s_CloseMarkerViewportTopY,
+                proximityBlend);
 
             if (isWaterway)
             {
                 maxCameraDepth *= s_WaterProximityDepthMultiplier;
                 viewportRadius += s_WaterProximityViewportRadiusBonus;
+                maxViewportY += s_WaterProximityViewportTopYBonus;
             }
         }
 
@@ -446,12 +458,14 @@ namespace RoadRailSpeeds.Systems
                 normalizedZoom,
                 false,
                 out float maxCameraDepth,
-                out float viewportRadius);
+                out float viewportRadius,
+                out float maxViewportY);
             GetProximityLimits(
                 normalizedZoom,
                 true,
                 out float waterMaxCameraDepth,
-                out float waterViewportRadius);
+                out float waterViewportRadius,
+                out float waterMaxViewportY);
             string zoneName = zone switch
             {
                 0 => "grouped-map",
@@ -466,7 +480,8 @@ namespace RoadRailSpeeds.Systems
                     $"proximityRejected={proximityRejectedCount} waterProximityRejected={proximityRejectedWaterMarkerCount} " +
                     $"duplicateRejected={duplicateRejectedCount} drawn={drawnMarkerCount} " +
                     $"waterDrawn={drawnWaterMarkerCount} depthLimit={maxCameraDepth:0} viewportRadius={viewportRadius:0.000} " +
-                    $"waterDepthLimit={waterMaxCameraDepth:0} waterViewportRadius={waterViewportRadius:0.000}");
+                    $"viewportTop={maxViewportY:0.000} waterDepthLimit={waterMaxCameraDepth:0} " +
+                    $"waterViewportRadius={waterViewportRadius:0.000} waterViewportTop={waterMaxViewportY:0.000}");
         }
 #endif
 
