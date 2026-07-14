@@ -144,13 +144,13 @@ namespace RoadRailSpeeds.Systems
         // the final low-zoom wheel click from changing a city-scale depth range into only the
         // ground immediately below the camera.
         private const float s_ProximityStartViewportRadius = 0.72f;
-        private const float s_CloseMarkerViewportRadiusMin = 0.56f;
+        private const float s_CloseMarkerViewportRadiusMin = 0.50f;
         // Ground near the camera projects at the bottom of a tilted CS2 view. Bias the focus just
         // above screen center so close-range markers stay in the useful central viewing area.
         private const float s_ProximityViewportFocusY = 0.56f;
-        private const float s_ProximityStartCameraDepth = 5200f;
-        private const float s_CloseMarkerMaxCameraDepthMin = 2200f;
-        private const float s_ProximityDepthTightenStart = 0.35f;
+        private const float s_ProximityStartCameraDepth = 4600f;
+        private const float s_CloseMarkerMaxCameraDepthMin = 1600f;
+        private const float s_ProximityDepthTightenStart = 0.25f;
         // Waterways are sparse and often farther from the camera than nearby streets. Keep their
         // marker search a little wider so they arrive with the rest of the useful local view.
         private const float s_WaterProximityDepthMultiplier = 1.35f;
