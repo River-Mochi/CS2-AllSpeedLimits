@@ -136,7 +136,7 @@ namespace RoadRailSpeeds.Systems
         // Grouping handles map-scale density. Proximity begins before grouping ends so the two
         // modes overlap instead of creating a blank zoom notch during the handoff.
         private const float s_MarkerGroupingStartZoom = 0.08f;
-        private const float s_MarkerProximityStartZoom = 0.24f;
+        private const float s_MarkerProximityStartZoom = 0.45f;
         private const float s_MarkerDuplicateMinDistancePx = 70f;
         private const float s_MarkerDuplicateMaxDistancePx = 180f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 48f;
@@ -144,7 +144,7 @@ namespace RoadRailSpeeds.Systems
         // the final low-zoom wheel click from changing a city-scale depth range into only the
         // ground immediately below the camera.
         private const float s_ProximityStartViewportRadius = 0.72f;
-        private const float s_CloseMarkerViewportRadiusMin = 0.50f;
+        private const float s_CloseMarkerViewportRadiusMin = 0.54f;
         // Ground near the camera projects at the bottom of a tilted CS2 view. Bias the focus just
         // above screen center so close-range markers stay in the useful central viewing area.
         private const float s_ProximityViewportFocusY = 0.56f;
@@ -152,6 +152,9 @@ namespace RoadRailSpeeds.Systems
         // speed information. Gradually trim that upper screen band while preserving the center.
         private const float s_ProximityStartViewportTopY = 1.10f;
         private const float s_CloseMarkerViewportTopY = 0.68f;
+        // Keep a nearby marker if it rotates into the upper screen area. The upper-screen trim
+        // applies only to points that are also far enough away to read as horizon clutter.
+        private const float s_ProximityUpperScreenCullDepthRatio = 0.60f;
         private const float s_ProximityStartCameraDepth = 4600f;
         private const float s_CloseMarkerMaxCameraDepthMin = 1600f;
         private const float s_ProximityDepthTightenStart = 0.25f;
@@ -167,9 +170,15 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
         // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
-        private const float s_MarkerReadableCloseHeightPx = 18f;
-        private const float s_MarkerReadableFarHeightPx = 29f;
+        private const float s_MarkerReadableCloseHeightPx = 16f;
+        private const float s_MarkerReadableMidHeightPx = 18f;
+        private const float s_MarkerReadableFarHeightPx = 27f;
+        private const float s_MarkerReadableMidHeightTransitionZoom = 0.20f;
         private const float s_MarkerReadableScaleStartZoom = 0.45f;
+        // Marker mesh scale only: retain middle zoom, slightly trim the two extremes. The UI
+        // tooltip below a marker uses its own React size and is intentionally unaffected.
+        private const float s_MarkerCloseScaleMultiplier = 0.90f;
+        private const float s_MarkerFarScaleMultiplier = 0.92f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;

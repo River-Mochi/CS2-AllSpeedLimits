@@ -149,7 +149,7 @@ namespace RoadRailSpeeds.Systems
                     // Height above segment midpoint. Water sits a little higher so the number clears
                     // the waterway selection band. Roads/rails sit lower close to the camera, but
                     // ease back upward at far zoom for readability.
-                    float roadMarkerHeight = Mathf.Lerp(7.0f, 8.2f, normalizedZoom);
+                    float roadMarkerHeight = Mathf.Lerp(6.0f, 8.2f, normalizedZoom);
                     // Underground subway markers clear the terrain without sitting at road-marker height.
                     float undergroundSubwayMarkerHeight = Mathf.Lerp(12.0f, 14.0f, normalizedZoom);
                     position.y += identity.IsWaterwayType
@@ -215,6 +215,24 @@ namespace RoadRailSpeeds.Systems
                             Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((normalizedZoom - 0.72f) / 0.28f));
                         textScaleMultiplier = roadBaseScale + roadMidZoomBoost + roadFarZoomBoost;
                     }
+
+                    float closeScaleBlend = Mathf.SmoothStep(
+                        0f,
+                        1f,
+                        Mathf.Clamp01(normalizedZoom / s_MarkerReadableMidHeightTransitionZoom));
+                    float farScaleBlend = Mathf.SmoothStep(
+                        0f,
+                        1f,
+                        Mathf.Clamp01((normalizedZoom - s_MarkerReadableScaleStartZoom) /
+                            (1f - s_MarkerReadableScaleStartZoom)));
+                    textScaleMultiplier *= Mathf.Lerp(
+                        s_MarkerCloseScaleMultiplier,
+                        1f,
+                        closeScaleBlend);
+                    textScaleMultiplier *= Mathf.Lerp(
+                        1f,
+                        s_MarkerFarScaleMultiplier,
+                        farScaleBlend);
 
                     if (hoverCamera != null)
                     {
@@ -373,7 +391,8 @@ namespace RoadRailSpeeds.Systems
                 return false;
             }
 
-            if (viewportPoint.y > maxViewportY)
+            if (viewportPoint.y > maxViewportY &&
+                viewportPoint.z > maxCameraDepth * s_ProximityUpperScreenCullDepthRatio)
             {
                 return false;
             }
@@ -523,13 +542,21 @@ namespace RoadRailSpeeds.Systems
                 return textScaleMultiplier;
             }
 
+            float closeToMidReadability = Mathf.SmoothStep(
+                0f,
+                1f,
+                Mathf.Clamp01(normalizedZoom / s_MarkerReadableMidHeightTransitionZoom));
+            float midTargetPixelHeight = Mathf.Lerp(
+                s_MarkerReadableCloseHeightPx,
+                s_MarkerReadableMidHeightPx,
+                closeToMidReadability);
             float farReadability = Mathf.SmoothStep(
                 0f,
                 1f,
                 Mathf.Clamp01((normalizedZoom - s_MarkerReadableScaleStartZoom) /
                     (1f - s_MarkerReadableScaleStartZoom)));
             float targetPixelHeight = Mathf.Lerp(
-                s_MarkerReadableCloseHeightPx,
+                midTargetPixelHeight,
                 s_MarkerReadableFarHeightPx,
                 farReadability);
             float currentPixelHeight = localTextHeight * textScaleMultiplier * pixelsPerWorldUnit;
