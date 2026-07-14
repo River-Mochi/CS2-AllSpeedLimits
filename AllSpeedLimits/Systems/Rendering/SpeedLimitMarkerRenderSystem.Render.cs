@@ -231,8 +231,11 @@ namespace RoadRailSpeeds.Systems
                             textScaleMultiplier,
                             out screenBounds);
 
-                    if (groupMarkers &&
-                        hasScreenBounds &&
+                    // Keep the screen-space density limit active after topology grouping ends.
+                    // At close-mid zoom proximity is still deliberately broad; tying this to
+                    // groupMarkers caused one wheel notch to jump from grouped representatives
+                    // to every nearby edge (the observed 196 -> 1007 marker flood).
+                    if (hasScreenBounds &&
                         ShouldSkipNearbyDuplicateMarker(identity.GroupKey, screenBounds.center, duplicateDistanceSq))
                     {
 #if DEBUG
@@ -241,7 +244,7 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
-                    if (groupMarkers && hasScreenBounds)
+                    if (hasScreenBounds)
                     {
                         RegisterDrawnMarkerCenter(identity.GroupKey, screenBounds.center);
                     }
