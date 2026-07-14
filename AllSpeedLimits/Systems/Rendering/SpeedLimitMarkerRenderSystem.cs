@@ -140,13 +140,21 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerDuplicateMinDistancePx = 70f;
         private const float s_MarkerDuplicateMaxDistancePx = 180f;
         private const float s_MarkerDuplicateMidZoomBoostPx = 48f;
-        // Proximity begins broad, then tightens only after grouped markers have handed off.
-        // Tooltip sizing is separate; these only decide which world-number meshes are drawn.
+        // Proximity begins broad and then contracts gradually through the handoff. This prevents
+        // the final low-zoom wheel click from changing a city-scale depth range into only the
+        // ground immediately below the camera.
         private const float s_ProximityStartViewportRadius = 0.72f;
         private const float s_CloseMarkerViewportRadiusMin = 0.56f;
+        // Ground near the camera projects at the bottom of a tilted CS2 view. Bias the focus just
+        // above screen center so close-range markers stay in the useful central viewing area.
+        private const float s_ProximityViewportFocusY = 0.56f;
         private const float s_ProximityStartCameraDepth = 5200f;
-        private const float s_CloseMarkerMaxCameraDepthMin = 820f;
-        private const float s_ProximityDepthTightenStart = 0.84f;
+        private const float s_CloseMarkerMaxCameraDepthMin = 2200f;
+        private const float s_ProximityDepthTightenStart = 0.35f;
+        // Waterways are sparse and often farther from the camera than nearby streets. Keep their
+        // marker search a little wider so they arrive with the rest of the useful local view.
+        private const float s_WaterProximityDepthMultiplier = 1.35f;
+        private const float s_WaterProximityViewportRadiusBonus = 0.08f;
         // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
         // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
         // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.

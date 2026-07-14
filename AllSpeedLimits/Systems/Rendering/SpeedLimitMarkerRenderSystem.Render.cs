@@ -159,7 +159,11 @@ namespace RoadRailSpeeds.Systems
 
                     if (normalizedZoom <= s_MarkerProximityStartZoom &&
                         hoverCamera != null &&
-                        !ShouldDrawProximityMarker(hoverCamera, markerPosition, normalizedZoom))
+                        !ShouldDrawProximityMarker(
+                            hoverCamera,
+                            markerPosition,
+                            normalizedZoom,
+                            identity.IsWaterwayType))
                     {
 #if DEBUG
                         proximityRejectedCount++;
@@ -349,7 +353,8 @@ namespace RoadRailSpeeds.Systems
         private static bool ShouldDrawProximityMarker(
             Camera camera,
             Vector3 markerPosition,
-            float normalizedZoom)
+            float normalizedZoom,
+            bool isWaterway)
         {
             Vector3 viewportPoint = camera.WorldToViewportPoint(markerPosition);
             if (viewportPoint.z <= 0f)
@@ -357,25 +362,32 @@ namespace RoadRailSpeeds.Systems
                 return false;
             }
 
-            GetProximityLimits(normalizedZoom, out float maxCameraDepth, out float viewportRadius);
+            GetProximityLimits(
+                normalizedZoom,
+                isWaterway,
+                out float maxCameraDepth,
+                out float viewportRadius);
             if (viewportPoint.z > maxCameraDepth)
             {
                 return false;
             }
 
-            Vector2 fromCenter = new Vector2(viewportPoint.x - 0.5f, viewportPoint.y - 0.5f);
+            Vector2 fromCenter = new Vector2(
+                viewportPoint.x - 0.5f,
+                viewportPoint.y - s_ProximityViewportFocusY);
 
             return fromCenter.sqrMagnitude <= viewportRadius * viewportRadius;
         }
 
         private static void GetProximityLimits(
             float normalizedZoom,
+            bool isWaterway,
             out float maxCameraDepth,
             out float viewportRadius)
         {
-            // At map scale this starts broad enough to preserve the grouped representatives. The
-            // depth limit stays broad through the group-to-proximity handoff, then contracts only
-            // during truly close zoom so a single wheel notch cannot make every marker disappear.
+            // Start broad enough to preserve grouped representatives, then tighten over most of
+            // the proximity transition. A short final tightening window caused the last low-zoom
+            // wheel click to remove almost every marker at once.
             float proximityBlend = Mathf.Clamp01(
                 (s_MarkerProximityStartZoom - normalizedZoom) / s_MarkerProximityStartZoom);
             float depthBlend = Mathf.Clamp01(
@@ -384,11 +396,17 @@ namespace RoadRailSpeeds.Systems
             maxCameraDepth = Mathf.Lerp(
                 s_ProximityStartCameraDepth,
                 s_CloseMarkerMaxCameraDepthMin,
-                depthBlend);
+                Mathf.SmoothStep(0f, 1f, depthBlend));
             viewportRadius = Mathf.Lerp(
                 s_ProximityStartViewportRadius,
                 s_CloseMarkerViewportRadiusMin,
                 proximityBlend);
+
+            if (isWaterway)
+            {
+                maxCameraDepth *= s_WaterProximityDepthMultiplier;
+                viewportRadius += s_WaterProximityViewportRadiusBonus;
+            }
         }
 
 #if DEBUG
@@ -424,7 +442,16 @@ namespace RoadRailSpeeds.Systems
             }
 
             m_LastMarkerVisibilityDiagnosticZone = zone;
-            GetProximityLimits(normalizedZoom, out float maxCameraDepth, out float viewportRadius);
+            GetProximityLimits(
+                normalizedZoom,
+                false,
+                out float maxCameraDepth,
+                out float viewportRadius);
+            GetProximityLimits(
+                normalizedZoom,
+                true,
+                out float waterMaxCameraDepth,
+                out float waterViewportRadius);
             string zoneName = zone switch
             {
                 0 => "grouped-map",
@@ -438,7 +465,8 @@ namespace RoadRailSpeeds.Systems
                     $"eligible={eligibleMarkerCount} waterEligible={eligibleWaterMarkerCount} " +
                     $"proximityRejected={proximityRejectedCount} waterProximityRejected={proximityRejectedWaterMarkerCount} " +
                     $"duplicateRejected={duplicateRejectedCount} drawn={drawnMarkerCount} " +
-                    $"waterDrawn={drawnWaterMarkerCount} depthLimit={maxCameraDepth:0} viewportRadius={viewportRadius:0.000}");
+                    $"waterDrawn={drawnWaterMarkerCount} depthLimit={maxCameraDepth:0} viewportRadius={viewportRadius:0.000} " +
+                    $"waterDepthLimit={waterMaxCameraDepth:0} waterViewportRadius={waterViewportRadius:0.000}");
         }
 #endif
 
