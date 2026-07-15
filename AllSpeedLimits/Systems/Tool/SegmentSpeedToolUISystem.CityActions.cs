@@ -83,6 +83,10 @@ namespace RoadRailSpeeds.Systems
                 LogUtils.Info(
                     () => $"{Mod.ModTag} Debug report edge counts: totalSupported={edges.Length}, roads={roadOnlyCount}, rails={railCount}, water={waterwayCount}, customSpeeds={customCount}, prefabRows={rows.Count}");
 
+#if DEBUG
+                LogSpeedPersistenceAuditToLog(prefabSystem, edges);
+#endif
+
                 int logged = 0;
                 foreach (KeyValuePair<string, int> row in rows.OrderByDescending(item => item.Value).ThenBy(item => item.Key))
                 {

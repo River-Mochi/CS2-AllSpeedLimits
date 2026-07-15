@@ -7,11 +7,11 @@
 // ================= </copyright> ======================
 
 // File: Systems/Runtime/CustomSpeedReapplySystem.cs
-// Purpose: Re-applies CustomSpeed values to updated road/rail lane entities.
+// Purpose: Re-applies CustomSpeed values after CS2 rebuilds road/rail lane entities.
 
 namespace RoadRailSpeeds.Systems
 {
-    using System.Diagnostics.CodeAnalysis;
+    using Game;
     using Game.Common;
     using Game.Net;
     using RoadRailSpeeds.Components;
@@ -20,62 +20,65 @@ namespace RoadRailSpeeds.Systems
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Jobs;
+    using UnityEngine.Scripting;
+    using Temp = Game.Tools.Temp;
 
-    public partial class CustomSpeedReapplySystem : SystemBase
+    public partial class CustomSpeedReapplySystem : GameSystemBase
     {
         private EntityQuery m_EntitiesToRestoreQuery;
-        private EntityCommandBufferSystem m_CommandBufferSystem = null!;
 
+        [Preserve]
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            // Modern build form of GetEntityQuery(new EntityQueryDesc{...}); this cached EntityQuery is
-            // what the Burst job below schedules against.
-            m_EntitiesToRestoreQuery = SystemAPI.QueryBuilder()
-                .WithAll<CustomSpeed>()
-                .WithAny<Updated>()
-                .Build();
+            m_EntitiesToRestoreQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new[]
+                {
+                    ComponentType.ReadOnly<CustomSpeed>(),
+                    ComponentType.ReadOnly<Updated>(),
+                    ComponentType.ReadOnly<SubLane>()
+                },
+                None = new[]
+                {
+                    ComponentType.ReadOnly<Deleted>(),
+                    ComponentType.ReadOnly<Temp>()
+                }
+            });
 
-            // This is event-like repair work, not a continuously running simulation. Do not
-            // create a command buffer or schedule a job until an updated custom edge exists.
             RequireForUpdate(m_EntitiesToRestoreQuery);
-
-            // Command buffer lets the job remove Updated safely after it re-applies speed.
-            m_CommandBufferSystem =
-                World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
         }
 
+        [Preserve]
         protected override void OnUpdate()
         {
-            EntityCommandBuffer.ParallelWriter commandBuffer =
-                m_CommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-
-            JobHandle jobHandle = new RestoreSpeedJob
+            RestoreSpeedJob job = new RestoreSpeedJob
             {
-                EntityType = EntityManager.GetEntityTypeHandle(),
-                EntityManager = EntityManager,
-                CommandBuffer = commandBuffer
-            }.ScheduleParallel(m_EntitiesToRestoreQuery, Dependency);
+                CustomSpeedType = GetComponentTypeHandle<CustomSpeed>(isReadOnly: true),
+                SubLaneType = GetBufferTypeHandle<SubLane>(isReadOnly: true),
+                CarLaneLookup = GetComponentLookup<CarLane>(),
+                TrackLaneLookup = GetComponentLookup<TrackLane>()
+            };
 
-            m_CommandBufferSystem.AddJobHandleForProducer(jobHandle);
-            Dependency = jobHandle;
+            // This system is registered in CS2's ModificationEnd phase. The job only updates
+            // lane data, so it needs no generic Unity simulation ECB and must not remove the
+            // game-owned Updated tag; Game.Common.CleanUpSystem removes that tag later.
+            Dependency = job.Schedule(m_EntitiesToRestoreQuery, Dependency);
         }
 
         [BurstCompile]
-        [SuppressMessage(
-            "ReSharper",
-            "ForCanBeConvertedToForeach",
-            Justification = "Burst jobs are clearer and safer with indexed loops.")]
         private struct RestoreSpeedJob : IJobChunk
         {
             [ReadOnly]
-            public EntityTypeHandle EntityType;
+            public ComponentTypeHandle<CustomSpeed> CustomSpeedType;
 
             [ReadOnly]
-            public EntityManager EntityManager;
+            public BufferTypeHandle<SubLane> SubLaneType;
 
-            public EntityCommandBuffer.ParallelWriter CommandBuffer;
+            public ComponentLookup<CarLane> CarLaneLookup;
+
+            public ComponentLookup<TrackLane> TrackLaneLookup;
 
             public void Execute(
                 in ArchetypeChunk chunk,
@@ -83,66 +86,31 @@ namespace RoadRailSpeeds.Systems
                 bool useEnabledMask,
                 in v128 chunkEnabledMask)
             {
-                NativeArray<Entity> entities = chunk.GetNativeArray(EntityType);
+                NativeArray<CustomSpeed> customSpeeds = chunk.GetNativeArray(ref CustomSpeedType);
+                BufferAccessor<SubLane> subLaneBuffers = chunk.GetBufferAccessor(ref SubLaneType);
 
-                for (int i = 0; i < entities.Length; i++)
+                for (int i = 0; i < chunk.Count; i++)
                 {
-                    Entity entity = entities[i];
+                    float speedGameUnits = customSpeeds[i].m_Speed / 1.8f;
+                    DynamicBuffer<SubLane> subLanes = subLaneBuffers[i];
 
-                    if (!EntityManager.HasComponent<CustomSpeed>(entity))
+                    for (int j = 0; j < subLanes.Length; j++)
                     {
-                        continue;
+                        Entity laneEntity = subLanes[j].m_SubLane;
+                        if (CarLaneLookup.HasComponent(laneEntity))
+                        {
+                            CarLane carLane = CarLaneLookup[laneEntity];
+                            carLane.m_DefaultSpeedLimit = speedGameUnits;
+                            carLane.m_SpeedLimit = speedGameUnits;
+                            CarLaneLookup[laneEntity] = carLane;
+                        }
+                        else if (TrackLaneLookup.HasComponent(laneEntity))
+                        {
+                            TrackLane trackLane = TrackLaneLookup[laneEntity];
+                            trackLane.m_SpeedLimit = speedGameUnits;
+                            TrackLaneLookup[laneEntity] = trackLane;
+                        }
                     }
-
-                    CustomSpeed customSpeed = EntityManager.GetComponentData<CustomSpeed>(entity);
-                    SetSpeed(entity, customSpeed.m_Speed);
-
-                    // Updated means the game touched this entity; remove it after restoring speed.
-                    CommandBuffer.RemoveComponent<Updated>(unfilteredChunkIndex, entity);
-                }
-            }
-
-            private void SetSpeed(Entity entity, float speedKmh)
-            {
-                if (!EntityManager.HasBuffer<SubLane>(entity))
-                {
-                    return;
-                }
-
-                // Game lane speed uses 2x m/s, so km/h converts by dividing by 1.8.
-                float speedGameUnits = speedKmh / 1.8f;
-
-                DynamicBuffer<SubLane> subLanes = EntityManager.GetBuffer<SubLane>(entity);
-
-                for (int i = 0; i < subLanes.Length; i++)
-                {
-                    SetLaneSpeed(subLanes[i].m_SubLane, speedGameUnits);
-                }
-            }
-
-            private void SetLaneSpeed(Entity laneEntity, float speedGameUnits)
-            {
-                if (EntityManager.HasComponent<CarLane>(laneEntity))
-                {
-                    CarLane carLane = EntityManager.GetComponentData<CarLane>(laneEntity);
-
-                    // Preserve flags so lane connections/pathing are not damaged.
-                    CarLaneFlags originalFlags = carLane.m_Flags;
-
-                    carLane.m_DefaultSpeedLimit = speedGameUnits;
-                    carLane.m_SpeedLimit = speedGameUnits;
-                    carLane.m_Flags = originalFlags;
-
-                    EntityManager.SetComponentData(laneEntity, carLane);
-                    return;
-                }
-
-                if (EntityManager.HasComponent<TrackLane>(laneEntity))
-                {
-                    TrackLane trackLane = EntityManager.GetComponentData<TrackLane>(laneEntity);
-                    trackLane.m_SpeedLimit = speedGameUnits;
-
-                    EntityManager.SetComponentData(laneEntity, trackLane);
                 }
             }
         }

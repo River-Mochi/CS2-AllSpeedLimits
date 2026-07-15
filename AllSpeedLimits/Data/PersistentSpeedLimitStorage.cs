@@ -22,7 +22,8 @@ namespace RoadRailSpeeds.Data
 
     public static class PersistentSpeedLimitStorage
     {
-        private const string kModsDataFolderName = "SpeedLimits";
+        private const string kModsDataFolderName = "AllSpeedLimits";
+        private const string kLegacyModsDataFolderName = "SpeedLimits";
         private const int kMaxFileNameLength = 50;
 
         private static readonly IReadOnlyDictionary<int, SpeedLimitEntry> s_EmptySpeedLimits =
@@ -70,6 +71,7 @@ namespace RoadRailSpeeds.Data
                 string fileName = $"{sanitizedName}_{safeSaveGameId}.json";
 
                 s_CurrentFilePath = Path.Combine(BaseDirectory, fileName);
+                TryMigrateLegacyFile(fileName, s_CurrentFilePath);
 
                 if (File.Exists(s_CurrentFilePath))
                 {
@@ -159,16 +161,19 @@ namespace RoadRailSpeeds.Data
 
         public static void Save()
         {
-            if (s_CurrentMapData == null || string.IsNullOrEmpty(s_CurrentFilePath))
+            MapSpeedLimitData? currentMapData = s_CurrentMapData;
+            string? currentFilePath = s_CurrentFilePath;
+
+            if (currentMapData == null || currentFilePath == null || currentFilePath.Length == 0)
             {
                 return;
             }
 
             try
             {
-                s_CurrentMapData.LastSaved = DateTime.Now;
-                MapSpeedLimitData snapshot = CreateSnapshot(s_CurrentMapData);
-                string filePath = s_CurrentFilePath;
+                currentMapData.LastSaved = DateTime.Now;
+                MapSpeedLimitData snapshot = CreateSnapshot(currentMapData);
+                string filePath = currentFilePath;
 
                 // Keep writes ordered so an older snapshot can never finish after a newer one.
                 // Only the dictionary snapshot above happens on the game thread; full JSON
@@ -284,6 +289,32 @@ namespace RoadRailSpeeds.Data
 
                 s_CurrentMapData = new MapSpeedLimitData();
             }
+        }
+
+        private static void TryMigrateLegacyFile(string fileName, string destinationPath)
+        {
+            // Keep the old folder as an untouched fallback. Each city file is copied only when
+            // the new location does not already contain it; SpeedLimits-OLD is a user backup and
+            // is intentionally never read or modified by the mod.
+            if (File.Exists(destinationPath))
+            {
+                return;
+            }
+
+            string legacyPath = Path.Combine(
+                EnvPath.kUserDataPath,
+                "ModsData",
+                kLegacyModsDataFolderName,
+                fileName);
+
+            if (!File.Exists(legacyPath))
+            {
+                return;
+            }
+
+            File.Copy(legacyPath, destinationPath, overwrite: false);
+            LogUtils.Info(
+                () => $"{Mod.ModTag} Migrated speed backup to ModsData/{kModsDataFolderName}/{fileName}; legacy file retained.");
         }
 
         private static string SanitizeFileName(string fileName)

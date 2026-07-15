@@ -25,7 +25,6 @@ namespace RoadRailSpeeds.Systems
     using UnityEngine;                     // Screen, Vector3
     using Temp = Game.Tools.Temp;          // Temp alias
 
-    [UpdateInGroup(typeof(SelectedInfoUISystem))]
     public partial class SegmentSpeedToolUISystem : ExtendedInfoSectionBase
     {
         private SegmentSpeedToolSystem m_SegmentSpeedTool = null!;
