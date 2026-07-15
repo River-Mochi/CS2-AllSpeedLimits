@@ -322,8 +322,7 @@ namespace RoadRailSpeeds.Systems
             PersistentSpeedLimitStorage.StoreSpeedLimit(
                 entity.Index,
                 originalSpeed > 0f ? originalSpeed : speedKmh,
-                speedKmh,
-                saveImmediately: false);
+                speedKmh);
 
             // CustomSpeed was already added in the batched structural pass in ProcessApplyBatch.
             EntityManager.SetComponentData(entity, new CustomSpeed(speedKmh));
@@ -346,8 +345,7 @@ namespace RoadRailSpeeds.Systems
             PersistentSpeedLimitStorage.StoreSpeedLimit(
                 entity.Index,
                 originalSpeed > 0f ? originalSpeed : speedKmh,
-                speedKmh,
-                saveImmediately: false);
+                speedKmh);
 
             // CustomSpeed was already added in the batched structural pass in ProcessApplyBatch.
             EntityManager.SetComponentData(entity, new CustomSpeed(speedKmh));

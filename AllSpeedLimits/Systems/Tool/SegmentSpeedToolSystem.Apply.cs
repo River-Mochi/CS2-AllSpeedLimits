@@ -31,6 +31,7 @@ namespace RoadRailSpeeds.Systems
 
             // Game lane speed uses 2x m/s; km/h converts by / 1.8.
             float speedGameUnits = speedKmh / 1.8f;
+            bool storageChanged = false;
 
             foreach (Entity edge in m_SelectedEdges)
             {
@@ -90,7 +91,11 @@ namespace RoadRailSpeeds.Systems
                 }
 
                 // Store original and custom speed for reset.
-                PersistentSpeedLimitStorage.StoreSpeedLimit(targetEdge.Index, originalSpeed, speedKmh);
+                PersistentSpeedLimitStorage.StoreSpeedLimit(
+                    targetEdge.Index,
+                    originalSpeed,
+                    speedKmh);
+                storageChanged = true;
 
                 if (!EntityManager.HasComponent<CustomSpeed>(targetEdge))
                 {
@@ -100,6 +105,13 @@ namespace RoadRailSpeeds.Systems
                 EntityManager.SetComponentData(targetEdge, new CustomSpeed(speedKmh));
 
                 SetCarLaneSpeedsImmediate(edge, speedGameUnits);
+            }
+
+            // Serializing the whole map once per selected edge can freeze the game for seconds
+            // after a city has many saved limits. Persist the completed selection as one write.
+            if (storageChanged)
+            {
+                PersistentSpeedLimitStorage.Save();
             }
         }
 
@@ -145,6 +157,8 @@ namespace RoadRailSpeeds.Systems
             {
                 return;
             }
+
+            bool storageChanged = false;
 
             foreach (Entity edge in m_SelectedEdges)
             {
@@ -196,6 +210,12 @@ namespace RoadRailSpeeds.Systems
                 }
 
                 PersistentSpeedLimitStorage.RemoveSpeedLimit(targetEdge.Index);
+                storageChanged = true;
+            }
+
+            if (storageChanged)
+            {
+                PersistentSpeedLimitStorage.Save();
             }
         }
     }

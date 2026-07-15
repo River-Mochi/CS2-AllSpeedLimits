@@ -35,8 +35,9 @@ namespace RoadRailSpeeds.Systems
         private bool m_IsDragging;
         private Entity m_HoverEntity = Entity.Null;
 
-        // Drag path-fill state and reusable BFS buffers.
-        private const int kMaxPathSearch = 6000;
+        // Drag path-fill state and reusable BFS buffers. Bound total visited edges so a short
+        // drag preview cannot scan an entire city network on the game thread.
+        private const int kMaxPathSearch = 1200;
         private Entity m_PathStartEdge = Entity.Null;
         private Entity m_PathEndEdge = Entity.Null;
         private readonly HashSet<Entity> m_PathVisited = new();

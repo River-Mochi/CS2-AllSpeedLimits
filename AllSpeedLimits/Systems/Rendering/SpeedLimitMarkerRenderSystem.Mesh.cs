@@ -150,16 +150,9 @@ namespace RoadRailSpeeds.Systems
                 m_OverlayRenderSystem.CopyFontAtlasParameters(tmpMeshInfo.material, material);
                 material.SetColor(m_FaceColorID, textColor);
 
-                if (visualKind == MarkerVisualKind.Water &&
-                    material.HasProperty("_OutlineWidth") &&
-                    material.HasProperty("_OutlineColor"))
-                {
-                    // Water selection bands can sit behind the number at a shallow camera angle.
-                    // A water-only outline preserves digit contrast without changing road, rail, or subway text.
-                    material.SetColor("_OutlineColor", s_WaterMarkerOutlineColor);
-                    material.SetFloat("_OutlineWidth", 0.08f);
-                }
-                else if (material.HasProperty("_OutlineWidth"))
+                // The water overlay can still blend after this transparent text. An SDF outline
+                // cannot change that order and becomes visibly rough at large close scales.
+                if (material.HasProperty("_OutlineWidth"))
                 {
                     material.SetFloat("_OutlineWidth", 0f);
                 }

@@ -37,6 +37,10 @@ namespace RoadRailSpeeds.Systems
                 .WithAny<Updated>()
                 .Build();
 
+            // This is event-like repair work, not a continuously running simulation. Do not
+            // create a command buffer or schedule a job until an updated custom edge exists.
+            RequireForUpdate(m_EntitiesToRestoreQuery);
+
             // Command buffer lets the job remove Updated safely after it re-applies speed.
             m_CommandBufferSystem =
                 World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();

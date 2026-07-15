@@ -229,6 +229,14 @@ namespace RoadRailSpeeds.Systems
                         s_MarkerCloseScaleMultiplier,
                         1f,
                         closeScaleBlend);
+                    if (identity.IsWaterwayType)
+                    {
+                        textScaleMultiplier *= Mathf.Lerp(
+                            s_WaterMarkerCloseScaleMultiplier,
+                            1f,
+                            closeScaleBlend);
+                    }
+
                     textScaleMultiplier *= Mathf.Lerp(
                         1f,
                         s_MarkerFarScaleMultiplier,

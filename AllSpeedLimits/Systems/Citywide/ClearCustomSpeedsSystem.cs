@@ -259,7 +259,7 @@ namespace RoadRailSpeeds.Systems
         {
             SpeedLimitDataManager.RemoveOriginalSpeed(entity.Index);
             SpeedLimitDataManager.RemoveCustomSpeedLimit(entity.Index);
-            PersistentSpeedLimitStorage.RemoveSpeedLimit(entity.Index, saveImmediately: false);
+            PersistentSpeedLimitStorage.RemoveSpeedLimit(entity.Index);
         }
 
         private bool MatchesScope(Entity entity, ClearScope scope)

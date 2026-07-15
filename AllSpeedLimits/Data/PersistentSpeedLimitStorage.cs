@@ -15,6 +15,7 @@ namespace RoadRailSpeeds.Data
     using System.Collections.Generic;   // Dictionary, IReadOnlyDictionary
     using System.IO;                    // Path, Directory, File
     using System.Text;                  // UTF8Encoding
+    using System.Threading.Tasks;       // Ordered background backup writes
     using Colossal.PSI.Environment;     // EnvPath
     using CS2Shared.RiverMochi;         // LogUtils
     using Newtonsoft.Json;              // JsonConvert, Formatting
@@ -30,6 +31,8 @@ namespace RoadRailSpeeds.Data
         private static MapSpeedLimitData? s_CurrentMapData;
         private static string? s_CurrentFilePath;
         private static string? s_BaseDirectory;
+        private static readonly object s_SaveQueueLock = new object();
+        private static Task s_SaveQueue = Task.CompletedTask;
 
         public static string BaseDirectory
         {
@@ -59,6 +62,9 @@ namespace RoadRailSpeeds.Data
         {
             try
             {
+                // A prior world may still have a queued backup. Finish it before changing paths.
+                FlushPendingSave();
+
                 string sanitizedName = SanitizeFileName(saveGameName);
                 string safeSaveGameId = SanitizeFileName(saveGameId);
                 string fileName = $"{sanitizedName}_{safeSaveGameId}.json";
@@ -89,11 +95,12 @@ namespace RoadRailSpeeds.Data
             }
         }
 
+        // Performance contract: these per-edge methods only mutate memory. Call Save once after
+        // the complete user action; never serialize the full backup from inside an edge loop.
         public static void StoreSpeedLimit(
             int entityIndex,
             float defaultSpeedKmh,
-            float currentSpeedKmh,
-            bool saveImmediately = true)
+            float currentSpeedKmh)
         {
             if (s_CurrentMapData == null)
             {
@@ -111,12 +118,6 @@ namespace RoadRailSpeeds.Data
                 CurrentSpeedKmh = currentSpeedKmh,
                 LastModified = DateTime.Now
             };
-
-            if (saveImmediately)
-            {
-                // Save immediately so a crash is less likely to lose speed edits.
-                Save();
-            }
         }
 
         public static SpeedLimitEntry? GetSpeedLimit(int entityIndex)
@@ -146,17 +147,14 @@ namespace RoadRailSpeeds.Data
             return s_CurrentMapData?.SpeedLimits ?? s_EmptySpeedLimits;
         }
 
-        public static void RemoveSpeedLimit(int entityIndex, bool saveImmediately = true)
+        public static void RemoveSpeedLimit(int entityIndex)
         {
             if (s_CurrentMapData == null)
             {
                 return;
             }
 
-            if (s_CurrentMapData.SpeedLimits.Remove(entityIndex) && saveImmediately)
-            {
-                Save();
-            }
+            s_CurrentMapData.SpeedLimits.Remove(entityIndex);
         }
 
         public static void Save()
@@ -169,19 +167,43 @@ namespace RoadRailSpeeds.Data
             try
             {
                 s_CurrentMapData.LastSaved = DateTime.Now;
+                MapSpeedLimitData snapshot = CreateSnapshot(s_CurrentMapData);
+                string filePath = s_CurrentFilePath;
 
-                string json = JsonConvert.SerializeObject(s_CurrentMapData, Formatting.Indented);
-
-                // Explicit UTF-8 without BOM, matching the repo text-file policy.
-                File.WriteAllText(
-                    s_CurrentFilePath,
-                    json,
-                    new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+                // Keep writes ordered so an older snapshot can never finish after a newer one.
+                // Only the dictionary snapshot above happens on the game thread; full JSON
+                // serialization and disk I/O run on the background queue.
+                lock (s_SaveQueueLock)
+                {
+                    s_SaveQueue = s_SaveQueue.ContinueWith(
+                        _ => WriteSnapshot(filePath, snapshot),
+                        TaskScheduler.Default);
+                }
             }
             catch (Exception ex)
             {
                 LogUtils.Error(
-                    () => $"{Mod.ModTag} Failed to save persistent speed data: {ex.GetType().Name}: {ex.Message}",
+                    () => $"{Mod.ModTag} Failed to queue persistent speed data: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
+        }
+
+        public static void FlushPendingSave()
+        {
+            Task pendingSave;
+            lock (s_SaveQueueLock)
+            {
+                pendingSave = s_SaveQueue;
+            }
+
+            try
+            {
+                pendingSave.GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error(
+                    () => $"{Mod.ModTag} Failed while flushing persistent speed data: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
         }
@@ -205,6 +227,40 @@ namespace RoadRailSpeeds.Data
             }
 
             return $"Map: {s_CurrentMapData.MapName}, Speed limits: {s_CurrentMapData.SpeedLimits.Count}, Last saved: {s_CurrentMapData.LastSaved}";
+        }
+
+        private static MapSpeedLimitData CreateSnapshot(MapSpeedLimitData source)
+        {
+            return new MapSpeedLimitData
+            {
+                MapName = source.MapName,
+                SaveGameId = source.SaveGameId,
+                LastSaved = source.LastSaved,
+                // StoreSpeedLimit replaces entries instead of mutating them, so copying the
+                // dictionary is enough to give the background writer a stable snapshot.
+                SpeedLimits = new Dictionary<int, SpeedLimitEntry>(source.SpeedLimits),
+                Version = source.Version
+            };
+        }
+
+        private static void WriteSnapshot(string filePath, MapSpeedLimitData snapshot)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(snapshot, Formatting.Indented);
+
+                // Explicit UTF-8 without BOM, matching the repo text-file policy.
+                File.WriteAllText(
+                    filePath,
+                    json,
+                    new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error(
+                    () => $"{Mod.ModTag} Failed to save persistent speed data: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
         }
 
         private static void LoadFromFile()

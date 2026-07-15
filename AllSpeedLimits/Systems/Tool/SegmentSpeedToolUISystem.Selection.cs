@@ -273,7 +273,7 @@ namespace RoadRailSpeeds.Systems
                 }
 
                 float newSpeed = math.clamp(currentSpeed * multiplier, kMinSpeedKmh, GetMaxSpeedKmh(targetEdge));
-                ApplySpeedToSingleEdge(edge, newSpeed, saveImmediately: false);
+                ApplySpeedToSingleEdge(edge, newSpeed);
             }
 
             PersistentSpeedLimitStorage.Save();
@@ -350,9 +350,13 @@ namespace RoadRailSpeeds.Systems
 
                 SetLaneSpeedsImmediate(edge, speedGameUnits);
             }
+
+            // Persist a selection as one file write. Per-edge writes serialize the entire map and
+            // make even a small multi-segment edit stall once a city has many saved limits.
+            PersistentSpeedLimitStorage.Save();
         }
 
-        private void ApplySpeedToSingleEdge(Entity edge, float newSpeed, bool saveImmediately)
+        private void ApplySpeedToSingleEdge(Entity edge, float newSpeed)
         {
             Entity targetEdge = GetBaseEdge(edge);
             if (targetEdge == Entity.Null || !EntityManager.Exists(targetEdge))
@@ -377,7 +381,7 @@ namespace RoadRailSpeeds.Systems
             if (originalSpeed > 0f)
             {
                 SpeedLimitDataManager.StoreOriginalSpeed(targetEdge.Index, originalSpeed);
-                PersistentSpeedLimitStorage.StoreSpeedLimit(targetEdge.Index, originalSpeed, newSpeed, saveImmediately);
+                PersistentSpeedLimitStorage.StoreSpeedLimit(targetEdge.Index, originalSpeed, newSpeed);
             }
 
             if (!EntityManager.HasComponent<CustomSpeed>(targetEdge))
@@ -409,7 +413,10 @@ namespace RoadRailSpeeds.Systems
                 float? existingDefault = PersistentSpeedLimitStorage.GetDefaultSpeedLimit(aggregate.Index);
                 if (existingDefault.HasValue)
                 {
-                    PersistentSpeedLimitStorage.StoreSpeedLimit(aggregate.Index, existingDefault.Value, newSpeed);
+                    PersistentSpeedLimitStorage.StoreSpeedLimit(
+                        aggregate.Index,
+                        existingDefault.Value,
+                        newSpeed);
                 }
 
                 return;
@@ -423,7 +430,10 @@ namespace RoadRailSpeeds.Systems
 
             // Store original road speed once so reset can restore it later.
             SpeedLimitDataManager.StoreOriginalSpeed(aggregate.Index, originalSpeed);
-            PersistentSpeedLimitStorage.StoreSpeedLimit(aggregate.Index, originalSpeed, newSpeed);
+            PersistentSpeedLimitStorage.StoreSpeedLimit(
+                aggregate.Index,
+                originalSpeed,
+                newSpeed);
         }
 
         private void HandleResetSpeed()
@@ -446,6 +456,8 @@ namespace RoadRailSpeeds.Systems
 
         private void ResetSpeedForEdges(IReadOnlyList<Entity> edges)
         {
+            bool storageChanged = false;
+
             for (int i = 0; i < edges.Count; i++)
             {
                 Entity edge = edges[i];
@@ -482,6 +494,12 @@ namespace RoadRailSpeeds.Systems
                 SpeedLimitDataManager.RemoveCustomSpeedLimit(targetEdge.Index);
                 SpeedLimitDataManager.RemoveOriginalSpeed(targetEdge.Index);
                 PersistentSpeedLimitStorage.RemoveSpeedLimit(targetEdge.Index);
+                storageChanged = true;
+            }
+
+            if (storageChanged)
+            {
+                PersistentSpeedLimitStorage.Save();
             }
         }
 

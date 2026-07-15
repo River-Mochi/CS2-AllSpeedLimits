@@ -62,6 +62,8 @@ namespace RoadRailSpeeds.Systems
             if (m_Initialized)
             {
                 PersistentSpeedLimitStorage.Save();
+                // Waiting during world teardown is safe and prevents losing the last queued backup.
+                PersistentSpeedLimitStorage.FlushPendingSave();
             }
 
             base.OnDestroy();

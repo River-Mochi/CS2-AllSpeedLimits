@@ -251,7 +251,7 @@ namespace RoadRailSpeeds.Systems
             int head = 0;
 
             // Use List + head index as a queue.
-            while (head < m_PathFrontier.Count && head < kMaxPathSearch)
+            while (head < m_PathFrontier.Count && m_PathVisited.Count < kMaxPathSearch)
             {
                 Entity current = m_PathFrontier[head++];
                 if (current == endEdge)
@@ -263,6 +263,11 @@ namespace RoadRailSpeeds.Systems
                 CollectConnectedEdges(current);
                 for (int i = 0; i < m_PathScratch.Count; i++)
                 {
+                    if (m_PathVisited.Count >= kMaxPathSearch)
+                    {
+                        break;
+                    }
+
                     Entity neighbor = m_PathScratch[i];
                     if (m_PathVisited.Contains(neighbor) ||
                         !EntityManager.Exists(neighbor) ||

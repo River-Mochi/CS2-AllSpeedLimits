@@ -132,7 +132,6 @@ namespace RoadRailSpeeds.Systems
         private static readonly Color s_CustomMarkerTextColor = new Color(0.55f, 0.94f, 0.94f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         private static readonly Color s_SubwayMarkerTextColor = new Color(1.00f, 0.30f, 0.82f, 1f);
-        private static readonly Color s_WaterMarkerOutlineColor = new Color(1f, 1f, 1f, 1f);
         // Grouping handles map-scale density. Proximity begins before grouping ends so the two
         // modes overlap instead of creating a blank zoom notch during the handoff.
         private const float s_MarkerGroupingStartZoom = 0.08f;
@@ -179,6 +178,9 @@ namespace RoadRailSpeeds.Systems
         // tooltip below a marker uses its own React size and is intentionally unaffected.
         private const float s_MarkerCloseScaleMultiplier = 0.90f;
         private const float s_MarkerFarScaleMultiplier = 0.92f;
+        // Water markers use a larger world scale to remain legible over wide waterways. Trim
+        // only their closest zoom, leaving middle/far scanning and tooltip sizing unchanged.
+        private const float s_WaterMarkerCloseScaleMultiplier = 0.90f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;
