@@ -14,11 +14,14 @@ namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;
     using System.Globalization;
+    using Colossal.Serialization.Entities;
     using CS2Shared.RiverMochi;
+    using Game;
     using Game.Net;
     using RoadRailSpeeds.Components;
     using Unity.Collections;
     using Unity.Entities;
+    using UnityEngine.Scripting;
 
     using CarLane = Game.Net.CarLane;
     using PrefabBase = Game.Prefabs.PrefabBase;
@@ -39,6 +42,18 @@ namespace RoadRailSpeeds.Systems
     {
         private const int kPersistenceAuditSamplesPerState = 4;
         private const int kSelectedPersistenceAuditMaxEdges = 32;
+
+        [Preserve]
+        protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
+        {
+            base.OnGameLoadingComplete(purpose, mode);
+
+            if (mode == GameMode.Game &&
+                (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
+            {
+                m_DebugLastSelectedEdges.Clear();
+            }
+        }
 
         private enum PersistenceAuditState
         {
@@ -282,20 +297,27 @@ namespace RoadRailSpeeds.Systems
 
         private void LogSelectedSpeedDiagnosticsToLog(PrefabSystem prefabSystem)
         {
-            if (m_SelectedEdges.Count == 0)
+            IReadOnlyList<Entity> selectedEdges = m_SelectedEdges.Count > 0
+                ? m_SelectedEdges
+                : m_DebugLastSelectedEdges;
+            string selectionSource = m_SelectedEdges.Count > 0
+                ? "live"
+                : "last-before-tool-close";
+
+            if (selectedEdges.Count == 0)
             {
                 LogUtils.Info(
-                    () => $"{Mod.ModTag} Selected speed diagnostic: no ASL segments are currently selected.");
+                    () => $"{Mod.ModTag} Selected speed diagnostic: no current or remembered ASL segments are available.");
                 return;
             }
 
             HashSet<Entity> loggedEdges = new HashSet<Entity>();
             int logged = 0;
             for (int i = 0;
-                i < m_SelectedEdges.Count && logged < kSelectedPersistenceAuditMaxEdges;
+                i < selectedEdges.Count && logged < kSelectedPersistenceAuditMaxEdges;
                 i++)
             {
-                Entity edge = GetBaseEdge(m_SelectedEdges[i]);
+                Entity edge = GetBaseEdge(selectedEdges[i]);
                 if (edge == Entity.Null ||
                     !EntityManager.Exists(edge) ||
                     !loggedEdges.Add(edge))
@@ -338,14 +360,14 @@ namespace RoadRailSpeeds.Systems
                     laneInfo);
 
                 LogUtils.Info(
-                    () => $"{Mod.ModTag} Selected speed diagnostic: {diagnostic} recoveryDefaultToCurrentKmh={recovery}");
+                    () => $"{Mod.ModTag} Selected speed diagnostic: selectionSource={selectionSource} {diagnostic} recoveryDefaultToCurrentKmh={recovery}");
                 logged++;
             }
 
-            if (m_SelectedEdges.Count > logged)
+            if (selectedEdges.Count > logged)
             {
                 LogUtils.Info(
-                    () => $"{Mod.ModTag} Selected speed diagnostic: logged={logged} selected={m_SelectedEdges.Count} max={kSelectedPersistenceAuditMaxEdges}");
+                    () => $"{Mod.ModTag} Selected speed diagnostic: selectionSource={selectionSource} logged={logged} selected={selectedEdges.Count} max={kSelectedPersistenceAuditMaxEdges}");
             }
         }
 

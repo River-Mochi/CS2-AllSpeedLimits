@@ -34,6 +34,11 @@ namespace RoadRailSpeeds.Systems
         private Entity m_LastCheckedEntity;
 
         private readonly List<Entity> m_SelectedEdges = new();
+#if DEBUG
+        // Esc closes the tool before the Options-menu debug report can inspect its live selection.
+        // Keep the last non-empty selection only in Debug builds; this never changes segment data.
+        private readonly List<Entity> m_DebugLastSelectedEdges = new();
+#endif
         private readonly List<float> m_Speeds = new();
         private EntityQuery m_AdjustableEdgeQuery;
 
@@ -282,6 +287,11 @@ namespace RoadRailSpeeds.Systems
             {
                 return;
             }
+
+#if DEBUG
+            m_DebugLastSelectedEdges.Clear();
+            m_DebugLastSelectedEdges.AddRange(edges);
+#endif
 
             m_SelectedEntity = edges[0];
 
