@@ -13,13 +13,11 @@ namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;      // List
     using Colossal.UI.Binding;            // IJsonWriter
-    using Game.City;                       // CityConfigurationSystem
     using Game.Common;                     // Deleted, Destroyed
     using Game.Input;                      // InputManager
     using Game.Net;                        // Edge, Curve, Road, tracks
     using Game.Prefabs;                    // PrefabRef
     using Game.UI;                         // SystemUpdatePhase UI base dependencies
-    using Game.UI.InGame;                  // Extended info panel base
     using RoadRailSpeeds.Extensions;       // ExtendedInfoSectionBase, ValueBindingHelper
     using Unity.Entities;                  // Entity, EntityQuery
     using UnityEngine;                     // Screen, Vector3
@@ -28,8 +26,8 @@ namespace RoadRailSpeeds.Systems
     public partial class SegmentSpeedToolUISystem : ExtendedInfoSectionBase
     {
         private SegmentSpeedToolSystem m_SegmentSpeedTool = null!;
-        private SelectedInfoUISystem m_SelectedInfoUISystem = null!;
-        private CityConfigurationSystem m_CityConfigurationSystem = null!;
+        private Game.UI.InGame.SelectedInfoUISystem m_SelectedInfoUISystem = null!;
+        private Game.City.CityConfigurationSystem m_CityConfigurationSystem = null!;
         private SpeedLimitMarkerRenderSystem m_SpeedLimitMarkerRenderSystem = null!;
 
         private Entity m_SelectedEntity;
@@ -104,34 +102,17 @@ namespace RoadRailSpeeds.Systems
 
             m_InfoUISystem.AddMiddleSection(this);
 
-            m_SelectedInfoUISystem = World.GetOrCreateSystemManaged<SelectedInfoUISystem>();
+            m_SelectedInfoUISystem = World.GetOrCreateSystemManaged<Game.UI.InGame.SelectedInfoUISystem>();
             m_SegmentSpeedTool = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
-            m_CityConfigurationSystem = World.GetOrCreateSystemManaged<CityConfigurationSystem>();
+            m_CityConfigurationSystem = World.GetOrCreateSystemManaged<Game.City.CityConfigurationSystem>();
             m_SpeedLimitMarkerRenderSystem = World.GetOrCreateSystemManaged<SpeedLimitMarkerRenderSystem>();
             m_Settings = Mod.Settings;
 
-            m_AdjustableEdgeQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new[]
-                {
-                    ComponentType.ReadOnly<Edge>(),
-                    ComponentType.ReadOnly<Curve>(),
-                    ComponentType.ReadOnly<PrefabRef>()
-                },
-                Any = new[]
-                {
-                    ComponentType.ReadOnly<Road>(),
-                    ComponentType.ReadOnly<TrainTrack>(),
-                    ComponentType.ReadOnly<TramTrack>(),
-                    ComponentType.ReadOnly<SubwayTrack>(),
-                    ComponentType.ReadOnly<Waterway>()
-                },
-                None = new[]
-                {
-                    ComponentType.ReadOnly<Deleted>(),
-                    ComponentType.ReadOnly<Temp>()
-                }
-            });
+            m_AdjustableEdgeQuery = SystemAPI.QueryBuilder()
+                .WithAll<Edge, Curve, PrefabRef>()
+                .WithAny<Road, TrainTrack, TramTrack, SubwayTrack, Waterway>()
+                .WithNone<Deleted, Temp>()
+                .Build();
 
             // These keys are read by the React/COHTML UI.
             m_InitialSpeedBinding = CreateBinding("INFOPANEL_ROAD_SPEED", 50f);

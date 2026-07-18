@@ -240,6 +240,8 @@ namespace RoadRailSpeeds.Systems
             if (EntityManager.HasComponent<CarLane>(laneEntity))
             {
                 CarLane carLane = EntityManager.GetComponentData<CarLane>(laneEntity);
+                // Restore both fields so CS2's next lane-data refresh retains the prefab speed.
+                carLane.m_DefaultSpeedLimit = speedGameUnits;
                 carLane.m_SpeedLimit = speedGameUnits;
                 EntityManager.SetComponentData(laneEntity, carLane);
                 return;

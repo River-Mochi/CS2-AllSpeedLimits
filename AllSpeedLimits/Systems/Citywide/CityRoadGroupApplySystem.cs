@@ -482,6 +482,8 @@ namespace RoadRailSpeeds.Systems
                 }
 
                 CarLane carLane = EntityManager.GetComponentData<CarLane>(laneEntity);
+                // CS2 copies default -> current when it refreshes lane data; update both.
+                carLane.m_DefaultSpeedLimit = speedGameUnits;
                 carLane.m_SpeedLimit = speedGameUnits;
                 EntityManager.SetComponentData(laneEntity, carLane);
             }

@@ -16,9 +16,16 @@ namespace RoadRailSpeeds.Systems
     using Game.Tools;
     using RoadRailSpeeds.Components;
     using RoadRailSpeeds.Data;
+    using Unity.Collections;
     using Unity.Entities;
     using CarLane = Game.Net.CarLane;
+    using PrefabBase = Game.Prefabs.PrefabBase;
+    using PrefabRef = Game.Prefabs.PrefabRef;
+    using PrefabSystem = Game.Prefabs.PrefabSystem;
+    using RoadPrefab = Game.Prefabs.RoadPrefab;
     using SubLane = Game.Net.SubLane;
+    using TrackPrefab = Game.Prefabs.TrackPrefab;
+    using WaterwayPrefab = Game.Prefabs.WaterwayPrefab;
 
     public partial class SegmentSpeedToolSystem
     {
@@ -32,6 +39,29 @@ namespace RoadRailSpeeds.Systems
             // Game lane speed uses 2x m/s; km/h converts by / 1.8.
             float speedGameUnits = speedKmh / 1.8f;
             bool storageChanged = false;
+            PrefabSystem prefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+
+            using (NativeList<Entity> toAdd =
+                new NativeList<Entity>(m_SelectedEdges.Count, Allocator.Temp))
+            {
+                foreach (Entity edge in m_SelectedEdges)
+                {
+                    Entity targetEdge = EntityManager.HasComponent<Temp>(edge)
+                        ? EntityManager.GetComponentData<Temp>(edge).m_Original
+                        : edge;
+
+                    if (!EntityManager.HasComponent<CustomSpeed>(targetEdge))
+                    {
+                        toAdd.Add(targetEdge);
+                    }
+                }
+
+                if (toAdd.Length > 0)
+                {
+                    // One immediate bulk structural change keeps this public tool callback fast.
+                    EntityManager.AddComponent<CustomSpeed>(toAdd.AsArray());
+                }
+            }
 
             foreach (Entity edge in m_SelectedEdges)
             {
@@ -48,7 +78,9 @@ namespace RoadRailSpeeds.Systems
 
                 if (existingEntry == null)
                 {
-                    if (EntityManager.HasBuffer<SubLane>(edge))
+                    originalSpeed = GetPrefabSpeedKmh(targetEdge, prefabSystem);
+
+                    if (originalSpeed <= 0f && EntityManager.HasBuffer<SubLane>(edge))
                     {
                         DynamicBuffer<SubLane> subLanes = EntityManager.GetBuffer<SubLane>(edge);
                         CarLaneFlags ignore = CarLaneFlags.Unsafe | CarLaneFlags.SideConnection;
@@ -97,11 +129,6 @@ namespace RoadRailSpeeds.Systems
                     speedKmh);
                 storageChanged = true;
 
-                if (!EntityManager.HasComponent<CustomSpeed>(targetEdge))
-                {
-                    EntityManager.AddComponent<CustomSpeed>(targetEdge);
-                }
-
                 EntityManager.SetComponentData(targetEdge, new CustomSpeed(speedKmh));
 
                 SetCarLaneSpeedsImmediate(edge, speedGameUnits);
@@ -135,6 +162,9 @@ namespace RoadRailSpeeds.Systems
                     // Preserve lane flags.
                     CarLaneFlags originalFlags = carLane.m_Flags;
 
+                    // LaneDataSystem restores current from default during lane-data refreshes.
+                    // Keep both fields custom so the simulation cannot silently revert this road.
+                    carLane.m_DefaultSpeedLimit = speedGameUnits;
                     carLane.m_SpeedLimit = speedGameUnits;
                     carLane.m_Flags = originalFlags;
 
@@ -159,6 +189,9 @@ namespace RoadRailSpeeds.Systems
             }
 
             bool storageChanged = false;
+            PrefabSystem prefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+            using NativeList<Entity> toRemove =
+                new NativeList<Entity>(m_SelectedEdges.Count, Allocator.Temp);
 
             foreach (Entity edge in m_SelectedEdges)
             {
@@ -172,7 +205,16 @@ namespace RoadRailSpeeds.Systems
 
                 float? originalSpeed = PersistentSpeedLimitStorage.GetDefaultSpeedLimit(targetEdge.Index);
 
-                if (!originalSpeed.HasValue)
+                if (!originalSpeed.HasValue || originalSpeed.Value <= 0f)
+                {
+                    float prefabSpeed = GetPrefabSpeedKmh(targetEdge, prefabSystem);
+                    if (prefabSpeed > 0f)
+                    {
+                        originalSpeed = prefabSpeed;
+                    }
+                }
+
+                if (!originalSpeed.HasValue || originalSpeed.Value <= 0f)
                 {
                     continue;
                 }
@@ -189,6 +231,8 @@ namespace RoadRailSpeeds.Systems
                         {
                             CarLane carLane = EntityManager.GetComponentData<CarLane>(subLane.m_SubLane);
 
+                            // Reset both fields so a later lane-data refresh keeps the prefab speed.
+                            carLane.m_DefaultSpeedLimit = speedGameUnits;
                             carLane.m_SpeedLimit = speedGameUnits;
 
                             EntityManager.SetComponentData(subLane.m_SubLane, carLane);
@@ -206,17 +250,45 @@ namespace RoadRailSpeeds.Systems
 
                 if (EntityManager.HasComponent<CustomSpeed>(targetEdge))
                 {
-                    EntityManager.RemoveComponent<CustomSpeed>(targetEdge);
+                    toRemove.Add(targetEdge);
                 }
 
                 PersistentSpeedLimitStorage.RemoveSpeedLimit(targetEdge.Index);
                 storageChanged = true;
             }
 
+            if (toRemove.Length > 0)
+            {
+                EntityManager.RemoveComponent<CustomSpeed>(toRemove.AsArray());
+            }
+
             if (storageChanged)
             {
                 PersistentSpeedLimitStorage.Save();
             }
+        }
+
+        private float GetPrefabSpeedKmh(Entity edge, PrefabSystem prefabSystem)
+        {
+            if (!EntityManager.HasComponent<PrefabRef>(edge))
+            {
+                return -1f;
+            }
+
+            PrefabRef prefabRef = EntityManager.GetComponentData<PrefabRef>(edge);
+            if (!prefabSystem.TryGetPrefab(prefabRef, out PrefabBase prefabBase) ||
+                prefabBase == null)
+            {
+                return -1f;
+            }
+
+            return prefabBase switch
+            {
+                RoadPrefab roadPrefab => roadPrefab.m_SpeedLimit / 2f,
+                TrackPrefab trackPrefab => trackPrefab.m_SpeedLimit / 2f,
+                WaterwayPrefab waterwayPrefab => waterwayPrefab.m_SpeedLimit / 2f,
+                _ => -1f
+            };
         }
     }
 }

@@ -11,13 +11,14 @@
 
 namespace RoadRailSpeeds.Systems
 {
-    using System;                // Exception handling and fallback naming.
-    using System.IO;             // Invalid filename cleanup for JSON storage file names.
-    using CS2Shared.RiverMochi;  // LogUtils for safe custom file logging.
-    using Game;                  // GameSystemBase.
-    using Game.SceneFlow;        // GameManager, GameMode, and world-ready state.
-    using RoadRailSpeeds.Data;   // PersistentSpeedLimitStorage JSON backup helper.
-    using UnityEngine.Scripting; // Preserve attributes for game systems.
+    using System;                            // Exception handling and fallback naming.
+    using System.IO;                         // Invalid filename cleanup for JSON storage file names.
+    using Colossal.Serialization.Entities;  // Purpose.
+    using CS2Shared.RiverMochi;              // LogUtils for safe custom file logging.
+    using Game;                              // GameSystemBase.
+    using Game.SceneFlow;                    // GameManager, GameMode, and world-ready state.
+    using RoadRailSpeeds.Data;               // PersistentSpeedLimitStorage JSON backup helper.
+    using UnityEngine.Scripting;             // Preserve attributes for game systems.
 
     public partial class PersistentSpeedLimitStorageSystem : GameSystemBase
     {
@@ -41,10 +42,8 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            if (!m_Initialized && IsWorldReadyForStorage())
+            if (!m_Initialized && EnsureInitialized())
             {
-                InitializePersistentStorage();
-                m_Initialized = true;
                 return;
             }
 
@@ -54,6 +53,36 @@ namespace RoadRailSpeeds.Systems
                 m_Initialized = false;
                 m_LastCityName = null;
             }
+        }
+
+        [Preserve]
+        protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
+        {
+            base.OnGameLoadingComplete(purpose, mode);
+
+            if (mode == GameMode.Game &&
+                (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
+            {
+                // Migration/reapply systems need the per-city backup during their own load callback.
+                EnsureInitialized();
+            }
+        }
+
+        internal bool EnsureInitialized()
+        {
+            if (m_Initialized)
+            {
+                return true;
+            }
+
+            if (!IsWorldReadyForStorage())
+            {
+                return false;
+            }
+
+            InitializePersistentStorage();
+            m_Initialized = true;
+            return true;
         }
 
         [Preserve]

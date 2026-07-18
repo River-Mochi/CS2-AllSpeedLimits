@@ -38,6 +38,7 @@ namespace RoadRailSpeeds.Systems
         {
             public Mesh? Mesh;
             public Material? Material;
+            public Material? HoverMaterial;
         }
 
         private enum MarkerVisualKind
@@ -91,18 +92,18 @@ namespace RoadRailSpeeds.Systems
         {
             public readonly float SpeedKmh;
             public readonly bool IsWaterwayType;
-            public readonly bool IsUndergroundSubway;
+            public readonly bool IsSubwayType;
             public readonly MarkerGroupKey GroupKey;
 
             public MarkerRenderIdentity(
                 float speedKmh,
                 bool isWaterwayType,
-                bool isUndergroundSubway,
+                bool isSubwayType,
                 MarkerGroupKey groupKey)
             {
                 SpeedKmh = speedKmh;
                 IsWaterwayType = isWaterwayType;
-                IsUndergroundSubway = isUndergroundSubway;
+                IsSubwayType = isSubwayType;
                 GroupKey = groupKey;
             }
         }
@@ -181,6 +182,18 @@ namespace RoadRailSpeeds.Systems
         // Water markers use a larger world scale to remain legible over wide waterways. Trim
         // only their closest zoom, leaving middle/far scanning and tooltip sizing unchanged.
         private const float s_WaterMarkerCloseScaleMultiplier = 0.90f;
+        // CS2's own overlay and district labels generate TMP geometry at size 200. Generate at
+        // that resolution, then normalize the draw scale back to the previous size-25 geometry.
+        private const float s_MarkerMeshGenerationFontSize = 200f;
+        private const float s_MarkerWorldScaleNormalization = 0.125f;
+        private const float s_MarkerHoverOutlineWidth = 0.045f;
+        // World-space height above the network curve. CS2 district labels add no large fixed
+        // lift; these smaller offsets keep billboard numbers clear of, but close to, the surface.
+        // Tweak these four values to adjust marker height without changing font or tooltip size.
+        private const float s_SurfaceMarkerHeightClose = 1.5f;
+        private const float s_SurfaceMarkerHeightFar = 4.0f;
+        private const float s_SubwayMarkerHeightAboveSurface = 1.0f;
+        private const float s_WaterMarkerHeight = 11.4f;
 
         private Setting? m_Settings;
         private int m_FaceColorID;
@@ -218,13 +231,14 @@ namespace RoadRailSpeeds.Systems
             m_LastUnitPreference = m_Settings?.SpeedUnitPreference ?? Setting.SpeedUnit.Auto;
             m_LastDoubleSpeedDisplay = m_Settings?.DoubleSpeedDisplay ?? false;
 
-            // Modern build form of GetEntityQuery(new EntityQueryDesc{...}); the render pass below reads
-            // this cached EntityQuery to find segments with a custom speed.
+            // Cached SystemAPI queries are owned by this system and participate in ECS dependency tracking.
             m_CustomSpeedQuery = SystemAPI.QueryBuilder()
                 .WithAll<Edge, Curve, CustomSpeed>()
                 .Build();
 
-            m_OverlaySettingsQuery = GetEntityQuery(ComponentType.ReadOnly<OverlayConfigurationData>());
+            m_OverlaySettingsQuery = SystemAPI.QueryBuilder()
+                .WithAll<OverlayConfigurationData>()
+                .Build();
             m_FaceColorID = Shader.PropertyToID("_FaceColor");
 
             // Unity render-pipeline event.

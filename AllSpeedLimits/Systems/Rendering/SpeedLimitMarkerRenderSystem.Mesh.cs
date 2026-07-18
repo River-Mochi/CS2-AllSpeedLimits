@@ -59,13 +59,14 @@ namespace RoadRailSpeeds.Systems
                 int multiplier = doubleDisplay ? 2 : 1;
                 Color textColor = GetMarkerTextColor(visualKind);
 
-                textMesh.rectTransform.sizeDelta = new Vector2(176f, 92f);
-                // Base font size for floating speed number before zoom scaling is applied above.
-                textMesh.fontSize = 25f;
+                // Match CS2's OverlayRenderSystem/AreaBufferSystem generation resolution. The
+                // draw scale is normalized later, so this improves SDF edges without resizing signs.
+                textMesh.rectTransform.sizeDelta = new Vector2(250f, 100f);
+                textMesh.fontSize = s_MarkerMeshGenerationFontSize;
                 textMesh.alignment = TextAlignmentOptions.Center;
                 textMesh.color = textColor;
                 // A small positive gap keeps enlarged multi-digit markers from touching.
-                textMesh.characterSpacing = 3f;
+                textMesh.characterSpacing = 24f;
                 textMesh.fontStyle = FontStyles.Normal;
 
                 string speedText;
@@ -150,17 +151,29 @@ namespace RoadRailSpeeds.Systems
                 m_OverlayRenderSystem.CopyFontAtlasParameters(tmpMeshInfo.material, material);
                 material.SetColor(m_FaceColorID, textColor);
 
-                // The water overlay can still blend after this transparent text. An SDF outline
-                // cannot change that order and becomes visibly rough at large close scales.
+                // Normal markers have no outline. Hover gets a separate material so changing one
+                // cached speed sign cannot leak an outline onto every sign sharing this mesh.
                 if (material.HasProperty("_OutlineWidth"))
                 {
                     material.SetFloat("_OutlineWidth", 0f);
                 }
 
+                Material? hoverMaterial = null;
+                if (material.HasProperty("_OutlineWidth") && material.HasProperty("_OutlineColor"))
+                {
+                    hoverMaterial = new Material(material)
+                    {
+                        name = $"{material.name}_hover"
+                    };
+                    hoverMaterial.SetColor("_OutlineColor", Color.black);
+                    hoverMaterial.SetFloat("_OutlineWidth", s_MarkerHoverOutlineWidth);
+                }
+
                 return new TextMeshInfo
                 {
                     Mesh = mesh,
-                    Material = material
+                    Material = material,
+                    HoverMaterial = hoverMaterial
                 };
             }
             catch (Exception ex)
@@ -258,6 +271,11 @@ namespace RoadRailSpeeds.Systems
                 if (meshInfo.Material != null)
                 {
                     UnityEngine.Object.Destroy(meshInfo.Material);
+                }
+
+                if (meshInfo.HoverMaterial != null)
+                {
+                    UnityEngine.Object.Destroy(meshInfo.HoverMaterial);
                 }
             }
 

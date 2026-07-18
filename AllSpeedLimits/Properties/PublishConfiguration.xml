@@ -21,6 +21,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 -   Works on:
 -  🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
 - Stats are light: only runs when the panel is open, better data than Info view.
+- don't forget Like button, top right, so more people know about the mod :)
 
 
 ## Important
@@ -69,8 +70,9 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Train + Subway floating speed numbers in high visibility green, roads + water stay blue.
-- Floating speed numbers: adjusted the scale at different zoom levels, and added proximity so it's less cluttered.
+- Train floating speed numbers in high visibility green, Subway is pink, roads + water stay blue-green color.
+- Floating speed numbers: adjusted the scale at different zoom levels, moved numbers closer to surface of roads or surface elevation for underground.
+- Added proximity so roads are not cluttered when zoomed out if every segment of the same road has a speed number. Numbers appear as you zoom in closer to the area.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
     <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-AllSpeedLimits" />

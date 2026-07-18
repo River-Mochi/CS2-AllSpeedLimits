@@ -16,6 +16,7 @@ namespace RoadRailSpeeds.Systems
     using Game.Net;                      // Edge, Lane data
     using RoadRailSpeeds.Components;      // CustomSpeed
     using RoadRailSpeeds.Data;            // SpeedLimitDataManager
+    using Unity.Collections;              // NativeList, Allocator
     using Unity.Entities;                 // Entity
     using Unity.Mathematics;              // math
     using CarLane = Game.Net.CarLane;     // car lane speed
@@ -256,6 +257,26 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
+            using (NativeList<Entity> toAdd =
+                new NativeList<Entity>(edges.Count, Allocator.Temp))
+            {
+                for (int i = 0; i < edges.Count; i++)
+                {
+                    Entity targetEdge = GetBaseEdge(edges[i]);
+                    if (targetEdge != Entity.Null &&
+                        EntityManager.Exists(targetEdge) &&
+                        !EntityManager.HasComponent<CustomSpeed>(targetEdge))
+                    {
+                        toAdd.Add(targetEdge);
+                    }
+                }
+
+                if (toAdd.Length > 0)
+                {
+                    EntityManager.AddComponent<CustomSpeed>(toAdd.AsArray());
+                }
+            }
+
             for (int i = 0; i < edges.Count; i++)
             {
                 Entity edge = edges[i];
@@ -331,22 +352,48 @@ namespace RoadRailSpeeds.Systems
                 StoreOriginalSpeedIfNeeded(aggregate, newSpeed);
             }
 
+            using (NativeList<Entity> toAdd =
+                new NativeList<Entity>(m_SelectedEdges.Count, Allocator.Temp))
+            {
+                foreach (Entity edge in m_SelectedEdges)
+                {
+                    Entity targetEdge = GetBaseEdge(edge);
+                    if (targetEdge != Entity.Null &&
+                        EntityManager.Exists(targetEdge) &&
+                        !EntityManager.HasComponent<CustomSpeed>(targetEdge))
+                    {
+                        toAdd.Add(targetEdge);
+                    }
+                }
+
+                if (toAdd.Length > 0)
+                {
+                    EntityManager.AddComponent<CustomSpeed>(toAdd.AsArray());
+                }
+            }
+
             foreach (Entity edge in m_SelectedEdges)
             {
                 Entity targetEdge = GetBaseEdge(edge);
+                float originalSpeed =
+                    PersistentSpeedLimitStorage.GetDefaultSpeedLimit(targetEdge.Index) ??
+                    GetVanillaSpeed(targetEdge);
 
-                if (!EntityManager.HasComponent<CustomSpeed>(targetEdge))
+                if (originalSpeed <= 0f)
                 {
-                    EntityManager.AddComponent<CustomSpeed>(targetEdge);
+                    originalSpeed = GetAverageSpeed(edge);
                 }
 
                 EntityManager.SetComponentData(targetEdge, new CustomSpeed(newSpeed));
 
                 SpeedLimitDataManager.AddCustomSpeedLimit(targetEdge.Index, newSpeed);
-                PersistentSpeedLimitStorage.StoreSpeedLimit(
-                    targetEdge.Index,
-                    PersistentSpeedLimitStorage.GetDefaultSpeedLimit(targetEdge.Index) ?? GetAverageSpeed(edge),
-                    newSpeed);
+                if (originalSpeed > 0f)
+                {
+                    PersistentSpeedLimitStorage.StoreSpeedLimit(
+                        targetEdge.Index,
+                        originalSpeed,
+                        newSpeed);
+                }
 
                 SetLaneSpeedsImmediate(edge, speedGameUnits);
             }
@@ -367,15 +414,11 @@ namespace RoadRailSpeeds.Systems
             float originalSpeed =
                 PersistentSpeedLimitStorage.GetDefaultSpeedLimit(targetEdge.Index) ??
                 SpeedLimitDataManager.GetOriginalSpeed(targetEdge.Index) ??
-                GetAverageSpeed(edge);
+                GetVanillaSpeed(targetEdge);
 
             if (originalSpeed <= 0f)
             {
-                float vanillaSpeed = GetVanillaSpeed(targetEdge);
-                if (vanillaSpeed > 0f)
-                {
-                    originalSpeed = vanillaSpeed;
-                }
+                originalSpeed = GetAverageSpeed(edge);
             }
 
             if (originalSpeed > 0f)
@@ -457,6 +500,8 @@ namespace RoadRailSpeeds.Systems
         private void ResetSpeedForEdges(IReadOnlyList<Entity> edges)
         {
             bool storageChanged = false;
+            using NativeList<Entity> toRemove =
+                new NativeList<Entity>(edges.Count, Allocator.Temp);
 
             for (int i = 0; i < edges.Count; i++)
             {
@@ -488,13 +533,18 @@ namespace RoadRailSpeeds.Systems
 
                 if (EntityManager.HasComponent<CustomSpeed>(targetEdge))
                 {
-                    EntityManager.RemoveComponent<CustomSpeed>(targetEdge);
+                    toRemove.Add(targetEdge);
                 }
 
                 SpeedLimitDataManager.RemoveCustomSpeedLimit(targetEdge.Index);
                 SpeedLimitDataManager.RemoveOriginalSpeed(targetEdge.Index);
                 PersistentSpeedLimitStorage.RemoveSpeedLimit(targetEdge.Index);
                 storageChanged = true;
+            }
+
+            if (toRemove.Length > 0)
+            {
+                EntityManager.RemoveComponent<CustomSpeed>(toRemove.AsArray());
             }
 
             if (storageChanged)

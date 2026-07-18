@@ -19,6 +19,7 @@ namespace RoadRailSpeeds
     using CS2Shared.RiverMochi;      // LogUtils, ShellOpen
     using Game;                      // UpdateSystem, SystemUpdatePhase
     using Game.Modding;              // IMod
+    using Game.Pathfind;             // LaneDataSystem
     using Game.SceneFlow;            // GameManager
     using RoadRailSpeeds.Systems;    // Mod systems
     using Unity.Entities;            // World
@@ -129,7 +130,11 @@ namespace RoadRailSpeeds
                 updateSystem.UpdateAt<SegmentSpeedToolSystem>(SystemUpdatePhase.ToolUpdate);
 
                 world.GetOrCreateSystemManaged<CustomSpeedReapplySystem>();
-                updateSystem.UpdateAt<CustomSpeedReapplySystem>(SystemUpdatePhase.ModificationEnd);
+                // CS2's LaneDataSystem recalculates runtime lane data from m_DefaultSpeedLimit and
+                // city/district policies. Reapply explicit segment overrides after that work;
+                // game cleanup systems remain responsible for Updated and PathfindUpdated.
+                updateSystem.UpdateAfter<CustomSpeedReapplySystem, LaneDataSystem>(
+                    SystemUpdatePhase.ModificationEnd);
 
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);

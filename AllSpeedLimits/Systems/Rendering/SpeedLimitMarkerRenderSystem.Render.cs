@@ -146,15 +146,7 @@ namespace RoadRailSpeeds.Systems
 
                     Curve curve = EntityManager.GetComponentData<Curve>(edge);
                     float3 position = MathUtils.Position(curve.m_Bezier, 0.5f);
-                    // Height above segment midpoint. Water sits a little higher so the number clears
-                    // the waterway selection band. Roads/rails sit lower close to the camera, but
-                    // ease back upward at far zoom for readability.
-                    float roadMarkerHeight = Mathf.Lerp(6.0f, 8.2f, normalizedZoom);
-                    // Underground subway markers clear the terrain without sitting at road-marker height.
-                    float undergroundSubwayMarkerHeight = Mathf.Lerp(12.0f, 14.0f, normalizedZoom);
-                    position.y += identity.IsWaterwayType
-                        ? 11.4f
-                        : (identity.IsUndergroundSubway ? undergroundSubwayMarkerHeight : roadMarkerHeight);
+                    position.y += GetMarkerHeight(edge, identity, normalizedZoom);
                     Vector3 markerPosition = position;
 
                     if (normalizedZoom <= s_MarkerProximityStartZoom &&
@@ -242,6 +234,10 @@ namespace RoadRailSpeeds.Systems
                         s_MarkerFarScaleMultiplier,
                         farScaleBlend);
 
+                    // Meshes are generated at CS2's font size 200 instead of the former 25.
+                    // Keep the same world/on-screen dimensions while retaining the smoother SDF.
+                    textScaleMultiplier *= s_MarkerWorldScaleNormalization;
+
                     if (hoverCamera != null)
                     {
                         textScaleMultiplier = ApplyReadableScreenScale(
@@ -279,10 +275,12 @@ namespace RoadRailSpeeds.Systems
                         RegisterDrawnMarkerCenter(identity.GroupKey, screenBounds.center);
                     }
 
+                    bool isPointerOverMarker = false;
                     if (canUpdateMarkerTooltip && hasScreenBounds)
                     {
                         if (screenBounds.Contains(new Vector2(mousePosition.x, mousePosition.y)))
                         {
+                            isPointerOverMarker = true;
                             Vector2 center = screenBounds.center;
                             float dx = center.x - mousePosition.x;
                             float dy = center.y - mousePosition.y;
@@ -325,10 +323,14 @@ namespace RoadRailSpeeds.Systems
                             rotation,
                             new Vector3(textScaleMultiplier, textScaleMultiplier, textScaleMultiplier));
 
+                        Material drawMaterial = (isPointerOverMarker && meshInfo.HoverMaterial != null
+                            ? meshInfo.HoverMaterial
+                            : meshInfo.Material)!;
+
                         Graphics.DrawMesh(
                             meshInfo.Mesh,
                             matrix,
-                            meshInfo.Material,
+                            drawMaterial,
                             0,
                             camera,
                             0,
@@ -373,6 +375,39 @@ namespace RoadRailSpeeds.Systems
                     () => $"SpeedLimitMarkerRenderSystem.Render failed: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
+        }
+
+
+        private float GetMarkerHeight(
+            Entity edge,
+            MarkerRenderIdentity identity,
+            float normalizedZoom)
+        {
+            if (identity.IsWaterwayType)
+            {
+                return s_WaterMarkerHeight;
+            }
+
+            if (identity.IsSubwayType)
+            {
+                float depthBelowGround = 0f;
+                if (EntityManager.HasComponent<Elevation>(edge))
+                {
+                    Elevation elevation = EntityManager.GetComponentData<Elevation>(edge);
+                    float averageElevation =
+                        (elevation.m_Elevation.x + elevation.m_Elevation.y) * 0.5f;
+                    depthBelowGround = Mathf.Max(0f, -averageElevation);
+                }
+
+                // Curve.y follows the subway rail. For a tunnel, cancel its negative elevation so
+                // the pink number sits one metre above terrain; otherwise stay just above the rail.
+                return depthBelowGround + s_SubwayMarkerHeightAboveSurface;
+            }
+
+            return Mathf.Lerp(
+                s_SurfaceMarkerHeightClose,
+                s_SurfaceMarkerHeightFar,
+                normalizedZoom);
         }
 
 
