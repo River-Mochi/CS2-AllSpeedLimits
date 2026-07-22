@@ -72,12 +72,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Pas du curseur" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Définit le pas du curseur dans le panneau de ville.\n" +
-                    "<Défaut = 10>" },
+                    "<Défaut = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Taille du texte d’aide" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Ce mod peut afficher un texte plus grand dans les bulles d’aide des éléments du mod.\n" +
+                    "Ce mod peut agrandir le texte des bulles d’aide au survol des éléments du mod.\n" +
                     "<Défaut 110%>" },
 
                 // Double speed display
@@ -85,10 +85,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Désactivé> affiche une échelle plus simple, souvent plus proche des marquages routiers.\n" +
                     "<Activé> affiche dans le panneau et le texte flottant l’échelle interne plus élevée du jeu.\n" +
-                    "Utile si un autre mod de tooltip affiche ces valeurs internes doublées et que vous voulez les faire correspondre.\n" +
-                    "C’est seulement visuel ; les vitesses sauvegardées <ne changent pas vraiment>.\n" +
-                    "Les marquages routiers sont décoratifs et peuvent ne pas correspondre aux données du prefab.\n" +
-                    "Si c’est confus, gardez Désactivé. Les voitures auront le même aspect en mouvement, que ce soit Activé ou Désactivé."
+                    "Utile si un autre mod d’infobulles affiche les valeurs internes doublées du jeu et que vous voulez les faire correspondre.\n" +
+                    "**Seul l’affichage change ;** les vitesses sauvegardées <ne changent pas réellement>.\n" +
+                    "Si c’est confus, gardez Désactivé. Les voitures roulent pareil, que ce soit Activé ou Désactivé.\n" +
+                    "Remarque : les marquages et panneaux routiers sont décoratifs et peuvent ne pas correspondre aux données réelles de vitesse du modèle du jeu. Un panneau 35 mph peut en réalité correspondre à 31 mph. Le jeu calcule d’abord les routes en unités métriques, puis convertit."
                 },
 
                 // Enum values

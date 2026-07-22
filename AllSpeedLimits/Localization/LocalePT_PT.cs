@@ -71,12 +71,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Passo do cursor no painel" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Define o passo do cursor no painel da cidade.\n" +
-                    "<Predefinição = 10>" },
+                    "<Predefinição = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tamanho do texto de ajuda" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Aumenta os popups do mod e o texto de ajuda.\n" +
+                    "Este mod pode aumentar o texto nas caixas de ajuda ao passar o cursor sobre os itens do mod.\n" +
                     "<Predefinição 110%>" },
 
                 // Double speed display
@@ -84,10 +84,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Desligado> mostra uma escala mais simples, normalmente mais próxima das marcações da estrada.\n" +
                     "<Ligado> painel e texto flutuante mostram a escala interna mais alta do jogo.\n" +
-                    "Útil se outro mod de dicas mostrar valores internos duplicados e quiseres igualar.\n" +
-                    "Isto é apenas visual; as velocidades guardadas <não mudam realmente>.\n" +
-                    "As marcações da estrada são arte e podem não corresponder exatamente aos dados do prefab.\n" +
-                    "Se for confuso, deixa Desligado. Os carros parecem iguais em movimento com Ligado ou Desligado."
+                    "Útil se outro mod de dicas mostrar os valores internos duplicados do jogo e quiseres igualar.\n" +
+                    "**Isto só altera a apresentação;** as velocidades guardadas <não mudam realmente>.\n" +
+                    "Se for confuso, deixa Desligado. Os carros movem-se da mesma forma com Ligado ou Desligado.\n" +
+                    "Nota: as marcações e os sinais da estrada são elementos gráficos e podem não corresponder aos dados reais de velocidade do modelo do jogo. Um sinal de 35 mph pode corresponder realmente a 31 mph. O jogo calcula primeiro as estradas no sistema métrico e só depois converte."
                 },
 
                 // Enum values
@@ -100,18 +100,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "Limpeza opcional antes de remover o mod.\n" +
                     "Usa isto <apenas> se não quiseres manter as velocidades personalizadas deste mod.\n" +
-                    "Não é necessário para remover o mod. As velocidades personalizadas podem ficar na cidade sem este mod.\n" +
+                    "Não é necessário para remover o mod. As velocidades personalizadas das estradas podem ficar na cidade sem este mod.\n" +
                     "<============>\n" +
                     "\n" +
                     "Isto repõe para predefinições conhecidas do jogo as velocidades personalizadas aplicadas por este mod.\n" +
-                    "Quando terminar, faz um **NOVO SAVE** antes de remover o mod.\n" +
-                    "Se removeres o mod sem usar isto, as velocidades personalizadas ficam até mudares as estradas, etc.."
+                    "Quando terminar, guarda num **NOVO FICHEIRO** antes de remover o mod.\n" +
+                    "Se removeres o mod sem usar isto, as velocidades personalizadas ficam até mudares as estradas, etc."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "Isto vai repor todos os limites de velocidade personalizados suportados para predefinições conhecidas do jogo.\n" +
                     "Isto não pode ser anulado automaticamente.\n" +
-                    "Quando terminar, guarda a cidade como um NOVO save antes de remover o mod."
+                    "Quando terminar, guarda a cidade num NOVO FICHEIRO antes de remover o mod."
                 },
 
                 // Usage instructions
@@ -122,7 +122,7 @@ namespace RoadRailSpeeds
                     "<Painel da cidade>\n" +
                     "1. Clica ou arrasta para selecionar segmentos.\n" +
                     "2. Define <Nova velocidade> e clica em <Aplicar>.\n" +
-                    "3. <Reset> repõe os segmentos selecionados.\n" +
+                    "3. <Repor> repõe os segmentos selecionados.\n" +
                     "4. Botões de predefinição aplicam logo.\n" +
                     "\n" +
                     "<Cidade inteira>\n" +

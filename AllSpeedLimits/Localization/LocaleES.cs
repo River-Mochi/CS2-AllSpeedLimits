@@ -72,12 +72,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Paso del deslizador" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Define el tamaño de paso en el panel de ciudad.\n" +
-                    "<Predeterminado = 10>" },
+                    "<Predeterminado = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tamaño del texto de ayuda" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Este mod puede mostrar texto más grande en las ayudas al pasar el mouse sobre elementos del mod.\n" +
+                    "Este mod puede mostrar texto más grande en las ayudas al pasar el cursor sobre elementos del mod.\n" +
                     "<Predeterminado 110%>" },
 
                 // Double speed display
@@ -85,10 +85,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Desactivado> muestra una escala más simple, normalmente más cercana a las marcas de carretera.\n" +
                     "<Activado> muestra en el panel y el texto flotante la escala interna más alta del juego.\n" +
-                    "Útil si otro mod de tooltips muestra valores internos duplicados y quieres que coincidan.\n" +
-                    "Esto es solo visual; las velocidades guardadas <no cambian realmente>.\n" +
-                    "Las marcas de carretera son arte y pueden no coincidir exactamente con los datos del prefab.\n" +
-                    "Si te confunde, déjalo desactivado. Los coches se verán igual en marcha esté activado o no."
+                    "Útil si otro mod de ayuda muestra los valores internos duplicados del juego y quieres que coincidan.\n" +
+                    "**Esto solo cambia la visualización;** las velocidades guardadas <no cambian realmente>.\n" +
+                    "Si te confunde, déjalo desactivado. Los coches se mueven igual esté activado o no.\n" +
+                    "Nota: las marcas y señales de carretera son elementos gráficos y pueden no coincidir con los datos reales de velocidad de la plantilla del juego. Una señal de 35 mph puede corresponder en realidad a 31 mph. El juego calcula primero las carreteras en unidades métricas y luego convierte."
                 },
 
                 // Enum values
@@ -123,12 +123,12 @@ namespace RoadRailSpeeds
                     "<Panel de ciudad>\n" +
                     "1. Haz clic o arrastra para seleccionar segmentos.\n" +
                     "2. Ajusta <Nueva velocidad> y pulsa <Aplicar>.\n" +
-                    "3. <Reset> restaura los segmentos elegidos.\n" +
+                    "3. <Restablecer> restaura los segmentos elegidos.\n" +
                     "4. Los preajustes se aplican al instante.\n" +
                     "\n" +
                     "<Toda la ciudad>\n" +
                     "Elige un grupo de carreteras y aplica <Nueva velocidad> a ese grupo.\n" +
-                    "Usa <Carreteras>, <Raíles>, <Agua> o <Todo> para borrar velocidades personalizadas.\n" +
+                    "Usa <Carreteras>, <Vías>, <Agua> o <Todo> para borrar velocidades personalizadas.\n" +
                     "<Guarda la ciudad> tras cambios globales."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },

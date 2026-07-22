@@ -72,7 +72,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "パネルのスライダー刻み" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "都市パネルのスライダー刻み幅を設定します。\n" +
-                    "<既定 = 10>" },
+                    "<既定 = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "ヘルプ文字サイズ" },
@@ -85,10 +85,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<オフ> はよりシンプルな目盛りで、道路表示に近いことが多いです。\n" +
                     "<オン> はパネルと浮動テキストにゲーム内部の高い速度目盛りを表示します。\n" +
-                    "別のツールチップModが内部の2倍値を表示する場合、それに合わせたい時に便利です。\n" +
-                    "これは表示だけです。保存される速度は<実際には変わりません>。\n" +
-                    "道路の数字は見た目用で、Prefabの速度データと完全には一致しない場合があります。\n" +
-                    "迷う場合はオフのままで大丈夫です。オン/オフで車の動きの見た目は同じです。"
+                    "別のツールチップ Mod がゲーム内部の2倍値を表示していて、それに合わせたい場合に便利です。\n" +
+                    "**変わるのは表示だけです。** 保存される速度は<実際には変わりません>。\n" +
+                    "分かりにくい場合はオフのままで大丈夫です。オン/オフで車の動きは変わりません。\n" +
+                    "注: 道路の数字や標識は見た目用で、ゲームの実際の速度データと一致しないことがあります。35 mph の標識が実際には 31 mph の場合もあります。ゲームは道路速度を先にメートル法で計算し、その後に換算します。"
                 },
 
                 // Enum values
@@ -100,7 +100,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "ゲーム既定の速度に戻す" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "Mod を削除する前の任意のクリーンアップです。\n" +
-                    "この Mod のカスタム速度を残したくない場合だけ使ってください。\n" +
+                    "この Mod のカスタム速度を<残したくない場合だけ>使ってください。\n" +
                     "Mod の削除に必須ではありません。カスタム道路速度は、この Mod がなくても都市に残せます。\n" +
                     "<============>\n" +
                     "\n" +
@@ -122,13 +122,13 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<都市パネル>\n" +
                     "1. セグメントをクリック、またはドラッグ選択します。\n" +
-                    "2. <新しい速度> を設定して <適用> をクリックします。\n" +
+                    "2. <新速度> を設定して <適用> をクリックします。\n" +
                     "3. <リセット> は選択セグメントを戻します。\n" +
                     "4. プリセットボタンはすぐ適用されます。\n" +
                     "\n" +
                     "<都市全体>\n" +
-                    "道路グループを選び、そのグループに <新しい速度> を適用します。\n" +
-                    "<道路>、<線路>、<水路>、<すべて> でカスタム速度を消去します。\n" +
+                    "道路グループを選び、そのグループに <新速度> を適用します。\n" +
+                    "<道路>、<鉄道>、<水路>、<全て> でカスタム速度を消去します。\n" +
                     "都市全体の変更後は <都市を保存> してください。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },

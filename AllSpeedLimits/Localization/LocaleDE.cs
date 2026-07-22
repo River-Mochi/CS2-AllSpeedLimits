@@ -85,10 +85,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Aus> zeigt eine einfachere Skala, meist näher an Straßenmarkierungen.\n" +
                     "<Ein> zeigt im Panel und schwebenden Text die höheren internen Spielwerte.\n" +
-                    "Nützlich, wenn ein anderes Tooltip-Mod diese internen doppelten Werte zeigt und du sie anpassen willst.\n" +
-                    "Das ist nur Anzeige; gespeicherte Geschwindigkeiten <ändern sich nicht wirklich>.\n" +
-                    "Straßenmarkierungen sind Grafik und passen nicht immer genau zu den Prefab-Daten.\n" +
-                    "Wenn das verwirrend ist, lass es einfach Aus. Autos fahren gleich, egal ob Ein oder Aus."
+                    "Nützlich, wenn ein anderes Tooltip-Mod die internen doppelten Werte des Spiels zeigt und du diese Anzeige angleichen willst.\n" +
+                    "**Dies ändert nur die Anzeige;** gespeicherte Geschwindigkeiten <ändern sich nicht wirklich>.\n" +
+                    "Wenn das verwirrend ist, lass es einfach Aus. Autos bewegen sich gleich, egal ob Ein oder Aus.\n" +
+                    "Hinweis: Straßenmarkierungen sind Grafik und stimmen möglicherweise nicht mit den echten Geschwindigkeitsdaten der Spielvorlage überein. Ein 35-mph-Schild kann tatsächlich 31 mph bedeuten. Das Spiel berechnet Straßen zuerst metrisch und rechnet dann um."
                 },
 
                 // Enum values
@@ -122,13 +122,13 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Stadt-Panel>\n" +
                     "1. Segmente anklicken oder per Ziehen auswählen.\n" +
-                    "2. <Neue Geschwindigkeit> setzen, dann <Anwenden> klicken.\n" +
-                    "3. <Reset> stellt ausgewählte Segmente wieder her.\n" +
-                    "4. Preset-Buttons wirken sofort.\n" +
+                    "2. <Neues Tempo> setzen, dann <Anwenden> klicken.\n" +
+                    "3. <Zurücksetzen> stellt ausgewählte Segmente wieder her.\n" +
+                    "4. Voreinstellungen werden sofort angewendet.\n" +
                     "\n" +
                     "<Ganze Stadt>\n" +
-                    "Eine Straßengruppe wählen, dann <Neue Geschwindigkeit> darauf anwenden.\n" +
-                    "Mit <Straßen>, <Schienen>, <Wasser> oder <Alles> eigene Werte löschen.\n" +
+                    "Eine Straßengruppe wählen, dann <Neues Tempo> darauf anwenden.\n" +
+                    "Mit <Straßen>, <Schienen>, <Wasser> oder <Alle> eigene Werte löschen.\n" +
                     "Nach stadtweiten Änderungen <Stadt speichern>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },

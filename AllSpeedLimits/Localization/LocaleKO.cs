@@ -72,7 +72,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "패널 슬라이더 간격" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "도시 패널 슬라이더의 단계 크기를 정합니다.\n" +
-                    "<기본값 = 10>" },
+                    "<기본값 = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "도움말 글자 크기" },
@@ -85,10 +85,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<끄기>는 더 단순한 눈금을 보여 주며 보통 도로 표시와 더 가깝습니다.\n" +
                     "<켜기>는 패널과 떠 있는 텍스트에 게임 내부의 더 높은 속도 눈금을 표시합니다.\n" +
-                    "다른 툴팁 모드가 내부 두 배 값을 보여 줄 때 맞추고 싶다면 유용합니다.\n" +
-                    "표시만 바뀝니다. 저장된 속도는 <실제로 바뀌지 않습니다>.\n" +
-                    "도로 표시는 장식이라 prefab 속도 데이터와 정확히 맞지 않을 수 있습니다.\n" +
-                    "헷갈리면 끄기로 두세요. 켜도 꺼도 차량 움직임은 같아 보입니다."
+                    "다른 툴팁 모드가 게임 내부의 두 배 값을 보여 주고 있어 그 표시와 맞추고 싶다면 유용합니다.\n" +
+                    "**표시만 바뀝니다.** 저장된 속도는 <실제로 바뀌지 않습니다>.\n" +
+                    "헷갈리면 끄기로 두세요. 켜도 꺼도 차량의 실제 움직임은 똑같습니다.\n" +
+                    "참고: 도로의 숫자와 표지는 장식이므로 게임의 실제 속도 데이터와 다를 수 있습니다. 35 mph 표지가 실제로는 31 mph일 수 있습니다. 게임은 도로 속도를 먼저 미터법으로 계산한 뒤 변환합니다."
                 },
 
                 // Enum values
@@ -100,7 +100,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "게임 기본 속도 복원" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "모드를 제거하기 전 선택적으로 정리하는 기능입니다.\n" +
-                    "이 모드의 사용자 지정 속도를 유지하고 싶지 않을 때만 사용하세요.\n" +
+                    "이 모드의 사용자 지정 속도를<유지하고 싶지 않을 때만> 사용하세요.\n" +
                     "모드를 제거하는 데 필수는 아닙니다. 사용자 지정 도로 속도는 이 모드 없이도 도시에 남을 수 있습니다.\n" +
                     "<============>\n" +
                     "\n" +
@@ -123,7 +123,7 @@ namespace RoadRailSpeeds
                     "<도시 패널>\n" +
                     "1. 구간을 클릭하거나 드래그 선택합니다.\n" +
                     "2. <새 속도>를 정한 뒤 <적용>을 누릅니다.\n" +
-                    "3. <리셋>은 선택 구간을 복원합니다.\n" +
+                    "3. <초기화>는 선택 구간을 복원합니다.\n" +
                     "4. 프리셋 버튼은 즉시 적용됩니다.\n" +
                     "\n" +
                     "<도시 전체>\n" +
@@ -134,7 +134,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "모드" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.NameText)), string.Empty },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "버전" },

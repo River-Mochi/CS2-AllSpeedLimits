@@ -45,7 +45,7 @@ namespace RoadRailSpeeds
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "Opcje wyświetlania" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "Przywróć domyślne gry" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "Przywróć wartości domyślne gry" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "Użycie" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
@@ -71,12 +71,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Krok suwaka panelu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Ustawia krok suwaka w panelu miasta.\n" +
-                    "<Domyślnie = 10>" },
+                    "<Domyślnie = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Rozmiar tekstu podpowiedzi" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Powiększa okienka moda i tekst pomocy.\n" +
+                    "Ten mod może powiększyć tekst w polach pomocy wyświetlanych po najechaniu na elementy moda.\n" +
                     "<Domyślnie 110%>" },
 
                 // Double speed display
@@ -84,10 +84,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Wył.> pokazuje prostszą skalę, zwykle bliższą oznaczeniom na drogach.\n" +
                     "<Wł.> panel i tekst pływający pokazują wyższą wewnętrzną skalę gry.\n" +
-                    "Przydatne, jeśli inny mod z podpowiedziami pokazuje podwojone wartości wewnętrzne i chcesz je dopasować.\n" +
-                    "To tylko wygląd; zapisane prędkości <naprawdę się nie zmieniają>.\n" +
-                    "Oznaczenia na drogach są grafiką i mogą nie zgadzać się dokładnie z danymi prefabów.\n" +
-                    "Jeśli to myli, zostaw Wył. Samochody będą wyglądać tak samo w ruchu przy Wł. i Wył."
+                    "Przydatne, jeśli inny mod z podpowiedziami pokazuje podwojone wartości wewnętrzne gry i chcesz je dopasować.\n" +
+                    "**Zmienia się tylko wygląd;** zapisane prędkości <naprawdę się nie zmieniają>.\n" +
+                    "Jeśli to myli, zostaw Wył. Samochody poruszają się tak samo przy Wł. i Wył.\n" +
+                    "Uwaga: oznaczenia i znaki drogowe są grafiką i mogą nie odpowiadać rzeczywistym danym prędkości szablonu gry. Znak 35 mph może w rzeczywistości oznaczać 31 mph. Gra najpierw oblicza drogi w systemie metrycznym, a potem przelicza jednostki."
                 },
 
                 // Enum values
@@ -100,12 +100,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "Opcjonalne czyszczenie przed usunięciem moda.\n" +
                     "Użyj tego <tylko>, jeśli nie chcesz zachować własnych prędkości tego moda.\n" +
-                    "Nie jest to wymagane do usunięcia moda. Własne prędkości mogą zostać w mieście bez tego moda.\n" +
+                    "Nie jest to wymagane do usunięcia moda. Własne prędkości dróg mogą zostać w mieście bez tego moda.\n" +
                     "<============>\n" +
                     "\n" +
                     "Przywraca znane domyślne wartości gry dla prędkości ustawionych przez ten mod.\n" +
                     "Po zakończeniu zrób **NOWY ZAPIS** przed usunięciem moda.\n" +
-                    "Jeśli usuniesz mod bez tej opcji, własne prędkości zostaną, aż zmienisz drogi itd.."
+                    "Jeśli usuniesz mod bez tej opcji, własne prędkości zostaną, aż zmienisz drogi itd."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
@@ -122,8 +122,8 @@ namespace RoadRailSpeeds
                     "<Panel miasta>\n" +
                     "1. Kliknij albo przeciągnij, aby wybrać segmenty.\n" +
                     "2. Ustaw <Nową prędkość>, potem kliknij <Zastosuj>.\n" +
-                    "3. <Reset> przywraca wybrane segmenty.\n" +
-                    "4. Przyciski presetów działają od razu.\n" +
+                    "3. <Przywróć> przywraca wybrane segmenty.\n" +
+                    "4. Przyciski ustawień wstępnych działają od razu.\n" +
                     "\n" +
                     "<Całe miasto>\n" +
                     "Wybierz grupę dróg i zastosuj do niej <Nową prędkość>.\n" +

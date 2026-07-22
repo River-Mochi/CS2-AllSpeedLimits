@@ -34,7 +34,7 @@ namespace RoadRailSpeeds
             Dictionary<string, int> indexCounts)
         {
             // Options menu title keeps English first for stable sorting.
-            string title = $"{Mod.ModName} (จำกัดความเร็วทั้งหมด)";
+            string title = $"{Mod.ModName} (ขีดจำกัดความเร็วทั้งหมด)";
 
             return new Dictionary<string, string>
             {
@@ -62,7 +62,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "ซิงก์สไลเดอร์กับช่วงที่เลือก" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
                     "<แนะนำให้เปิด>\n" +
-                    "เปิด: คลิกช่วงถนนแล้วสไลเดอร์จะไปที่ความเร็วปัจจุบันของช่วงแรกที่เลือก\n" +
+                    "เปิด: คลิกช่วงแล้วสไลเดอร์จะไปที่ความเร็วปัจจุบันของช่วงแรกที่เลือก\n" +
                     "ปิด: คลิกช่วงอื่นแล้วคงค่าเป้าหมายล่าสุดไว้\n" +
                     "ถ้าเลือกหลายช่วง ช่วงแรกยังเป็นตำแหน่งเริ่มของสไลเดอร์"
                 },
@@ -71,12 +71,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "ช่วงขั้นของสไลเดอร์" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "ตั้งค่าขนาดขั้นในแผงเมือง\n" +
-                    "<ค่าเริ่มต้น = 10>" },
+                    "<ค่าเริ่มต้น = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "ขนาดข้อความช่วยเหลือ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "ทำให้ป๊อปอัปและข้อความช่วยเหลือของม็อดใหญ่ขึ้น\n" +
+                    "ม็อดนี้ขยายข้อความในกล่องคำแนะนำเมื่อชี้เมาส์ไปที่รายการของม็อดได้\n" +
                     "<ค่าเริ่มต้น 110%>" },
 
                 // Double speed display
@@ -84,10 +84,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<ปิด> แสดงสเกลที่ง่ายกว่า มักใกล้กับตัวเลขบนถนน\n" +
                     "<เปิด> แผงและข้อความลอยจะแสดงสเกลภายในของเกมที่สูงกว่า\n" +
-                    "มีประโยชน์ถ้าม็อด tooltip อื่นแสดงค่าภายในแบบคูณสองและคุณอยากให้ตรงกัน\n" +
-                    "นี่เป็นแค่การแสดงผล ความเร็วที่บันทึกไว้ <ไม่ได้เปลี่ยนจริง>\n" +
-                    "ตัวเลขบนถนนเป็นภาพตกแต่ง และอาจไม่ตรงกับข้อมูลความเร็วของ prefab\n" +
-                    "ถ้าสับสน ให้ปิดไว้ รถจะดูเคลื่อนที่เหมือนเดิมไม่ว่าจะเปิดหรือปิด"
+                    "มีประโยชน์เมื่อม็อดคำแนะนำอื่นแสดงค่าภายในของเกมแบบสองเท่า และต้องการให้ตรงกัน\n" +
+                    "**นี่เปลี่ยนเฉพาะการแสดงผลเท่านั้น** ความเร็วที่บันทึกไว้ <ไม่ได้เปลี่ยนจริง>\n" +
+                    "ถ้าสับสน ให้ปิดไว้ รถจะเคลื่อนที่เหมือนเดิมไม่ว่าจะเปิดหรือปิด\n" +
+                    "หมายเหตุ: ตัวเลขและป้ายบนถนนเป็นภาพตกแต่ง จึงอาจไม่ตรงกับข้อมูลความเร็วจริงของเกม ป้าย 35 mph อาจมีค่าจริงเป็น 31 mph เกมคำนวณถนนเป็นหน่วยเมตริกก่อน แล้วจึงแปลงหน่วย"
                 },
 
                 // Enum values
@@ -99,8 +99,8 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "คืนค่าความเร็วเริ่มต้นของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "ตัวเลือกสำหรับล้างค่าก่อนลบม็อด\n" +
-                    "ใช้ <เฉพาะ> ถ้าคุณไม่ต้องการเก็บความเร็วที่ม็อดนี้ตั้งไว้\n" +
-                    "ไม่จำเป็นสำหรับการลบม็อด ความเร็วที่กำหนดเองยังอยู่ในเมืองได้แม้ไม่มีม็อดนี้\n" +
+                    "ใช้สิ่งนี้<เฉพาะเมื่อ>ไม่ต้องการเก็บความเร็วที่ม็อดนี้ตั้งไว้\n" +
+                    "ไม่จำเป็นสำหรับการลบม็อด ความเร็วถนนที่กำหนดเองยังอยู่ในเมืองได้แม้ไม่มีม็อดนี้\n" +
                     "<============>\n" +
                     "\n" +
                     "สิ่งนี้จะคืนค่าความเร็วที่ม็อดตั้งไว้กลับเป็นค่าเริ่มต้นของเกมที่รู้จัก\n" +

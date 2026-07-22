@@ -49,7 +49,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "Kullanım" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "Hata ayıklama / Log" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "Hata ayıklama / Günlük" },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "Hız birimleri" },
@@ -71,12 +71,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Panel kaydırıcı adımı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Şehir panelindeki kaydırıcı adımını ayarlar.\n" +
-                    "<Varsayılan = 10>" },
+                    "<Varsayılan = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Yardım metni boyutu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
-                    "Mod açılır pencerelerini ve yardım metnini büyütür.\n" +
+                    "Bu mod, mod öğelerinin üzerine gelince açılan yardım kutularındaki yazıyı büyütebilir.\n" +
                     "<Varsayılan 110%>" },
 
                 // Double speed display
@@ -84,10 +84,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Kapalı> daha basit bir ölçek gösterir, genelde yol işaretlerine daha yakındır.\n" +
                     "<Açık> panel ve yüzen yazıda oyunun daha yüksek iç hız ölçeğini gösterir.\n" +
-                    "Başka bir tooltip modu içteki iki kat değerleri gösteriyorsa eşleştirmek için yararlıdır.\n" +
-                    "Bu sadece görseldir; kaydedilen hızlar <gerçekte değişmez>.\n" +
-                    "Yol işaretleri görseldir ve prefab hız verisiyle tam örtüşmeyebilir.\n" +
-                    "Kafa karıştırıyorsa Kapalı bırak. Arabalar Açık veya Kapalı aynı hareket ediyor görünür."
+                    "Başka bir ipucu modu oyunun içteki iki kat değerlerini gösteriyorsa ve bunlarla eşleştirmek istiyorsan yararlıdır.\n" +
+                    "**Bu yalnızca görünümü değiştirir;** kaydedilen hızlar <gerçekte değişmez>.\n" +
+                    "Kafa karıştırıyorsa Kapalı bırak. Arabalar Açık veya Kapalıyken aynı şekilde hareket eder.\n" +
+                    "Not: yol işaretleri ve rakamları görseldir, oyunun gerçek şablon hız verileriyle uyuşmayabilir. 35 mph yazan bir işaret gerçekte 31 mph olabilir. Oyun yolları önce metrik sistemde hesaplar, sonra dönüştürür."
                 },
 
                 // Enum values
@@ -100,12 +100,12 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
                     "Modu kaldırmadan önce isteğe bağlı temizlik.\n" +
                     "Bunu <yalnızca> bu modun özel hızlarını saklamak istemiyorsan kullan.\n" +
-                    "Modu kaldırmak için gerekli değildir. Özel hızlar bu mod olmadan da şehirde kalabilir.\n" +
+                    "Modu kaldırmak için gerekli değildir. Özel yol hızları bu mod olmadan da şehirde kalabilir.\n" +
                     "<============>\n" +
                     "\n" +
                     "Bu, modun uyguladığı özel hızları bilinen oyun varsayılanlarına döndürür.\n" +
                     "Bittiğinde modu kaldırmadan önce **YENİ KAYIT** yap.\n" +
-                    "Bunu kullanmadan modu kaldırırsan özel hızlar yolları değiştirene kadar kalır vb.."
+                    "Bunu kullanmadan modu kaldırırsan özel hızlar yolları değiştirene kadar kalır vb."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
@@ -122,7 +122,7 @@ namespace RoadRailSpeeds
                     "<Şehir paneli>\n" +
                     "1. Bölümlere tıkla veya sürükleyerek seç.\n" +
                     "2. <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
-                    "3. <Reset> seçili bölümleri geri yükler.\n" +
+                    "3. <Sıfırla> seçili bölümleri geri yükler.\n" +
                     "4. Ön ayar düğmeleri hemen uygulanır.\n" +
                     "\n" +
                     "<Tüm şehir>\n" +
@@ -143,13 +143,13 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Yazarın Paradox Mods sayfasını açar." },
 
                 // Debug
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Debug raporunu loga yaz" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Hata ayıklama raporunu günlüğe yaz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
                     "<Normal oyun için gerekmez.>\n" +
                     "Logs/AllSpeedLimits.log içine tek seferlik rapor yazar."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Logu aç" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Günlüğü aç" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
                     "<Logs/AllSpeedLimits.log> dosyasını açar. Dosya yoksa Logs klasörüne gider." },
             };

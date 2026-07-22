@@ -72,7 +72,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Passo dello slider" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Imposta il passo dello slider nel pannello città.\n" +
-                    "<Predefinito = 10>" },
+                    "<Predefinito = 5>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Dimensione testo aiuti" },
@@ -85,10 +85,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
                     "<Disattivo> mostra una scala più semplice, di solito più vicina ai segni stradali.\n" +
                     "<Attivo> mostra nel pannello e nel testo flottante la scala interna più alta del gioco.\n" +
-                    "Utile se un altro mod tooltip mostra i valori interni raddoppiati e vuoi farli combaciare.\n" +
-                    "È solo visuale; le velocità salvate <non cambiano davvero>.\n" +
-                    "I segni stradali sono grafica e possono non corrispondere ai dati prefab.\n" +
-                    "Se crea confusione, lascia Disattivo. Le auto si muoveranno allo stesso modo con Attivo o Disattivo."
+                    "Utile se un altro mod di suggerimenti mostra i valori interni raddoppiati del gioco e vuoi farli combaciare.\n" +
+                    "**Cambia solo la visualizzazione;** le velocità salvate <non cambiano davvero>.\n" +
+                    "Se crea confusione, lascia Disattivo. Le auto si muovono allo stesso modo con Attivo o Disattivo.\n" +
+                    "Nota: i segnali e i numeri sulla strada sono elementi grafici e possono non corrispondere ai dati reali di velocità del modello di gioco. Un cartello da 35 mph può valere davvero 31 mph. Il gioco calcola prima le strade in unità metriche e poi converte."
                 },
 
                 // Enum values
@@ -123,12 +123,12 @@ namespace RoadRailSpeeds
                     "<Pannello città>\n" +
                     "1. Clicca o trascina per selezionare segmenti.\n" +
                     "2. Imposta <Nuova velocità>, poi clicca <Applica>.\n" +
-                    "3. <Reset> ripristina i segmenti selezionati.\n" +
-                    "4. I preset si applicano subito.\n" +
+                    "3. <Ripristina> ripristina i segmenti selezionati.\n" +
+                    "4. I pulsanti predefiniti si applicano subito.\n" +
                     "\n" +
                     "<Tutta la città>\n" +
                     "Scegli un gruppo di strade, poi applica <Nuova velocità> a quel gruppo.\n" +
-                    "Usa <Strade>, <Binari>, <Acqua> o <Tutto> per cancellare le velocità personalizzate.\n" +
+                    "Usa <Strade>, <Rotaie>, <Acqua> o <Tutto> per cancellare le velocità personalizzate.\n" +
                     "<Salva città> dopo modifiche globali."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
