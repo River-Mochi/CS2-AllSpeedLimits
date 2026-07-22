@@ -29,7 +29,9 @@ Speed changes are saved in the city. The mod also keeps a small per-city JSON ba
 
 Local backup folder:
 
-`ModsData/SpeedLimits`
+`ModsData/AllSpeedLimits`
+
+Existing backups in `ModsData/SpeedLimits` are migrated automatically.
 
 For a clean uninstall, use the reset/clear buttons, save the city, then remove the mod.
 
