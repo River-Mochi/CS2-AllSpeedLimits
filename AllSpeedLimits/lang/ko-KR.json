@@ -95,7 +95,7 @@
   "tooltips.apply": "선택 구간에 새 속도 적용.",
   "tooltips.applySubway": "새 속도를 도시의 모든 지하철 선로에 적용.",
   "tooltips.applyTrain": "새 속도를 도시의 모든 열차 선로에 적용.",
-  "tooltips.currentSpeed": "현재 속도는 처음 선택한\n구간만 기준입니다.",
+  "tooltips.currentSpeed": "현재 속도는 처음 선택한\n구간만 기준입니다.\n혼합 = 차선별 속도가 다릅니다.",
   "tooltips.decreaseTarget": "목표 1 감소",
   "tooltips.draggable": "드래그 가능",
   "tooltips.filterRails": "열차 + 지하철 허용.",

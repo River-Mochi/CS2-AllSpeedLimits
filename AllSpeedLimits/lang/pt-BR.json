@@ -95,7 +95,7 @@
   "tooltips.apply": "Aplica a nova velocidade aos segmentos escolhidos.",
   "tooltips.applySubway": "Aplica a nova velocidade a todos os trilhos de metrô.",
   "tooltips.applyTrain": "Aplica a nova velocidade a todos os trilhos de trem.",
-  "tooltips.currentSpeed": "A velocidade atual vale só para\no primeiro segmento escolhido.",
+  "tooltips.currentSpeed": "A velocidade atual vale só para\no primeiro segmento escolhido.\nMisto = velocidades diferentes por faixa.",
   "tooltips.decreaseTarget": "Reduzir alvo em 1",
   "tooltips.draggable": "Arrastável",
   "tooltips.filterRails": "Permite trem + metrô.",

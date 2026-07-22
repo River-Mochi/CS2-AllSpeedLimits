@@ -95,7 +95,7 @@
   "tooltips.apply": "Aplica a nova velocidade aos troços escolhidos.",
   "tooltips.applySubway": "Aplica a nova velocidade a todos os carris de metro.",
   "tooltips.applyTrain": "Aplica a nova velocidade a todos os carris de comboio.",
-  "tooltips.currentSpeed": "A velocidade atual é só do\nprimeiro troço escolhido.",
+  "tooltips.currentSpeed": "A velocidade atual é só do\nprimeiro troço escolhido.\nMisto = velocidades diferentes por via.",
   "tooltips.decreaseTarget": "Reduzir alvo em 1",
   "tooltips.draggable": "Arrastável",
   "tooltips.filterRails": "Permite comboio + metro.",

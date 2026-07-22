@@ -95,7 +95,7 @@
   "tooltips.apply": "Apply the new speed to selected segments.",
   "tooltips.applySubway": "Apply the New speed to every Subway track in the city.",
   "tooltips.applyTrain": "Apply the New speed to every Train track in the city.",
-  "tooltips.currentSpeed": "Current speed refers only to the\nfirst segment selected.",
+  "tooltips.currentSpeed": "Current speed refers only to the\nfirst segment selected.\nMixed = different lane speeds.",
   "tooltips.decreaseTarget": "Decrease target by 1",
   "tooltips.draggable": "Draggable",
   "tooltips.filterRails": "Allow train + subway tracks.",

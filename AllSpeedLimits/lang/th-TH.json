@@ -95,7 +95,7 @@
   "tooltips.apply": "ใช้ความเร็วใหม่กับช่วงที่เลือก",
   "tooltips.applySubway": "ใช้ความเร็วใหม่กับรางใต้ดินทั้งหมดในเมือง",
   "tooltips.applyTrain": "ใช้ความเร็วใหม่กับรางรถไฟทั้งหมดในเมือง",
-  "tooltips.currentSpeed": "ความเร็วปัจจุบันใช้กับ\nช่วงแรกที่เลือกเท่านั้น",
+  "tooltips.currentSpeed": "ความเร็วปัจจุบันใช้กับ\nช่วงแรกที่เลือกเท่านั้น\nผสม = แต่ละช่องจราจรมีความเร็วต่างกัน",
   "tooltips.decreaseTarget": "ลดเป้าหมาย 1",
   "tooltips.draggable": "ลากได้",
   "tooltips.filterRails": "อนุญาตรถไฟ + ใต้ดิน",

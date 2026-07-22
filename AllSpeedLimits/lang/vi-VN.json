@@ -95,7 +95,7 @@
   "tooltips.apply": "Áp dụng tốc độ mới cho đoạn đã chọn.",
   "tooltips.applySubway": "Áp dụng tốc độ mới cho mọi ray metro trong thành phố.",
   "tooltips.applyTrain": "Áp dụng tốc độ mới cho mọi ray tàu trong thành phố.",
-  "tooltips.currentSpeed": "Tốc độ hiện tại chỉ là của\nđoạn đầu tiên đã chọn.",
+  "tooltips.currentSpeed": "Tốc độ hiện tại chỉ là của\nđoạn đầu tiên đã chọn.\nLẫn = tốc độ các làn khác nhau.",
   "tooltips.decreaseTarget": "Giảm mục tiêu 1",
   "tooltips.draggable": "Có thể kéo",
   "tooltips.filterRails": "Cho phép tàu + metro.",

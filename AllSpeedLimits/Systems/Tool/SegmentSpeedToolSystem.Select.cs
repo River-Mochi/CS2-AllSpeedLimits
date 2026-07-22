@@ -12,10 +12,13 @@
 namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;
+    using Colossal.Collections;
     using Colossal.Entities;
     using Game.Common;
     using Game.Net;
+    using Game.Prefabs;
     using Game.Tools;
+    using Unity.Collections;
     using Unity.Entities;
     using Unity.Jobs;
     using UnityEngine.Scripting;
@@ -28,6 +31,18 @@ namespace RoadRailSpeeds.Systems
             Road,
             Rail,
             Water
+        }
+
+        private struct PathCandidate : ILessThan<PathCandidate>
+        {
+            public Entity m_Node;
+            public Entity m_Edge;
+            public float m_Cost;
+
+            public bool LessThan(PathCandidate other)
+            {
+                return m_Cost < other.m_Cost;
+            }
         }
 
         protected override bool GetAllowApply()
@@ -231,7 +246,7 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        // Shortest connected same-category edge chain.
+        // Lowest-cost connected same-category edge chain.
         private List<Entity>? FindConnectedPath(Entity startEdge, Entity endEdge)
         {
             EdgeCategory category = GetEdgeCategory(startEdge);
@@ -240,101 +255,241 @@ namespace RoadRailSpeeds.Systems
                 return null;
             }
 
-            m_PathVisited.Clear();
-            m_PathParent.Clear();
-            m_PathFrontier.Clear();
-
-            m_PathVisited.Add(startEdge);
-            m_PathFrontier.Add(startEdge);
-
-            bool found = false;
-            int head = 0;
-
-            // Use List + head index as a queue.
-            while (head < m_PathFrontier.Count && m_PathVisited.Count < kMaxPathSearch)
+            // CS2 stores each continuous network in order. Prefer that bounded list so dragging
+            // along a long road does not search every side road and exhaust the city-search cap.
+            if (TryFindAggregatePath(startEdge, endEdge, category))
             {
-                Entity current = m_PathFrontier[head++];
-                if (current == endEdge)
-                {
-                    found = true;
-                    break;
-                }
+                return m_PathResult;
+            }
 
-                CollectConnectedEdges(current);
-                for (int i = 0; i < m_PathScratch.Count; i++)
+            Edge endData = EntityManager.GetComponentData<Edge>(endEdge);
+            Entity startPrefab = EntityManager.HasComponent<PrefabRef>(startEdge)
+                ? EntityManager.GetComponentData<PrefabRef>(startEdge).m_Prefab
+                : Entity.Null;
+            NativeMinHeap<PathCandidate> frontier =
+                new NativeMinHeap<PathCandidate>(64, Allocator.Temp);
+
+            m_PathVisited.Clear();
+            m_PathArrivalEdge.Clear();
+
+            frontier.Insert(new PathCandidate
+            {
+                m_Node = endData.m_Start,
+                m_Edge = endEdge,
+                m_Cost = 0f
+            });
+
+            if (endData.m_End != endData.m_Start)
+            {
+                frontier.Insert(new PathCandidate
                 {
-                    if (m_PathVisited.Count >= kMaxPathSearch)
+                    m_Node = endData.m_End,
+                    m_Edge = endEdge,
+                    m_Cost = 0f
+                });
+            }
+
+            try
+            {
+                Entity foundNode = Entity.Null;
+                while (frontier.Length > 0 && m_PathVisited.Count < kMaxPathSearch)
+                {
+                    PathCandidate current = frontier.Extract();
+
+                    // Match the vanilla bulldozer path search: reaching the start edge is the
+                    // goal, even if its opposite node was already examined by another route.
+                    if (current.m_Edge == startEdge)
                     {
+                        m_PathArrivalEdge[current.m_Node] = startEdge;
+                        foundNode = current.m_Node;
                         break;
                     }
 
-                    Entity neighbor = m_PathScratch[i];
-                    if (m_PathVisited.Contains(neighbor) ||
-                        !EntityManager.Exists(neighbor) ||
-                        !EntityManager.HasComponent<Edge>(neighbor) ||
-                        GetEdgeCategory(neighbor) != category ||
-                        !IsEdgeTypeAllowed(neighbor))
+                    if (!m_PathVisited.Add(current.m_Node))
                     {
                         continue;
                     }
 
-                    m_PathVisited.Add(neighbor);
-                    m_PathParent[neighbor] = current;
-                    m_PathFrontier.Add(neighbor);
+                    m_PathArrivalEdge[current.m_Node] = current.m_Edge;
+
+                    if (!EntityManager.HasBuffer<ConnectedEdge>(current.m_Node))
+                    {
+                        continue;
+                    }
+
+                    DynamicBuffer<ConnectedEdge> connected =
+                        EntityManager.GetBuffer<ConnectedEdge>(current.m_Node);
+                    Entity currentPrefab = Entity.Null;
+                    if (EntityManager.HasComponent<PrefabRef>(current.m_Edge))
+                    {
+                        currentPrefab =
+                            EntityManager.GetComponentData<PrefabRef>(current.m_Edge).m_Prefab;
+                    }
+
+                    for (int i = 0; i < connected.Length; i++)
+                    {
+                        Entity candidateEdge = connected[i].m_Edge;
+                        if (candidateEdge == current.m_Edge ||
+                            candidateEdge == Entity.Null ||
+                            !EntityManager.Exists(candidateEdge) ||
+                            !EntityManager.HasComponent<Edge>(candidateEdge) ||
+                            GetEdgeCategory(candidateEdge) != category ||
+                            !IsEdgeTypeAllowed(candidateEdge))
+                        {
+                            continue;
+                        }
+
+                        Edge candidateData = EntityManager.GetComponentData<Edge>(candidateEdge);
+                        Entity neighbor;
+                        if (candidateData.m_Start == current.m_Node)
+                        {
+                            neighbor = candidateData.m_End;
+                        }
+                        else if (candidateData.m_End == current.m_Node)
+                        {
+                            neighbor = candidateData.m_Start;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        if (neighbor == Entity.Null ||
+                            (m_PathVisited.Contains(neighbor) && candidateEdge != startEdge))
+                        {
+                            continue;
+                        }
+
+                        float cost = current.m_Cost;
+                        if (EntityManager.HasComponent<Curve>(candidateEdge))
+                        {
+                            cost += EntityManager.GetComponentData<Curve>(candidateEdge).m_Length;
+                        }
+
+                        if (connected.Length > 2)
+                        {
+                            cost += kJunctionPenalty;
+                        }
+
+                        if (startPrefab != Entity.Null &&
+                            currentPrefab != Entity.Null &&
+                            startPrefab != currentPrefab)
+                        {
+                            cost += kPrefabChangePenalty;
+                        }
+
+                        frontier.Insert(new PathCandidate
+                        {
+                            m_Node = neighbor,
+                            m_Edge = candidateEdge,
+                            m_Cost = cost
+                        });
+                    }
                 }
-            }
 
-            if (!found && !m_PathVisited.Contains(endEdge))
-            {
-                return null;
-            }
-
-            // Walk parents back from end to start.
-            m_PathResult.Clear();
-            Entity step = endEdge;
-            m_PathResult.Add(step);
-            int safety = 0;
-            while (step != startEdge && safety++ < kMaxPathSearch)
-            {
-                if (!m_PathParent.TryGetValue(step, out Entity previous))
+                if (foundNode == Entity.Null)
                 {
                     return null;
                 }
 
-                step = previous;
-                m_PathResult.Add(step);
-            }
-
-            return m_PathResult;
-        }
-
-        private void CollectConnectedEdges(Entity edge)
-        {
-            m_PathScratch.Clear();
-            if (!EntityManager.HasComponent<Edge>(edge))
-            {
-                return;
-            }
-
-            Edge edgeData = EntityManager.GetComponentData<Edge>(edge);
-            AddNodeConnectedEdges(edgeData.m_Start, edge);
-            AddNodeConnectedEdges(edgeData.m_End, edge);
-        }
-
-        private void AddNodeConnectedEdges(Entity node, Entity selfEdge)
-        {
-            if (node == Entity.Null || !EntityManager.HasBuffer<ConnectedEdge>(node))
-            {
-                return;
-            }
-
-            DynamicBuffer<ConnectedEdge> connected = EntityManager.GetBuffer<ConnectedEdge>(node);
-            for (int i = 0; i < connected.Length; i++)
-            {
-                Entity other = connected[i].m_Edge;
-                if (other != selfEdge && other != Entity.Null)
+                // Each settled node stores the edge used to reach it, so walking that edge to
+                // its opposite node reconstructs the same ordered chain as the vanilla tool.
+                m_PathResult.Clear();
+                Entity step = foundNode;
+                int safety = 0;
+                while (m_PathArrivalEdge.TryGetValue(step, out Entity pathEdge) &&
+                       pathEdge != Entity.Null &&
+                       safety++ < kMaxPathSearch)
                 {
-                    m_PathScratch.Add(other);
+                    m_PathResult.Add(pathEdge);
+                    if (pathEdge == endEdge)
+                    {
+                        return m_PathResult;
+                    }
+
+                    Edge pathData = EntityManager.GetComponentData<Edge>(pathEdge);
+                    step = pathData.m_End == step ? pathData.m_Start : pathData.m_End;
+                }
+            }
+            finally
+            {
+                frontier.Dispose();
+            }
+
+            return null;
+        }
+
+        private bool TryFindAggregatePath(
+            Entity startEdge,
+            Entity endEdge,
+            EdgeCategory category)
+        {
+            if (!EntityManager.HasComponent<Aggregated>(startEdge) ||
+                !EntityManager.HasComponent<Aggregated>(endEdge))
+            {
+                return false;
+            }
+
+            Entity startAggregate =
+                EntityManager.GetComponentData<Aggregated>(startEdge).m_Aggregate;
+            Entity endAggregate =
+                EntityManager.GetComponentData<Aggregated>(endEdge).m_Aggregate;
+
+            if (startAggregate == Entity.Null ||
+                startAggregate != endAggregate ||
+                !EntityManager.Exists(startAggregate) ||
+                !EntityManager.HasBuffer<AggregateElement>(startAggregate))
+            {
+                return false;
+            }
+
+            DynamicBuffer<AggregateElement> elements =
+                EntityManager.GetBuffer<AggregateElement>(startAggregate);
+            int startIndex = -1;
+            int endIndex = -1;
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                Entity edge = elements[i].m_Edge;
+                if (edge == startEdge)
+                {
+                    startIndex = i;
+                }
+
+                if (edge == endEdge)
+                {
+                    endIndex = i;
+                }
+
+                if (startIndex >= 0 && endIndex >= 0)
+                {
+                    break;
+                }
+            }
+
+            if (startIndex < 0 || endIndex < 0)
+            {
+                return false;
+            }
+
+            m_PathResult.Clear();
+            int direction = startIndex <= endIndex ? 1 : -1;
+            for (int i = startIndex; ; i += direction)
+            {
+                Entity edge = elements[i].m_Edge;
+                if (edge == Entity.Null ||
+                    !EntityManager.Exists(edge) ||
+                    GetEdgeCategory(edge) != category ||
+                    !IsEdgeTypeAllowed(edge))
+                {
+                    m_PathResult.Clear();
+                    return false;
+                }
+
+                m_PathResult.Add(edge);
+                if (i == endIndex)
+                {
+                    return true;
                 }
             }
         }

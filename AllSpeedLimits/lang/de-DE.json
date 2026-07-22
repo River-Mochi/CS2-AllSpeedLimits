@@ -95,7 +95,7 @@
   "tooltips.apply": "Neues Tempo auf gewählte Segmente anwenden.",
   "tooltips.applySubway": "Neues Tempo auf alle U-Bahn-Strecken der Stadt anwenden.",
   "tooltips.applyTrain": "Neues Tempo auf alle Zugstrecken der Stadt anwenden.",
-  "tooltips.currentSpeed": "Aktuelles Tempo gilt nur für das\nerste gewählte Segment.",
+  "tooltips.currentSpeed": "Aktuelles Tempo gilt nur für das\nerste gewählte Segment.\nGemischt = unterschiedliche Spurgeschwindigkeiten.",
   "tooltips.decreaseTarget": "Ziel um 1 senken",
   "tooltips.draggable": "Ziehbar",
   "tooltips.filterRails": "Zug- + U-Bahn-Gleise erlauben.",

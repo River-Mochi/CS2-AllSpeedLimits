@@ -95,7 +95,7 @@
   "tooltips.apply": "Zastosuj nową prędkość do wybranych odcinków.",
   "tooltips.applySubway": "Stosuje nową prędkość na wszystkie tory metra.",
   "tooltips.applyTrain": "Stosuje nową prędkość na wszystkie tory kolejowe.",
-  "tooltips.currentSpeed": "Obecna prędkość dotyczy tylko\npierwszego wybranego odcinka.",
+  "tooltips.currentSpeed": "Obecna prędkość dotyczy tylko\npierwszego wybranego odcinka.\nRóżne = różne prędkości pasów.",
   "tooltips.decreaseTarget": "Zmniejsz cel o 1",
   "tooltips.draggable": "Można przeciągać",
   "tooltips.filterRails": "Pozwala na pociąg + metro.",

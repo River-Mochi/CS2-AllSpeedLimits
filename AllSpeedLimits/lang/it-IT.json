@@ -95,7 +95,7 @@
   "tooltips.apply": "Applica la nuova velocità ai segmenti scelti.",
   "tooltips.applySubway": "Applica la nuova velocità a tutte le rotaie metro.",
   "tooltips.applyTrain": "Applica la nuova velocità a tutte le rotaie dei treni.",
-  "tooltips.currentSpeed": "La velocità attuale riguarda solo\nil primo segmento scelto.",
+  "tooltips.currentSpeed": "La velocità attuale riguarda solo\nil primo segmento scelto.\nMisto = velocità diverse per corsia.",
   "tooltips.decreaseTarget": "Diminuisci di 1",
   "tooltips.draggable": "Trascinabile",
   "tooltips.filterRails": "Consenti treno + metro.",

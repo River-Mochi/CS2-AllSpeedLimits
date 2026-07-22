@@ -95,7 +95,7 @@
   "tooltips.apply": "Yeni hızı seçili kesimlere uygula.",
   "tooltips.applySubway": "Yeni hızı şehirdeki tüm metro raylarına uygular.",
   "tooltips.applyTrain": "Yeni hızı şehirdeki tüm tren raylarına uygular.",
-  "tooltips.currentSpeed": "Geçerli hız sadece\nilk seçilen kesim içindir.",
+  "tooltips.currentSpeed": "Geçerli hız sadece\nilk seçilen kesim içindir.\nKarışık = şerit hızları farklıdır.",
   "tooltips.decreaseTarget": "Hedefi 1 azalt",
   "tooltips.draggable": "Sürüklenebilir",
   "tooltips.filterRails": "Tren + metro izinli.",

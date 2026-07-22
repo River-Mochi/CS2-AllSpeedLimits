@@ -95,7 +95,7 @@
   "tooltips.apply": "將新速度套用到選中路段。",
   "tooltips.applySubway": "將新速度套用到全城所有地鐵軌道。",
   "tooltips.applyTrain": "將新速度套用到全城所有火車軌道。",
-  "tooltips.currentSpeed": "目前速度只指\n第一個選中路段。",
+  "tooltips.currentSpeed": "目前速度只指\n第一個選中路段。\n混合 = 各車道速度不同。",
   "tooltips.decreaseTarget": "目標減 1",
   "tooltips.draggable": "可拖曳",
   "tooltips.filterRails": "允許火車 + 地鐵軌道。",

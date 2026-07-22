@@ -95,7 +95,7 @@
   "tooltips.apply": "選択セグメントに新速度を適用。",
   "tooltips.applySubway": "都市内すべての地下鉄線路に新速度を適用。",
   "tooltips.applyTrain": "都市内すべての列車線路に新速度を適用。",
-  "tooltips.currentSpeed": "現在速度は最初に選んだ\nセグメントのみ。",
+  "tooltips.currentSpeed": "現在速度は最初に選んだ\nセグメントのみ。\n混在 = 車線ごとに速度が異なります。",
   "tooltips.decreaseTarget": "目標を1下げる",
   "tooltips.draggable": "ドラッグ可能",
   "tooltips.filterRails": "列車 + 地下鉄を許可。",

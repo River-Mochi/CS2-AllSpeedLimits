@@ -64,12 +64,13 @@ namespace RoadRailSpeeds.Systems
             {
                 Entity baseEdge = GetBaseEdge(edge);
 
-                float currentSpeed = GetStreetSpeed(baseEdge);
+                float currentSpeed = GetStreetSpeed(baseEdge, out bool laneSpeedsMixed);
                 AddSpeedSample(
                     currentSpeed,
                     ref info.HasCurrentSpeed,
                     ref info.CurrentSpeed,
                     ref info.CurrentSpeedMixed);
+                info.CurrentSpeedMixed |= laneSpeedsMixed;
 
                 float vanillaSpeed = GetVanillaSpeed(baseEdge);
                 AddSpeedSample(
@@ -116,16 +117,16 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        private float GetStreetSpeed(Entity edge)
+        private float GetStreetSpeed(Entity edge, out bool laneSpeedsMixed)
         {
             Entity baseEdge = GetBaseEdge(edge);
+            float averageSpeed = GetAverageSpeed(edge, out laneSpeedsMixed);
 
             if (EntityManager.HasComponent<CustomSpeed>(baseEdge))
             {
                 return EntityManager.GetComponentData<CustomSpeed>(baseEdge).m_Speed;
             }
 
-            float averageSpeed = GetAverageSpeed(edge);
             return averageSpeed > 0f ? averageSpeed : GetVanillaSpeed(baseEdge);
         }
 
@@ -154,8 +155,9 @@ namespace RoadRailSpeeds.Systems
             };
         }
 
-        private float GetAverageSpeed(Entity edge)
+        private float GetAverageSpeed(Entity edge, out bool laneSpeedsMixed)
         {
+            laneSpeedsMixed = false;
             m_Speeds.Clear();
 
             if (!EntityManager.HasBuffer<SubLane>(edge))
@@ -185,7 +187,22 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            return m_Speeds.Count > 0 ? m_Speeds.Average() : -1f;
+            if (m_Speeds.Count == 0)
+            {
+                return -1f;
+            }
+
+            float firstSpeed = m_Speeds[0];
+            for (int i = 1; i < m_Speeds.Count; i++)
+            {
+                if (math.abs(firstSpeed - m_Speeds[i]) > kSpeedComparisonTolerance)
+                {
+                    laneSpeedsMixed = true;
+                    break;
+                }
+            }
+
+            return m_Speeds.Average();
         }
 
         private bool IsTrackType(Entity edge)
@@ -287,7 +304,7 @@ namespace RoadRailSpeeds.Systems
                     continue;
                 }
 
-                float currentSpeed = GetStreetSpeed(targetEdge);
+                float currentSpeed = GetStreetSpeed(targetEdge, out _);
                 if (currentSpeed <= 0f)
                 {
                     continue;
@@ -381,7 +398,7 @@ namespace RoadRailSpeeds.Systems
 
                 if (originalSpeed <= 0f)
                 {
-                    originalSpeed = GetAverageSpeed(edge);
+                    originalSpeed = GetAverageSpeed(edge, out _);
                 }
 
                 EntityManager.SetComponentData(targetEdge, new CustomSpeed(newSpeed));
@@ -418,7 +435,7 @@ namespace RoadRailSpeeds.Systems
 
             if (originalSpeed <= 0f)
             {
-                originalSpeed = GetAverageSpeed(edge);
+                originalSpeed = GetAverageSpeed(edge, out _);
             }
 
             if (originalSpeed > 0f)
@@ -465,7 +482,7 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            float originalSpeed = GetAverageSpeed(m_SelectedEntity);
+            float originalSpeed = GetAverageSpeed(m_SelectedEntity, out _);
             if (originalSpeed <= 0f)
             {
                 return;

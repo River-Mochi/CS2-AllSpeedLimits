@@ -35,16 +35,15 @@ namespace RoadRailSpeeds.Systems
         private bool m_IsDragging;
         private Entity m_HoverEntity = Entity.Null;
 
-        // Drag path-fill state and reusable BFS buffers. Bound total visited edges so a short
-        // drag preview cannot scan an entire city network on the game thread.
+        // Drag path-fill state and reusable weighted-search buffers. Bound total visited nodes
+        // so a drag preview cannot scan an entire city network on the game thread.
         private const int kMaxPathSearch = 1200;
+        private const float kPrefabChangePenalty = 9.9f;
+        private const float kJunctionPenalty = 10f;
         private Entity m_PathStartEdge = Entity.Null;
         private Entity m_PathEndEdge = Entity.Null;
         private readonly HashSet<Entity> m_PathVisited = new();
-        private readonly Dictionary<Entity, Entity> m_PathParent = new();
-        // List + head index avoids Queue<T> ambiguity in the CS2 toolchain.
-        private readonly List<Entity> m_PathFrontier = new();
-        private readonly List<Entity> m_PathScratch = new();
+        private readonly Dictionary<Entity, Entity> m_PathArrivalEdge = new();
         private readonly List<Entity> m_PathResult = new();
 
         // Selection type filter.
