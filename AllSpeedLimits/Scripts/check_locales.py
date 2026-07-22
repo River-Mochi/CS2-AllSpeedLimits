@@ -7,7 +7,7 @@
 # ================= </copyright> ======================
 
 # File: src/Scripts/check_locales.py
-# Version: 0.2.0
+# Version: 0.2.1
 # Purpose:
 #   Generic checker for C# Locale*.cs dictionary files.
 #
@@ -23,9 +23,8 @@
 #   - The angle-bracket check ignores only true numeric comparators such as:
 #       1 < 2
 #       10 > 3
-#     It does NOT treat numbered instruction lines like:
+#     It does NOT treat numbered instruction lines as comparators like:
 #       4. <RMB cycles>
-#     as comparators.
 #
 # Output behavior:
 #   - Default: print only locales with problems

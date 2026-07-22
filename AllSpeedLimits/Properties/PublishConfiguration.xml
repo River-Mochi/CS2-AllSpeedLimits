@@ -70,7 +70,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Train floating speed numbers in high visibility green, Subway is pink, roads + water stay blue-green color.
+- Added colors for floating speed numbers: trains in green, subway is pink, roads + water stay blue-green color.
 - Floating speed numbers: adjusted the scale at different zoom levels, moved numbers closer to surface of roads or surface elevation for underground.
 - Added proximity so roads are not cluttered when zoomed out if every segment of the same road has a speed number. Numbers appear as you zoom in closer to the area.
 </ChangeLog>
