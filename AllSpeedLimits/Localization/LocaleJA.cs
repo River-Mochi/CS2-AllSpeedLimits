@@ -22,9 +22,9 @@ namespace RoadRailSpeeds
 
     public sealed class LocaleJA : IDictionarySource
     {
-        private readonly Setting m_Setting;
+        private readonly SpeedLimitsSetting m_Setting;
 
-        public LocaleJA(Setting setting)
+        public LocaleJA(SpeedLimitsSetting setting)
         {
             m_Setting = setting;
         }
@@ -41,27 +41,27 @@ namespace RoadRailSpeeds
             {
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
-                { m_Setting.GetOptionTabLocaleID(Setting.kMainTab), "操作" },
-                { m_Setting.GetOptionTabLocaleID(Setting.kAboutTab), "情報" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "情報" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "表示オプション" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "ゲーム既定に戻す" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "使い方" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "デバッグ / ログ" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "表示オプション" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "ゲーム既定に戻す" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "使い方" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "デバッグ / ログ" },
 
                 // Speed unit preference
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "速度単位" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SpeedUnitPreference)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "速度単位" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "パネルと浮き出し標識の単位を選びます。\n" +
                     "<AUTO> はマップ種別に従います: EU = KM/H、NA = MPH。\n" +
                     "<KM/H> と <MPH> は表示を固定します。" },
 
                 // Panel behavior
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "選択セグメントにスライダーを同期" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "選択セグメントにスライダーを同期" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
                     "<有効を推奨>\n" +
                     "有効: セグメントをクリックすると、最初の選択セグメントの現在速度にスライダーを合わせます。\n" +
                     "無効: 別のセグメントをクリックしても、最後の目標値を保ちます。\n" +
@@ -69,20 +69,20 @@ namespace RoadRailSpeeds
                 },
 
                 // Slider increment
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "パネルのスライダー刻み" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "パネルのスライダー刻み" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
                     "都市パネルのスライダー刻み幅を設定します。\n" +
                     "<既定 = 10>" },
 
                 // Tooltip font scale
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "ヘルプ文字サイズ" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "ヘルプ文字サイズ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
                     "Mod 項目にカーソルを合わせた時のヘルプ文字を大きくできます。\n" +
                     "<既定 110%>" },
 
                 // Double speed display
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "ゲーム内の倍速表示を使う" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "ゲーム内の倍速表示を使う" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<オフ> はよりシンプルな目盛りで、道路表示に近いことが多いです。\n" +
                     "<オン> はパネルと浮動テキストにゲーム内部の高い速度目盛りを表示します。\n" +
                     "別のツールチップ Mod がゲーム内部の2倍値を表示していて、それに合わせたい場合に便利です。\n" +
@@ -92,13 +92,13 @@ namespace RoadRailSpeeds
                 },
 
                 // Enum values
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Metric), "KM/H" },
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Auto), "AUTO" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Metric), "KM/H" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "ゲーム既定の速度に戻す" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "ゲーム既定の速度に戻す" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Mod を削除する前の任意のクリーンアップです。\n" +
                     "この Mod のカスタム速度を<残したくない場合だけ>使ってください。\n" +
                     "Mod の削除に必須ではありません。カスタム道路速度は、この Mod がなくても都市に残せます。\n" +
@@ -109,17 +109,17 @@ namespace RoadRailSpeeds
                     "これを使わずに Mod を削除すると、道路を変更するまでカスタム速度は残ります。"
                 },
 
-                { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "対応するすべてのカスタム速度制限を、分かっているゲーム既定値に戻します。\n" +
                     "自動では元に戻せません。\n" +
                     "完了後、Mod を削除する前に都市を新しい保存として保存してください。"
                 },
 
                 // Usage instructions
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "説明を表示" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "下に短い使い方メモを表示します。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "説明を表示" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "下に短い使い方メモを表示します。" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<都市パネル>\n" +
                     "1. セグメントをクリック、またはドラッグ選択します。\n" +
                     "2. <新速度> を設定して <適用> をクリックします。\n" +
@@ -131,27 +131,27 @@ namespace RoadRailSpeeds
                     "<道路>、<鉄道>、<水路>、<全て> でカスタム速度を消去します。\n" +
                     "都市全体の変更後は <都市を保存> してください。"
                 },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.NameText)), string.Empty },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.NameText)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.NameText)), string.Empty },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "バージョン" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.VersionText)), string.Empty },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.VersionText)), "バージョン" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.VersionText)), string.Empty },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "作者の Paradox Mods ページを開きます。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenParadox)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenParadox)), "作者の Paradox Mods ページを開きます。" },
 
                 // Debug
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "デバッグレポートをログへ" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DebugReportToLog)), "デバッグレポートをログへ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DebugReportToLog)),
                     "<通常プレイでは不要です。>\n" +
                     "Logs/AllSpeedLimits.log に一度だけレポートを書き込みます。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "ログを開く" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLog)), "ログを開く" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLog)),
                     "<Logs/AllSpeedLimits.log> を開きます。ファイルがない場合は Logs フォルダーを開きます。" },
             };
         }

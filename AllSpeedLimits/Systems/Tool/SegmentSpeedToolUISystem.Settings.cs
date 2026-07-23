@@ -223,9 +223,9 @@ namespace RoadRailSpeeds.Systems
             // A -> km -> mi -> A. Keep this as a real three-state control.
             m_Settings.SpeedUnitPreference = m_Settings.SpeedUnitPreference switch
             {
-                Setting.SpeedUnit.Auto => Setting.SpeedUnit.Metric,
-                Setting.SpeedUnit.Metric => Setting.SpeedUnit.Imperial,
-                _ => Setting.SpeedUnit.Auto
+                SpeedLimitsSetting.SpeedUnit.Auto => SpeedLimitsSetting.SpeedUnit.Metric,
+                SpeedLimitsSetting.SpeedUnit.Metric => SpeedLimitsSetting.SpeedUnit.Imperial,
+                _ => SpeedLimitsSetting.SpeedUnit.Auto
             };
 
             m_Settings.ApplyAndSave();
@@ -243,9 +243,9 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            Setting.SpeedUnit nextPreference = showMetric
-                ? Setting.SpeedUnit.Metric
-                : Setting.SpeedUnit.Imperial;
+            SpeedLimitsSetting.SpeedUnit nextPreference = showMetric
+                ? SpeedLimitsSetting.SpeedUnit.Metric
+                : SpeedLimitsSetting.SpeedUnit.Imperial;
 
             if (m_Settings.SpeedUnitPreference != nextPreference)
             {

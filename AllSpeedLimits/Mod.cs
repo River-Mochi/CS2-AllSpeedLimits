@@ -39,7 +39,7 @@ namespace RoadRailSpeeds
         public static readonly ILog s_Log =
             LogManager.GetLogger(LogFileName).SetShowsErrorsInUI(false);
 
-        public static Setting? Settings { get; private set; }
+        public static SpeedLimitsSetting? Settings { get; private set; }
 
         public void OnLoad(UpdateSystem updateSystem)
         {
@@ -64,7 +64,7 @@ namespace RoadRailSpeeds
                 return;
             }
 
-            Setting setting = new Setting(this);
+            SpeedLimitsSetting setting = new SpeedLimitsSetting(this);
             Settings = setting;
 
             try
@@ -103,7 +103,7 @@ namespace RoadRailSpeeds
 
             try
             {
-                AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
+                AssetDatabase.global.LoadSettings(ModId, setting, new SpeedLimitsSetting(this));
             }
             catch (Exception ex)
             {

@@ -195,11 +195,11 @@ namespace RoadRailSpeeds.Systems
         private const float s_SubwayMarkerHeightAboveSurface = 1.0f;
         private const float s_WaterMarkerHeight = 11.4f;
 
-        private Setting? m_Settings;
+        private SpeedLimitsSetting? m_Settings;
         private int m_FaceColorID;
 
         private string? m_LastTheme;
-        private Setting.SpeedUnit m_LastUnitPreference = Setting.SpeedUnit.Auto;
+        private SpeedLimitsSetting.SpeedUnit m_LastUnitPreference = SpeedLimitsSetting.SpeedUnit.Auto;
         private bool m_LastDoubleSpeedDisplay;
         private string m_MarkerTooltipText = string.Empty;
         private float m_MarkerTooltipX;
@@ -228,7 +228,7 @@ namespace RoadRailSpeeds.Systems
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
 
             m_Settings = Mod.Settings;
-            m_LastUnitPreference = m_Settings?.SpeedUnitPreference ?? Setting.SpeedUnit.Auto;
+            m_LastUnitPreference = m_Settings?.SpeedUnitPreference ?? SpeedLimitsSetting.SpeedUnit.Auto;
             m_LastDoubleSpeedDisplay = m_Settings?.DoubleSpeedDisplay ?? false;
 
             // Cached SystemAPI queries are owned by this system and participate in ECS dependency tracking.
@@ -284,7 +284,7 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            Setting.SpeedUnit currentPreference = m_Settings.SpeedUnitPreference;
+            SpeedLimitsSetting.SpeedUnit currentPreference = m_Settings.SpeedUnitPreference;
             bool currentDoubleDisplay = m_Settings.DoubleSpeedDisplay;
 
             if (currentPreference != m_LastUnitPreference)

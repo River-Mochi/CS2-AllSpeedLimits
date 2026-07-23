@@ -94,7 +94,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_SliderExpandedBinding = null!;
         private ValueBindingHelper<bool> m_WholeCityExpandedBinding = null!;
 
-        private Setting? m_Settings;
+        private SpeedLimitsSetting? m_Settings;
         private float m_LastVehicleStatsRefreshTime = -1f;
 
         protected override string group => Mod.ModId + ".Systems.Tool." + nameof(SegmentSpeedToolUISystem);
@@ -203,7 +203,7 @@ namespace RoadRailSpeeds.Systems
             m_ShowMetricBinding.Value = ShouldShowMetric();
             m_IsTrackTypeBinding.Value = false;
             m_IsWaterwayTypeBinding.Value = false;
-            m_UnitModeBinding.Value = (int)(m_Settings?.SpeedUnitPreference ?? Setting.SpeedUnit.Auto);
+            m_UnitModeBinding.Value = (int)(m_Settings?.SpeedUnitPreference ?? SpeedLimitsSetting.SpeedUnit.Auto);
             m_DoubleSpeedDisplayBinding.Value = m_Settings?.DoubleSpeedDisplay ?? false;
             m_CurrentSpeedMixedBinding.Value = false;
             m_VanillaSpeedBinding.Value = -1f;

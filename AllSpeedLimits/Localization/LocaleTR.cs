@@ -22,9 +22,9 @@ namespace RoadRailSpeeds
 
     public sealed class LocaleTR : IDictionarySource
     {
-        private readonly Setting m_Setting;
+        private readonly SpeedLimitsSetting m_Setting;
 
-        public LocaleTR(Setting setting)
+        public LocaleTR(SpeedLimitsSetting setting)
         {
             m_Setting = setting;
         }
@@ -40,27 +40,27 @@ namespace RoadRailSpeeds
             {
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
-                { m_Setting.GetOptionTabLocaleID(Setting.kMainTab), "Eylemler" },
-                { m_Setting.GetOptionTabLocaleID(Setting.kAboutTab), "Hakkında" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Eylemler" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Hakkında" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "Görüntü seçenekleri" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "Oyun varsayılanlarına dön" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "Kullanım" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "Hata ayıklama / Günlük" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Görüntü seçenekleri" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Oyun varsayılanlarına dön" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Kullanım" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Hata ayıklama / Günlük" },
 
                 // Speed unit preference
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "Hız birimleri" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SpeedUnitPreference)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Hız birimleri" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Panel ve yüzen tabela birimlerini seç.\n" +
                     "<AUTO> harita tipini izler: EU = KM/H, NA = MPH.\n" +
                     "<KM/H> ve <MPH> bu gösterimi zorlar." },
 
                 // Panel behavior
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "Kaydırıcıyı seçili bölümle eşleştir" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Kaydırıcıyı seçili bölümle eşleştir" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
                     "<Açık önerilir>\n" +
                     "Açık: bir bölüme tıklayınca kaydırıcı ilk seçili bölümün mevcut hızına gider.\n" +
                     "Kapalı: başka bölüme tıklayınca son hedefin kalır.\n" +
@@ -68,20 +68,20 @@ namespace RoadRailSpeeds
                 },
 
                 // Slider increment
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Panel kaydırıcı adımı" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Panel kaydırıcı adımı" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
                     "Şehir panelindeki kaydırıcı adımını ayarlar.\n" +
                     "<Varsayılan = 10>" },
 
                 // Tooltip font scale
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Yardım metni boyutu" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Yardım metni boyutu" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
                     "Bu mod, mod öğelerinin üzerine gelince açılan yardım kutularındaki yazıyı büyütebilir.\n" +
                     "<Varsayılan 110%>" },
 
                 // Double speed display
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Oyunun çift hızlarını göster" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Oyunun çift hızlarını göster" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Kapalı> daha basit bir ölçek gösterir, genelde yol işaretlerine daha yakındır.\n" +
                     "<Açık> panel ve yüzen yazıda oyunun daha yüksek iç hız ölçeğini gösterir.\n" +
                     "Başka bir ipucu modu oyunun içteki iki kat değerlerini gösteriyorsa ve bunlarla eşleştirmek istiyorsan yararlıdır.\n" +
@@ -91,13 +91,13 @@ namespace RoadRailSpeeds
                 },
 
                 // Enum values
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Metric), "KM/H" },
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Auto), "AUTO" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Metric), "KM/H" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Oyun varsayılan hızlarına dön" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Oyun varsayılan hızlarına dön" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Modu kaldırmadan önce isteğe bağlı temizlik.\n" +
                     "Bunu <yalnızca> bu modun özel hızlarını saklamak istemiyorsan kullan.\n" +
                     "Modu kaldırmak için gerekli değildir. Özel yol hızları bu mod olmadan da şehirde kalabilir.\n" +
@@ -108,17 +108,17 @@ namespace RoadRailSpeeds
                     "Bunu kullanmadan modu kaldırırsan özel hızlar yolları değiştirene kadar kalır vb."
                 },
 
-                { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Bu, desteklenen tüm özel hız sınırlarını bilinen oyun varsayılanlarına döndürür.\n" +
                     "Bu otomatik olarak geri alınamaz.\n" +
                     "Bittiğinde modu kaldırmadan önce şehri YENİ kayıt olarak kaydet."
                 },
 
                 // Usage instructions
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Talimatları göster" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Aşağıda kısa kullanım notlarını gösterir." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Talimatları göster" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Aşağıda kısa kullanım notlarını gösterir." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Şehir paneli>\n" +
                     "1. Bölümlere tıkla veya sürükleyerek seç.\n" +
                     "2. <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
@@ -130,27 +130,27 @@ namespace RoadRailSpeeds
                     "Özel hızları temizlemek için <Yollar>, <Raylar>, <Su> veya <Tümü> kullan.\n" +
                     "Şehir geneli değişikliklerden sonra <Şehri kaydet>."
                 },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.NameText)), string.Empty },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.NameText)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.NameText)), string.Empty },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Sürüm" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.VersionText)), string.Empty },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.VersionText)), "Sürüm" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.VersionText)), string.Empty },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Yazarın Paradox Mods sayfasını açar." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenParadox)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenParadox)), "Yazarın Paradox Mods sayfasını açar." },
 
                 // Debug
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Hata ayıklama raporunu günlüğe yaz" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DebugReportToLog)), "Hata ayıklama raporunu günlüğe yaz" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DebugReportToLog)),
                     "<Normal oyun için gerekmez.>\n" +
                     "Logs/AllSpeedLimits.log içine tek seferlik rapor yazar."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Günlüğü aç" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLog)), "Günlüğü aç" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLog)),
                     "<Logs/AllSpeedLimits.log> dosyasını açar. Dosya yoksa Logs klasörüne gider." },
             };
         }

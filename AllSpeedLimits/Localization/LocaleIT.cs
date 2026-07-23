@@ -22,9 +22,9 @@ namespace RoadRailSpeeds
 
     public sealed class LocaleIT : IDictionarySource
     {
-        private readonly Setting m_Setting;
+        private readonly SpeedLimitsSetting m_Setting;
 
-        public LocaleIT(Setting setting)
+        public LocaleIT(SpeedLimitsSetting setting)
         {
             m_Setting = setting;
         }
@@ -41,27 +41,27 @@ namespace RoadRailSpeeds
             {
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
-                { m_Setting.GetOptionTabLocaleID(Setting.kMainTab), "Azioni" },
-                { m_Setting.GetOptionTabLocaleID(Setting.kAboutTab), "Info" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Azioni" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Info" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.kDisplayGroup), "Opzioni visualizzazione" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kResetGroup), "Ripristina valori del gioco" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kUsageGroup), "Uso" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutInfoGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutLinksGroup), string.Empty },
-                { m_Setting.GetOptionGroupLocaleID(Setting.kAboutDebugGroup), "Debug / Log" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Opzioni visualizzazione" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Ripristina valori del gioco" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Uso" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Log" },
 
                 // Speed unit preference
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SpeedUnitPreference)), "Unità velocità" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SpeedUnitPreference)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Unità velocità" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Scegli le unità per pannello e cartelli flottanti.\n" +
                     "<AUTO> segue il tipo di mappa: EU = KM/H, NA = MPH.\n" +
                     "<KM/H> e <MPH> forzano quella visualizzazione." },
 
                 // Panel behavior
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.SyncSliderWithSelection)), "Sincronizza slider col segmento" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.SyncSliderWithSelection)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Sincronizza slider col segmento" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
                     "<Consigliato attivo>\n" +
                     "Attivo: cliccare un segmento porta lo slider alla velocità attuale del primo segmento selezionato.\n" +
                     "Disattivo: cliccare un altro segmento mantiene l’ultimo valore scelto.\n" +
@@ -69,20 +69,20 @@ namespace RoadRailSpeeds
                 },
 
                 // Slider increment
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Passo dello slider" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Passo dello slider" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
                     "Imposta il passo dello slider nel pannello città.\n" +
                     "<Predefinito = 10>" },
 
                 // Tooltip font scale
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Dimensione testo aiuti" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.TooltipFontScale)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Dimensione testo aiuti" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
                     "Questo mod può avere testo più grande nelle caselle di aiuto mentre passi sugli elementi del mod.\n" +
                     "<Predefinito 110%>" },
 
                 // Double speed display
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DoubleSpeedDisplay)), "Mostra velocità doppie del gioco" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DoubleSpeedDisplay)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Mostra velocità doppie del gioco" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Disattivo> mostra una scala più semplice, di solito più vicina ai segni stradali.\n" +
                     "<Attivo> mostra nel pannello e nel testo flottante la scala interna più alta del gioco.\n" +
                     "Utile se un altro mod di suggerimenti mostra i valori interni raddoppiati del gioco e vuoi farli combaciare.\n" +
@@ -92,13 +92,13 @@ namespace RoadRailSpeeds
                 },
 
                 // Enum values
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Auto), "AUTO" },
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Metric), "KM/H" },
-                { m_Setting.GetEnumValueLocaleID(Setting.SpeedUnit.Imperial), "MPH" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Auto), "AUTO" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Metric), "KM/H" },
+                { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ClearAllCustomSpeeds)), "Ripristina velocità predefinite del gioco" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Ripristina velocità predefinite del gioco" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Pulizia opzionale prima di rimuovere il mod.\n" +
                     "Usalo <solo> se non vuoi tenere le velocità personalizzate di questo mod.\n" +
                     "Non è necessario per rimuovere il mod. Le velocità personalizzate delle strade possono restare in città senza questo mod.\n" +
@@ -109,17 +109,17 @@ namespace RoadRailSpeeds
                     "Se rimuovi il mod senza usarlo, le velocità personalizzate restano finché non cambi le strade, ecc."
                 },
 
-                { m_Setting.GetOptionWarningLocaleID(nameof(Setting.ClearAllCustomSpeeds)),
+                { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Ripristinerà tutti i limiti di velocità personalizzati supportati ai valori di gioco noti.\n" +
                     "Non si può annullare automaticamente.\n" +
                     "Quando finisce, salva la città come NUOVO salvataggio prima di rimuovere il mod."
                 },
 
                 // Usage instructions
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Mostra istruzioni" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Mostra brevi note d’uso sotto." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Mostra istruzioni" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Mostra brevi note d’uso sotto." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Pannello città>\n" +
                     "1. Clicca o trascina per selezionare segmenti.\n" +
                     "2. Imposta <Nuova velocità>, poi clicca <Applica>.\n" +
@@ -131,27 +131,27 @@ namespace RoadRailSpeeds
                     "Usa <Strade>, <Rotaie>, <Acqua> o <Tutto> per cancellare le velocità personalizzate.\n" +
                     "<Salva città> dopo modifiche globali."
                 },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.UsageText)), string.Empty },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.NameText)), string.Empty },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.NameText)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.NameText)), string.Empty },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Versione" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.VersionText)), string.Empty },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.VersionText)), "Versione" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.VersionText)), string.Empty },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Apre la pagina Paradox Mods dell’autore." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenParadox)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenParadox)), "Apre la pagina Paradox Mods dell’autore." },
 
                 // Debug
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.DebugReportToLog)), "Report debug nel log" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.DebugReportToLog)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DebugReportToLog)), "Report debug nel log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DebugReportToLog)),
                     "<Non serve per il gioco normale.>\n" +
                     "Scrive un rapporto una sola volta in Logs/AllSpeedLimits.log."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Apri log" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLog)), "Apri log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLog)),
                     "Apre <Logs/AllSpeedLimits.log>. Se il file non esiste, apre la cartella Logs." },
             };
         }

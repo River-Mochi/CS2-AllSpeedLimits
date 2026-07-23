@@ -1,4 +1,4 @@
-// <copyright file="Setting.cs" company="River-Mochi">
+// <copyright file="SpeedLimitsSetting.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Settings/Setting.cs
+// File: Settings/SpeedLimitsSetting.cs
 // Purpose: Mod settings model and settings UI actions.
 
 namespace RoadRailSpeeds
@@ -25,7 +25,7 @@ namespace RoadRailSpeeds
     [SettingsUITabOrder(kMainTab, kAboutTab)]
     [SettingsUIGroupOrder(kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
     [SettingsUIShowGroupName(kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
-    public sealed class Setting : ModSetting
+    public sealed class SpeedLimitsSetting : ModSetting
     {
         public const string kMainTab = "Main";
         public const string kAboutTab = "About";
@@ -43,7 +43,7 @@ namespace RoadRailSpeeds
         private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
-        public Setting(IMod mod)
+        public SpeedLimitsSetting(IMod mod)
             : base(mod)
         {
         }
@@ -161,7 +161,7 @@ namespace RoadRailSpeeds
         public bool ShowUsage { get; set; }
 
         [SettingsUIMultilineText(UsageIconPath)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(HideUsageText))]
+        [SettingsUIHideByCondition(typeof(SpeedLimitsSetting), nameof(HideUsageText))]
         [SettingsUISection(kMainTab, kUsageGroup)]
         public string UsageText => string.Empty;
 
