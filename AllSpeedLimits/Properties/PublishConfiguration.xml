@@ -70,12 +70,12 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-    - Easier to select long stretches of connected roads.
-    - Added distinct floating-number colors: green for trains, pink for subways, and blue-green for roads and waterways.
-    - Added separate bus and taxi rows to city Stats bottom section.
-    - Fixed custom road and rail speeds sometimes reverting when CS2 refreshed or rebuilt their lane data.
-    - Improved floating-number sizes at different zoom levels and moved markers closer to roads, tracks, and ground level for underground networks.
-    - Reduced map clutter by grouping repeated numbers at wider zoom levels and showing nearby markers as you zoom in.
+- Easier to select long stretches of connected roads.
+- Added distinct floating-number colors: green for trains, pink for subways, and blue-green for roads and waterways.
+- Added separate bus and taxi rows to city Stats bottom section.
+- Prevented custom road and rail speeds from reverting when CS2 refreshes or rebuilds lane data.
+- Improved floating-number sizes at different zoom levels and moved markers closer to roads, tracks, and ground level for underground networks.
+- Reduced map clutter by grouping repeated numbers at wider zoom levels and showing nearby markers as you zoom in.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
