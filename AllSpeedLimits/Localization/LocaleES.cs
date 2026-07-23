@@ -72,7 +72,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Paso del deslizador" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Define el tamaño de paso en el panel de ciudad.\n" +
-                    "<Predeterminado = 5>" },
+                    "<Predeterminado = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tamaño del texto de ayuda" },

@@ -71,7 +71,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Panel kaydırıcı adımı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Şehir panelindeki kaydırıcı adımını ayarlar.\n" +
-                    "<Varsayılan = 5>" },
+                    "<Varsayılan = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Yardım metni boyutu" },

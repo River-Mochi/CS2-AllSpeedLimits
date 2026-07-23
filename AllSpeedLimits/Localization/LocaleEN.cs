@@ -72,7 +72,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Panel Slider Increment" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Sets slider step size in the city panel.\n" +
-                    "<Default = 5>" },
+                    "<Default = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Tooltip Text Size" },

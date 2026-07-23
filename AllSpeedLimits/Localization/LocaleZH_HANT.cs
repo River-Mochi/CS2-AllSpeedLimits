@@ -71,7 +71,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "面板滑桿步長" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "設定城市面板中的滑桿步長。\n" +
-                    "<預設 = 5>" },
+                    "<預設 = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "提示文字大小" },

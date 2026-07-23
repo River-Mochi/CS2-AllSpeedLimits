@@ -71,7 +71,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.PanelSliderIncrement)), "Krok suwaka panelu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.PanelSliderIncrement)),
                     "Ustawia krok suwaka w panelu miasta.\n" +
-                    "<Domyślnie = 5>" },
+                    "<Domyślnie = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.TooltipFontScale)), "Rozmiar tekstu podpowiedzi" },
