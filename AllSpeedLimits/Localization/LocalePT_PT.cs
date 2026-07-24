@@ -55,39 +55,43 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Unidades de velocidade" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Escolhe as unidades do painel e dos sinais flutuantes.\n" +
-                    "<AUTO> segue o tipo de mapa: EU = KM/H, NA = MPH.\n" +
-                    "<KM/H> e <MPH> forçam essa apresentação." },
+                    "<AUTO> segue o tipo de mapa:\n" +
+                    "- EU = KM/H, NA = MPH.\n" +
+                    "Selecionar <KM/H ou MPH> força essa apresentação."
+                },
 
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Sincronizar cursor com o segmento" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
-                    "<Recomendado ativado>\n" +
-                    "Ativado: clicar num segmento move o cursor para a velocidade atual do primeiro segmento.\n" +
-                    "Desativado: clicar noutro segmento mantém o último alvo.\n" +
-                    "Se escolheres várias partes, o primeiro segmento continua a definir o início do cursor."
+                    "**[ ✓ ] Recomendado: ativado**\n" +
+                    "Ativado: clicar num segmento move o cursor para a velocidade atual dele, em vez de começar em 5.\n" +
+                    "- Se escolheres vários segmentos, o primeiro continua a definir a posição inicial do cursor.\n" +
+                    "Desativado: clicar noutro segmento mantém o último alvo."
                 },
 
                 // Slider increment
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Passo do cursor no painel" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
-                    "Define o passo do cursor no painel da cidade.\n" +
-                    "<Predefinição = 10>" },
+                    "Define o passo do cursor no painel de limites de velocidade da cidade.\n" +
+                    "<Predefinição = 10>"
+                },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Tamanho do texto de ajuda" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
-                    "Este mod pode aumentar o texto nas caixas de ajuda ao passar o cursor sobre os itens do mod.\n" +
-                    "<Predefinição 110%>" },
+                    "Este mod permite texto maior nas caixas de ajuda ao passar o cursor sobre funções de limite de velocidade.\n" +
+                    "<Predefinição 110%>"
+                },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Mostrar velocidades duplicadas do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Desligado> mostra uma escala mais simples, normalmente mais próxima das marcações da estrada.\n" +
-                    "<Ligado> painel e texto flutuante mostram a escala interna mais alta do jogo.\n" +
-                    "Útil se outro mod de dicas mostrar os valores internos duplicados do jogo e quiseres igualar.\n" +
+                    "<Ligado> faz o painel e o texto flutuante mostrarem a escala interna mais alta do jogo.\n" +
+                    "Útil se outro mod de dicas ou o Scene Explorer mostrar os valores internos duplicados do jogo e quiseres que coincidam.\n" +
                     "**Isto só altera a apresentação;** as velocidades guardadas <não mudam realmente>.\n" +
                     "Se for confuso, deixa Desligado. Os carros movem-se da mesma forma com Ligado ou Desligado.\n" +
-                    "Nota: as marcações e os sinais da estrada são elementos gráficos e podem não corresponder aos dados reais de velocidade do modelo do jogo. Um sinal de 35 mph pode corresponder realmente a 31 mph. O jogo calcula primeiro as estradas no sistema métrico e só depois converte."
+                    "Nota: <as marcações da estrada são elementos gráficos> e podem não corresponder aos dados reais de velocidade do modelo do jogo. Um sinal de 35 mph pode representar ~31 mph. O jogo define primeiro as velocidades das estradas no sistema métrico e depois converte-as."
                 },
 
                 // Enum values
@@ -100,16 +104,16 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Limpeza opcional antes de remover o mod.\n" +
                     "Usa isto <apenas> se não quiseres manter as velocidades personalizadas deste mod.\n" +
-                    "Não é necessário para remover o mod. As velocidades personalizadas das estradas podem ficar na cidade sem este mod.\n" +
+                    "Não é necessário para remover o mod. As velocidades personalizadas podem ficar na cidade sem este mod.\n" +
                     "<============>\n" +
                     "\n" +
-                    "Isto repõe para predefinições conhecidas do jogo as velocidades personalizadas aplicadas por este mod.\n" +
+                    "Este botão repõe as predefinições conhecidas do jogo onde este mod aplicou velocidades personalizadas.\n" +
                     "Quando terminar, guarda num **NOVO FICHEIRO** antes de remover o mod.\n" +
-                    "Se removeres o mod sem usar isto, as velocidades personalizadas ficam até mudares as estradas, etc."
+                    "Se removeres o mod sem usar isto, as velocidades personalizadas ficam até mudares estradas, carris ou vias navegáveis."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
-                    "Isto vai repor todos os limites de velocidade personalizados suportados para predefinições conhecidas do jogo.\n" +
+                    "Isto repõe todos os limites de velocidade personalizados aplicados por este mod para predefinições conhecidas do jogo.\n" +
                     "Isto não pode ser anulado automaticamente.\n" +
                     "Quando terminar, guarda a cidade num NOVO FICHEIRO antes de remover o mod."
                 },
@@ -123,12 +127,12 @@ namespace RoadRailSpeeds
                     "1. Clica ou arrasta para selecionar segmentos.\n" +
                     "2. Define <Nova velocidade> e clica em <Aplicar>.\n" +
                     "3. <Repor> repõe os segmentos selecionados.\n" +
-                    "4. Botões de predefinição aplicam logo.\n" +
+                    "4. Botões de <Predefinição> aplicam logo.\n" +
                     "\n" +
                     "<Cidade inteira>\n" +
                     "Escolhe um grupo de estradas e aplica <Nova velocidade> a esse grupo.\n" +
                     "Usa <Estradas>, <Carris>, <Água> ou <Tudo> para limpar velocidades personalizadas.\n" +
-                    "<Guarda a cidade> após alterações globais."
+                    "<Guarda a cidade> após alterações na cidade inteira."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

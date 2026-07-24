@@ -55,39 +55,43 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Jednostki prędkości" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Wybierz jednostki panelu i pływających znaków.\n" +
-                    "<AUTO> zależy od typu mapy: EU = KM/H, NA = MPH.\n" +
-                    "<KM/H> i <MPH> wymuszają ten widok." },
+                    "<AUTO> zależy od typu mapy:\n" +
+                    "- EU = KM/H, NA = MPH.\n" +
+                    "Wybór <KM/H lub MPH> wymusza ten widok."
+                },
 
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Synchronizuj suwak z segmentem" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
-                    "<Zalecane: włączone>\n" +
-                    "Włączone: kliknięcie segmentu ustawia suwak na aktualną prędkość pierwszego segmentu.\n" +
-                    "Wyłączone: kliknięcie innego segmentu zostawia ostatni cel suwaka.\n" +
-                    "Przy wyborze wielu części pierwszy segment nadal ustawia pozycję startową suwaka."
+                    "**[ ✓ ] Zalecane: włączone**\n" +
+                    "Włączone: kliknięcie segmentu ustawia suwak na jego aktualną prędkość zamiast zaczynać od 5.\n" +
+                    "- Przy wyborze wielu segmentów pierwszy nadal ustawia pozycję startową suwaka.\n" +
+                    "Wyłączone: kliknięcie innego segmentu zostawia ostatni cel suwaka."
                 },
 
                 // Slider increment
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Krok suwaka panelu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
-                    "Ustawia krok suwaka w panelu miasta.\n" +
-                    "<Domyślnie = 10>" },
+                    "Ustawia krok suwaka w panelu limitów prędkości miasta.\n" +
+                    "<Domyślnie = 10>"
+                },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Rozmiar tekstu podpowiedzi" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
-                    "Ten mod może powiększyć tekst w polach pomocy wyświetlanych po najechaniu na elementy moda.\n" +
-                    "<Domyślnie 110%>" },
+                    "Ten mod pozwala powiększyć tekst w polach pomocy po najechaniu na funkcje limitów prędkości.\n" +
+                    "<Domyślnie 110%>"
+                },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Pokaż podwojone prędkości gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Wył.> pokazuje prostszą skalę, zwykle bliższą oznaczeniom na drogach.\n" +
                     "<Wł.> panel i tekst pływający pokazują wyższą wewnętrzną skalę gry.\n" +
-                    "Przydatne, jeśli inny mod z podpowiedziami pokazuje podwojone wartości wewnętrzne gry i chcesz je dopasować.\n" +
+                    "Przydatne, jeśli inny mod z podpowiedziami lub Scene Explorer pokazuje podwojone wartości wewnętrzne gry i chcesz je dopasować.\n" +
                     "**Zmienia się tylko wygląd;** zapisane prędkości <naprawdę się nie zmieniają>.\n" +
                     "Jeśli to myli, zostaw Wył. Samochody poruszają się tak samo przy Wł. i Wył.\n" +
-                    "Uwaga: oznaczenia i znaki drogowe są grafiką i mogą nie odpowiadać rzeczywistym danym prędkości szablonu gry. Znak 35 mph może w rzeczywistości oznaczać 31 mph. Gra najpierw oblicza drogi w systemie metrycznym, a potem przelicza jednostki."
+                    "Uwaga: <oznaczenia drogowe są grafiką> i mogą nie odpowiadać rzeczywistym danym prędkości modeli gry. Znak 35 mph może oznaczać ~31 mph. Gra najpierw definiuje prędkości dróg w systemie metrycznym, a potem przelicza jednostki."
                 },
 
                 // Enum values
@@ -100,16 +104,16 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Opcjonalne czyszczenie przed usunięciem moda.\n" +
                     "Użyj tego <tylko>, jeśli nie chcesz zachować własnych prędkości tego moda.\n" +
-                    "Nie jest to wymagane do usunięcia moda. Własne prędkości dróg mogą zostać w mieście bez tego moda.\n" +
+                    "Nie jest to wymagane do usunięcia moda. Własne prędkości mogą zostać w mieście bez tego moda.\n" +
                     "<============>\n" +
                     "\n" +
-                    "Przywraca znane domyślne wartości gry dla prędkości ustawionych przez ten mod.\n" +
+                    "Ten przycisk przywraca znane wartości domyślne gry wszędzie, gdzie mod zastosował własne prędkości.\n" +
                     "Po zakończeniu zrób **NOWY ZAPIS** przed usunięciem moda.\n" +
-                    "Jeśli usuniesz mod bez tej opcji, własne prędkości zostaną, aż zmienisz drogi itd."
+                    "Jeśli usuniesz mod bez tej opcji, własne prędkości zostaną, aż zmienisz drogi, tory lub drogi wodne."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
-                    "To przywróci wszystkie obsługiwane własne limity prędkości do znanych domyślnych wartości gry.\n" +
+                    "Przywraca wszystkie własne limity prędkości zastosowane przez ten mod do znanych wartości domyślnych gry.\n" +
                     "Tej operacji nie da się cofnąć automatycznie.\n" +
                     "Po zakończeniu zapisz miasto jako NOWY zapis przed usunięciem moda."
                 },
@@ -123,7 +127,7 @@ namespace RoadRailSpeeds
                     "1. Kliknij albo przeciągnij, aby wybrać segmenty.\n" +
                     "2. Ustaw <Nową prędkość>, potem kliknij <Zastosuj>.\n" +
                     "3. <Przywróć> przywraca wybrane segmenty.\n" +
-                    "4. Przyciski ustawień wstępnych działają od razu.\n" +
+                    "4. <Ustawienia wstępne> działają od razu.\n" +
                     "\n" +
                     "<Całe miasto>\n" +
                     "Wybierz grupę dróg i zastosuj do niej <Nową prędkość>.\n" +

@@ -55,39 +55,43 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Hız birimleri" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Panel ve yüzen tabela birimlerini seç.\n" +
-                    "<AUTO> harita tipini izler: EU = KM/H, NA = MPH.\n" +
-                    "<KM/H> ve <MPH> bu gösterimi zorlar." },
+                    "<AUTO> harita tipini izler:\n" +
+                    "- EU = KM/H, NA = MPH.\n" +
+                    "<KM/H veya MPH> seçmek bu gösterimi sabitler."
+                },
 
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Kaydırıcıyı seçili bölümle eşleştir" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
-                    "<Açık önerilir>\n" +
-                    "Açık: bir bölüme tıklayınca kaydırıcı ilk seçili bölümün mevcut hızına gider.\n" +
-                    "Kapalı: başka bölüme tıklayınca son hedefin kalır.\n" +
-                    "Birden fazla parça seçersen, kaydırıcı başlangıcını yine ilk bölüm belirler."
+                    "**[ ✓ ] Açık olması önerilir**\n" +
+                    "Açık: Bir bölüme tıklayınca kaydırıcı 5’ten başlamak yerine o bölümün mevcut hızına gider.\n" +
+                    "- Birden çok bölüm seçersen ilk bölüm kaydırıcının başlangıç konumunu belirler.\n" +
+                    "Kapalı: Başka bir bölüme tıklayınca son hedef değer korunur."
                 },
 
                 // Slider increment
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Panel kaydırıcı adımı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
-                    "Şehir panelindeki kaydırıcı adımını ayarlar.\n" +
-                    "<Varsayılan = 10>" },
+                    "Şehir hız sınırı panelindeki kaydırıcının adım boyutunu ayarlar.\n" +
+                    "<Varsayılan = 10>"
+                },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Yardım metni boyutu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
-                    "Bu mod, mod öğelerinin üzerine gelince açılan yardım kutularındaki yazıyı büyütebilir.\n" +
-                    "<Varsayılan 110%>" },
+                    "Bu mod, hız sınırı özelliklerinin üzerine gelince açılan yardım kutularındaki yazıyı büyütebilir.\n" +
+                    "<Varsayılan 110%>"
+                },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Oyunun çift hızlarını göster" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Kapalı> daha basit bir ölçek gösterir, genelde yol işaretlerine daha yakındır.\n" +
                     "<Açık> panel ve yüzen yazıda oyunun daha yüksek iç hız ölçeğini gösterir.\n" +
-                    "Başka bir ipucu modu oyunun içteki iki kat değerlerini gösteriyorsa ve bunlarla eşleştirmek istiyorsan yararlıdır.\n" +
+                    "Başka bir ipucu modu veya Scene Explorer oyunun içteki iki kat değerlerini gösteriyorsa ve bunlarla eşleştirmek istiyorsan yararlıdır.\n" +
                     "**Bu yalnızca görünümü değiştirir;** kaydedilen hızlar <gerçekte değişmez>.\n" +
                     "Kafa karıştırıyorsa Kapalı bırak. Arabalar Açık veya Kapalıyken aynı şekilde hareket eder.\n" +
-                    "Not: yol işaretleri ve rakamları görseldir, oyunun gerçek şablon hız verileriyle uyuşmayabilir. 35 mph yazan bir işaret gerçekte 31 mph olabilir. Oyun yolları önce metrik sistemde hesaplar, sonra dönüştürür."
+                    "Not: <yol üzerindeki işaretler görsel tasarımdır> ve oyunun gerçek hazır nesne hız verileriyle uyuşmayabilir. 35 mph yazan bir işaret ~31 mph olabilir. Oyun yol hızlarını önce metrik olarak tanımlar, sonra dönüştürür."
                 },
 
                 // Enum values
@@ -100,16 +104,16 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Modu kaldırmadan önce isteğe bağlı temizlik.\n" +
                     "Bunu <yalnızca> bu modun özel hızlarını saklamak istemiyorsan kullan.\n" +
-                    "Modu kaldırmak için gerekli değildir. Özel yol hızları bu mod olmadan da şehirde kalabilir.\n" +
+                    "Modu kaldırmak için gerekli değildir. Özel hızlar bu mod olmadan da şehirde kalabilir.\n" +
                     "<============>\n" +
                     "\n" +
-                    "Bu, modun uyguladığı özel hızları bilinen oyun varsayılanlarına döndürür.\n" +
-                    "Bittiğinde modu kaldırmadan önce **YENİ KAYIT** yap.\n" +
-                    "Bunu kullanmadan modu kaldırırsan özel hızlar yolları değiştirene kadar kalır vb."
+                    "Bu düğme, modun özel hız uyguladığı yerlerde bilinen oyun varsayılanlarını geri yükler.\n" +
+                    "Bittiğinde modu kaldırmadan önce **YENİ KAYIT** oluştur.\n" +
+                    "Bunu kullanmadan modu kaldırırsan özel hızlar yolları, rayları veya su yollarını değiştirene kadar kalır."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
-                    "Bu, desteklenen tüm özel hız sınırlarını bilinen oyun varsayılanlarına döndürür.\n" +
+                    "Bu modun uyguladığı tüm özel hız sınırlarını bilinen oyun varsayılanlarına döndürür.\n" +
                     "Bu otomatik olarak geri alınamaz.\n" +
                     "Bittiğinde modu kaldırmadan önce şehri YENİ kayıt olarak kaydet."
                 },
@@ -123,12 +127,12 @@ namespace RoadRailSpeeds
                     "1. Bölümlere tıkla veya sürükleyerek seç.\n" +
                     "2. <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
                     "3. <Sıfırla> seçili bölümleri geri yükler.\n" +
-                    "4. Ön ayar düğmeleri hemen uygulanır.\n" +
+                    "4. <Ön ayar> düğmeleri anında uygulanır.\n" +
                     "\n" +
                     "<Tüm şehir>\n" +
                     "Bir yol grubu seç, sonra o gruba <Yeni hız> uygula.\n" +
                     "Özel hızları temizlemek için <Yollar>, <Raylar>, <Su> veya <Tümü> kullan.\n" +
-                    "Şehir geneli değişikliklerden sonra <Şehri kaydet>."
+                    "Tüm şehir değişikliklerinden sonra <Şehri kaydet>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -55,39 +55,43 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "速度單位" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "選擇面板和浮動標誌的單位。\n" +
-                    "<AUTO> 依地圖類型：EU = KM/H，NA = MPH。\n" +
-                    "<KM/H> 和 <MPH> 會強制使用該顯示。" },
+                    "<AUTO> 依地圖類型：\n" +
+                    "- EU = KM/H，NA = MPH。\n" +
+                    "選擇 <KM/H 或 MPH> 可強制使用該顯示。"
+                },
 
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "滑桿跟隨所選區段" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
-                    "<建議開啟>\n" +
-                    "開啟：點擊區段時，滑桿會移到第一個所選區段的目前速度。\n" +
-                    "關閉：點擊其他區段時，保留上一次滑桿目標值。\n" +
-                    "選取多個部分時，仍由第一個區段決定滑桿起點。"
+                    "**[ ✓ ] 建議開啟**\n" +
+                    "開啟：點擊區段時，滑桿會移到該區段的目前速度，而不是從 5 開始。\n" +
+                    "- 選取多個區段時，仍由第一個區段決定滑桿起點。\n" +
+                    "關閉：點擊其他區段時，保留上一次滑桿目標值。"
                 },
 
                 // Slider increment
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "面板滑桿步長" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
-                    "設定城市面板中的滑桿步長。\n" +
-                    "<預設 = 10>" },
+                    "設定城市速限面板中的滑桿步長。\n" +
+                    "<預設 = 10>"
+                },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "提示文字大小" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
-                    "本模組可放大滑鼠停留在模組項目上時顯示的提示框文字。\n" +
-                    "<預設 110%>" },
+                    "本模組可放大滑鼠停留在速限功能上時顯示的提示框文字。\n" +
+                    "<預設 110%>"
+                },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "顯示遊戲雙倍速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<關> 顯示較簡單的刻度，通常更接近道路標線。\n" +
                     "<開> 面板和浮動文字會顯示遊戲較高的內部速度刻度。\n" +
-                    "如果其他提示模組顯示遊戲內部的雙倍值，而你想讓兩者一致，此選項會很有用。\n" +
+                    "如果其他提示模組或 Scene Explorer 顯示遊戲內部的雙倍值，而你想讓兩者一致，此選項會很有用。\n" +
                     "**這只改變視覺顯示；**儲存的速度<不會真的改變>。\n" +
                     "如果覺得混亂，保持關閉即可。無論開啟還是關閉，車輛的實際移動都一樣。\n" +
-                    "注意：道路標線和標誌只是美術表現，可能與遊戲範本中的實際速度資料不同。標示為 35 mph 的道路，實際值可能是 31 mph。遊戲會先按公制計算道路速度，再轉換單位。"
+                    "注意：<道路標線只是美術表現>，可能與遊戲預製件中的真實速度資料不同。標示為 35 mph 的道路實際可能為 ~31 mph。遊戲先用公制定義道路速度，再進行轉換。"
                 },
 
                 // Enum values
@@ -100,16 +104,16 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "移除模組前的可選清理。\n" +
                     "<只在>不想保留本模組的自訂速度時使用。\n" +
-                    "移除模組不一定需要它。沒有本模組，自訂道路速度也可以留在城市裡。\n" +
+                    "移除模組不一定需要它。沒有本模組，自訂速度也可以留在城市裡。\n" +
                     "<============>\n" +
                     "\n" +
-                    "這會把本模組套用的自訂速度還原為已知的遊戲預設值。\n" +
+                    "此按鈕會在本模組套用過自訂速度的地方還原已知的遊戲預設值。\n" +
                     "完成後，在移除模組前請做一個**新存檔**。\n" +
-                    "如果不使用它就移除模組，自訂速度會保留，直到你修改道路等。"
+                    "如果不使用它就移除模組，自訂速度會保留，直到你修改道路、軌道或水路。"
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
-                    "這會把所有支援的自訂速限還原為已知的遊戲預設值。\n" +
+                    "這會把本模組套用的所有自訂速限還原為已知的遊戲預設值。\n" +
                     "此操作無法自動復原。\n" +
                     "完成後，在移除模組前請將城市儲存為新存檔。"
                 },
@@ -123,7 +127,7 @@ namespace RoadRailSpeeds
                     "1. 點擊或拖曳選取區段。\n" +
                     "2. 設定 <新速度>，然後點擊 <套用>。\n" +
                     "3. <重置> 會還原所選區段。\n" +
-                    "4. 預設按鈕會立即生效。\n" +
+                    "4. <預設> 按鈕會立即生效。\n" +
                     "\n" +
                     "<全城>\n" +
                     "選擇一個道路群組，然後把 <新速度> 套用到該群組。\n" +

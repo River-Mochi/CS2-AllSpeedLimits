@@ -56,39 +56,43 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Geschwindigkeitseinheiten" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Einheiten für Panel und schwebende Schilder wählen.\n" +
-                    "<AUTO> folgt dem Kartentyp: EU = KM/H, NA = MPH.\n" +
-                    "<KM/H> und <MPH> erzwingen diese Anzeige." },
+                    "<AUTO> folgt dem Kartentyp:\n" +
+                    "- EU = KM/H, NA = MPH.\n" +
+                    "Mit <KM/H oder MPH> wird diese Anzeige festgelegt."
+                },
 
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Regler mit ausgewähltem Segment abgleichen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
-                    "<Empfohlen: Ein>\n" +
-                    "Ein: Beim Klick auf ein Segment springt der Regler auf die aktuelle Geschwindigkeit des ersten Segments.\n" +
-                    "Aus: Beim Klick auf ein anderes Segment bleibt dein letzter Zielwert.\n" +
-                    "Bei Mehrfachauswahl setzt weiterhin das erste Segment die Startposition des Reglers."
+                    "**[ ✓ ] Aktivierung empfohlen**\n" +
+                    "Aktiviert: Beim Klick auf ein Segment springt der Regler auf dessen aktuelle Geschwindigkeit, statt bei 5 zu starten.\n" +
+                    "- Bei Mehrfachauswahl bestimmt weiterhin das erste Segment die Startposition des Reglers.\n" +
+                    "Deaktiviert: Beim Klick auf ein anderes Segment bleibt der letzte Zielwert erhalten."
                 },
 
                 // Slider increment
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Regler-Schrittweite" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
-                    "Legt die Schrittweite im Stadt-Panel fest.\n" +
-                    "<Standard = 10>" },
+                    "Legt die Schrittweite des Reglers im Tempolimit-Panel der Stadt fest.\n" +
+                    "<Standard = 10>"
+                },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Tooltip-Textgröße" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
-                    "Macht Mod-Hinweise größer, wenn du über Mod-Elemente fährst.\n" +
-                    "<Standard 110%>" },
+                    "Dieser Mod erlaubt größeren Text in den Hinweisfeldern, wenn du mit der Maus über Tempolimit-Funktionen fährst.\n" +
+                    "<Standard 110%>"
+                },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Verdoppelte Spielwerte anzeigen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Aus> zeigt eine einfachere Skala, meist näher an Straßenmarkierungen.\n" +
                     "<Ein> zeigt im Panel und schwebenden Text die höheren internen Spielwerte.\n" +
-                    "Nützlich, wenn ein anderes Tooltip-Mod die internen doppelten Werte des Spiels zeigt und du diese Anzeige angleichen willst.\n" +
+                    "Nützlich, wenn ein anderes Tooltip-Mod oder Scene Explorer die internen doppelten Spielwerte zeigt und du die Anzeigen angleichen willst.\n" +
                     "**Dies ändert nur die Anzeige;** gespeicherte Geschwindigkeiten <ändern sich nicht wirklich>.\n" +
                     "Wenn das verwirrend ist, lass es einfach Aus. Autos bewegen sich gleich, egal ob Ein oder Aus.\n" +
-                    "Hinweis: Straßenmarkierungen sind Grafik und stimmen möglicherweise nicht mit den echten Geschwindigkeitsdaten der Spielvorlage überein. Ein 35-mph-Schild kann tatsächlich 31 mph bedeuten. Das Spiel berechnet Straßen zuerst metrisch und rechnet dann um."
+                    "Hinweis: <Straßenmarkierungen sind Grafik> und stimmen möglicherweise nicht mit den echten Geschwindigkeitsdaten der Spielvorlage überein. Ein 35-mph-Schild kann etwa 31 mph bedeuten. Das Spiel definiert Straßengeschwindigkeiten zuerst metrisch und rechnet sie dann um."
                 },
 
                 // Enum values
@@ -101,18 +105,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Optionaler Aufräum-Schritt vor dem Entfernen des Mods.\n" +
                     "Nutze das <nur>, wenn du die eigenen Geschwindigkeiten dieses Mods nicht behalten willst.\n" +
-                    "Zum Entfernen des Mods ist das nicht erforderlich. Eigene Straßengeschwindigkeiten können in der Stadt bleiben, auch ohne diesen Mod.\n" +
+                    "Zum Entfernen des Mods ist das nicht erforderlich. Eigene Geschwindigkeiten können auch ohne diesen Mod in der Stadt bleiben.\n" +
                     "<============>\n" +
                     "\n" +
-                    "Dadurch werden die bekannten Spielstandards für die vom Mod geänderten Geschwindigkeiten wiederhergestellt.\n" +
-                    "Nach Abschluss: als **NEUEN SPIELSTAND** speichern, bevor du den Mod entfernst.\n" +
-                    "Wenn du den Mod ohne diesen Schritt entfernst, bleiben eigene Geschwindigkeiten erhalten, bis du die Straßen änderst usw."
+                    "Diese Schaltfläche stellt bekannte Spielstandards überall dort wieder her, wo der Mod eigene Geschwindigkeiten angewendet hat.\n" +
+                    "Nach Abschluss als **NEUEN SPIELSTAND** speichern, bevor du den Mod entfernst.\n" +
+                    "Wenn du den Mod ohne diesen Schritt entfernst, bleiben eigene Geschwindigkeiten erhalten, bis du Straßen, Schienen oder Wasserwege änderst."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
-                    "Dadurch werden alle unterstützten eigenen Tempolimits auf bekannte Spielstandards zurückgesetzt.\n" +
+                    "Dies setzt alle von diesem Mod angewendeten eigenen Tempolimits auf bekannte Spielstandards zurück.\n" +
                     "Das kann nicht automatisch rückgängig gemacht werden.\n" +
-                    "Nach Abschluss als NEUEN Spielstand speichern, bevor du den Mod entfernst."
+                    "Nach Abschluss die Stadt als NEUEN Spielstand speichern, bevor du den Mod entfernst."
                 },
 
                 // Usage instructions
@@ -124,12 +128,12 @@ namespace RoadRailSpeeds
                     "1. Segmente anklicken oder per Ziehen auswählen.\n" +
                     "2. <Neues Tempo> setzen, dann <Anwenden> klicken.\n" +
                     "3. <Zurücksetzen> stellt ausgewählte Segmente wieder her.\n" +
-                    "4. Voreinstellungen werden sofort angewendet.\n" +
+                    "4. <Vorgaben> werden sofort angewendet.\n" +
                     "\n" +
                     "<Ganze Stadt>\n" +
                     "Eine Straßengruppe wählen, dann <Neues Tempo> darauf anwenden.\n" +
                     "Mit <Straßen>, <Schienen>, <Wasser> oder <Alle> eigene Werte löschen.\n" +
-                    "Nach stadtweiten Änderungen <Stadt speichern>."
+                    "Nach Änderungen in der ganzen Stadt <Stadt speichern>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
