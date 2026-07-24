@@ -56,39 +56,40 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Speed Units" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Choose panel and floating sign units.\n" +
-                    "<AUTO> follows the map type: EU = KM/H, NA = MPH.\n" +
-                    "<KM/H> and <MPH> force that display." },
+                    "<AUTO> follows the map type:" +
+                    "- EU = KM/H, NA = MPH.\n" +
+                    "<KM/H or MPH> force that specific display." },
              
                 // Panel behavior
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Sync Slider With Selected Segment" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
-                    "<Enabled is recommended>\n" +
-                    "Enabled: clicking a segment moves the slider to the first selected segment's current speed.\n" +
-                    "Disabled: clicking another segment keeps your last slider target.\n" +
-                     "If you select multiple parts, the first segment still sets the start position on the slider."
+                    "**[ ✓ ] Enabled is recommended**\n" +
+                    "Enabled: clicking a segment moves the slider to the segment's current speed instead of starting everything at 5.\n" +
+                    "- If you select multiple parts, the first segment still sets the start position on the slider.\n"+
+                    "Disabled: clicking another segment keeps your last slider target number."          
                 },
 
                 // Slider increment
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)), "Panel Slider Increment" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelSliderIncrement)),
-                    "Sets slider step size in the city panel.\n" +
+                    "This sets the step size for the slider bar in the city speed limit panel.\n" +
                     "<Default = 10>" },
 
                 // Tooltip font scale
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)), "Tooltip Text Size" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.TooltipFontScale)),
-                    "This mod can have bigger text in the hint boxes while hovering mod items.\n" +
+                    "This mod allows bigger text in the hint boxes while hovering speed limit features.\n" +
                     "<Default 110%>" },
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Show Game Doubled Speeds" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Off> shows a simpler scale, usually closer to road decals.\n" +
-                    "<On> panel and floating text show the game's higher internal speed scale.\n" +
-                    "Useful if another tooltip mod shows game internal doubled values and you want to match.\n" +
+                    "<On> the panel + floating text show the game's higher internal speed scale.\n" +
+                    "Useful if another tooltip mod or Scene Explorer shows the game internal doubled values and you want to match.\n" +
                     "**This is visual Display only;** saved speeds <do not really change>.\n" +
                     "If this is confusing, just keep it Off. Cars will look the same moving if this is on or off.\n" +
-                    "Note: road decals are Art and may not match the game's real prefab speed data. 35 mph sign may be 31 mph. Game does roads in metric first, then converts."
+                    "Note: <road decals are Art> and may not match the game's real prefab speed data. 35 mph sign may be ~31 mph. Game does roads in metric first, then converts."
                 },
 
                 // Enum values
@@ -103,13 +104,13 @@ namespace RoadRailSpeeds
                     "Use this <only> if you do not want to keep this mod's custom speeds.\n" +
                     "This is not required to remove the mod. Custom road speeds can remain in the city without this mod.\n" +
                     "<============>\n\n" +
-                    "Using this restores to known game defaults the custom speeds applied by this mod.\n" +
+                    "This button restores any known game defaults over areas with custom speeds applied by this mod.\n" +
                     "After it finishes, do a **NEW SAVE** before removing the mod.\n" +
-                    "If you remove the mod without using this, custom speeds remain until you change the roads, etc.."
+                    "If you remove the mod without using this, custom speeds remain until you change the roads, rails, water."
                 },
 
                 { m_Setting.GetOptionWarningLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
-                    "This will restore all supported custom speed limits to known game defaults.\n" +
+                    "This restores all known game defaults to any custom speed limits applied by this mod.\n" +
                     "This cannot be undone automatically.\n" +
                     "After it finishes, save the city as a NEW save before removing the mod."
                 },
@@ -123,11 +124,11 @@ namespace RoadRailSpeeds
                     "1. Click or drag-select segments.\n" +
                     "2. Set <New speed>, then click <Apply>.\n" +
                     "3. <Reset> restores selected segments.\n" +
-                    "4. Preset buttons apply right away.\n\n" +
+                    "4. <Preset> buttons apply instantly.\n\n" +
                     "<Whole City>\n" +
                     "Choose a road group, then apply <New speed> to that group.\n" +
                     "Use <Roads>, <Rails>, <Water>, or <All> to clear custom speeds.\n" +
-                    "<Save city> after citywide changes."
+                    "<Save city> after whole city changes."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
