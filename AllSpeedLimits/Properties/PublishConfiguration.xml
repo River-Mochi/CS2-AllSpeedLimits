@@ -32,7 +32,8 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 - Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
 - **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
 - Performance: stats update only while the speed tool panel is open. Mod runs only when you have it open, make a change, then it goes back to sleep - easy, done.
-- ICE-3 trains have a real top speed of 320km/h, so slider will allow a little more at 400km/h. Game's own Unlimited highway speed policy is ~400km/h.
+- ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
+- The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
 
 
 ## Support and Feedback
@@ -70,14 +71,16 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Important: Easier to select long stretches of connected roads.
+- Made long stretches of connected roads much easier to select.
 - Added distinct floating-number colors: green for trains, pink for subways, and blue-green for roads and waterways.
-- Added separate bus and taxi rows to city Stats bottom section.
+- Added separate bus and taxi rows to city Stats.
 - Prevented custom road and rail speeds from reverting when CS2 refreshes or rebuilds lane data.
-- Improved floating-number sizes at different zoom levels. moved markers closer to roads, tracks surface - ground level for underground.
-- Reduced numbers clutter: far out zoom, speed numbers are grouped so less show.  Zoomed in closer, numbers show by proximity.
-- Improved main in game slider steps: default increment = 10, using round 10-unit speed steps (e.g., 100 → 110). minimum speed remains 5, and −/+ buttons still adjust by 1.
-- Options settings update instantly.
+- Improved floating-number sizing and placement across zoom levels, including underground subway markers.
+- Reduced map clutter by grouping distant numbers and showing nearby numbers by proximity.
+- Fixed slider increments so they continue from the current speed (for example, 45 → 55 with increment 10).
+- Changed MPH presets to 10–90 and kept exact lower speeds available through the slider and −/+ controls.
+- Corrected road Unlimited to 200km/h normally or 400km/h with doubled display.
+- Fixed Options settings so they save immediately.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
