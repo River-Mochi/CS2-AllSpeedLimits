@@ -32,7 +32,7 @@ namespace RoadRailSpeeds.Systems
             Waterways
         }
 
-        // Tweak this if citywide reset feels too slow or too bursty on low-end hardware.
+        // Tweak this if citywide reset feels too slow or too bursty on low-end pc.
         private const int kClearCustomSpeedsBatchSize = 96;
 
         private bool m_ClearRequested;
@@ -106,8 +106,8 @@ namespace RoadRailSpeeds.Systems
         {
             m_PendingClearEntities.Clear();
 
-            // Read-only gather (the actual removal happens later in ProcessClearBatch), so the modern
-            // SystemAPI.Query idiom fits. CustomSpeed marks edges this mod changed; MatchesScope keeps
+            // Read-only gather (actual removal happens later in ProcessClearBatch).
+            // CustomSpeed marks edges the mod changed; MatchesScope keeps
             // only the ones in the requested road/rail/water scope.
             foreach (var (_, entity) in SystemAPI
                 .Query<RefRO<CustomSpeed>>()
@@ -214,8 +214,8 @@ namespace RoadRailSpeeds.Systems
 
             if (!originalSpeed.HasValue)
             {
-                // No stored default speed means the safest fallback is removing CustomSpeed.
-                // The game then uses the prefab/default lane speed. Counted and summarized once
+                // No stored default speed means safest fallback is removing CustomSpeed.
+                // game then uses the prefab/default lane speed. Counted and summarized once
                 // after the batch finishes rather than logged per segment.
                 m_ClearNoOriginalCount++;
                 return;

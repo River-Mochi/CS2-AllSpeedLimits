@@ -23,10 +23,10 @@ namespace RoadRailSpeeds.Systems
     using UnityEngine.Scripting;            // Preserve
 
     /// <summary>
-    /// Adds visible RRS-owned overlays for selected waterways.
+    /// Adds visible RRS-owned overlays for waterways.
     /// IMPORTANT: this system is waterway-only.
-    /// Roads and rails intentionally stay on the game Highlighted path because it draws the
-    /// continuous outer edge outline without the overlapping curve caps produced by DrawCurve.
+    /// Roads and rails stay on the game Highlighted path because it draws the
+    /// outer edge outline without the overlapping curve caps produced by DrawCurve.
     /// </summary>
     [Preserve]
     public partial class SegmentSelectionOverlayRenderSystem : GameSystemBase
@@ -60,8 +60,8 @@ namespace RoadRailSpeeds.Systems
         }
 
         // Waterway selection knobs. Road/rail outlines are not drawn here on purpose.
-        // Do not add road/rail DrawCurve rendering here; it was tested and rejected for segment joins.
-        // This intentionally restores the high-visibility test look: magenta sides, cyan center,
+        // Do not add road/rail DrawCurve rendering here; already tested + rejected for segment joins.
+        // This intentionally restores high-visibility test look: magenta sides, cyan center,
         // white lane dash, and yellow node caps/outer edge so waterway segment joins are obvious.
         private static readonly Color s_WaterNodeEdge = new Color(1.00f, 0.90f, 0.12f, 0.78f);
         private static readonly Color s_WaterSideFill = new Color(0.68f, 0.10f, 0.78f, 0.58f);

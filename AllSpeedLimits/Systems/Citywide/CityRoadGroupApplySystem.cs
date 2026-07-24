@@ -58,13 +58,13 @@ namespace RoadRailSpeeds.Systems
         private float m_TargetSpeedKmh;
         private RoadGroup m_RoadGroup = RoadGroup.Medium;
         // Which target the pending apply hits. RoadGroup uses PrefabMatchesRoadGroup; Train/Subway gather by
-        // the live TrainTrack / SubwayTrack component (tram is grouped with roads elsewhere). The batch
-        // state machine is shared; only the entity collection and per-edge apply differ.
+        // the live TrainTrack / SubwayTrack component (tram is grouped with roads elsewhere).
+        // Batch state machine is shared; only the entity collection and per-edge apply differ.
         private ApplyTarget m_ApplyTarget = ApplyTarget.RoadGroup;
         private readonly List<Entity> m_PendingApplyEntities = new();
         // Road-group classification depends only on the prefab, but many edges share one prefab.
         // Caching the (prefab -> matches group?) result turns thousands of managed prefab lookups
-        // into one per unique prefab, which is what was spiking on Small/Highway gathers.
+        // into one per unique prefab, which is what was spiking on whole city small/highway gathers.
         private readonly Dictionary<Entity, bool> m_PrefabGroupMatchCache = new();
         private PrefabSystem m_PrefabSystem = null!;
 
@@ -160,8 +160,8 @@ namespace RoadRailSpeeds.Systems
         {
             m_PendingApplyEntities.Clear();
 
-            // Read-only gather (the edits happen later in ProcessApplyBatch), so SystemAPI.Query is the
-            // modern fit. Rail = train + subway only; tram is grouped with roads elsewhere in this mod.
+            // Read-only gather (edits happen later in ProcessApplyBatch).
+            // Rail = train + subway only; tram is grouped with roads elsewhere in mod.
             if (m_ApplyTarget == ApplyTarget.Train)
             {
                 foreach (var (_, entity) in SystemAPI
@@ -199,7 +199,7 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
-                    // The expensive prefab/group lookup is cached by prefab entity.
+                    // Expensive prefab/group lookup is cached by prefab entity.
                     Entity prefabEntity = prefabRef.ValueRO.m_Prefab;
                     if (!m_PrefabGroupMatchCache.TryGetValue(prefabEntity, out bool matches))
                     {
