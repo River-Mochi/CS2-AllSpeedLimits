@@ -72,11 +72,11 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Made long stretches of connected roads much easier to select.
-- Added distinct floating-number colors: green for trains, pink for subways, and blue-green for roads and waterways.
+- Added speed number colors: trains = green, subways = pink, and as before, blue-green for roads + waterways.
 - Added separate bus and taxi rows to Stats on mod's in-city panel.
-- Prevented custom road and rail speeds from reverting when CS2 refreshes or rebuilds lane data.
-- Improved floating-number sizing and placement across zoom levels, including underground subway markers.
-- Reduced map clutter by grouping distant numbers and showing nearby numbers by proximity.
+- Prevented custom road/rail speeds from reverting when CS2 refreshes or rebuilds lane data.
+- Improved floating speed number sizing and placement across zoom levels, including underground subway markers.
+- Reduced map clutter by grouping numbers to show fewer. Zoomed-in numbers shown by proximity (as you get closer, they appear).
 - Fixed slider increments so they continue from the current speed (for example, 45 → 55 with increment 10).
 - Changed MPH presets to 10–90 and kept lower 5mph available through the slider and −/+ controls.
 - Corrected road unlimited to 200km/h normally or 400km/h with doubled Options settings enabled.
