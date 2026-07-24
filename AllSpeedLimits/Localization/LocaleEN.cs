@@ -58,7 +58,7 @@ namespace RoadRailSpeeds
                     "Choose panel and floating sign units.\n" +
                     "<AUTO> follows the map type:\n" +
                     "- EU = KM/H, NA = MPH.\n" +
-                    "Selection <KM/H or MPH> forces that specific display."
+                    "Selecting <KM/H or MPH> forces that specific display."
                 },
              
                 // Panel behavior
