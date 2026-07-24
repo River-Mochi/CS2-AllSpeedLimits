@@ -35,7 +35,7 @@ namespace RoadRailSpeeds.Systems
     public partial class SegmentSpeedToolUISystem
     {
         private const float kMinSpeedKmh = 5f;
-        private const float kMaxRoadSpeedKmh = 400f;
+        private const float kMaxRoadSpeedKmh = 200f;
         private const float kMaxTrackSpeedKmh = 400f;
         private const float kMaxWaterwaySpeedKmh = 240f;
         private const float kSpeedComparisonTolerance = 0.5f;

@@ -206,8 +206,12 @@ export const SpeedToolWindow = () => {
             return 240;
         }
 
-        // Match the game's highway Unlimited policy cap; vehicles still obey their own max speeds.
-        return 400;
+        if (isTrackType) {
+            return 400;
+        }
+
+        // CS2's Unlimited Highway policy uses 400 km/h on the doubled game scale.
+        return 200;
     };
 
     const clampSpeedKmh = (speedKmh: number): number => {
@@ -216,7 +220,7 @@ export const SpeedToolWindow = () => {
 
     const getDisplaySpeed = (speedKmh: number): number => {
         const multiplier = doubleSpeedDisplay ? 2 : 1;
-        return showMetric ? speedKmh * multiplier : kmhToMph(speedKmh) * multiplier;
+        return showMetric ? speedKmh * multiplier : kmhToMph(speedKmh * multiplier);
     };
 
     const getDisplayMin = (): number => {
@@ -227,16 +231,7 @@ export const SpeedToolWindow = () => {
         const multiplier = doubleSpeedDisplay ? 2 : 1;
         return showMetric
             ? getMaxSpeedKmh() * multiplier
-            : kmhToMph(getMaxSpeedKmh()) * multiplier;
-    };
-
-    const snapDisplayToIncrement = (value: number): number => {
-        const min = getDisplayMin();
-        const max = getDisplayMax();
-        const snapped = value <= min
-            ? min
-            : Math.round(value / panelSliderIncrement) * panelSliderIncrement;
-        return Math.max(min, Math.min(max, snapped));
+            : kmhToMph(getMaxSpeedKmh() * multiplier);
     };
 
     const formatSpeed = (speedKmh: number): string => {
@@ -425,8 +420,7 @@ export const SpeedToolWindow = () => {
     }, [statsExpanded]);
 
     const handleSliderChange = (value: number) => {
-        const snappedValue = snapDisplayToIncrement(value);
-        setPendingSpeedKmh(displayValueToSpeedKmh(snappedValue));
+        setPendingSpeedKmh(displayValueToSpeedKmh(value));
     };
 
     const displayValueToSpeedKmh = (displayValue: number): number => {
@@ -436,8 +430,9 @@ export const SpeedToolWindow = () => {
             return clampSpeedKmh(actualKmh);
         }
 
-        const actualMph = doubleSpeedDisplay ? boundedDisplayValue / 2 : boundedDisplayValue;
-        return clampSpeedKmh(mphToKmh(actualMph));
+        const displayedKmh = mphToKmh(boundedDisplayValue);
+        const actualKmh = doubleSpeedDisplay ? displayedKmh / 2 : displayedKmh;
+        return clampSpeedKmh(actualKmh);
     };
 
     const handlePresetSpeed = (displayValue: number) => {
@@ -642,10 +637,10 @@ export const SpeedToolWindow = () => {
     const vanillaSpeedLabel = formatSelectionSpeed(vanillaSpeedKmh, vanillaSpeedMixed);
     const targetSpeedLabel = `${Math.round(displaySpeed)} ${unitLabel}`;
     // Preset grid: Unlimited is the last circle (sentinel -1), same size as the numbers.
-    // mph drops 90 to make room for it; km/h keeps all values and adds Unlimited after 160.
+    // mph starts at 10 and keeps 90; the slider/stepper can still set lower exact values.
     const presetSpeeds = showMetric
         ? [...METRIC_PRESET_SPEEDS, -1]
-        : [...IMPERIAL_PRESET_SPEEDS.filter(speed => speed !== 90), -1];
+        : [...IMPERIAL_PRESET_SPEEDS.filter(speed => speed !== 5), -1];
     const presetRows = [presetSpeeds.slice(0, 6), presetSpeeds.slice(6, 12), presetSpeeds.slice(12)];
     const cityActionInfo = pendingCityAction !== null ? getCityActionInfo(pendingCityAction) : null;
     const cityActionBusy = cityActionApplying !== null || cityResetInProgress || cityApplyInProgress;

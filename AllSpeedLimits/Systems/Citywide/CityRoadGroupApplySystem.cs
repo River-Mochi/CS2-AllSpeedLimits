@@ -48,7 +48,8 @@ namespace RoadRailSpeeds.Systems
         // Tweak this if citywide apply feels too slow or too bursty on low-end hardware.
         private const int kApplyRoadGroupBatchSize = 96;
         private const float kMinSpeedKmh = 5f;
-        private const float kMaxRoadSpeedKmh = 400f;
+        private const float kMaxRoadSpeedKmh = 200f;
+        private const float kMaxTrackSpeedKmh = 400f;
 
         private bool m_ApplyRequested;
         private bool m_ApplyInProgress;
@@ -120,9 +121,8 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            // Rail reuses the road max cap (400 km/h) so the panel's slider range stays consistent.
             m_ApplyTarget = target;
-            m_TargetSpeedKmh = math.clamp(speedKmh, kMinSpeedKmh, kMaxRoadSpeedKmh);
+            m_TargetSpeedKmh = math.clamp(speedKmh, kMinSpeedKmh, kMaxTrackSpeedKmh);
             m_ApplyRequested = true;
 
             LogUtils.Info(

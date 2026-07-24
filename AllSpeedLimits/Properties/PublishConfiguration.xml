@@ -76,7 +76,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 - Prevented custom road and rail speeds from reverting when CS2 refreshes or rebuilds lane data.
 - Improved floating-number sizes at different zoom levels. moved markers closer to roads, tracks surface - ground level for underground.
 - Reduced numbers clutter: far out zoom, speed numbers are grouped so less show.  Zoomed in closer, numbers show by proximity.
-- Slider stepping: minimum remains 5, and the default 10 step units now applies from the current speed.
+- Improved main in game slider steps: default increment = 10, using round 10-unit speed steps (e.g., 100 → 110). minimum speed remains 5, and −/+ buttons still adjust by 1.
 - Options settings update instantly.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
