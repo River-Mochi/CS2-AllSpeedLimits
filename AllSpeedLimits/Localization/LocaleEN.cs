@@ -65,7 +65,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)), "Sync Slider With Selected Segment" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SyncSliderWithSelection)),
                     "**[ ✓ ] Enabled is recommended**\n" +
-                    "Enabled: clicking a segment moves the slider to the segment's current speed instead of starting everything at 5.\n" +
+                    "Enabled: clicking a segment moves the slider to the segment's current speed instead of starting the slider at 5.\n" +
                     "- If you select multiple parts, the first segment still sets the start position on the slider.\n"+
                     "Disabled: clicking another segment keeps your last slider target number."          
                 },
