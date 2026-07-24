@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- File: CS2 "Adjust Speed Limits" [ASL]
     - CS2 toolchain (Mod.props / Mod.targets) supplies TargetFramework, game ref resolution, analyzers.
-    - Notes: TargetFramework net48, C# LangVersion 9.0, OutputType Library is set by toolchain Mod.props.
+    - toolchain Mod.props sets: TargetFramework net48, C# LangVersion 9.0, OutputType Library.
     - UI build (under UI/) runs after C# build; webpack writes directly into the CS2 Mods folder.
       Release fails hard on npm errors; Debug warns and continues.
     - Update-PublishConfig.ps1 syncs version number into PublishConfiguration.xml + UI/mod.json.
