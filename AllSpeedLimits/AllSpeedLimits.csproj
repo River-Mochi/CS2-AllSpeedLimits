@@ -18,7 +18,7 @@
         <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
 
         <!-- Versioning: single source of truth -->
-        <Version>1.2.5</Version>
+        <Version>1.2.6</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
 
