@@ -48,7 +48,7 @@ DICT_START = re.compile(
 )
 
 # CS2 Options text uses <text> for green highlighted text.
-# Match only complete markers on one displayed line. 
+# Match only complete markers on one displayed line.
 #  "value > 0" or "Options > Interface" are
 # handled separately by marker_issues().
 ANGLE_MARKER = re.compile(r"<([^<>\n]+)>")

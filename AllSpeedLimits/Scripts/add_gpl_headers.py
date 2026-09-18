@@ -13,20 +13,20 @@ Add standard River-Mochi GPL file headers to source files.
 Dry run by default. Run commands from the repo root:
 
   # 1. Preview only. Use this first.
-  py -3 Scripts/add_gpl_headers.py
+  py -3 AllSpeedLimits/Scripts/add_gpl_headers.py
 
   # 2. Add headers to files that do not already have one.
-  py -3 Scripts/add_gpl_headers.py --apply
+  py -3 AllSpeedLimits/Scripts/add_gpl_headers.py --apply
 
   # 3. Replace old headers with this exact current River-Mochi header.
   #    Use this when you intentionally want every supported source file updated.
-  py -3 Scripts/add_gpl_headers.py --apply --replace-existing
+  py -3 AllSpeedLimits/Scripts/add_gpl_headers.py --apply --replace-existing
 
   # 4. CI/check mode. Fails if any supported file still needs a header.
-  py -3 Scripts/add_gpl_headers.py --check
+  py -3 AllSpeedLimits/Scripts/add_gpl_headers.py --check
 
   # 5. Strict CI/check mode. Also fails if an old header needs replacement.
-  py -3 Scripts/add_gpl_headers.py --check --replace-existing
+  py -3 AllSpeedLimits/Scripts/add_gpl_headers.py --check --replace-existing
 
 Supported source files:
   .cs
@@ -199,10 +199,10 @@ def is_copyright_block_line(line: str) -> bool:
 
 
 def find_existing_header_range(text: str, prefix: str) -> tuple[int, int] | None:
-    """Find a top-of-file copyright block to remove.
+    """Find a River-Mochi top-of-file copyright block to remove.
 
     This supports both the current XML-style block and older comment-only blocks.
-    It only removes a top comment block if that block contains copyright/license text.
+    A block containing another holder's copyright is never removed.
     """
     lines = text.split("\n")
 
@@ -237,6 +237,24 @@ def find_existing_header_range(text: str, prefix: str) -> tuple[int, int] | None
         end += 1
 
     if not saw_copyright_text:
+        return None
+
+    header_lines = lines[start:end]
+    copyright_lines = [
+        line.lower()
+        for line in header_lines
+        if "copyright" in line.lower()
+        and "<copyright" not in line.lower()
+        and "</copyright>" not in line.lower()
+    ]
+    has_river_mochi_copyright = any(
+        "river-mochi" in line for line in copyright_lines
+    )
+    has_foreign_copyright = any(
+        "river-mochi" not in line for line in copyright_lines
+    )
+
+    if not has_river_mochi_copyright or has_foreign_copyright:
         return None
 
     # If there was no explicit </copyright>, keep the removal conservative:

@@ -35,6 +35,12 @@ Existing backups in `ModsData/SpeedLimits` are migrated automatically.
 
 For a clean uninstall, use the reset/clear buttons, save the city, then remove the mod.
 
+## License
+
+Current versions are licensed under GPL-3.0-or-later with the Cities: Skylines II Linking Exception. See [LICENSE](LICENSE) and [LICENSE-EXCEPTION](LICENSE-EXCEPTION).
+
+Some UI binding helpers include or derive from MIT-licensed code. Their copyright and license notices are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Performance
 
 - Vehicle stats update only while the panel is open.

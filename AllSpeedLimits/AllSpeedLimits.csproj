@@ -27,7 +27,6 @@
         <RootNamespace>RoadRailSpeeds</RootNamespace>
         <AssemblyName>RoadRailSpeeds</AssemblyName>
         <AssemblyTitle>Adjust Speed Limits</AssemblyTitle>
-        <Product>Adjust Speed Limits</Product>
         <Copyright>Copyright © 2026 River-Mochi</Copyright>
 
         <!-- Configurable npm timeouts (ms). Prevents "looks stuck forever" without a hard cap on success. -->
@@ -147,6 +146,13 @@
         <Content Include="lang\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+    </ItemGroup>
+
+    <!-- Ship licensing and attribution documents with local and published builds. -->
+    <ItemGroup>
+        <None Include="..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="..\LICENSE-EXCEPTION" Link="LICENSE-EXCEPTION" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="..\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <!-- AUTO UPDATE PublishConfiguration.xml GameVersion + ModVersion + nested mod.json "version" from $(Version). -->
