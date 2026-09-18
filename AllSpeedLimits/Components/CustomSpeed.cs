@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Components/CustomSpeed.cs
-// Purpose: ECS component storing a segment's custom speed limit for saves and overlays.
+// Purpose: Stores a player-set speed on a network segment so it survives saves and appears on markers.
 
 namespace RoadRailSpeeds.Components
 {
@@ -20,11 +20,11 @@ namespace RoadRailSpeeds.Components
         private const float kMphPerKmh = 0.621371f;
         private const float kSpeedToleranceKmh = 0.01f;
 
-        // Canonical value: km/h, since the UI, JSON backup, and lane apply logic all use km/h.
+        // Store one main speed in km/h because the UI, backups, and network updates all use it.
         public float m_Speed;
 
-        // Cached mph for display/overlay consumers that need imperial text without recalculating.
-        // Derived from m_Speed, never independent state, so equality/hashing below ignore it.
+        // Keep the matching mph value ready for imperial labels. It comes from m_Speed and is not
+        // a separate player setting, so comparisons use only the main km/h value.
         public float m_SpeedMPH;
 
         public CustomSpeed(float speedKmh)
@@ -43,10 +43,9 @@ namespace RoadRailSpeeds.Components
             return obj is CustomSpeed other && Equals(other);
         }
 
-        // Quantized to the same tolerance Equals() uses, so two values Equals() treats as equal
-        // (e.g. 100.000 and 100.005, within kSpeedToleranceKmh) hash identically. Hashing the raw
-        // float directly would violate the .NET contract that Equals == true implies equal hash
-        // codes, since near-identical floats can have completely different bit patterns.
+        // Keep tiny calc. differences from making basically the same speed look different
+        // when CustomSpeed values are compared or grouped. Rounds only the comparison value;
+        // does not change the speed saved in the city.
         public override readonly int GetHashCode()
         {
             return Math.Round(m_Speed / kSpeedToleranceKmh).GetHashCode();
@@ -65,7 +64,7 @@ namespace RoadRailSpeeds.Components
             reader.Read(out m_Speed);
             reader.Read(out m_SpeedMPH);
 
-            // Keep old/corrupt save data sane if a bad value ever gets deserialized.
+            // Prevent an older or damaged save from loading an invalid speed.
             m_Speed = NormalizeSpeed(m_Speed);
             m_SpeedMPH = m_SpeedMPH > 0f ? m_SpeedMPH : ToMph(m_Speed);
         }
