@@ -33,7 +33,7 @@ namespace RoadRailSpeeds.Extensions
         {
             if (type.IsAssignableFrom(typeof(IJsonReadable)))
             {
-                var value = (IJsonReadable)Activator.CreateInstance(type);
+                IJsonReadable value = (IJsonReadable)Activator.CreateInstance(type);
 
                 value.Read(reader);
 
@@ -105,10 +105,10 @@ namespace RoadRailSpeeds.Extensions
 
             if (type.IsArray)
             {
-                var length = (int)reader.ReadArrayBegin();
-                var array = (Array)Activator.CreateInstance(type, length);
+                int length = (int)reader.ReadArrayBegin();
+                Array array = (Array)Activator.CreateInstance(type, length);
 
-                for (var i = 0; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     reader.ReadArrayElement((ulong)i);
 
@@ -122,11 +122,11 @@ namespace RoadRailSpeeds.Extensions
 
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
             {
-                var length = reader.ReadArrayBegin();
-                var genericListType = typeof(List<>).MakeGenericType(type.GetElementType());
-                var genericList = (IList)Activator.CreateInstance(genericListType);
+                ulong length = reader.ReadArrayBegin();
+                Type genericListType = typeof(List<>).MakeGenericType(type.GetElementType());
+                IList genericList = (IList)Activator.CreateInstance(genericListType);
 
-                for (var i = 0ul; i < length; i++)
+                for (ulong i = 0ul; i < length; i++)
                 {
                     reader.ReadArrayElement(i);
 
@@ -143,13 +143,13 @@ namespace RoadRailSpeeds.Extensions
 
         private static object ReadObject(IJsonReader reader, Type type)
         {
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
-            var obj = Activator.CreateInstance(type);
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
+            object obj = Activator.CreateInstance(type);
 
             reader.ReadMapBegin();
 
-            foreach (var propertyInfo in properties)
+            foreach (PropertyInfo? propertyInfo in properties)
             {
                 if (reader.ReadProperty(propertyInfo.Name))
                 {
@@ -157,7 +157,7 @@ namespace RoadRailSpeeds.Extensions
                 }
             }
 
-            foreach (var fieldInfo in fields)
+            foreach (FieldInfo fieldInfo in fields)
             {
                 if (reader.ReadProperty(fieldInfo.Name))
                 {

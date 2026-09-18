@@ -11,7 +11,6 @@
 
 namespace RoadRailSpeeds.Systems
 {
-    using Game.Common;
     using Game.Net;
     using Game.Tools;
     using RoadRailSpeeds.Components;
@@ -69,7 +68,7 @@ namespace RoadRailSpeeds.Systems
 
                 if (EntityManager.HasComponent<Temp>(edge))
                 {
-                    var temp = EntityManager.GetComponentData<Temp>(edge);
+                    Temp temp = EntityManager.GetComponentData<Temp>(edge);
                     targetEdge = temp.m_Original;
                 }
 
@@ -104,7 +103,7 @@ namespace RoadRailSpeeds.Systems
                             }
                             else if (EntityManager.HasComponent<Game.Net.TrackLane>(subLane.m_SubLane))
                             {
-                                var trackLane = EntityManager.GetComponentData<Game.Net.TrackLane>(subLane.m_SubLane);
+                                TrackLane trackLane = EntityManager.GetComponentData<Game.Net.TrackLane>(subLane.m_SubLane);
 
                                 totalSpeed += trackLane.m_SpeedLimit * 1.8f;
                                 count++;
@@ -172,7 +171,7 @@ namespace RoadRailSpeeds.Systems
                 }
                 else if (EntityManager.HasComponent<Game.Net.TrackLane>(laneEntity))
                 {
-                    var trackLane = EntityManager.GetComponentData<Game.Net.TrackLane>(laneEntity);
+                    TrackLane trackLane = EntityManager.GetComponentData<Game.Net.TrackLane>(laneEntity);
 
                     trackLane.m_SpeedLimit = speedGameUnits;
 
@@ -199,7 +198,7 @@ namespace RoadRailSpeeds.Systems
 
                 if (EntityManager.HasComponent<Temp>(edge))
                 {
-                    var temp = EntityManager.GetComponentData<Temp>(edge);
+                    Temp temp = EntityManager.GetComponentData<Temp>(edge);
                     targetEdge = temp.m_Original;
                 }
 
@@ -239,7 +238,7 @@ namespace RoadRailSpeeds.Systems
                         }
                         else if (EntityManager.HasComponent<Game.Net.TrackLane>(subLane.m_SubLane))
                         {
-                            var trackLane = EntityManager.GetComponentData<Game.Net.TrackLane>(subLane.m_SubLane);
+                            TrackLane trackLane = EntityManager.GetComponentData<Game.Net.TrackLane>(subLane.m_SubLane);
 
                             trackLane.m_SpeedLimit = speedGameUnits;
 

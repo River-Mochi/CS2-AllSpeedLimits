@@ -17,7 +17,6 @@ namespace RoadRailSpeeds.Systems
     using Game.Input;                      // InputManager
     using Game.Net;                        // Edge, Curve, Road, tracks
     using Game.Prefabs;                    // PrefabRef
-    using Game.UI;                         // SystemUpdatePhase UI base dependencies
     using RoadRailSpeeds.Extensions;       // ExtendedInfoSectionBase, ValueBindingHelper
     using Unity.Entities;                  // Entity, EntityQuery
     using UnityEngine;                     // Screen, Vector3

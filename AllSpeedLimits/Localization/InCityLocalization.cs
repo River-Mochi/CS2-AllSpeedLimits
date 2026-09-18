@@ -16,10 +16,10 @@ namespace RoadRailSpeeds
     using System.IO;                 // Stream, StreamReader
     using System.Linq;               // OrderBy
     using System.Reflection;         // Assembly
-    using CS2Shared.RiverMochi;      // LogUtils
     using Colossal.Json;             // JSON, Variant
     using Colossal.Localization;     // LocalizationManager, MemorySource
     using Colossal.Logging;          // ILog
+    using CS2Shared.RiverMochi;      // LogUtils
     using Game.SceneFlow;            // GameManager
 
     internal static class InCityLocalization

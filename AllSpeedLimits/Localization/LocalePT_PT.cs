@@ -13,12 +13,6 @@ namespace RoadRailSpeeds
 {
     using System.Collections.Generic;
     using Colossal;
-    using Colossal.PSI.Common;
-    using Game.Areas;
-    using Game.Citizens;
-    using Game.City;
-    using Game.Objects;
-    using Game.UI;
 
     public sealed class LocalePT_PT : IDictionarySource
     {

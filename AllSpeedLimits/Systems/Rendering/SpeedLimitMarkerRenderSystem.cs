@@ -13,22 +13,16 @@ namespace RoadRailSpeeds.Systems
 {
     using System;
     using System.Collections.Generic;
-    using Colossal.Mathematics;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.City;
-    using Game.Input;
     using Game.Net;
     using Game.Prefabs;
     using Game.Rendering;
-    using Game.UI;
     using RoadRailSpeeds.Components;
-    using TMPro;
     using Unity.Collections;
     using Unity.Entities;
-    using Unity.Mathematics;
     using UnityEngine;
-    using UnityEngine.Rendering;
     using UnityEngine.Scripting;
 
     [Preserve]
@@ -220,11 +214,11 @@ namespace RoadRailSpeeds.Systems
         {
             base.OnCreate();
 
-            m_RenderingSystem = World.GetOrCreateSystemManaged<RenderingSystem>();
-            m_OverlayRenderSystem = World.GetOrCreateSystemManaged<OverlayRenderSystem>();
+            m_RenderingSystem = World.GetOrCreateSystemManaged<global::Game.Rendering.RenderingSystem>();
+            m_OverlayRenderSystem = World.GetOrCreateSystemManaged<global::Game.Rendering.OverlayRenderSystem>();
             m_SegmentSpeedToolSystem = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
-            m_CityConfigurationSystem = World.GetOrCreateSystemManaged<CityConfigurationSystem>();
-            m_CameraUpdateSystem = World.GetExistingSystemManaged<CameraUpdateSystem>();
+            m_CityConfigurationSystem = World.GetOrCreateSystemManaged<global::Game.City.CityConfigurationSystem>();
+            m_CameraUpdateSystem = World.GetExistingSystemManaged<global::Game.Rendering.CameraUpdateSystem>();
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
 
             m_Settings = Mod.Settings;
@@ -242,13 +236,13 @@ namespace RoadRailSpeeds.Systems
             m_FaceColorID = Shader.PropertyToID("_FaceColor");
 
             // Unity render-pipeline event.
-            RenderPipelineManager.beginContextRendering += Render;
+            global::UnityEngine.Rendering.RenderPipelineManager.beginContextRendering += Render;
         }
 
         [Preserve]
         protected override void OnDestroy()
         {
-            RenderPipelineManager.beginContextRendering -= Render;
+            global::UnityEngine.Rendering.RenderPipelineManager.beginContextRendering -= Render;
             ClearTextMeshCache();
 
             base.OnDestroy();

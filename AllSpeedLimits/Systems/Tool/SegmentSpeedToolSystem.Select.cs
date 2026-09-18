@@ -13,7 +13,6 @@ namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;
     using Colossal.Collections;
-    using Colossal.Entities;
     using Game.Common;
     using Game.Net;
     using Game.Prefabs;
@@ -47,7 +46,7 @@ namespace RoadRailSpeeds.Systems
 
         protected override bool GetAllowApply()
         {
-            if (GetRaycastResult(out var controlPoint))
+            if (GetRaycastResult(out ControlPoint controlPoint))
             {
                 if (controlPoint.m_OriginalEntity != Entity.Null &&
                     EntityManager.HasComponent<Edge>(controlPoint.m_OriginalEntity) &&

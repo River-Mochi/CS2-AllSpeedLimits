@@ -109,7 +109,7 @@ namespace RoadRailSpeeds.Systems
             // Read-only gather (actual removal happens later in ProcessClearBatch).
             // CustomSpeed marks edges the mod changed; MatchesScope keeps
             // only the ones in the requested road/rail/water scope.
-            foreach (var (_, entity) in SystemAPI
+            foreach ((RefRO<CustomSpeed> _, Entity entity) in SystemAPI
                 .Query<RefRO<CustomSpeed>>()
                 .WithAll<Edge>()
                 .WithEntityAccess())

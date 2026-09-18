@@ -1,4 +1,4 @@
-// <copyright file="ReflectionExtensions..cs" company="River-Mochi">
+// <copyright file="ReflectionExtensions.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the GNU General Public License v3.0 or later,
 // with the Cities: Skylines II Linking Exception.
@@ -6,7 +6,7 @@
 // This notice MUST be kept with copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Extensions/ReflectionExtensions..cs
+// File: Extensions/ReflectionExtensions.cs
 // Purpose: Small reflection helpers used by the UI binding helper classes.
 
 namespace RoadRailSpeeds.Extensions

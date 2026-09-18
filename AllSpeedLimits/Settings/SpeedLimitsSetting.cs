@@ -17,7 +17,6 @@ namespace RoadRailSpeeds
     using Game.Modding;              // IMod
     using Game.Settings;             // ModSetting, settings attributes
     using Game.UI;                   // Unit
-    using Game.UI.Widgets;           // Settings UI widgets
     using RoadRailSpeeds.Systems;    // ClearCustomSpeedsSystem, SegmentSpeedToolUISystem
     using Unity.Entities;            // World
 

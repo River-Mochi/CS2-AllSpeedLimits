@@ -11,7 +11,7 @@ Files:
 - `AllSpeedLimits/Extensions/GenericUIReader.cs`
 - `AllSpeedLimits/Extensions/GenericUIWriter.cs`
 - `AllSpeedLimits/Extensions/ValueBindingHelper.cs`
-- `AllSpeedLimits/Extensions/ReflectionExtensions..cs`
+- `AllSpeedLimits/Extensions/ReflectionExtensions.cs`
 
 Upstream sources and attribution history:
 - [yenyang / Tree Controller](https://github.com/yenyang/Tree_Controller)

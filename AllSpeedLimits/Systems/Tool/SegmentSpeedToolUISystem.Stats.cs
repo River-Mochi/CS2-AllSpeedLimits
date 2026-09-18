@@ -200,7 +200,7 @@ namespace RoadRailSpeeds.Systems
 
             // Read-only count over PersonalCar entities.
             // Entity is needed for ParkedCar/CarCurrentLane; BicycleData is checked on the prefab.
-            foreach (var (prefabRef, vehicle) in SystemAPI
+            foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.PersonalCar>()
                 .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
@@ -248,7 +248,7 @@ namespace RoadRailSpeeds.Systems
 
             // Third stats row: all road-using work/service/freight cars. Exclude: private cars,
             // bicycles, taxis, public transit, trailers, rail, water, and air.
-            foreach (var (prefabRef, vehicle) in SystemAPI
+            foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
                 .WithNone<Game.Vehicles.PersonalCar, Game.Vehicles.PublicTransport, Game.Vehicles.Taxi>()
@@ -289,7 +289,7 @@ namespace RoadRailSpeeds.Systems
 
             // Buses only: prefab declares TransportType.Bus.
             // Exclukeeps trains, trams, subway, ships, and aircraft out of the road stats table.
-            foreach (var (prefabRef, vehicle) in SystemAPI
+            foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.PublicTransport>()
                 .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
@@ -324,7 +324,7 @@ namespace RoadRailSpeeds.Systems
 
             // Road taxis only. Count both live Taxi component and TaxiData prefab so the row remains
             // robust if one side changes in a future game update.
-            foreach (var (prefabRef, vehicle) in SystemAPI
+            foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.Taxi>()
                 .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()
@@ -398,7 +398,7 @@ namespace RoadRailSpeeds.Systems
                 int emergencyHints = 0;
                 int hearseHints = 0;
 
-                foreach (var (prefabRef, vehicle) in SystemAPI
+                foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                     .Query<RefRO<PrefabRef>>()
                     .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car>()
                     .WithNone<Game.Vehicles.CarTrailer, Deleted, Destroyed>()

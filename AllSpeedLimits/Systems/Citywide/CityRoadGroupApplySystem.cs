@@ -164,7 +164,7 @@ namespace RoadRailSpeeds.Systems
             // Rail = train + subway only; tram is grouped with roads elsewhere in mod.
             if (m_ApplyTarget == ApplyTarget.Train)
             {
-                foreach (var (_, entity) in SystemAPI
+                foreach ((RefRO<PrefabRef> _, Entity entity) in SystemAPI
                     .Query<RefRO<PrefabRef>>()
                     .WithAll<Edge, Curve, TrainTrack>()
                     .WithNone<Deleted, Temp>()
@@ -175,7 +175,7 @@ namespace RoadRailSpeeds.Systems
             }
             else if (m_ApplyTarget == ApplyTarget.Subway)
             {
-                foreach (var (_, entity) in SystemAPI
+                foreach ((RefRO<PrefabRef> _, Entity entity) in SystemAPI
                     .Query<RefRO<PrefabRef>>()
                     .WithAll<Edge, Curve, SubwayTrack>()
                     .WithNone<Deleted, Temp>()
@@ -187,7 +187,7 @@ namespace RoadRailSpeeds.Systems
             else
             {
                 m_PrefabGroupMatchCache.Clear();
-                foreach (var (prefabRef, entity) in SystemAPI
+                foreach ((RefRO<PrefabRef> prefabRef, Entity entity) in SystemAPI
                     .Query<RefRO<PrefabRef>>()
                     .WithAll<Edge, Curve, Road>()
                     .WithNone<Deleted, Temp>()
