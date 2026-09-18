@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Citywide/ClearCustomSpeedsSystem.cs
-// Purpose: Handles batched requests to remove custom speeds in the loaded city.
+// Purpose: Restores selected network types to their original speeds without freezing large cities.
 
 namespace RoadRailSpeeds.Systems
 {
@@ -106,9 +106,8 @@ namespace RoadRailSpeeds.Systems
         {
             m_PendingClearEntities.Clear();
 
-            // Read-only gather (actual removal happens later in ProcessClearBatch).
-            // CustomSpeed marks edges the mod changed; MatchesScope keeps
-            // only the ones in the requested road/rail/water scope.
+            // Collect the affected segments first, then reset them in small groups so a large city
+            // does not pause when the player chooses a whole-city reset.
             foreach ((RefRO<CustomSpeed> _, Entity entity) in SystemAPI
                 .Query<RefRO<CustomSpeed>>()
                 .WithAll<Edge>()
@@ -147,8 +146,8 @@ namespace RoadRailSpeeds.Systems
                 m_PendingClearEntities.Count,
                 m_ClearIndex + kClearCustomSpeedsBatchSize);
 
-            // Restore lane speeds + clear tracking per entity (non-structural), collecting the
-            // entities into one list so CustomSpeed is removed in a single batched structural change.
+            // Reset this group, then remove its custom-speed markers in one step. Doing that once
+            // per segment would repeatedly rebuild game data and cause visible stutter.
             using (NativeList<Entity> toRemove = new NativeList<Entity>(kClearCustomSpeedsBatchSize, Allocator.Temp))
             {
                 for (; m_ClearIndex < endIndex; m_ClearIndex++)
@@ -214,9 +213,8 @@ namespace RoadRailSpeeds.Systems
 
             if (!originalSpeed.HasValue)
             {
-                // No stored default speed means safest fallback is removing CustomSpeed.
-                // game then uses the prefab/default lane speed. Counted and summarized once
-                // after the batch finishes rather than logged per segment.
+                // If an old speed was never recorded, remove our override and let the game choose
+                // its standard speed. Report the total once instead of flooding the log per segment.
                 m_ClearNoOriginalCount++;
                 return;
             }
@@ -240,7 +238,7 @@ namespace RoadRailSpeeds.Systems
             if (EntityManager.HasComponent<CarLane>(laneEntity))
             {
                 CarLane carLane = EntityManager.GetComponentData<CarLane>(laneEntity);
-                // Restore both fields so CS2's next lane-data refresh retains the prefab speed.
+                // Restore both values or a later road refresh can put the custom speed back.
                 carLane.m_DefaultSpeedLimit = speedGameUnits;
                 carLane.m_SpeedLimit = speedGameUnits;
                 EntityManager.SetComponentData(laneEntity, carLane);
@@ -255,8 +253,8 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        // Clears this mod's per-entity tracking (in-memory + JSON). The CustomSpeed component itself
-        // is removed in one batched structural change by ProcessClearBatch, not per entity here.
+        // Forget this segment in memory and in the recovery file. Its visible custom marker is
+        // removed with the rest of the group to avoid a separate game-world rebuild per segment.
         private void ClearCustomSpeedTracking(Entity entity)
         {
             SpeedLimitDataManager.RemoveOriginalSpeed(entity.Index);

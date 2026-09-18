@@ -198,8 +198,8 @@ namespace RoadRailSpeeds.Systems
             int taxiActive = 0;
             int taxiParked = 0;
 
-            // Read-only count over PersonalCar entities.
-            // Entity is needed for ParkedCar/CarCurrentLane; BicycleData is checked on the prefab.
+            // Count personal vehicles, using their current state for moving versus parked and their
+            // design only to separate bicycles from cars.
             foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.PersonalCar>()
@@ -287,8 +287,8 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            // Buses only: prefab declares TransportType.Bus.
-            // Exclukeeps trains, trams, subway, ships, and aircraft out of the road stats table.
+            // Count only designs declared as buses so trains, trams, subways, ships, and aircraft
+            // do not appear in the road table.
             foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.PublicTransport>()
@@ -322,8 +322,8 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            // Road taxis only. Count both live Taxi component and TaxiData prefab so the row remains
-            // robust if one side changes in a future game update.
+            // Check both the live vehicle and its design so taxis remain counted if a game update
+            // changes where that label is stored.
             foreach ((RefRO<PrefabRef> prefabRef, Entity vehicle) in SystemAPI
                 .Query<RefRO<PrefabRef>>()
                 .WithAll<Game.Vehicles.Vehicle, Game.Vehicles.Car, Game.Vehicles.Taxi>()

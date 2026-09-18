@@ -1,6 +1,5 @@
 // File: UI/src/slider/slider.tsx
-// Purpose: Wrapper around the vanilla CS2 slider with stepping anchored to each drag's starting
-// value, plus CSS variable overrides for the track colors/size.
+// Purpose: Keeps speed steps stable while dragging and makes the game's slider match this panel.
 
 import { useRef } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";

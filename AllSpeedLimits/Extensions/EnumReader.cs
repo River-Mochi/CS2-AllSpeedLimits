@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Extensions/EnumReader.cs
-// Purpose:
+// Purpose: Lets a numeric choice sent by the panel become the matching C# option.
 // Derived from MIT-licensed CS2 helper code; see THIRD_PARTY_NOTICES.md.
 
 namespace Platter.Extensions

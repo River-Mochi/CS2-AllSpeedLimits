@@ -61,7 +61,8 @@ namespace RoadRailSpeeds.Systems
             return false;
         }
 
-        // Component-level filter; raycast layers can overlap on tram roads.
+        // Tram roads can appear in both road and rail hit layers. Check the actual segment type so
+        // the player's road/rail/water filters select what their labels promise.
         private bool IsEdgeTypeAllowed(Entity edge)
         {
             if (edge == Entity.Null || !EntityManager.Exists(edge))

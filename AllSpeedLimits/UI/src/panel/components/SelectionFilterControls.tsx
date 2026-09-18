@@ -33,8 +33,8 @@ type FilterChipProps = {
 
 const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip }: FilterChipProps) => {
   const [hovered, setHovered] = useState(false);
-  // Must come from the resolver (game module), not a direct cs2/ui import, or the Button
-  // auto-generates a focus key and floods "cannot register second focus key" errors.
+  // Use the game's resolved button here. A direct import registers controller focus twice and
+  // floods the log with duplicate-focus errors.
   const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
 
   // No lighter wash on hover — it washed out the icon. Hover feedback is the border glow + icon grow.

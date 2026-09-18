@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Extensions/ExtendedUISystemBase.cs
-// Purpose: Convenience helpers for binding CS2 UI systems to React/COHTML UI.
+// Purpose: Keeps panel reads, button clicks, and setting changes connected to C# in one consistent way.
 // Derived from MIT-licensed CS2 helper code; see THIRD_PARTY_NOTICES.md.
 
 namespace RoadRailSpeeds.Extensions
@@ -74,7 +74,7 @@ namespace RoadRailSpeeds.Extensions
                     new GenericUIWriter<T>()),
                 updateCallback);
 
-            // setterKey lets React write to one key while reading from another.
+            // Use a separate write name when the panel should update a value without sharing its read name.
             TriggerBinding<T> trigger = new(
                 Mod.ModId,
                 $"{kTriggerPrefix}{setterKey}",

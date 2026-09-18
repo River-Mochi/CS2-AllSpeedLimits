@@ -42,9 +42,8 @@ export const CityActionModal = (props: CityActionModalProps) => {
     }
 
     return (
-        // Outer wrapper spans the full panel width and centers the inset popup. This avoids mixing
-        // px (panel left) with rem (popup width), so the popup stays centered over the panel at any
-        // UI scale instead of drifting to the right.
+        // Center the confirmation over the panel at every UI scale. Using the panel's full width
+        // here prevents the smaller popup from drifting right as scaling changes.
         <div style={{
             position: "fixed",
             left: `${position.x}px`,

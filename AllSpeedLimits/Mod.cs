@@ -43,7 +43,7 @@ namespace RoadRailSpeeds
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            // ShellOpen.Configure also calls LogUtils.Configure(LogFileName, s_Log).
+            // Configure file logging first so startup failures still leave a useful mod log.
             ShellOpen.Configure(s_Log, LogFileName, ModTag);
 
             if (!s_BannerLogged)
@@ -76,7 +76,7 @@ namespace RoadRailSpeeds
                 }
                 else
                 {
-                    // Register localization before settings/options UI reads the dictionary.
+                    // Load translations first so the Options screen never shows raw localization keys.
                     localizationManager.AddSource("en-US", new LocaleEN(setting));
                     localizationManager.AddSource("fr-FR", new LocaleFR(setting));
                     localizationManager.AddSource("es-ES", new LocaleES(setting));
@@ -130,9 +130,8 @@ namespace RoadRailSpeeds
                 updateSystem.UpdateAt<SegmentSpeedToolSystem>(SystemUpdatePhase.ToolUpdate);
 
                 world.GetOrCreateSystemManaged<CustomSpeedReapplySystem>();
-                // CS2's LaneDataSystem recalculates runtime lane data from m_DefaultSpeedLimit and
-                // city/district policies. Reapply explicit segment overrides after that work;
-                // game cleanup systems remain responsible for Updated and PathfindUpdated.
+                // CS2 can overwrite lane speeds when roads or policies refresh. Run afterward so
+                // the player's custom segment speeds remain in effect without taking over game cleanup.
                 updateSystem.UpdateAfter<CustomSpeedReapplySystem, LaneDataSystem>(
                     SystemUpdatePhase.ModificationEnd);
 

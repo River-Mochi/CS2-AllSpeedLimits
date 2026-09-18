@@ -122,8 +122,8 @@ namespace RoadRailSpeeds.Systems
             new Dictionary<MarkerGroupKey, List<Vector2>>();
         // Floating number color knobs. Text-only markers, not road-selection outlines.
         private static readonly Color s_DefaultMarkerTextColor = new Color(1f, 1f, 1f, 1f);
-        // Compensated for the game overlay text material. This is tuned from the captured July 5
-        // reference (#6BE8EA), not the raw color shown in the C# value.
+        // The game's shared text material shifts colors, so this value is intentionally different
+        // from the cyan the player should actually see.
         private static readonly Color s_CustomMarkerTextColor = new Color(0.55f, 0.94f, 0.94f, 1f);
         private static readonly Color s_RailMarkerTextColor = new Color(0.45f, 1.00f, 0.20f, 1f);
         private static readonly Color s_SubwayMarkerTextColor = new Color(1.00f, 0.30f, 0.82f, 1f);
@@ -157,33 +157,31 @@ namespace RoadRailSpeeds.Systems
         private const float s_WaterProximityDepthMultiplier = 1.35f;
         private const float s_WaterProximityViewportRadiusBonus = 0.08f;
         private const float s_WaterProximityViewportTopYBonus = 0.10f;
-        // Marker tooltip hit-test knobs. Screen-distance math only; no physics raycasts.
-        // Increase padding/min size for easier hover, decrease when tooltip feels too eager.
-        // This keeps hover target a little larger than the visible glyphs so marker tooltips stay easy to trigger.
+        // Give the mouse a slightly larger invisible target than the digits themselves. Increase
+        // these values if tooltips are hard to trigger; decrease them if tooltips appear too easily.
         private const float s_MarkerTooltipPaddingPx = 6f;
         private const float s_MarkerTooltipMinWidthPx = 52f;
         private const float s_MarkerTooltipMinHeightPx = 30f;
-        // Minimum visible glyph height for floating number meshes. Tooltip size is separate React UI.
+        // Keep floating numbers readable at every zoom. These values do not resize the tooltip below.
         private const float s_MarkerReadableCloseHeightPx = 16f;
         private const float s_MarkerReadableMidHeightPx = 18f;
         private const float s_MarkerReadableFarHeightPx = 27f;
         private const float s_MarkerReadableMidHeightTransitionZoom = 0.20f;
         private const float s_MarkerReadableScaleStartZoom = 0.45f;
-        // Marker mesh scale only: retain middle zoom, slightly trim the two extremes. The UI
-        // tooltip below a marker uses its own React size and is intentionally unaffected.
+        // Slightly reduce the floating numbers at the closest and farthest zooms so they do not
+        // dominate the view. The tooltip below them keeps its normal size.
         private const float s_MarkerCloseScaleMultiplier = 0.90f;
         private const float s_MarkerFarScaleMultiplier = 0.92f;
         // Water markers use a larger world scale to remain legible over wide waterways. Trim
         // only their closest zoom, leaving middle/far scanning and tooltip sizing unchanged.
         private const float s_WaterMarkerCloseScaleMultiplier = 0.90f;
-        // CS2's own overlay and district labels generate TMP geometry at size 200. Generate at
-        // that resolution, then normalize the draw scale back to the previous size-25 geometry.
+        // Generate digits at the same high resolution as the game's labels for smoother edges,
+        // then scale them back so their visible size does not change.
         private const float s_MarkerMeshGenerationFontSize = 200f;
         private const float s_MarkerWorldScaleNormalization = 0.125f;
         private const float s_MarkerHoverOutlineWidth = 0.045f;
-        // World-space height above the network curve. CS2 district labels add no large fixed
-        // lift; these smaller offsets keep billboard numbers clear of, but close to, the surface.
-        // Tweak these four values to adjust marker height without changing font or tooltip size.
+        // Keep numbers above the road, track, or water without making them look detached from it.
+        // These values move markers vertically without changing their text or tooltip size.
         private const float s_SurfaceMarkerHeightClose = 1.5f;
         private const float s_SurfaceMarkerHeightFar = 4.0f;
         private const float s_SubwayMarkerHeightAboveSurface = 1.0f;
@@ -225,7 +223,7 @@ namespace RoadRailSpeeds.Systems
             m_LastUnitPreference = m_Settings?.SpeedUnitPreference ?? SpeedLimitsSetting.SpeedUnit.Auto;
             m_LastDoubleSpeedDisplay = m_Settings?.DoubleSpeedDisplay ?? false;
 
-            // Cached SystemAPI queries are owned by this system and participate in ECS dependency tracking.
+            // Build these searches once because marker rendering uses them every frame.
             m_CustomSpeedQuery = SystemAPI.QueryBuilder()
                 .WithAll<Edge, Curve, CustomSpeed>()
                 .Build();
@@ -235,7 +233,7 @@ namespace RoadRailSpeeds.Systems
                 .Build();
             m_FaceColorID = Shader.PropertyToID("_FaceColor");
 
-            // Unity render-pipeline event.
+            // Draw only when the game has a current camera and rendering context.
             global::UnityEngine.Rendering.RenderPipelineManager.beginContextRendering += Render;
         }
 

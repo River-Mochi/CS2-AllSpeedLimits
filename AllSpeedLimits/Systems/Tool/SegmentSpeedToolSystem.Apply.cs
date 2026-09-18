@@ -57,7 +57,8 @@ namespace RoadRailSpeeds.Systems
 
                 if (toAdd.Length > 0)
                 {
-                    // One immediate bulk structural change keeps this public tool callback fast.
+                    // Mark all newly changed segments together so a large drag selection does not
+                    // pause once for every segment.
                     EntityManager.AddComponent<CustomSpeed>(toAdd.AsArray());
                 }
             }
@@ -230,7 +231,7 @@ namespace RoadRailSpeeds.Systems
                         {
                             CarLane carLane = EntityManager.GetComponentData<CarLane>(subLane.m_SubLane);
 
-                            // Reset both fields so a later lane-data refresh keeps the prefab speed.
+                            // Restore both values or a later road refresh can undo the reset.
                             carLane.m_DefaultSpeedLimit = speedGameUnits;
                             carLane.m_SpeedLimit = speedGameUnits;
 

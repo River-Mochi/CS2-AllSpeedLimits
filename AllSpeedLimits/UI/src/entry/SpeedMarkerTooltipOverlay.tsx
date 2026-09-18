@@ -46,10 +46,8 @@ export const SpeedMarkerTooltipOverlay = () => {
         return null;
     }
 
-    // Floating speed-number tooltips are NOT panel tooltips.
-    // Do not render this with PanelSideTooltip: that component adds the dark panel-help
-    // background/border and treats offsets as panel-relative. markerTooltipX/Y are screen
-    // coordinates from C#, and X is the marker center, so this renderer centers itself.
+    // World-marker tooltips need their own plain style and screen position. Reusing the panel help
+    // tooltip would add the wrong dark box and place it relative to the panel instead of the marker.
     const markerTooltipWidth = 340;
     const left = Math.max(8, Math.min(window.innerWidth - markerTooltipWidth - 8, markerTooltipX - (markerTooltipWidth / 2)));
     const top = Math.max(8, Math.min(window.innerHeight - 48, markerTooltipY + 4));

@@ -300,9 +300,8 @@ export function SetSelectWater(enabled: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_SELECT_WATER", enabled);
 }
 
-// Independent draggable screen positions for the hint panel and the tool panel. The hook clamps
-// against the real rendered panel size; this stored-position clamp only keeps the top-left anchor
-// reachable across resolution changes before the panel has mounted and measured itself.
+// Remember the hint and tool positions separately. Keep their top-left corner reachable immediately
+// after a resolution change; the panel hook makes the final adjustment after it knows the real size.
 const PANEL_LEFT_MARGIN_PX = 10;
 const PANEL_TOP_MARGIN_PX = 0;
 const PANEL_EDGE_MARGIN_PX = 10;

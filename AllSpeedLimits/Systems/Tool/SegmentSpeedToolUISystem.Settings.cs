@@ -282,13 +282,8 @@ namespace RoadRailSpeeds.Systems
             }
             else
             {
-                // Tool is opening. SegmentSpeedToolSystem.OnStartRunning already reset
-                // IncludeRoads/Rails/Water to true; re-sync the UI chips to match RIGHT HERE rather
-                // than relying on OnUpdate's toolStateChanged edge detection below. This handler
-                // overwrites m_ToolActiveBinding.Value a few lines down, which erases that edge
-                // before OnUpdate ever observes it, so the OnUpdate-based reset never actually fires
-                // for the normal "click the toolbar button" path (it stayed as a fallback for any
-                // activation route that bypasses this trigger).
+                // Opening the tool resets all network filters to on. Update the chips here as well
+                // so the panel cannot show an old filter state that the tool is no longer using.
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;
                 m_SelectWaterBinding.Value = true;

@@ -177,16 +177,9 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
-                    // Floating world-speed marker size:
-                    // 1. textMesh.fontSize below sets the base glyph size before world scaling.
-                    //    Raise/lower it when every zoom level should look bigger/smaller.
-                    // 2. normalizedZoom is 0 near the ground and 1 when zoomed far out.
-                    //    Mathf.Lerp(closeScale, farScale, normalizedZoom) blends between them.
-                    // 3. Raise 1st lerp value to make close and near-mid zoom bigger.
-                    //    Raise 2nd lerp value to make far zoom bigger.
-                    //    Lower either value to shrink that end of the zoom range.
-                    // 4. If only middle zoom feels wrong, tune normalizedZoom above:
-                    //    smaller Pow exponent grows sooner; larger exponent grows later.
+                    // Grow distant numbers enough to remain readable while keeping close numbers
+                    // small enough not to cover the road. The gradual blend prevents size jumps
+                    // when the player scrolls between zoom levels.
                     float textScaleMultiplier;
                     if (identity.IsWaterwayType)
                     {
@@ -254,10 +247,8 @@ namespace RoadRailSpeeds.Systems
                             textScaleMultiplier,
                             out screenBounds);
 
-                    // Keep the screen-space density limit active after topology grouping ends.
-                    // At close-mid zoom proximity is still deliberately broad; tying this to
-                    // groupMarkers caused one wheel notch to jump from grouped representatives
-                    // to every nearby edge (the observed 196 -> 1007 marker flood).
+                    // Keep hiding overlapping duplicates after network grouping ends. Otherwise one
+                    // mouse-wheel step can flood the view with roughly a thousand nearby labels.
                     if (hasScreenBounds &&
                         ShouldSkipNearbyDuplicateMarker(identity.GroupKey, screenBounds.center, duplicateDistanceSq))
                     {
@@ -561,10 +552,8 @@ namespace RoadRailSpeeds.Systems
             }
             else
             {
-                // The marker tooltip is React UI, so it stays readable after projection. The blue
-                // floating number is a world mesh. Keep a minimum projected pixel height here so it
-                // behaves more like CS2's AreaUtils.CalculateLabelScale map labels instead of
-                // shrinking away at far zoom.
+                // World-space numbers normally shrink until they disappear. Keep a minimum visible
+                // size so players can still scan speed limits while zoomed out.
                 float cameraDepth = camera.WorldToScreenPoint(markerPosition).z;
                 if (cameraDepth <= 0.01f)
                 {

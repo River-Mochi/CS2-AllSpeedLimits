@@ -26,12 +26,9 @@ namespace RoadRailSpeeds.Systems
     {
         private TextMeshInfo CreateTextMesh(int speedKmh, MarkerVisualKind visualKind)
         {
-            // The game shares ONE TextMeshPro instance (OverlayRenderSystem.GetTextMesh) across
-            // every world-UI overlay label, including vanilla road and district name labels.
-            // Anything we leave mutated on it leaks: the game later regenerates those labels
-            // through our state and caches them with it, so a custom-speed cyan face color turns
-            // every road name cyan and it stays cyan until the game is reloaded. We snapshot the
-            // shared instance up front and restore it in the finally below so we leave no trace.
+            // CS2 lends every world label the same text object. If this method leaves our color or
+            // size on it, road and district names can inherit that style until the game restarts.
+            // Save its original settings now and restore them below before returning it to the game.
             TextMeshPro textMesh = m_OverlayRenderSystem.GetTextMesh();
 
             Vector2 prevSizeDelta = textMesh.rectTransform.sizeDelta;
@@ -50,8 +47,8 @@ namespace RoadRailSpeeds.Systems
                 int multiplier = doubleDisplay ? 2 : 1;
                 Color textColor = GetMarkerTextColor(visualKind);
 
-                // Match CS2's OverlayRenderSystem/AreaBufferSystem generation resolution. The
-                // draw scale is normalized later, so this improves SDF edges without resizing signs.
+                // Generate at the game's label resolution for smoother digits. Later scaling keeps
+                // the sign's on-screen size unchanged.
                 textMesh.rectTransform.sizeDelta = new Vector2(250f, 100f);
                 textMesh.fontSize = s_MarkerMeshGenerationFontSize;
                 textMesh.alignment = TextAlignmentOptions.Center;

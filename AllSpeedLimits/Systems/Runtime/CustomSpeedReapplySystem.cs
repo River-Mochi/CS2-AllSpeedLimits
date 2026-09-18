@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Runtime/CustomSpeedReapplySystem.cs
-// Purpose: Re-applies CustomSpeed values after CS2 refreshes road/rail lane data.
+// Purpose: Keeps saved custom speeds after road refreshes and recovers compatible older-mod speeds.
 
 namespace RoadRailSpeeds.Systems
 {
@@ -90,8 +90,8 @@ namespace RoadRailSpeeds.Systems
                 ? AdoptExistingCustomSpeeds()
                 : 0;
 
-            // CustomSpeed is serialized in the city, but old saves can contain lane values that
-            // CS2 refreshed from the prefab. Repair every custom edge once after loading finishes.
+            // A city remembers which segments were customized, but CS2 may rebuild their lane
+            // speeds while loading. Put the player's saved values back once loading is complete.
             int restoredEdges = RestoreSpeeds(m_AllCustomEdgesQuery);
 #if DEBUG
             LogUtils.Info(
@@ -102,8 +102,8 @@ namespace RoadRailSpeeds.Systems
         [Preserve]
         protected override void OnUpdate()
         {
-            // CS2 owns both event tags and removes them in its cleanup systems. We only observe
-            // lanes after LaneDataSystem has recalculated their runtime data.
+            // Wait until CS2 finishes rebuilding changed lanes, then restore our overrides. The
+            // game still owns and clears its change markers afterward.
             RestoreUpdatedLaneSpeedsJob job = new()
             {
                 m_OwnerType = SystemAPI.GetComponentTypeHandle<Owner>(isReadOnly: true),
@@ -119,9 +119,9 @@ namespace RoadRailSpeeds.Systems
 
         private int AdoptExistingCustomSpeeds()
         {
-            // DanielVNZ's original mod used a differently named CustomSpeed component, so it is
-            // unavailable after that assembly is removed. Its lane values remain serialized in the
-            // city. Adopt only uniform, non-prefab lane speeds; mixed lane layouts are left alone.
+            // Older Road Speed Adjuster saves can retain their lane speeds after that mod is gone,
+            // but their old custom marker is no longer readable. Recover only segments whose lanes
+            // agree and differ from the normal speed; skip mixed cases rather than guess.
             ComponentLookup<PrefabRef> prefabRefLookup =
                 SystemAPI.GetComponentLookup<PrefabRef>(isReadOnly: true);
             BufferLookup<SubLane> subLaneLookup =
@@ -173,7 +173,8 @@ namespace RoadRailSpeeds.Systems
                 return 0;
             }
 
-            // One structural change avoids a load-time sync point for every migrated segment.
+            // Mark all recovered segments together so loading a large older city does not pause
+            // once for every road.
             EntityManager.AddComponent<CustomSpeed>(adoptedEntities.AsArray());
 
             for (int i = 0; i < adoptedEntities.Length; i++)
@@ -197,7 +198,7 @@ namespace RoadRailSpeeds.Systems
 
             if (storageReady)
             {
-                // JSON is secondary recovery data; serialize one snapshot for the whole migration.
+                // Write the recovered speeds once so the backup is ready without pausing for every segment.
                 PersistentSpeedLimitStorage.Save();
             }
 
@@ -246,9 +247,8 @@ namespace RoadRailSpeeds.Systems
                         continue;
                     }
 
-                    // Vanilla city/district policies change m_SpeedLimit at runtime. DanielVNZ's
-                    // mod wrote both fields, so m_DefaultSpeedLimit is the migration evidence that
-                    // distinguishes a saved road override from a temporary policy-adjusted speed.
+                    // Policies can temporarily change the current speed. Use the saved default value
+                    // to distinguish an old player override from a temporary policy effect.
                     laneSpeedKmh = carLane.m_DefaultSpeedLimit * 1.8f;
                 }
                 else if (trackLaneLookup.HasComponent(laneEntity))
@@ -341,8 +341,8 @@ namespace RoadRailSpeeds.Systems
 
         private int RestoreSpeeds(EntityQuery edgeQuery)
         {
-            // These lookups declare component access through this system. This is one load-time
-            // reconciliation, so a Burst job would add complexity without useful ongoing work.
+            // This runs only once when a city loads, so keep the recovery path direct and readable
+            // instead of adding background-job complexity for work that does not repeat.
             ComponentLookup<CustomSpeed> customSpeedLookup =
                 SystemAPI.GetComponentLookup<CustomSpeed>(isReadOnly: true);
             BufferLookup<SubLane> subLaneLookup =

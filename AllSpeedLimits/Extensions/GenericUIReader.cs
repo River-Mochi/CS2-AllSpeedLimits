@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Extensions/GenericUIReader.cs
-// Purpose:
+// Purpose: Turns values sent by the panel into the C# values used by tool actions and settings.
 // Derived from MIT-licensed CS2 helper code; see THIRD_PARTY_NOTICES.md.
 
 

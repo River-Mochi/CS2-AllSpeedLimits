@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Data/PersistentSpeedLimitStorage.cs
-// Purpose: JSON backup storage for custom road/rail/waterway speed-limit data outside the normal save component.
+// Purpose: Keeps a per-city JSON backup so custom speeds can be recovered if normal save data is unavailable.
 
 namespace RoadRailSpeeds.Data
 {
@@ -97,8 +97,8 @@ namespace RoadRailSpeeds.Data
             }
         }
 
-        // Performance contract: these per-edge methods only mutate memory. Call Save once after
-        // the complete user action; never serialize the full backup from inside an edge loop.
+        // These methods only update the pending backup. Save once after the full click or drag;
+        // saving after every segment can freeze a large city for several seconds.
         public static void StoreSpeedLimit(
             int entityIndex,
             float defaultSpeedKmh,
@@ -175,9 +175,9 @@ namespace RoadRailSpeeds.Data
                 MapSpeedLimitData snapshot = CreateSnapshot(currentMapData);
                 string filePath = currentFilePath;
 
-                // Keep writes ordered so an older snapshot can never finish after a newer one.
-                // Only the dictionary snapshot above happens on the game thread; full JSON
-                // serialization and disk I/O run on the background queue.
+                // Save in order so a slower old write cannot overwrite the player's newer changes.
+                // Make the quick copy now, then prepare and write the file in the background to
+                // avoid pausing gameplay.
                 lock (s_SaveQueueLock)
                 {
                     s_SaveQueue = s_SaveQueue.ContinueWith(
@@ -241,8 +241,8 @@ namespace RoadRailSpeeds.Data
                 MapName = source.MapName,
                 SaveGameId = source.SaveGameId,
                 LastSaved = source.LastSaved,
-                // StoreSpeedLimit replaces entries instead of mutating them, so copying the
-                // dictionary is enough to give the background writer a stable snapshot.
+                // Freeze the current list for this save so edits made while the file is being
+                // written cannot produce a mixture of old and new speeds.
                 SpeedLimits = new Dictionary<int, SpeedLimitEntry>(source.SpeedLimits),
                 Version = source.Version
             };

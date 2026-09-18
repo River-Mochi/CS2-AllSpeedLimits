@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Extensions/ReflectionExtensions.cs
-// Purpose: Small reflection helpers used by the UI binding helper classes.
+// Purpose: Finds UI helper values even when different helper versions expose them differently.
 
 namespace RoadRailSpeeds.Extensions
 {
@@ -17,7 +17,7 @@ namespace RoadRailSpeeds.Extensions
 
     public static class ReflectionExtensions
     {
-        // Used when callers need a broad search across public/private instance/static members.
+        // Search every member shape because helper versions differ in visibility and placement.
         public static readonly BindingFlags AllFlags =
             BindingFlags.DeclaredOnly |
             BindingFlags.Instance |
@@ -71,7 +71,7 @@ namespace RoadRailSpeeds.Extensions
 
         private static MemberInfo? GetMemberInfo(object obj, string memberName)
         {
-            // Property first because UI helper members are commonly exposed as properties.
+            // Current helper versions normally expose the value as a property.
             PropertyInfo? propertyInfo = obj.GetType().GetProperty(
                 memberName,
                 BindingFlags.NonPublic |
@@ -84,7 +84,7 @@ namespace RoadRailSpeeds.Extensions
                 return propertyInfo;
             }
 
-            // Fallback to fields for older helper classes and private state.
+            // Older helpers may expose the same value as a field, including private state.
             return obj.GetType().GetField(
                 memberName,
                 BindingFlags.NonPublic |

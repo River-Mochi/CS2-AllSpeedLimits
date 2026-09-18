@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Runtime/PersistentSpeedLimitStorageSystem.cs
-// Purpose: Initializes and flushes the per-city JSON speed backup storage.
+// Purpose: Opens the correct city backup on load and finishes saving it before the city closes.
 
 namespace RoadRailSpeeds.Systems
 {
@@ -63,7 +63,7 @@ namespace RoadRailSpeeds.Systems
             if (mode == GameMode.Game &&
                 (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
             {
-                // Migration/reapply systems need the per-city backup during their own load callback.
+                // Open the backup early so older or missing save data can be recovered during this load.
                 EnsureInitialized();
             }
         }
@@ -91,7 +91,7 @@ namespace RoadRailSpeeds.Systems
             if (m_Initialized)
             {
                 PersistentSpeedLimitStorage.Save();
-                // Waiting during world teardown is safe and prevents losing the last queued backup.
+                // Finish the last backup before leaving the city so recent speed changes are not lost.
                 PersistentSpeedLimitStorage.FlushPendingSave();
             }
 
@@ -119,8 +119,8 @@ namespace RoadRailSpeeds.Systems
 
                 m_LastCityName = cityName;
 
-                // PersistentSpeedLimitStorage keeps a JSON backup outside the normal component save path.
-                // Both values are cityName for now because this code does not expose a stable save id yet.
+                // Keep this recovery file separate from the normal city save. Use the cleaned city
+                // name until the game provides a stable save identifier to mods.
                 PersistentSpeedLimitStorage.Initialize(cityName, cityName);
             }
             catch (Exception ex)

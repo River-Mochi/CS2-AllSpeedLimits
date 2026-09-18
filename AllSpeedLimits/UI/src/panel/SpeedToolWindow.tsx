@@ -636,8 +636,8 @@ export const SpeedToolWindow = () => {
     const currentSpeedLabel = formatSelectionSpeed(selectedSpeedKmh, currentSpeedMixed);
     const vanillaSpeedLabel = formatSelectionSpeed(vanillaSpeedKmh, vanillaSpeedMixed);
     const targetSpeedLabel = `${Math.round(displaySpeed)} ${unitLabel}`;
-    // Preset grid: Unlimited is the last circle (sentinel -1), same size as the numbers.
-    // mph starts at 10 and keeps 90; the slider/stepper can still set lower exact values.
+    // Put Unlimited after the numbered presets. Omit the 5 mph shortcut to keep the rows balanced;
+    // players can still choose that value with the slider or stepper.
     const presetSpeeds = showMetric
         ? [...METRIC_PRESET_SPEEDS, -1]
         : [...IMPERIAL_PRESET_SPEEDS.filter(speed => speed !== 5), -1];
@@ -680,9 +680,8 @@ export const SpeedToolWindow = () => {
                     ? TEXT.confirm.applySubway.message
                     : getRoadGroupConfirmSentence(selectedRoadGroup);
             return (
-                // Flex row that wraps: the sentence takes its space and the value box + unit stay
-                // together and drop to the next line when they don't fit. cohtml has no inline-block,
-                // so this flex-wrap is the supported way to avoid overflow in long locales (ES, PT-BR).
+                // Keep the speed and unit together, wrapping them as a pair so long translations
+                // do not overflow the confirmation window.
                 <div style={{
                     display: "flex",
                     flexWrap: "wrap",

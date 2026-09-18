@@ -240,7 +240,7 @@ namespace RoadRailSpeeds.Systems
             m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? false;
             m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? false;
 
-            // Push initial binding values so React does not read uninitialized values.
+            // Send the starting values now so the panel does not briefly show empty or stale data.
             RequestUpdate();
         }
 
@@ -448,10 +448,8 @@ namespace RoadRailSpeeds.Systems
 
             if (toolActive && toolStateChanged)
             {
-                // Fallback only: HandleActivateTool (the toolbar button path) already does this
-                // reset directly, since it overwrites m_ToolActiveBinding.Value itself and would
-                // otherwise erase this edge before this OnUpdate ever saw it. This covers any other
-                // route that could activate the tool without going through that trigger.
+                // The toolbar already clears the old selection immediately. Keep this backup for
+                // any other activation route so a previous segment never reappears unexpectedly.
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;
                 m_SelectWaterBinding.Value = true;

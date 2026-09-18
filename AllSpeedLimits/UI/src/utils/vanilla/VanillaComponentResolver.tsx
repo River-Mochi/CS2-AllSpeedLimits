@@ -30,21 +30,9 @@ import type {
     VanillaUseUniqueFocusKey,
 } from "./types";
 
-// Shared vanilla-module library for HoverColors and future CS2 mods.
-//
-// This combines two good patterns from community:
-// - yenyang's "how to in the UI" comments
-// - Luca's scalable grouped registries for components/themes/focus helpers
-// - River-Mochi notes and tweaks
-//
-// Practical notes for future:
-// 1. Open the in-game UI dev tools at http://localhost:9444/
-// 2. In Sources -> index.js, pretty-print if needed
-// 3. Search for the TSX/SCSS path wanted
-// 4. Add it to one of the maps below and expose a typed getter
-//
-// Note: `UI/types/bindings.d.ts` is helpful for binding/widget payloads,
-// but the vanilla React module props can differ from the binding model.
+// Keep vanilla UI paths in one place so a game update can be repaired here instead of throughout
+// every panel. Binding declarations describe data and may not match the actual React component
+// inputs, so each resolved component keeps its own type. Source credits are in THIRD_PARTY_NOTICES.
 
 type VanillaModuleName =
     | VanillaComponentModuleName

@@ -38,9 +38,8 @@ export const SPEED_STEPPER_NUMBER_WIDTH_REM = 32;
 export const STATS_COLUMN_WIDTH_REM = 76;
 export const STATS_LABEL_WIDTH_REM = 30;
 
-// Tooltip layout knobs.
-// REM_TO_TOOLTIP_PX converts the panel's rem width into COHTML tooltip pixels.
-// RIGHT_TOOLTIP_GAP_PX: smaller = closer to panel; larger = farther right.
+// Keep help tooltips beside the panel instead of covering its controls. The conversion lets their
+// pixel position follow the panel's rem-based width; the gap controls how far right they sit.
 export const REM_TO_TOOLTIP_PX = 1.34;
 export const RIGHT_TOOLTIP_GAP_PX = 10;
 

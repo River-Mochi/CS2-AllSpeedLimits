@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Extensions/ExtendedInfoSectionBase.cs
-// Purpose: Convenience helpers for binding CS2 info-panel sections to React/COHTML UI.
+// Purpose: Gives info-panel sections one consistent way to exchange values and clicks with C#.
 // Derived from MIT-licensed CS2 helper code; see THIRD_PARTY_NOTICES.md.
 
 namespace RoadRailSpeeds.Extensions
@@ -74,7 +74,7 @@ namespace RoadRailSpeeds.Extensions
                     new GenericUIWriter<T>()),
                 updateCallback);
 
-            // setterKey lets React write to one key while reading from another.
+            // Use a separate write name when the panel should update a value without sharing its read name.
             TriggerBinding<T> trigger = new TriggerBinding<T>(
                 Mod.ModId,
                 $"{kTriggerPrefix}{setterKey}",

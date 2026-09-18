@@ -58,14 +58,12 @@ namespace RoadRailSpeeds.Systems
         private int m_AppliedCount;
         private float m_TargetSpeedKmh;
         private RoadGroup m_RoadGroup = RoadGroup.Medium;
-        // Which target the pending apply hits. RoadGroup uses PrefabMatchesRoadGroup; Train/Subway gather by
-        // the live TrainTrack / SubwayTrack component (tram is grouped with roads elsewhere).
-        // Batch state machine is shared; only the entity collection and per-edge apply differ.
+        // Remember which whole-city button started the work. Trams count as roads here, while
+        // trains and subways have their own targets.
         private ApplyTarget m_ApplyTarget = ApplyTarget.RoadGroup;
         private readonly List<Entity> m_PendingApplyEntities = new();
-        // Road-group classification depends only on the prefab, but many edges share one prefab.
-        // Caching the (prefab -> matches group?) result turns thousands of managed prefab lookups
-        // into one per unique prefab, which is what was spiking on whole city small/highway gathers.
+        // Many segments use the same road design. Remember its group after the first check so a
+        // whole-city action does not pause while asking the same question thousands of times.
         private readonly Dictionary<Entity, bool> m_PrefabGroupMatchCache = new();
         private PrefabSystem m_PrefabSystem = null!;
 
@@ -160,8 +158,8 @@ namespace RoadRailSpeeds.Systems
         {
             m_PendingApplyEntities.Clear();
 
-            // Read-only gather (edits happen later in ProcessApplyBatch).
-            // Rail = train + subway only; tram is grouped with roads elsewhere in mod.
+            // Collect targets first, then change them in small groups so the city remains responsive.
+            // Trams are treated as roads; the rail buttons cover only trains and subways.
             if (m_ApplyTarget == ApplyTarget.Train)
             {
                 foreach ((RefRO<PrefabRef> _, Entity entity) in SystemAPI
@@ -193,13 +191,13 @@ namespace RoadRailSpeeds.Systems
                     .WithNone<Deleted, Temp>()
                     .WithEntityAccess())
                 {
-                    // Per-edge gate (cheap component reads), kept out of the cache.
+                    // Reject tram/shared segments individually before reusing the road-design result.
                     if (!IsRoadOnly(entity))
                     {
                         continue;
                     }
 
-                    // Expensive prefab/group lookup is cached by prefab entity.
+                    // Reuse the answer for every segment built from the same road design.
                     Entity prefabEntity = prefabRef.ValueRO.m_Prefab;
                     if (!m_PrefabGroupMatchCache.TryGetValue(prefabEntity, out bool matches))
                     {
@@ -242,7 +240,8 @@ namespace RoadRailSpeeds.Systems
                 m_PendingApplyEntities.Count,
                 m_ApplyIndex + kApplyRoadGroupBatchSize);
 
-            // One batched structural add for this frame's slice, instead of an AddComponent per entity.
+            // Mark this group as customized in one step so the game does not rebuild its data once
+            // for every segment.
             using (NativeList<Entity> toAdd = new NativeList<Entity>(kApplyRoadGroupBatchSize, Allocator.Temp))
             {
                 for (int i = m_ApplyIndex; i < endIndex; i++)
@@ -324,14 +323,14 @@ namespace RoadRailSpeeds.Systems
                 originalSpeed > 0f ? originalSpeed : speedKmh,
                 speedKmh);
 
-            // CustomSpeed was already added in the batched structural pass in ProcessApplyBatch.
+            // This segment was already marked as customized with the rest of the current group.
             EntityManager.SetComponentData(entity, new CustomSpeed(speedKmh));
             SpeedLimitDataManager.AddCustomSpeedLimit(entity.Index, speedKmh);
             SetCarLaneSpeedsImmediate(entity, speedGameUnits);
         }
 
-        // Rail mirror of ApplySpeedToRoad: same persistence/CustomSpeed bookkeeping, but writes
-        // TrackLane speeds (trains/subways) instead of CarLane speeds.
+        // Rails need the same save and reset history as roads, but their speed lives on train and
+        // subway lanes instead of car lanes.
         private void ApplySpeedToRail(Entity entity, float speedKmh)
         {
             float speedGameUnits = speedKmh / 1.8f;
@@ -347,7 +346,7 @@ namespace RoadRailSpeeds.Systems
                 originalSpeed > 0f ? originalSpeed : speedKmh,
                 speedKmh);
 
-            // CustomSpeed was already added in the batched structural pass in ProcessApplyBatch.
+            // This segment was already marked as customized with the rest of the current group.
             EntityManager.SetComponentData(entity, new CustomSpeed(speedKmh));
             SpeedLimitDataManager.AddCustomSpeedLimit(entity.Index, speedKmh);
             SetTrackLaneSpeedsImmediate(entity, speedGameUnits);
@@ -482,7 +481,7 @@ namespace RoadRailSpeeds.Systems
                 }
 
                 CarLane carLane = EntityManager.GetComponentData<CarLane>(laneEntity);
-                // CS2 copies default -> current when it refreshes lane data; update both.
+                // Update both values or a later road refresh can overwrite the player's choice.
                 carLane.m_DefaultSpeedLimit = speedGameUnits;
                 carLane.m_SpeedLimit = speedGameUnits;
                 EntityManager.SetComponentData(laneEntity, carLane);
@@ -522,8 +521,8 @@ namespace RoadRailSpeeds.Systems
             return count > 0 ? totalSpeed / count : -1f;
         }
 
-        // Prefab-only part of the road-group test (no per-edge checks), so the result can be cached
-        // per prefab. The caller checks IsRoadOnly separately for each edge.
+        // A road's design determines its group and is shared by many segments. This checks the
+        // reusable part; the caller separately rejects tram or mixed-use segments.
         private bool PrefabMatchesRoadGroup(Entity entity, RoadGroup roadGroup)
         {
             if (!TryGetRoadPrefab(entity, out RoadPrefab roadPrefab, out Entity prefabEntity))

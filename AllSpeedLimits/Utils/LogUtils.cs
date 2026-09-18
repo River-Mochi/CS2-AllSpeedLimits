@@ -8,32 +8,9 @@
 
 // File: Utils/LogUtils.cs
 // Version: 0.7.3 based on River-Mochi shared CS2 utilities.
-// Purpose: reduce Colossal logger NRE popups with direct .NET file logging.
-// Why: routine mod logs bypass Colossal's logger write path.
-//
-// Setup in Mod.cs:
-//   public static readonly ILog s_Log =
-//       LogManager.GetLogger(kModId).SetShowsErrorsInUI(
-//   #if DEBUG
-//           true
-//   #else
-//           false
-//   #endif
-//       );
-//
-//   public void OnLoad(UpdateSystem updateSystem)
-//   {
-//       LogUtils.Configure(kModId, s_Log);
-//       LogUtils.Info("Mod loaded.");
-//   }
-//
-// Usage:
-//   Simple one-time logs:       LogUtils.Info("message");
-//   Warnings/errors:            LogUtils.Warn("message", ex); / LogUtils.Error("message", ex);
-//   Lazy message construction:  LogUtils.Debug(() => $"message {value}");
-//   Warn once:                  LogUtils.WarnOnce("key", () => "message");
-//
-// Helpers: Info/Warn/Error/Debug/Trace. TryLog accepts any Colossal Level.
+// Purpose: Keeps routine mod logging from causing game popups or failing during startup/shutdown.
+// Use this instead of writing directly to the game logger: it can fall back to the mod's log file
+// when the game's logger is not ready, and it can suppress repeated copies of the same warning.
     using System;
     using System.Collections.Generic;
     using System.Globalization;     // stable timestamp format

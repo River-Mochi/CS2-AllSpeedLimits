@@ -12,9 +12,8 @@ import type {
 } from "cs2/ui";
 import type { CSSProperties, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
 
-// Note: UI/types/bindings.d.ts exposes the widget-binding model for ColorField
-// (`value`, `hdr`, `showAlpha`). The vanilla React `color-field.tsx` module has
-// a different prop surface, so this file keeps a separate component prop type.
+// Keep component types separate from binding-data types. The game describes different inputs for
+// them, and treating them as interchangeable can send the wrong properties to a vanilla control.
 export type VanillaColorFieldProps = {
     focusKey?: FocusKey | null;
     disabled?: boolean;
