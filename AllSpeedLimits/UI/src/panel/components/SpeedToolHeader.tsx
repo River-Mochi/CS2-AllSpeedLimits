@@ -147,7 +147,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         pointerEvents: "none"
                     }} />
                     <img
-                        src={speedMarkersHidden ? starBlueGreenIcon : "Media/Tools/Snap Options/All.svg"}
+                        src={starBlueGreenIcon}
                         alt=""
                         style={{
                             width: isMarkersHovered ? "15rem" : "13.5rem",

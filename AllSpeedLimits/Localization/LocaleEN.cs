@@ -51,7 +51,8 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)),
                     "Choose panel and floating sign units.\n" +
                     "<AUTO> follows the map type:\n" +
-                    "- EU = KM/H, NA = MPH.\n" +
+                    "- EU = KM/H\n" +
+                    "- NA = MPH\n" +
                     "Selecting <KM/H or MPH> forces that specific display."
                 },
              

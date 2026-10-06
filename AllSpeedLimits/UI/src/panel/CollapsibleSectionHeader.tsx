@@ -110,6 +110,7 @@ export const CollapsibleSectionHeader = (props: CollapsibleSectionHeaderProps) =
                     marginLeft: "6rem",
                     filter: "brightness(0) invert(1)",
                     opacity: hovered ? 1 : (expanded ? 0.78 : 0.58),
+                    transform: hovered ? "scale(1.12)" : "scale(1)",
                     pointerEvents: "none"
                 }}
             />
