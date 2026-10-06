@@ -55,9 +55,10 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <!--Thumbnail-->
 <Thumbnail Value="Properties/thumbnail-asmithphoto01.jpg" />
 <!--Screenshot, can be set multiple times-->
-<Screenshot Value="Properties/10-image-FullPanel.jpg" />
+<Screenshot Value="Properties/10-image-EN.jpg" />
 <Screenshot Value="Properties/15-image-MiniPanel.jpg" />
 <Screenshot Value="Properties/25-image-OptionsMenu.jpg" />
+<Screenshot Value="Properties/30-image-CN-FR.jpg" />
 <!--Tag, can be set multiple times-->
 <Tag Value="" />
 <!--Link to the forum post where the mod can be discussed-->
@@ -72,9 +73,10 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Open all panels by default on first install. Previously Whole city and Status sections were hidden/collapsed.
-- Update images
-- Interal tidy and refactor.
+- Open all panel sections by default on first install and remember collapsed sections.
+- Refine panel icons and the Custom slider row layout. Reset button is now next to the speed number stepper.
+- Update images.
+- Internal tidy and refactor.
 - Updated for game patch 1.6.2
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
