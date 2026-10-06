@@ -916,6 +916,7 @@ export const SpeedToolWindow = () => {
                                         height: "22rem",
                                         filter: "brightness(0) invert(1)",
                                         opacity: isExpandAllHovered ? 1 : 0.68,
+                                        transform: isExpandAllHovered ? "scale(1.22)" : "scale(1)",
                                         pointerEvents: "none"
                                     }}
                                 />
@@ -1012,6 +1013,7 @@ export const SpeedToolWindow = () => {
                                 unitLabel={unitLabel}
                                 isApplying={isApplying}
                                 isResetting={isResetting}
+                                stepperWidthRem={SPEED_STEPPER_WIDTH_REM}
                                 stepper={
                                     <PreciseSpeedStepper
                                         widthRem={SPEED_STEPPER_WIDTH_REM}

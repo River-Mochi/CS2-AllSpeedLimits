@@ -1,5 +1,5 @@
 // File: UI/src/panel/components/MainSpeedSection.tsx
-// Purpose: Collapsible "Slider" section — slider + precise stepper, with Apply + reset below.
+// Purpose: Collapsible "Slider" section — slider, precise stepper, and reset above Apply.
 // Presets auto-apply, so Apply lives here with the slider/stepper (the only controls that need it).
 
 import { useState } from "react";
@@ -21,6 +21,7 @@ type MainSpeedSectionProps = {
     unitLabel: string;
     isApplying: boolean;
     isResetting: boolean;
+    stepperWidthRem: number;
     stepper: ReactNode;
     onApplyMouseEnter?: () => void;
     onResetMouseEnter?: () => void;
@@ -42,6 +43,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
         unitLabel,
         isApplying,
         isResetting,
+        stepperWidthRem,
         stepper,
         onApplyMouseEnter,
         onResetMouseEnter,
@@ -52,11 +54,14 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
     } = props;
 
     const [resetHovered, setResetHovered] = useState(false);
-    const controlHeight = "29rem";
+    const controlHeight = "26rem";
+    const resetWidthRem = 26;
+    const controlGapRem = 4;
+    const actionWidth = `${stepperWidthRem + controlGapRem + resetWidthRem}rem`;
 
     return (
         <div style={{ marginBottom: "8rem" }}>
-            {/* Row 1: slider (with min/max labels) + stepper, all on one line. */}
+            {/* Row 1: slider (with min/max labels), stepper, and reset. */}
             <div style={{ display: "flex", alignItems: "center", marginBottom: "8rem" }}>
                 <div style={{ flex: 1, minWidth: "0", marginRight: "8rem" }}>
                     <Slider
@@ -77,11 +82,8 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         <span>{sliderMax} {unitLabel}</span>
                     </div>
                 </div>
-                {stepper}
-            </div>
-            {/* Row 2: Apply + reset, right-aligned under the stepper area. */}
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+                    {stepper}
                     <Button
                         focusKey={focusKey}
                         selected={isResetting}
@@ -92,11 +94,12 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                         onMouseEnter={() => { setResetHovered(true); onResetMouseEnter?.(); }}
                         onMouseLeave={() => { setResetHovered(false); onControlMouseLeave?.(); }}
                         style={{
-                            width: "28rem",
-                            minWidth: "28rem",
+                            width: `${resetWidthRem}rem`,
+                            minWidth: `${resetWidthRem}rem`,
                             minHeight: controlHeight,
                             height: controlHeight,
-                            marginRight: "4rem",
+                            marginLeft: `${controlGapRem}rem`,
+                            boxSizing: "border-box",
                             paddingTop: "0",
                             paddingRight: "0",
                             paddingBottom: "0",
@@ -123,29 +126,33 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                             />
                         )}
                     </Button>
-                    <Button
-                        focusKey={focusKey}
-                        selected={isApplying}
-                        disabled={isApplying}
-                        onSelect={onApply}
-                        onMouseEnter={onApplyMouseEnter}
-                        onMouseLeave={onControlMouseLeave}
-                        style={{
-                            width: "76rem",
-                            minWidth: "76rem",
-                            minHeight: controlHeight,
-                            height: controlHeight,
-                            paddingTop: "0",
-                            paddingRight: "0",
-                            paddingBottom: "0",
-                            paddingLeft: "0",
-                            fontSize: "15rem",
-                            fontWeight: 800
-                        }}
-                    >
-                        {applyButtonText}
-                    </Button>
                 </div>
+            </div>
+            {/* Row 2: Apply spans the stepper and reset controls above it. */}
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                    focusKey={focusKey}
+                    selected={isApplying}
+                    disabled={isApplying}
+                    onSelect={onApply}
+                    onMouseEnter={onApplyMouseEnter}
+                    onMouseLeave={onControlMouseLeave}
+                    style={{
+                        width: actionWidth,
+                        minWidth: actionWidth,
+                        minHeight: controlHeight,
+                        height: controlHeight,
+                        boxSizing: "border-box",
+                        paddingTop: "0",
+                        paddingRight: "0",
+                        paddingBottom: "0",
+                        paddingLeft: "0",
+                        fontSize: "15rem",
+                        fontWeight: 800
+                    }}
+                >
+                    {applyButtonText}
+                </Button>
             </div>
         </div>
     );
