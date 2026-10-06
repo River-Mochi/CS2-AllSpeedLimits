@@ -24,7 +24,7 @@ namespace RoadRailSpeeds
     [SettingsUITabOrder(kMainTab, kAboutTab)]
     [SettingsUIGroupOrder(kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
     [SettingsUIShowGroupName(kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
-    public sealed class SpeedLimitsSetting : ModSetting
+    public class SpeedLimitsSetting : ModSetting
     {
         public const string kMainTab = "Main";
         public const string kAboutTab = "About";
@@ -84,10 +84,10 @@ namespace RoadRailSpeeds
         public bool SliderExpanded { get; set; } = true;
 
         [SettingsUIHidden]
-        public bool WholeCityExpanded { get; set; }
+        public bool WholeCityExpanded { get; set; } = true;
 
         [SettingsUIHidden]
-        public bool StatsExpanded { get; set; }
+        public bool StatsExpanded { get; set; } = true;
 
         [SettingsUIButton]
         [SettingsUIConfirmation]
@@ -177,8 +177,8 @@ namespace RoadRailSpeeds
             ToolPanelPositionY = -1;
             SelectionInfoExpanded = true;
             SliderExpanded = true;
-            WholeCityExpanded = false;
-            StatsExpanded = false;
+            WholeCityExpanded = true;
+            StatsExpanded = true;
             ShowUsage = false;
         }
 

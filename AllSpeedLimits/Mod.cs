@@ -24,7 +24,7 @@ namespace RoadRailSpeeds
     using RoadRailSpeeds.Systems;    // Mod systems
     using Unity.Entities;            // World
 
-    public sealed class Mod : IMod
+    public class Mod : IMod
     {
         public const string ModName = "All Speed Limits";
         public const string ModId = "RoadRailSpeeds";

@@ -150,7 +150,7 @@ namespace RoadRailSpeeds.Systems
             m_CityTaxiTotalBinding = CreateBinding("CITY_TAXI_TOTAL", 0);
             m_CityTaxiActiveBinding = CreateBinding("CITY_TAXI_ACTIVE", 0);
             m_CityTaxiParkedBinding = CreateBinding("CITY_TAXI_PARKED", 0);
-            m_StatsExpandedBinding = CreateBinding("STATS_EXPANDED", false);
+            m_StatsExpandedBinding = CreateBinding("STATS_EXPANDED", true);
             m_CityResetInProgressBinding = CreateBinding("CITY_RESET_IN_PROGRESS", false);
             m_CityResetClearedBinding = CreateBinding("CITY_RESET_CLEARED", 0);
             m_CityResetTotalBinding = CreateBinding("CITY_RESET_TOTAL", 0);
@@ -166,7 +166,7 @@ namespace RoadRailSpeeds.Systems
             m_ToolPanelYBinding = CreateBinding("TOOL_PANEL_Y", -1);
             m_SelectionInfoExpandedBinding = CreateBinding("SELECTION_INFO_EXPANDED", true);
             m_SliderExpandedBinding = CreateBinding("SLIDER_EXPANDED", true);
-            m_WholeCityExpandedBinding = CreateBinding("WHOLE_CITY_EXPANDED", false);
+            m_WholeCityExpandedBinding = CreateBinding("WHOLE_CITY_EXPANDED", true);
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
@@ -221,7 +221,7 @@ namespace RoadRailSpeeds.Systems
             m_CityIndustryTotalBinding.Value = 0;
             m_CityIndustryActiveBinding.Value = 0;
             m_CityIndustryParkedBinding.Value = 0;
-            m_StatsExpandedBinding.Value = false;
+            m_StatsExpandedBinding.Value = true;
             m_CityResetInProgressBinding.Value = false;
             m_CityResetClearedBinding.Value = 0;
             m_CityResetTotalBinding.Value = 0;
@@ -237,8 +237,8 @@ namespace RoadRailSpeeds.Systems
             m_ToolPanelYBinding.Value = m_Settings?.ToolPanelPositionY ?? -1;
             m_SelectionInfoExpandedBinding.Value = m_Settings?.SelectionInfoExpanded ?? true;
             m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
-            m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? false;
-            m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? false;
+            m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? true;
+            m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? true;
 
             // Send the starting values now so the panel does not briefly show empty or stale data.
             RequestUpdate();
@@ -262,8 +262,8 @@ namespace RoadRailSpeeds.Systems
             m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
             m_SelectionInfoExpandedBinding.Value = m_Settings?.SelectionInfoExpanded ?? true;
             m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
-            m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? false;
-            m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? false;
+            m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? true;
+            m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? true;
             ClearCityVehicleStatsBindings();
             ClearCityResetBindings();
             ClearCityApplyBindings();
@@ -406,13 +406,13 @@ namespace RoadRailSpeeds.Systems
                 m_SliderExpandedBinding.Value = sliderExpanded;
             }
 
-            bool wholeCityExpanded = m_Settings?.WholeCityExpanded ?? false;
+            bool wholeCityExpanded = m_Settings?.WholeCityExpanded ?? true;
             if (m_WholeCityExpandedBinding.Value != wholeCityExpanded)
             {
                 m_WholeCityExpandedBinding.Value = wholeCityExpanded;
             }
 
-            bool statsExpanded = m_Settings?.StatsExpanded ?? false;
+            bool statsExpanded = m_Settings?.StatsExpanded ?? true;
             if (m_StatsExpandedBinding.Value != statsExpanded)
             {
                 m_StatsExpandedBinding.Value = statsExpanded;

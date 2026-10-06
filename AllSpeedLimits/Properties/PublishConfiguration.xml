@@ -63,7 +63,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.2.6" />
+<ModVersion Value="1.2.7" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
@@ -72,9 +72,9 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- For new installs all panel sections Open. Previously Whole city and Status sections were hidden/collapsed.
+- Interal tidy and refactor.
 - Updated for game patch 1.6.2
-- Updated GPL3 License
-- Internal, update shared lib files
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

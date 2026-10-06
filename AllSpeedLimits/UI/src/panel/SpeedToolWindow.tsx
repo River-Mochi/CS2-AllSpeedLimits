@@ -130,8 +130,8 @@ export const SpeedToolWindow = () => {
 
     const savedSelectionInfoExpanded = useSafeBinding(SELECTION_INFO_EXPANDED, true);
     const savedSliderExpanded = useSafeBinding(SLIDER_EXPANDED, true);
-    const savedWholeCityExpanded = useSafeBinding(WHOLE_CITY_EXPANDED, false);
-    const savedStatsExpanded = useSafeBinding(STATS_EXPANDED, false);
+    const savedWholeCityExpanded = useSafeBinding(WHOLE_CITY_EXPANDED, true);
+    const savedStatsExpanded = useSafeBinding(STATS_EXPANDED, true);
 
     const [visible, setVisible] = useState(false);
     const [pendingSpeedKmh, setPendingSpeedKmh] = useState(5);
@@ -414,10 +414,6 @@ export const SpeedToolWindow = () => {
             lastSelectionCounter.current = 0;
         }
     }, [selectionCounter, toolActive, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
-
-    useEffect(() => {
-        SetStatsExpanded(statsExpanded);
-    }, [statsExpanded]);
 
     const handleSliderChange = (value: number) => {
         setPendingSpeedKmh(displayValueToSpeedKmh(value));
