@@ -10,47 +10,46 @@
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-# Adjust All Speed Limits
+## Adjust All Speed Limits
 
 Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
 
 ## 🌄 Key Features
 
--   **Adjust speeds on individual segments** with a simple click.
--   **Click-and-drag selection** to modify multiple segments at once.
--   Works on:
--  🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
-- Stats are light: only runs when the panel is open, better data than Info view.
-- don't forget Like button, top right, so more people know about the mod :)
-
+* **Adjust speeds on individual segments** with a simple click.
+* **Click-and-drag** over the road/track to modify multiple segments at once.
+* Works on:
+* 🚗 **Roads**  🚊 **Tram tracks** 🚆 **Train tracks**  🚇 **Subway rails** ⛵ **Waterways**
+* Stats are light: only runs when the panel is open, better data than Info view.
 
 ## Important
 
-- Remove old "Road Speed Adjuster" (RSA) mod before installing this mod. Old one is no longer maintained (retired).
-- Existing custom speeds should remain and can be edited/reset per segment in new mod.
-- Vehicles are still limited by their max speeds (different for each type).
-- Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
-- **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
-- Performance: stats update only while the speed tool panel is open. Mod runs only when you have it open, make a change, then it goes back to sleep - easy, done.
-- ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
-- The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
+* Remove old "Road Speed Adjuster" (RSA) mod before installing this mod. Old one is no longer maintained (retired).
+* Existing custom speeds should remain and can be edited/reset per segment in new mod.
+* Vehicles are still limited by their max speeds (different for each type).
+* Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
+* **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
+* Performance: stats update only while the speed tool panel is open. Mod runs only when you have it open, make a change, then it goes back to sleep - easy, done.
+* ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
+* The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
 
 
 ## Support and Feedback
-- If you download the mod, consider giving a like :) It takes weeks and months to make these level of mods and many hours with testers.
-- Feedback welcome see Github or Discord links to the right of this page.
+* Easiest way to support is to click the LIKE 👍 button (top right). No donations requested. It takes weeks and months to make these level of mods and many hours with testers.
+* Feedback and PRs welcome: see Github or Discord links (to the right of this page).
 
-## ❤️ Special Thanks
+## ❤️ Credits and Special Thanks
 Huge appreciation hugs and waves to everyone
 
-- chaosfun: testing and video: https://youtu.be/qADctjYS5-w
-- Maestro, gagaxm, Obelix, Sunny Scunny: testing and feedback.
-- yenayang: technical advisor
-- Thanks to everyone who tested, supported, or guided development along the way!
-- Thumbnail photo taken in Toronto, Canada by [Alex Smith] https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw
-- History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
+* River-mochi: mod author
+* Chaosfun: testing and [video demo here](https://www.youtube.com/watch?v=qADctjYS5-w)
+* Maestro, Gagaxm, Obelix, Sunny Scunny: testing and feedback.
+* yenayang: technical advisor
+* Thanks to everyone who tested, supported, or guided development along the way!
+* Thumbnail photo taken in Toronto, Canada by [Alex Smith](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
+* History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
 
-tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
+tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry.
 </LongDescription>
 <!--Thumbnail-->
 <Thumbnail Value="Properties/thumbnail-asmithphoto01.jpg" />
