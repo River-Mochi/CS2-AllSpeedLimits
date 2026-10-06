@@ -72,7 +72,7 @@ tags: water speed, seaway, track speed, tracks, ship, boat, ferry.
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- For new installs all panel sections Open. Previously Whole city and Status sections were hidden/collapsed.
+- Open all panels by default on first install. Previously Whole city and Status sections were hidden/collapsed.
 - Interal tidy and refactor.
 - Updated for game patch 1.6.2
 </ChangeLog>
