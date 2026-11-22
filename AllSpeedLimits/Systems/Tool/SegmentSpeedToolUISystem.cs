@@ -21,6 +21,7 @@ namespace RoadRailSpeeds.Systems
     using Unity.Entities;                  // Entity, EntityQuery
     using UnityEngine;                     // Screen, Vector3
     using Temp = Game.Tools.Temp;          // Temp alias
+    using SubLane = Game.Net.SubLane;
 
     public partial class SegmentSpeedToolUISystem : ExtendedInfoSectionBase
     {
@@ -47,6 +48,8 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_ShowMetricBinding = null!;
         private ValueBindingHelper<bool> m_IsTrackTypeBinding = null!;
         private ValueBindingHelper<bool> m_IsWaterwayTypeBinding = null!;
+        private ValueBindingHelper<bool> m_SelectPathsBinding = null!;
+        private ValueBindingHelper<bool> m_ShowInvisibleBinding = null!;
         private ValueBindingHelper<bool> m_SelectRoadsBinding = null!;
         private ValueBindingHelper<bool> m_SelectRailsBinding = null!;
         private ValueBindingHelper<bool> m_SelectWaterBinding = null!;
@@ -113,9 +116,8 @@ namespace RoadRailSpeeds.Systems
             m_Settings = Mod.Settings;
 
             m_AdjustableEdgeQuery = SystemAPI.QueryBuilder()
-                .WithAll<Edge, Curve, PrefabRef>()
-                .WithAny<Road, TrainTrack, TramTrack, SubwayTrack, Waterway>()
-                .WithNone<Deleted, Temp>()
+                .WithAll<Edge, Curve, PrefabRef, SubLane>()
+                .WithNone<Deleted, Temp, Overridden>()
                 .Build();
 
             // These keys are read by the React/COHTML UI.
@@ -167,6 +169,8 @@ namespace RoadRailSpeeds.Systems
             m_SelectionInfoExpandedBinding = CreateBinding("SELECTION_INFO_EXPANDED", true);
             m_SliderExpandedBinding = CreateBinding("SLIDER_EXPANDED", true);
             m_WholeCityExpandedBinding = CreateBinding("WHOLE_CITY_EXPANDED", true);
+            m_SelectPathsBinding = CreateBinding("SELECT_PATHS", true);
+            m_ShowInvisibleBinding = CreateBinding("SHOW_INVISIBLE", false);
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
@@ -191,6 +195,9 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger("RESET_CITY_RAILS", HandleResetCityRails);
             CreateTrigger("RESET_CITY_WATERWAYS", HandleResetCityWaterways);
             CreateTrigger("RESET_CITY_ALL", HandleResetCityAll);
+            CreateTrigger<bool>("SET_SELECT_PATHS", HandleSetSelectPaths);
+            CreateTrigger<bool>("SET_SHOW_INVISIBLE", HandleSetShowInvisible);
+            CreateTrigger("RESET_CITY_PATHS", HandleResetCityPaths);
             CreateTrigger<bool>("SET_SELECT_ROADS", HandleSetSelectRoads);
             CreateTrigger<bool>("SET_SELECT_RAILS", HandleSetSelectRails);
             CreateTrigger<bool>("SET_SELECT_WATER", HandleSetSelectWater);
@@ -284,6 +291,15 @@ namespace RoadRailSpeeds.Systems
 
             if (edges.Count == 0)
             {
+                m_SelectedEntity = Entity.Null;
+                m_SelectionCounterBinding.Value = 0;
+                m_IsTrackTypeBinding.Value = false;
+                m_IsWaterwayTypeBinding.Value = false;
+                m_CurrentSpeedMixedBinding.Value = false;
+                m_VanillaSpeedBinding.Value = -1f;
+                m_VanillaSpeedMixedBinding.Value = false;
+                visible = false;
+                RequestUpdate();
                 return;
             }
 
@@ -450,6 +466,8 @@ namespace RoadRailSpeeds.Systems
             {
                 // The toolbar already clears the old selection immediately. Keep this backup for
                 // any other activation route so a previous segment never reappears unexpectedly.
+                m_SelectPathsBinding.Value = m_SegmentSpeedTool.IncludePaths;
+                m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;
                 m_SelectWaterBinding.Value = true;

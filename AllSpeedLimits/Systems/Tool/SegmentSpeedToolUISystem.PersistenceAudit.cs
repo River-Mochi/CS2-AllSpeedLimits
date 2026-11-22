@@ -489,7 +489,7 @@ namespace RoadRailSpeeds.Systems
                 return "rail-other";
             }
 
-            return IsRoadOnly(edge) ? "road" : "other";
+            return SpeedNetworkUtils.GetKind(EntityManager, edge) == SpeedNetworkKind.Path ? "path" : IsRoadOnly(edge) ? "road" : "other";
         }
 
         private static bool ShouldLogPersistenceSample(

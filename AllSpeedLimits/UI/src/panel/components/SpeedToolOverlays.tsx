@@ -131,6 +131,10 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "wholeCity") {
             maxWidth = "210rem";
             content = renderTooltipBlock(text.tooltips.wholeCity.title, text.tooltips.wholeCity.lines);
+        } else if (panelTooltip === "filterPaths") {
+            content = renderTooltipBlock(text.panel.filterPaths, [text.tooltips.filterPaths]);
+        } else if (panelTooltip === "showInvisible") {
+            content = renderTooltipBlock(text.panel.showInvisible, [text.tooltips.showInvisible]);
         } else if (panelTooltip === "filterRoads") {
             maxWidth = "184rem";
             content = renderTooltipBlock(text.panel.filterRoads, [text.tooltips.filterRoads]);

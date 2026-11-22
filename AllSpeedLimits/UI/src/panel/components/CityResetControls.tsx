@@ -3,18 +3,20 @@
 
 import { Button } from "../../shared/Button";
 
-type ResetActionKind = "resetRoads" | "resetRails" | "resetWater" | "resetAll";
+type ResetActionKind = "resetRoads" | "resetPaths" | "resetRails" | "resetWater" | "resetAll";
 
 type CityResetControlsProps = {
     cityActionBusy: boolean;
     cityActionApplying: ResetActionKind | null | string;
     resettingLabel: string;
     resetAllLabel: string;
+    resetPathsLabel: string;
     resetRoadsLabel: string;
     resetRailsLabel: string;
     resetWaterLabel: string;
     resetAllTypesLabel: string;
     focusKey: unknown;
+    onOpenResetPaths: () => void;
     onOpenResetRoads: () => void;
     onOpenResetRails: () => void;
     onOpenResetWater: () => void;
@@ -27,11 +29,13 @@ export const CityResetControls = (props: CityResetControlsProps) => {
         cityActionApplying,
         resettingLabel,
         resetAllLabel,
+        resetPathsLabel,
         resetRoadsLabel,
         resetRailsLabel,
         resetWaterLabel,
         resetAllTypesLabel,
         focusKey,
+        onOpenResetPaths,
         onOpenResetRoads,
         onOpenResetRails,
         onOpenResetWater,
@@ -82,6 +86,7 @@ export const CityResetControls = (props: CityResetControlsProps) => {
                 justifyContent: "space-between"
             }}>
                 {renderResetButton("resetRoads", resetRoadsLabel, onOpenResetRoads, true)}
+                {renderResetButton("resetPaths", resetPathsLabel, onOpenResetPaths, true)}
                 {renderResetButton("resetRails", resetRailsLabel, onOpenResetRails, true)}
                 {renderResetButton("resetWater", resetWaterLabel, onOpenResetWater, true)}
                 {renderResetButton("resetAll", resetAllTypesLabel, onOpenResetAll, false)}

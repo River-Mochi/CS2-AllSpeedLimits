@@ -1,6 +1,7 @@
 // File: UI/src/entry/SpeedToolHint.tsx
 // Purpose: First-use hint panel shown before a road/rail segment is selected.
 
+import { SelectionFilterControls } from "../panel/components/SelectionFilterControls";
 import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
@@ -120,6 +121,18 @@ export const SpeedToolHint = () => {
                         lineHeight: "1.2"
                     }}>
                         {TEXT.hint.instruction}
+                    </div>
+                    <div style={{ marginTop: "8rem", display: "flex", justifyContent: "center" }}>
+                        <SelectionFilterControls
+                            label={TEXT.panel.selectFilter}
+                            pathsLabel={TEXT.panel.filterPaths}
+                            invisibleLabel={TEXT.panel.showInvisible}
+                            roadsLabel={TEXT.panel.filterRoads}
+                            railsLabel={TEXT.panel.filterRails}
+                            waterLabel={TEXT.panel.filterWater}
+                            showTip={() => {}}
+                            hideTip={() => {}}
+                        />
                     </div>
                 </div>
             </Panel>

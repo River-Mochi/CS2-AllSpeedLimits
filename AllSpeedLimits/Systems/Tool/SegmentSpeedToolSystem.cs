@@ -48,8 +48,10 @@ namespace RoadRailSpeeds.Systems
 
         // Selection type filter.
         public bool IncludeRoads { get; set; } = true;
+        public bool IncludePaths { get; set; } = true;
         public bool IncludeRails { get; set; } = true;
         public bool IncludeWater { get; set; } = true;
+        public bool ShowInvisible { get; set; }
 
         public override string toolID => kToolID;
 
@@ -113,6 +115,8 @@ namespace RoadRailSpeeds.Systems
 
             requireNet =
                 Layer.Road |
+                Layer.Pathway |
+                Layer.PublicTransportRoad |
                 Layer.TrainTrack |
                 Layer.TramTrack |
                 Layer.SubwayTrack |
@@ -124,8 +128,10 @@ namespace RoadRailSpeeds.Systems
 
             // Reset filters on each activation.
             IncludeRoads = true;
+            IncludePaths = true;
             IncludeRails = true;
             IncludeWater = true;
+            ShowInvisible = false;
 
             // Enables left-click apply behavior while this tool is active.
             applyAction.shouldBeEnabled = true;
@@ -148,6 +154,7 @@ namespace RoadRailSpeeds.Systems
 
             requireNet = Layer.None;
             requireNetArrows = false;
+            ShowInvisible = false;
         }
 
         public override void InitializeRaycast()
@@ -161,7 +168,18 @@ namespace RoadRailSpeeds.Systems
             if (IncludeRoads)
             {
                 // Tram roads share the Road layer, so group trams with roads.
-                layerMask |= Layer.Road | Layer.TramTrack;
+                layerMask |= Layer.Road | Layer.TramTrack | Layer.PublicTransportRoad;
+            }
+
+            // Pathway prefabs can carry bikes or motor vehicles. The entity filter below
+            // separates these after raycasting, including internal building subnets.
+            if (IncludeRoads || IncludePaths)
+            {
+                layerMask |= Layer.Pathway;
+                if (ShowInvisible)
+                {
+                    layerMask |= Layer.MarkerPathway;
+                }
             }
 
             if (IncludeRails)
@@ -180,8 +198,14 @@ namespace RoadRailSpeeds.Systems
                 RaycastFlags.Cargo |
                 RaycastFlags.Passenger |
                 RaycastFlags.ElevateOffset |
-                RaycastFlags.SubElements |
-                RaycastFlags.Markers;
+                RaycastFlags.SubElements;
+
+            // Hidden marker networks must not intercept clicks on visible paths when the
+            // player has not enabled them. Vanilla's net tool gates this flag the same way.
+            if (ShowInvisible)
+            {
+                m_ToolRaycastSystem.raycastFlags |= RaycastFlags.Markers;
+            }
 
             // Match vanilla surface/underground raycast behavior.
             m_ToolRaycastSystem.collisionMask = requireUnderground

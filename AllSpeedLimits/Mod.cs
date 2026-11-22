@@ -135,6 +135,9 @@ namespace RoadRailSpeeds
                 updateSystem.UpdateAfter<CustomSpeedReapplySystem, LaneDataSystem>(
                     SystemUpdatePhase.ModificationEnd);
 
+                world.GetOrCreateSystemManaged<PathSpeedOverrideSystem>();
+                updateSystem.UpdateAt<PathSpeedOverrideSystem>(SystemUpdatePhase.GameSimulation);
+
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);
 
@@ -147,6 +150,9 @@ namespace RoadRailSpeeds
                 // Waterway overlay only. Road/rail selection uses the game's Highlighted outline.
                 world.GetOrCreateSystemManaged<SegmentSelectionOverlayRenderSystem>();
                 updateSystem.UpdateAt<SegmentSelectionOverlayRenderSystem>(SystemUpdatePhase.Rendering);
+
+                world.GetOrCreateSystemManaged<InvisibleNetworkRenderSystem>();
+                updateSystem.UpdateAt<InvisibleNetworkRenderSystem>(SystemUpdatePhase.Rendering);
 
                 // Draw speed numbers after the waterway selection overlay so transparent overlay
                 // colors do not wash out waterway speed labels when they overlap on screen.

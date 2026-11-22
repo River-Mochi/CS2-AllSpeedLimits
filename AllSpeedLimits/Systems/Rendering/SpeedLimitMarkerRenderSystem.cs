@@ -48,7 +48,8 @@ namespace RoadRailSpeeds.Systems
         {
             Road = 0,
             Rail = 1,
-            Water = 2
+            Water = 2,
+            Path = 3
         }
 
         private readonly struct MarkerGroupKey : IEquatable<MarkerGroupKey>
@@ -107,7 +108,7 @@ namespace RoadRailSpeeds.Systems
         private SegmentSpeedToolSystem m_SegmentSpeedToolSystem = null!;
         private CityConfigurationSystem m_CityConfigurationSystem = null!;
         private CameraUpdateSystem m_CameraUpdateSystem = null!;
-        private PrefabSystem m_PrefabSystem = null!;
+        private global::Game.Prefabs.PrefabSystem m_PrefabSystem = null!;
 
         private EntityQuery m_CustomSpeedQuery;
         private EntityQuery m_OverlaySettingsQuery;
@@ -217,7 +218,7 @@ namespace RoadRailSpeeds.Systems
             m_SegmentSpeedToolSystem = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
             m_CityConfigurationSystem = World.GetOrCreateSystemManaged<global::Game.City.CityConfigurationSystem>();
             m_CameraUpdateSystem = World.GetExistingSystemManaged<global::Game.Rendering.CameraUpdateSystem>();
-            m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+            m_PrefabSystem = World.GetOrCreateSystemManaged<global::Game.Prefabs.PrefabSystem>();
 
             m_Settings = Mod.Settings;
             m_LastUnitPreference = m_Settings?.SpeedUnitPreference ?? SpeedLimitsSetting.SpeedUnit.Auto;
@@ -226,6 +227,7 @@ namespace RoadRailSpeeds.Systems
             // Build these searches once because marker rendering uses them every frame.
             m_CustomSpeedQuery = SystemAPI.QueryBuilder()
                 .WithAll<Edge, Curve, CustomSpeed>()
+                .WithNone<Game.Common.Deleted, Game.Tools.Temp, Game.Common.Overridden>()
                 .Build();
 
             m_OverlaySettingsQuery = SystemAPI.QueryBuilder()

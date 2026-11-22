@@ -51,6 +51,7 @@ import {
     ApplyCityTrainSpeed,
     ApplyCitySubwaySpeed,
     ResetSpeed,
+    ResetCityPathDefaults,
     ResetCityRoadDefaults,
     ResetCityRailDefaults,
     ResetCityWaterwayDefaults,
@@ -357,6 +358,10 @@ export const SpeedToolWindow = () => {
             };
         }
 
+        if (kind === "resetPaths") {
+            return TEXT.confirm.resetPaths;
+        }
+
         if (kind === "resetRoads") {
             return {
                 title: TEXT.confirm.resetRoads.title,
@@ -513,7 +518,7 @@ export const SpeedToolWindow = () => {
         const action = pendingCityAction;
         setPendingCityAction(null);
         setCityActionApplying(action);
-        if (action === "resetRoads" || action === "resetRails" || action === "resetWater" || action === "resetAll") {
+        if (action === "resetPaths" || action === "resetRoads" || action === "resetRails" || action === "resetWater" || action === "resetAll") {
             setSelectedRoadGroup(null);
         }
 
@@ -529,6 +534,9 @@ export const SpeedToolWindow = () => {
             ApplyCityTrainSpeed(pendingSpeedKmh);
         } else if (action === "applySubway") {
             ApplyCitySubwaySpeed(pendingSpeedKmh);
+        } else if (action === "resetPaths") {
+            ResetCityPathDefaults();
+            setShowSaveReminder(true);
         } else if (action === "resetRoads") {
             ResetCityRoadDefaults();
             setShowSaveReminder(true);
@@ -866,6 +874,8 @@ export const SpeedToolWindow = () => {
                         }}>
                             <SelectionFilterControls
                                 label={TEXT.panel.selectFilter}
+                                pathsLabel={TEXT.panel.filterPaths}
+                                invisibleLabel={TEXT.panel.showInvisible}
                                 roadsLabel={TEXT.panel.filterRoads}
                                 railsLabel={TEXT.panel.filterRails}
                                 waterLabel={TEXT.panel.filterWater}

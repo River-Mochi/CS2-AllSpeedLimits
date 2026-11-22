@@ -7,6 +7,10 @@ import type { PanelTooltipKind } from "../types";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import { useSafeBinding } from "../../shared/useSafeBinding";
 import {
+  SELECT_PATHS,
+  SHOW_INVISIBLE,
+  SetSelectPaths,
+  SetShowInvisible,
   SELECT_ROADS,
   SELECT_RAILS,
   SELECT_WATER,
@@ -17,6 +21,9 @@ import {
 import roadIcon from "../../images/HighwayTwoway2lanes_max.svg";
 import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
+
+import pathIcon from "../../images/Bicycle_max.svg";
+import invisibleIcon from "../../images/asl-invisible.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
@@ -53,6 +60,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
       focusKey={focusDisabled}
       theme={{ button: "" }}
       aria-pressed={active}
+      aria-label={text}
+      title={text}
       onMouseEnter={() => { setHovered(true); showTip(tipKind); }}
       onMouseLeave={() => { setHovered(false); hideTip(); }}
       onSelect={onToggle}
@@ -118,6 +127,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
 
 type SelectionFilterControlsProps = {
   label: string;
+  pathsLabel: string;
+  invisibleLabel: string;
   roadsLabel: string;
   railsLabel: string;
   waterLabel: string;
@@ -128,6 +139,8 @@ type SelectionFilterControlsProps = {
 export const SelectionFilterControls = (props: SelectionFilterControlsProps) => {
   const {
     label,
+    pathsLabel,
+    invisibleLabel,
     roadsLabel,
     railsLabel,
     waterLabel,
@@ -135,6 +148,8 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
     hideTip
   } = props;
 
+  const paths = useSafeBinding(SELECT_PATHS, true);
+  const invisible = useSafeBinding(SHOW_INVISIBLE, false);
   const roads = useSafeBinding(SELECT_ROADS, true);
   const rails = useSafeBinding(SELECT_RAILS, true);
   const water = useSafeBinding(SELECT_WATER, true);
@@ -173,7 +188,16 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             text={roadsLabel}
             tipKind="filterRoads"
             iconSrc={roadIcon}
-            onToggle={toggle(roads, [rails, water], SetSelectRoads)}
+            onToggle={toggle(roads, [paths, rails, water], SetSelectRoads)}
+            showTip={showTip}
+            hideTip={hideTip}
+          />
+          <FilterChip
+            active={paths}
+            text={pathsLabel}
+            tipKind="filterPaths"
+            iconSrc={pathIcon}
+            onToggle={toggle(paths, [roads, rails, water], SetSelectPaths)}
             showTip={showTip}
             hideTip={hideTip}
           />
@@ -182,7 +206,7 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             text={railsLabel}
             tipKind="filterRails"
             iconSrc={railIcon}
-            onToggle={toggle(rails, [roads, water], SetSelectRails)}
+            onToggle={toggle(rails, [roads, paths, water], SetSelectRails)}
             showTip={showTip}
             hideTip={hideTip}
           />
@@ -191,10 +215,21 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             text={waterLabel}
             tipKind="filterWater"
             iconSrc={waterIcon}
-            onToggle={toggle(water, [roads, rails], SetSelectWater)}
+            onToggle={toggle(water, [roads, paths, rails], SetSelectWater)}
             showTip={showTip}
             hideTip={hideTip}
           />
+          <div style={{ marginLeft: "6rem", borderLeft: "1rem solid rgba(255,255,255,0.16)", paddingLeft: "3rem" }}>
+            <FilterChip
+              active={invisible}
+              text={invisibleLabel}
+              tipKind="showInvisible"
+              iconSrc={invisibleIcon}
+              onToggle={() => SetShowInvisible(!invisible)}
+              showTip={showTip}
+              hideTip={hideTip}
+            />
+          </div>
         </div>
       </div>
     </div>

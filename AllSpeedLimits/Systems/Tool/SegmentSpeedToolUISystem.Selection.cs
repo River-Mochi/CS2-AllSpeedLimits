@@ -146,13 +146,7 @@ namespace RoadRailSpeeds.Systems
                 return -1f;
             }
 
-            return prefabBase switch
-            {
-                RoadPrefab roadPrefab => roadPrefab.m_SpeedLimit / 2f,
-                TrackPrefab trackPrefab => trackPrefab.m_SpeedLimit / 2f,
-                WaterwayPrefab waterwayPrefab => waterwayPrefab.m_SpeedLimit / 2f,
-                _ => -1f
-            };
+            return SpeedNetworkUtils.GetPrefabSpeedKmh(prefabBase);
         }
 
         private float GetAverageSpeed(Entity edge, out bool laneSpeedsMixed)
@@ -321,7 +315,7 @@ namespace RoadRailSpeeds.Systems
         private bool IsRoadOnly(Entity edge)
         {
             bool isTrackType = IsTrackType(edge);
-            bool isRoadType = EntityManager.HasComponent<Road>(edge);
+            bool isRoadType = SpeedNetworkUtils.GetKind(EntityManager, edge) == SpeedNetworkKind.Road;
             bool isWaterwayType = IsWaterwayType(edge);
 
             return isRoadType && !isTrackType && !isWaterwayType;

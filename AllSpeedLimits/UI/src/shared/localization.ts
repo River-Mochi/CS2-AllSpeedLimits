@@ -50,6 +50,8 @@ const buildText = (lookup: TextLookup) => ({
             wholeCity: text(lookup, "panel.wholeCity"),
             stats: text(lookup, "panel.stats"),
             selectFilter: text(lookup, "panel.selectFilter"),
+            filterPaths: text(lookup, "panel.filterPaths"),
+            showInvisible: text(lookup, "panel.showInvisible"),
             filterRoads: text(lookup, "panel.filterRoads"),
             filterRails: text(lookup, "panel.filterRails"),
             filterWater: text(lookup, "panel.filterWater"),
@@ -85,6 +87,7 @@ const buildText = (lookup: TextLookup) => ({
             applyRoadGroup: text(lookup, "buttons.applyRoadGroup"),
             applyTrain: text(lookup, "buttons.applyTrain"),
             applySubway: text(lookup, "buttons.applySubway"),
+            resetPaths: text(lookup, "buttons.resetPaths"),
             resetRoads: text(lookup, "buttons.resetRoads"),
             resetRails: text(lookup, "buttons.resetRails"),
             resetWater: text(lookup, "buttons.resetWater"),
@@ -99,6 +102,8 @@ const buildText = (lookup: TextLookup) => ({
             selectedSegment: text(lookup, "tooltips.selectedSegment"),
             currentSpeed: text(lookup, "tooltips.currentSpeed"),
             presets: text(lookup, "tooltips.presets"),
+            filterPaths: text(lookup, "tooltips.filterPaths"),
+            showInvisible: text(lookup, "tooltips.showInvisible"),
             filterRoads: text(lookup, "tooltips.filterRoads"),
             filterRails: text(lookup, "tooltips.filterRails"),
             filterWater: text(lookup, "tooltips.filterWater"),
@@ -191,6 +196,11 @@ const buildText = (lookup: TextLookup) => ({
                 title: text(lookup, "confirm.applySubway.title"),
                 message: text(lookup, "confirm.applySubway.message"),
                 confirmLabel: text(lookup, "confirm.applySubway.confirmLabel")
+            },
+            resetPaths: {
+                title: text(lookup, "confirm.resetPaths.title"),
+                message: text(lookup, "confirm.resetPaths.message"),
+                confirmLabel: text(lookup, "confirm.resetPaths.confirmLabel")
             },
             resetRoads: {
                 title: text(lookup, "confirm.resetRoads.title"),

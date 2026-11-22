@@ -28,6 +28,7 @@ namespace RoadRailSpeeds.Systems
         {
             None,
             Road,
+            Path,
             Rail,
             Water
         }
@@ -63,31 +64,58 @@ namespace RoadRailSpeeds.Systems
 
         // Tram roads can appear in both road and rail hit layers. Check the actual segment type so
         // the player's road/rail/water filters select what their labels promise.
-        private bool IsEdgeTypeAllowed(Entity edge)
+        internal bool IsEdgeTypeAllowed(Entity edge)
         {
-            if (edge == Entity.Null || !EntityManager.Exists(edge))
+            if (!SpeedNetworkUtils.IsLiveEdge(EntityManager, edge) ||
+                (!ShowInvisible && SpeedNetworkUtils.IsInvisible(EntityManager, edge)) ||
+                !SpeedNetworkUtils.HasSpeedLanes(EntityManager, edge))
             {
                 return false;
             }
 
-            if (EntityManager.HasComponent<Waterway>(edge))
+            return SpeedNetworkUtils.GetKind(EntityManager, edge) switch
             {
-                return IncludeWater;
+                SpeedNetworkKind.Road => IncludeRoads,
+                SpeedNetworkKind.Path => IncludePaths,
+                SpeedNetworkKind.Rail => IncludeRails,
+                SpeedNetworkKind.Water => IncludeWater,
+                _ => false
+            };
+        }
+
+        public void RefreshSelectionFilters()
+        {
+            RemoveAllHighlights();
+            m_ToolSystem.selected = Entity.Null;
+            m_HoverEntity = Entity.Null;
+            m_IsDragging = false;
+            m_PathStartEdge = Entity.Null;
+            m_PathEndEdge = Entity.Null;
+            m_TempSelection.Clear();
+            m_SelectedEdges.RemoveAll(edge => !IsEdgeTypeAllowed(edge));
+            foreach (Entity edge in m_SelectedEdges)
+            {
+                HighlightEdge(edge);
             }
 
-            if (EntityManager.HasComponent<TrainTrack>(edge) ||
-                EntityManager.HasComponent<SubwayTrack>(edge))
+            m_UISystem.OnSegmentsSelectedByTool(Entity.Null, m_SelectedEdges);
+        }
+
+        protected override bool GetRaycastResult(out ControlPoint controlPoint)
+        {
+            if (GetRaycastResult(out Entity entity, out RaycastHit hit))
             {
-                return IncludeRails;
+                // A subnet hit can name the owning building or node. Edit the hit edge itself.
+                Entity edge = EntityManager.HasComponent<Edge>(hit.m_HitEntity) ? hit.m_HitEntity : entity;
+                if (IsEdgeTypeAllowed(edge))
+                {
+                    controlPoint = new ControlPoint(edge, hit);
+                    return true;
+                }
             }
 
-            if (EntityManager.HasComponent<Road>(edge) ||
-                EntityManager.HasComponent<TramTrack>(edge))
-            {
-                return IncludeRoads;
-            }
-
-            return true;
+            controlPoint = default;
+            return false;
         }
 
         [Preserve]
@@ -497,29 +525,14 @@ namespace RoadRailSpeeds.Systems
         // Keep path search within one network type.
         private EdgeCategory GetEdgeCategory(Entity edge)
         {
-            if (edge == Entity.Null || !EntityManager.Exists(edge))
+            return SpeedNetworkUtils.GetKind(EntityManager, edge) switch
             {
-                return EdgeCategory.None;
-            }
-
-            if (EntityManager.HasComponent<Waterway>(edge))
-            {
-                return EdgeCategory.Water;
-            }
-
-            if (EntityManager.HasComponent<TrainTrack>(edge) ||
-                EntityManager.HasComponent<SubwayTrack>(edge))
-            {
-                return EdgeCategory.Rail;
-            }
-
-            if (EntityManager.HasComponent<Road>(edge) ||
-                EntityManager.HasComponent<TramTrack>(edge))
-            {
-                return EdgeCategory.Road;
-            }
-
-            return EdgeCategory.None;
+                SpeedNetworkKind.Road => EdgeCategory.Road,
+                SpeedNetworkKind.Path => EdgeCategory.Path,
+                SpeedNetworkKind.Rail => EdgeCategory.Rail,
+                SpeedNetworkKind.Water => EdgeCategory.Water,
+                _ => EdgeCategory.None
+            };
         }
 
         public void ClearSelection()
@@ -558,6 +571,12 @@ namespace RoadRailSpeeds.Systems
             if (edge == Entity.Null || !EntityManager.Exists(edge))
             {
                 return false;
+            }
+
+            // Invisible networks have no mesh to highlight; their overlay draws the selection.
+            if (SpeedNetworkUtils.IsInvisible(EntityManager, edge))
+            {
+                return true;
             }
 
             // Waterways use SegmentSelectionOverlayRenderSystem.

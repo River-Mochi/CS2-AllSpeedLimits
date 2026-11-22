@@ -38,17 +38,25 @@ namespace RoadRailSpeeds.Systems
                 PrefabSystem prefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
                 Dictionary<string, int> rows = new Dictionary<string, int>(System.StringComparer.Ordinal);
                 int roadOnlyCount = 0;
+                int pathCount = 0;
                 int railCount = 0;
                 int waterwayCount = 0;
                 int customCount = 0;
 
                 using NativeArray<Entity> edges = m_AdjustableEdgeQuery.ToEntityArray(Allocator.Temp);
+                using NativeList<Entity> supportedEdges = new NativeList<Entity>(Allocator.Temp);
 
                 for (int i = 0; i < edges.Length; i++)
                 {
                     Entity edge = edges[i];
                     Entity baseEdge = GetBaseEdge(edge);
+                    if (SpeedNetworkUtils.GetKind(EntityManager, baseEdge) == SpeedNetworkKind.None ||
+                        !SpeedNetworkUtils.HasSpeedLanes(EntityManager, baseEdge))
+                    {
+                        continue;
+                    }
 
+                    supportedEdges.Add(baseEdge);
                     if (IsWaterwayType(baseEdge))
                     {
                         waterwayCount++;
@@ -56,6 +64,10 @@ namespace RoadRailSpeeds.Systems
                     else if (IsTrackType(baseEdge))
                     {
                         railCount++;
+                    }
+                    else if (SpeedNetworkUtils.GetKind(EntityManager, baseEdge) == SpeedNetworkKind.Path)
+                    {
+                        pathCount++;
                     }
                     else if (IsRoadOnly(baseEdge))
                     {
@@ -80,10 +92,10 @@ namespace RoadRailSpeeds.Systems
                 LogUtils.Info(
                     () => $"{Mod.ModTag} Debug report caps: roadMaxKmh={kMaxRoadSpeedKmh:0.##}, railMaxKmh={kMaxTrackSpeedKmh:0.##}, waterMaxKmh={kMaxWaterwaySpeedKmh:0.##}, minKmh={kMinSpeedKmh:0.##}");
                 LogUtils.Info(
-                    () => $"{Mod.ModTag} Debug report edge counts: totalSupported={edges.Length}, roads={roadOnlyCount}, rails={railCount}, water={waterwayCount}, customSpeeds={customCount}, prefabRows={rows.Count}");
+                    () => $"{Mod.ModTag} Debug report edge counts: totalSupported={supportedEdges.Length}, roads={roadOnlyCount}, paths={pathCount}, rails={railCount}, water={waterwayCount}, customSpeeds={customCount}, prefabRows={rows.Count}");
 
 #if DEBUG
-                LogSpeedPersistenceAuditToLog(prefabSystem, edges);
+                LogSpeedPersistenceAuditToLog(prefabSystem, supportedEdges.AsArray());
 #endif
 
                 int logged = 0;
@@ -274,7 +286,7 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            string kind = IsWaterwayType(edge) ? "Water" : IsTrackType(edge) ? "Rail" : IsRoadOnly(edge) ? "Road" : "Other";
+            string kind = SpeedNetworkUtils.GetKind(EntityManager, edge).ToString();
             string prefabName = prefabBase.name ?? "<unnamed>";
             string vanillaKmh = GetPrefabSpeedKmh(prefabBase).ToString("0.##", CultureInfo.InvariantCulture);
             string typeInfo = prefabBase switch
@@ -282,21 +294,21 @@ namespace RoadRailSpeeds.Systems
                 RoadPrefab roadPrefab => $"roadType={roadPrefab.m_RoadType} highwayRules={roadPrefab.m_HighwayRules}",
                 TrackPrefab trackPrefab => $"trackType={trackPrefab.m_TrackType}",
                 WaterwayPrefab => "waterway=true",
+                Game.Prefabs.PathwayPrefab => "pathway=true",
                 _ => "typeInfo=<none>"
             };
 
-            return $"kind={kind} group=\"{groupName}\" groupPriority={groupPriority} itemPriority={itemPriority} prefab=\"{prefabName}\" {typeInfo} vanillaKmh={vanillaKmh}";
+            return $"kind={kind} invisible={SpeedNetworkUtils.IsInvisible(EntityManager, edge)} internal={EntityManager.HasComponent<Game.Common.Owner>(edge)} group=\"{groupName}\" groupPriority={groupPriority} itemPriority={itemPriority} prefab=\"{prefabName}\" {typeInfo} vanillaKmh={vanillaKmh}";
         }
 
         private static float GetPrefabSpeedKmh(PrefabBase prefabBase)
         {
-            return prefabBase switch
-            {
-                RoadPrefab roadPrefab => roadPrefab.m_SpeedLimit / 2f,
-                TrackPrefab trackPrefab => trackPrefab.m_SpeedLimit / 2f,
-                WaterwayPrefab waterwayPrefab => waterwayPrefab.m_SpeedLimit / 2f,
-                _ => -1f
-            };
+            return SpeedNetworkUtils.GetPrefabSpeedKmh(prefabBase);
+        }
+
+        private void HandleResetCityPaths()
+        {
+            RequestCityReset(ClearCustomSpeedsSystem.ClearScope.Paths, "paths");
         }
 
         private void HandleResetCityRoads()

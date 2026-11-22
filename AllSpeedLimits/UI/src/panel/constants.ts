@@ -69,6 +69,8 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     wholeCity: 300,
     // Filter chips sit just under the title bar; Apply is in the main edit block.
     filterRoads: 58,
+    filterPaths: 58,
+    showInvisible: 58,
     filterRails: 58,
     filterWater: 58,
     apply: 196,

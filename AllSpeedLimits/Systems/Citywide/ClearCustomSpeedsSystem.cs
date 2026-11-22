@@ -29,7 +29,8 @@ namespace RoadRailSpeeds.Systems
             All,
             Roads,
             Rails,
-            Waterways
+            Waterways,
+            Paths
         }
 
         // Tweak this if citywide reset feels too slow or too bursty on low-end pc.
@@ -211,7 +212,20 @@ namespace RoadRailSpeeds.Systems
             float? originalSpeed = SpeedLimitDataManager.GetOriginalSpeed(entity.Index)
                 ?? PersistentSpeedLimitStorage.GetDefaultSpeedLimit(entity.Index);
 
-            if (!originalSpeed.HasValue)
+            if ((!originalSpeed.HasValue || originalSpeed.Value <= 0f) && EntityManager.HasComponent<Game.Prefabs.PrefabRef>(entity))
+            {
+                Game.Prefabs.PrefabSystem prefabs = World.GetOrCreateSystemManaged<Game.Prefabs.PrefabSystem>();
+                if (prefabs.TryGetPrefab(EntityManager.GetComponentData<Game.Prefabs.PrefabRef>(entity), out Game.Prefabs.PrefabBase prefab))
+                {
+                    float vanilla = SpeedNetworkUtils.GetPrefabSpeedKmh(prefab);
+                    if (vanilla > 0f)
+                    {
+                        originalSpeed = vanilla;
+                    }
+                }
+            }
+
+            if (!originalSpeed.HasValue || originalSpeed.Value <= 0f)
             {
                 // If an old speed was never recorded, remove our override and let the game choose
                 // its standard speed. Report the total once instead of flooding the log per segment.
@@ -274,6 +288,7 @@ namespace RoadRailSpeeds.Systems
             return scope switch
             {
                 ClearScope.Roads => IsRoadOnly(baseEntity),
+                ClearScope.Paths => SpeedNetworkUtils.GetKind(EntityManager, baseEntity) == SpeedNetworkKind.Path,
                 ClearScope.Rails => IsRail(baseEntity),
                 ClearScope.Waterways => IsWaterway(baseEntity),
                 _ => true
@@ -289,7 +304,7 @@ namespace RoadRailSpeeds.Systems
 
         private bool IsRoadOnly(Entity entity)
         {
-            return EntityManager.HasComponent<Road>(entity) &&
+            return SpeedNetworkUtils.GetKind(EntityManager, entity) == SpeedNetworkKind.Road &&
                 !IsRail(entity) &&
                 !IsWaterway(entity);
         }

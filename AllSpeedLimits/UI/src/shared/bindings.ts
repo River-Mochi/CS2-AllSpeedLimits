@@ -340,3 +340,18 @@ export function getToolPanelPosition() {
 export function setToolPanelPosition(position: { x: number; y: number }) {
   toolPanelPosition = clampToViewport(position);
 }
+
+export const SELECT_PATHS = bindValue<boolean>(MOD_ID, "BINDING:SELECT_PATHS");
+export const SHOW_INVISIBLE = bindValue<boolean>(MOD_ID, "BINDING:SHOW_INVISIBLE");
+
+export function SetSelectPaths(enabled: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_SELECT_PATHS", enabled);
+}
+
+export function SetShowInvisible(enabled: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_SHOW_INVISIBLE", enabled);
+}
+
+export function ResetCityPathDefaults() {
+  trigger(MOD_ID, "TRIGGER:RESET_CITY_PATHS");
+}
