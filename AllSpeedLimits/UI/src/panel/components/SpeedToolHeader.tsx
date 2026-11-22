@@ -10,6 +10,10 @@ import starBlueGreenIcon from "../../images/star-all-bluegreen.svg";
 
 type SpeedToolHeaderProps = {
     title: string;
+    speedLimitsTab: string;
+    allPathsTab: string;
+    activeView: "limits" | "paths";
+    onViewChange: (view: "limits" | "paths") => void;
     closeTooltip: string;
     draggableTooltip: string;
     markersTooltip: string;
@@ -34,6 +38,10 @@ type SpeedToolHeaderProps = {
 export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
     const {
         title,
+        speedLimitsTab,
+        allPathsTab,
+        activeView,
+        onViewChange,
         closeTooltip,
         draggableTooltip,
         markersTooltip,
@@ -92,9 +100,42 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         opacity: isGuideHovered ? 1 : 0.92
                     }}
                 />
-                <Tooltip tooltip={draggableTooltip} direction="up">
-                    <span>{title}</span>
-                </Tooltip>
+                <div style={{ display: "flex", alignItems: "center" }} title={title}>
+                    <Button
+                        as="button"
+                        focusKey={focusDisabled}
+                        onMouseDown={(event: MouseEvent) => event.stopPropagation()}
+                        onSelect={() => onViewChange("limits")}
+                        selected={activeView === "limits"}
+                        style={{
+                            cursor: "pointer", minHeight: "22rem", fontSize: "12rem",
+                            paddingTop: "2rem", paddingBottom: "2rem",
+                            paddingLeft: "7rem", paddingRight: "7rem",
+                            borderRadius: "3rem", marginRight: "3rem",
+                            backgroundColor: activeView === "limits"
+                                ? "rgba(63, 160, 203, 0.36)" : "rgba(255,255,255,0.04)"
+                        }}
+                    >
+                        {speedLimitsTab}
+                    </Button>
+                    <Button
+                        as="button"
+                        focusKey={focusDisabled}
+                        onMouseDown={(event: MouseEvent) => event.stopPropagation()}
+                        onSelect={() => onViewChange("paths")}
+                        selected={activeView === "paths"}
+                        style={{
+                            cursor: "pointer", minHeight: "22rem", fontSize: "12rem",
+                            paddingTop: "2rem", paddingBottom: "2rem",
+                            paddingLeft: "7rem", paddingRight: "7rem",
+                            borderRadius: "3rem",
+                            backgroundColor: activeView === "paths"
+                                ? "rgba(63, 160, 203, 0.36)" : "rgba(255,255,255,0.04)"
+                        }}
+                    >
+                        {allPathsTab}
+                    </Button>
+                </div>
             </div>
 
             <div style={{ display: "flex", alignItems: "center" }}>

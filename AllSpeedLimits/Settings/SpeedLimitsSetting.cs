@@ -92,6 +92,10 @@ namespace RoadRailSpeeds
         [SettingsUIHidden]
         public bool StatsExpanded { get; set; } = true;
 
+        // Stored in Options for persistence; the control lives in the in-city All Paths view.
+        [SettingsUIHidden]
+        public int GlobalPathSpeedPercent { get; set; } = 100;
+
         // Unassigned by default so ASL cannot collide with Move It (Ctrl+M).
         [SettingsUISection(kMainTab, kKeybindsGroup)]
         [SettingsUIKeyboardBinding(BindingKeyboard.None, Mod.kToggleInvisibleActionName)]
@@ -187,6 +191,7 @@ namespace RoadRailSpeeds
             SliderExpanded = true;
             WholeCityExpanded = true;
             StatsExpanded = true;
+            GlobalPathSpeedPercent = 100;
             ShowUsage = false;
         }
 

@@ -29,6 +29,7 @@ namespace RoadRailSpeeds.Systems
         private Game.UI.InGame.SelectedInfoUISystem m_SelectedInfoUISystem = null!;
         private Game.City.CityConfigurationSystem m_CityConfigurationSystem = null!;
         private SpeedLimitMarkerRenderSystem m_SpeedLimitMarkerRenderSystem = null!;
+        private GlobalPathSpeedSystem m_GlobalPathSpeedSystem = null!;
 
         private Entity m_SelectedEntity;
         private Entity m_LastCheckedEntity;
@@ -53,6 +54,10 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_SelectRoadsBinding = null!;
         private ValueBindingHelper<bool> m_SelectRailsBinding = null!;
         private ValueBindingHelper<bool> m_SelectWaterBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPathPercentBinding = null!;
+        private ValueBindingHelper<bool> m_GlobalPathBusyBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPathProcessedBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPathTotalBinding = null!;
         private ValueBindingHelper<int> m_UnitModeBinding = null!;
         private ValueBindingHelper<bool> m_DoubleSpeedDisplayBinding = null!;
         private ValueBindingHelper<bool> m_CurrentSpeedMixedBinding = null!;
@@ -114,6 +119,7 @@ namespace RoadRailSpeeds.Systems
             m_SegmentSpeedTool = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
             m_CityConfigurationSystem = World.GetOrCreateSystemManaged<Game.City.CityConfigurationSystem>();
             m_SpeedLimitMarkerRenderSystem = World.GetOrCreateSystemManaged<SpeedLimitMarkerRenderSystem>();
+            m_GlobalPathSpeedSystem = World.GetOrCreateSystemManaged<GlobalPathSpeedSystem>();
             m_Settings = Mod.Settings;
 
             m_AdjustableEdgeQuery = SystemAPI.QueryBuilder()
@@ -175,6 +181,10 @@ namespace RoadRailSpeeds.Systems
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
+            m_GlobalPathPercentBinding = CreateBinding("GLOBAL_PATH_PERCENT", m_Settings?.GlobalPathSpeedPercent ?? 100);
+            m_GlobalPathBusyBinding = CreateBinding("GLOBAL_PATH_BUSY", false);
+            m_GlobalPathProcessedBinding = CreateBinding("GLOBAL_PATH_PROCESSED", 0);
+            m_GlobalPathTotalBinding = CreateBinding("GLOBAL_PATH_TOTAL", 0);
 
             // These triggers are called from React.
             CreateTrigger<float>("APPLY_SPEED", HandleApplySpeed);
@@ -203,6 +213,7 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<bool>("SET_SELECT_RAILS", HandleSetSelectRails);
             CreateTrigger<bool>("SET_SELECT_WATER", HandleSetSelectWater);
             CreateTrigger<int, int>("SET_TOOL_PANEL_POSITION", HandleSetToolPanelPosition);
+            CreateTrigger<int>("APPLY_GLOBAL_PATH_PERCENT", HandleApplyGlobalPathPercent);
 
             m_InitialSpeedBinding.Value = 50f;
             m_ToolActiveBinding.Value = false;
@@ -247,6 +258,10 @@ namespace RoadRailSpeeds.Systems
             m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
             m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? true;
             m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? true;
+            m_GlobalPathPercentBinding.Value = m_Settings?.GlobalPathSpeedPercent ?? 100;
+            m_GlobalPathBusyBinding.Value = m_GlobalPathSpeedSystem.IsApplying;
+            m_GlobalPathProcessedBinding.Value = m_GlobalPathSpeedSystem.ProcessedEdges;
+            m_GlobalPathTotalBinding.Value = m_GlobalPathSpeedSystem.TotalEdges;
 
             // Send the starting values now so the panel does not briefly show empty or stale data.
             RequestUpdate();
@@ -351,6 +366,28 @@ namespace RoadRailSpeeds.Systems
             base.OnUpdate();
 
             m_Settings ??= Mod.Settings;
+
+            // Sync global pathway work progress only while the batch is active.
+            bool pathBusy = m_GlobalPathSpeedSystem.IsApplying;
+            if (m_GlobalPathBusyBinding.Value != pathBusy)
+            {
+                m_GlobalPathBusyBinding.Value = pathBusy;
+            }
+
+            if (pathBusy)
+            {
+                int pathProcessed = m_GlobalPathSpeedSystem.ProcessedEdges;
+                int pathTotal = m_GlobalPathSpeedSystem.TotalEdges;
+                if (m_GlobalPathProcessedBinding.Value != pathProcessed)
+                {
+                    m_GlobalPathProcessedBinding.Value = pathProcessed;
+                }
+
+                if (m_GlobalPathTotalBinding.Value != pathTotal)
+                {
+                    m_GlobalPathTotalBinding.Value = pathTotal;
+                }
+            }
 
             bool toolActive = m_SegmentSpeedTool.IsActive;
             bool toolStateChanged = m_ToolActiveBinding.Value != toolActive;

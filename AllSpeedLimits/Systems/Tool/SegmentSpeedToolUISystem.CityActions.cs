@@ -117,6 +117,7 @@ namespace RoadRailSpeeds.Systems
                 }
 
                 LogVehicleStatsReportToLog();
+                m_GlobalPathSpeedSystem.LogPathReport();
 
                 LogUtils.Info(() => $"{Mod.ModTag} Debug report END");
             }

@@ -64,7 +64,12 @@ import {
     SetSliderExpanded,
     SetWholeCityExpanded,
     SetStatsExpanded,
-    SetToolActive
+    SetToolActive,
+    GLOBAL_PATH_PERCENT,
+    GLOBAL_PATH_BUSY,
+    GLOBAL_PATH_PROCESSED,
+    GLOBAL_PATH_TOTAL,
+    ApplyGlobalPathPercent
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
@@ -78,6 +83,7 @@ import { PANEL_CLICK_OFFSET_PX, PANEL_WIDTH_REM, PRECISE_STEP_HOLD_DELAY_MS, PRE
 import { CityActionModal } from "./components/CityActionModal";
 import { PresetControls } from "./components/PresetControls";
 import { MainSpeedSection } from "./components/MainSpeedSection";
+import { AllPathsSection } from "./components/AllPathsSection";
 import { PreciseSpeedStepper } from "./components/PreciseSpeedStepper";
 import { SelectionSection } from "./components/SelectionSection";
 import { SelectionFilterControls } from "./components/SelectionFilterControls";
@@ -90,6 +96,15 @@ import type { CityActionInfo, CityActionKind, PanelTooltipKind, RoadGroupKind } 
 export const SpeedToolWindow = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
+    const savedPathPercent = useSafeBinding(GLOBAL_PATH_PERCENT, 100);
+    const globalPathBusy = useSafeBinding(GLOBAL_PATH_BUSY, false);
+    const globalPathProcessed = useSafeBinding(GLOBAL_PATH_PROCESSED, 0);
+    const globalPathTotal = useSafeBinding(GLOBAL_PATH_TOTAL, 0);
+    const [activeView, setActiveView] = useState<"limits" | "paths">("limits");
+    const [pendingPathPercent, setPendingPathPercent] = useState(100);
+    useEffect(() => {
+        setPendingPathPercent(savedPathPercent);
+    }, [savedPathPercent]);
     const showMetric = useSafeBinding(SHOW_METRIC, true);
     const isTrackType = useSafeBinding(IS_TRACK_TYPE, false);
     const isWaterwayType = useSafeBinding(IS_WATERWAY_TYPE, false);
@@ -759,6 +774,10 @@ export const SpeedToolWindow = () => {
                     header={
                         <SpeedToolHeader
                             title={TEXT.panel.title}
+                            speedLimitsTab={TEXT.panel.speedLimitsTab}
+                            allPathsTab={TEXT.panel.allPathsTab}
+                            activeView={activeView}
+                            onViewChange={setActiveView}
                             closeTooltip={TEXT.buttons.close}
                             draggableTooltip={TEXT.tooltips.draggable}
                             markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}
@@ -866,6 +885,8 @@ export const SpeedToolWindow = () => {
                                 </Button>
                             </div>
                         )}
+                        {activeView === "limits" ? (
+                            <>
                         <div style={{
                             display: "flex",
                             alignItems: "center",
@@ -1090,6 +1111,24 @@ export const SpeedToolWindow = () => {
                             formatCount={formatCount}
                             focusKey={FOCUS_DISABLED}
                         />
+                            </>
+                        ) : (
+                            <AllPathsSection
+                                percent={pendingPathPercent}
+                                savedPercent={savedPathPercent}
+                                busy={globalPathBusy}
+                                processed={globalPathProcessed}
+                                total={globalPathTotal}
+                                focusKey={FOCUS_DISABLED}
+                                text={TEXT.panel.allPaths}
+                                onChange={setPendingPathPercent}
+                                onApply={() => ApplyGlobalPathPercent(pendingPathPercent)}
+                                onReset={() => {
+                                    setPendingPathPercent(100);
+                                    ApplyGlobalPathPercent(100);
+                                }}
+                            />
+                        )}
                     </div>
                 </Panel>
             </div>

@@ -148,6 +148,10 @@ namespace RoadRailSpeeds
                 world.GetOrCreateSystemManaged<PathSpeedOverrideSystem>();
                 updateSystem.UpdateAt<PathSpeedOverrideSystem>(SystemUpdatePhase.GameSimulation);
 
+                // Global pathway tuning is idle until requested or a non-vanilla value loads.
+                world.GetOrCreateSystemManaged<GlobalPathSpeedSystem>();
+                updateSystem.UpdateAt<GlobalPathSpeedSystem>(SystemUpdatePhase.GameSimulation);
+
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);
 

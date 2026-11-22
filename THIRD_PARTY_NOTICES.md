@@ -19,11 +19,20 @@ Upstream sources and attribution history:
 
 The local files have been modified for Adjust All Speed Limits.
 
+## Global pathway speed controls
+
+`AllSpeedLimits/Systems/Runtime/GlobalPathSpeedSystem.cs` adapts pathway-prefab,
+composition and runtime-lane scaling from
+[River-Mochi / CS2-Bikes-Paths](https://github.com/River-Mochi/CS2-Bikes-Paths),
+licensed under the MIT License. Copyright (c) 2026 River-Mochi.
+
 ## MIT License
 
 Copyright (c) 2024 yenyang
 
 Copyright (c) 2026 Luca Rager
+
+Copyright (c) 2026 River-Mochi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
