@@ -54,6 +54,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_SelectRoadsBinding = null!;
         private ValueBindingHelper<bool> m_SelectRailsBinding = null!;
         private ValueBindingHelper<bool> m_SelectWaterBinding = null!;
+        private ValueBindingHelper<bool> m_OpenAllPathsBinding = null!;
         private ValueBindingHelper<int> m_GlobalPathPercentBinding = null!;
         private ValueBindingHelper<bool> m_GlobalPathBusyBinding = null!;
         private ValueBindingHelper<int> m_GlobalPathProcessedBinding = null!;
@@ -181,6 +182,7 @@ namespace RoadRailSpeeds.Systems
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
+            m_OpenAllPathsBinding = CreateBinding("OPEN_ALL_PATHS", false);
             m_GlobalPathPercentBinding = CreateBinding("GLOBAL_PATH_PERCENT", m_Settings?.GlobalPathSpeedPercent ?? 100);
             m_GlobalPathBusyBinding = CreateBinding("GLOBAL_PATH_BUSY", false);
             m_GlobalPathProcessedBinding = CreateBinding("GLOBAL_PATH_PROCESSED", 0);
@@ -214,6 +216,8 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<bool>("SET_SELECT_WATER", HandleSetSelectWater);
             CreateTrigger<int, int>("SET_TOOL_PANEL_POSITION", HandleSetToolPanelPosition);
             CreateTrigger<int>("APPLY_GLOBAL_PATH_PERCENT", HandleApplyGlobalPathPercent);
+            CreateTrigger("OPEN_ALL_PATHS", HandleOpenAllPaths);
+            CreateTrigger("CLOSE_ALL_PATHS", HandleCloseAllPaths);
 
             m_InitialSpeedBinding.Value = 50f;
             m_ToolActiveBinding.Value = false;
@@ -258,6 +262,7 @@ namespace RoadRailSpeeds.Systems
             m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
             m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? true;
             m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? true;
+            m_OpenAllPathsBinding.Value = false;
             m_GlobalPathPercentBinding.Value = m_Settings?.GlobalPathSpeedPercent ?? 100;
             m_GlobalPathBusyBinding.Value = m_GlobalPathSpeedSystem.IsApplying;
             m_GlobalPathProcessedBinding.Value = m_GlobalPathSpeedSystem.ProcessedEdges;
@@ -391,6 +396,10 @@ namespace RoadRailSpeeds.Systems
 
             bool toolActive = m_SegmentSpeedTool.IsActive;
             bool toolStateChanged = m_ToolActiveBinding.Value != toolActive;
+            if (!toolActive && m_OpenAllPathsBinding.Value)
+            {
+                m_OpenAllPathsBinding.Value = false;
+            }
 
             // Optional hotkey toggles the native marker flag, even when ASL is closed.
             // Default binding is empty, so it does not occupy any existing shortcut.

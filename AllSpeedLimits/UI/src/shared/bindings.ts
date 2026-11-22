@@ -7,6 +7,13 @@ import mod from "mod.json";
 export const MOD_ID = mod.id;
 
 // Global pathway speed setting, independent from individual selected edge speeds.
+export const OPEN_ALL_PATHS = bindValue<boolean>(MOD_ID, "BINDING:OPEN_ALL_PATHS");
+export function OpenAllPaths() {
+  trigger(MOD_ID, "TRIGGER:OPEN_ALL_PATHS");
+}
+export function CloseAllPaths() {
+  trigger(MOD_ID, "TRIGGER:CLOSE_ALL_PATHS");
+}
 export const GLOBAL_PATH_PERCENT = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_PERCENT");
 export const GLOBAL_PATH_BUSY = bindValue<boolean>(MOD_ID, "BINDING:GLOBAL_PATH_BUSY");
 export const GLOBAL_PATH_PROCESSED = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_PROCESSED");

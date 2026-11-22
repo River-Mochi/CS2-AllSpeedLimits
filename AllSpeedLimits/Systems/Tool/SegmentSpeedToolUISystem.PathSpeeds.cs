@@ -10,6 +10,21 @@ namespace RoadRailSpeeds.Systems
 
     public partial class SegmentSpeedToolUISystem
     {
+        private void HandleOpenAllPaths()
+        {
+            if (m_SegmentSpeedTool.IsActive)
+            {
+                m_OpenAllPathsBinding.Value = true;
+                RequestUpdate();
+            }
+        }
+
+        private void HandleCloseAllPaths()
+        {
+            m_OpenAllPathsBinding.Value = false;
+            RequestUpdate();
+        }
+
         private void HandleApplyGlobalPathPercent(int percent)
         {
             m_Settings ??= Mod.Settings;

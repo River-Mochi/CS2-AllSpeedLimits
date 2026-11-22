@@ -69,7 +69,9 @@ import {
     GLOBAL_PATH_BUSY,
     GLOBAL_PATH_PROCESSED,
     GLOBAL_PATH_TOTAL,
-    ApplyGlobalPathPercent
+    ApplyGlobalPathPercent,
+    OPEN_ALL_PATHS,
+    CloseAllPaths
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
@@ -96,15 +98,24 @@ import type { CityActionInfo, CityActionKind, PanelTooltipKind, RoadGroupKind } 
 export const SpeedToolWindow = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
+    const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
     const savedPathPercent = useSafeBinding(GLOBAL_PATH_PERCENT, 100);
     const globalPathBusy = useSafeBinding(GLOBAL_PATH_BUSY, false);
     const globalPathProcessed = useSafeBinding(GLOBAL_PATH_PROCESSED, 0);
     const globalPathTotal = useSafeBinding(GLOBAL_PATH_TOTAL, 0);
     const [activeView, setActiveView] = useState<"limits" | "paths">("limits");
+    const [visible, setVisible] = useState(false);
     const [pendingPathPercent, setPendingPathPercent] = useState(100);
     useEffect(() => {
         setPendingPathPercent(savedPathPercent);
     }, [savedPathPercent]);
+
+    useEffect(() => {
+        if (toolActive && allPathsOpen) {
+            setActiveView("paths");
+            setVisible(true);
+        }
+    }, [toolActive, allPathsOpen]);
     const showMetric = useSafeBinding(SHOW_METRIC, true);
     const isTrackType = useSafeBinding(IS_TRACK_TYPE, false);
     const isWaterwayType = useSafeBinding(IS_WATERWAY_TYPE, false);
@@ -149,7 +160,6 @@ export const SpeedToolWindow = () => {
     const savedWholeCityExpanded = useSafeBinding(WHOLE_CITY_EXPANDED, true);
     const savedStatsExpanded = useSafeBinding(STATS_EXPANDED, true);
 
-    const [visible, setVisible] = useState(false);
     const [pendingSpeedKmh, setPendingSpeedKmh] = useState(5);
     const [isApplying, setIsApplying] = useState(false);
     const [isResetting, setIsResetting] = useState(false);
@@ -428,12 +438,12 @@ export const SpeedToolWindow = () => {
                 setPendingSpeedKmh(clampSpeedKmh(selectedSpeedKmh));
             }
             lastSelectionCounter.current = selectionCounter;
-        } else if (!toolActive || selectionCounter === 0) {
+        } else if (!toolActive || (selectionCounter === 0 && !allPathsOpen)) {
             setVisible(false);
             setPendingCityAction(null);
             lastSelectionCounter.current = 0;
         }
-    }, [selectionCounter, toolActive, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
+    }, [selectionCounter, toolActive, allPathsOpen, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
 
     const handleSliderChange = (value: number) => {
         setPendingSpeedKmh(displayValueToSpeedKmh(value));
@@ -777,7 +787,12 @@ export const SpeedToolWindow = () => {
                             speedLimitsTab={TEXT.panel.speedLimitsTab}
                             allPathsTab={TEXT.panel.allPathsTab}
                             activeView={activeView}
-                            onViewChange={setActiveView}
+                            onViewChange={nextView => {
+                                setActiveView(nextView);
+                                if (nextView === "limits" && allPathsOpen && selectionCounter === 0) {
+                                    CloseAllPaths();
+                                }
+                            }}
                             closeTooltip={TEXT.buttons.close}
                             draggableTooltip={TEXT.tooltips.draggable}
                             markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}

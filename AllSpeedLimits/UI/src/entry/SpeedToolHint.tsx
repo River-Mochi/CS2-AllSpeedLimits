@@ -6,7 +6,7 @@ import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
-import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE } from "../shared/bindings";
+import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, OpenAllPaths } from "../shared/bindings";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
 
@@ -14,9 +14,10 @@ export const SpeedToolHint = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
     const selectionCounter = useSafeBinding(SELECTION_COUNTER, 0);
+    const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
 
     // Only show when tool is active but no selection has been made yet
-    const shouldShow = toolActive && selectionCounter === 0;
+    const shouldShow = toolActive && selectionCounter === 0 && !allPathsOpen;
 
     const { panelRef, position, isDragging, startDragging } = useHintPanelPosition();
     const [isCloseHovered, setIsCloseHovered] = useState(false);
@@ -133,6 +134,23 @@ export const SpeedToolHint = () => {
                             showTip={() => {}}
                             hideTip={() => {}}
                         />
+                        <button
+                            onMouseDown={event => event.stopPropagation()}
+                            onClick={OpenAllPaths}
+                            title={TEXT.panel.allPathsTab}
+                            style={{
+                                marginLeft: "8rem", paddingLeft: "6rem", paddingRight: "6rem",
+                                width: "75rem", minWidth: "75rem", maxWidth: "75rem",
+                                overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis",
+                                height: "28rem", cursor: "pointer", borderRadius: "3rem",
+                                fontSize: "11rem", fontWeight: 700, color: "#D6F0FF",
+                                backgroundColor: "rgba(63,160,203,0.20)",
+                                borderWidth: "1rem", borderStyle: "solid",
+                                borderColor: "rgba(101,185,224,0.65)"
+                            }}
+                        >
+                            {TEXT.panel.allPathsTab}
+                        </button>
                     </div>
                 </div>
             </Panel>
