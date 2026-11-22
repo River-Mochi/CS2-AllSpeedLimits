@@ -139,6 +139,7 @@ namespace RoadRailSpeeds.Systems
             if (storageChanged)
             {
                 PersistentSpeedLimitStorage.Save();
+                MarkSelectionEdited();
             }
         }
 
@@ -265,6 +266,7 @@ namespace RoadRailSpeeds.Systems
             if (storageChanged)
             {
                 PersistentSpeedLimitStorage.Save();
+                MarkSelectionEdited();
             }
         }
 

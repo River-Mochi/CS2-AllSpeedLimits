@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16C6 10 10 7 16 7s10 3 13 9c-3 6-7 9-13 9S6 22 3 16Z" stroke-dasharray="4 3"/><circle cx="16" cy="16" r="4"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dashed eye means invisible networks; cyan iris means reveal. -->
+  <path d="M2.6 16C5.8 10.5 10.3 7.6 16 7.6S26.2 10.5 29.4 16C26.2 21.5 21.7 24.4 16 24.4S5.8 21.5 2.6 16Z"
+        fill="none" stroke="#E8F7FF" stroke-width="2.65"
+        stroke-dasharray="4.3 2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="16" cy="16" r="5" fill="#223D50" stroke="#E8F7FF" stroke-width="2.2"/>
+  <circle cx="16" cy="16" r="2.55" fill="#52CCFF"/>
+  <circle cx="14.8" cy="14.9" r="0.85" fill="#FFFFFF"/>
+</svg>

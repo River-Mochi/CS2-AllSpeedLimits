@@ -15,6 +15,7 @@ namespace RoadRailSpeeds.Systems
     using Game.Common;
     using Game.Net;
     using Game.Prefabs;
+    using Game.Rendering;
     using Game.Tools;
     using Unity.Entities;
     using UnityEngine.Scripting;
@@ -27,6 +28,10 @@ namespace RoadRailSpeeds.Systems
         public const string kToolID = "SpeedLimitTool";
 
         private SegmentSpeedToolUISystem m_UISystem = null!;
+        private RenderingSystem m_RenderingSystem = null!;
+        private bool m_EnabledNativeMarkers;
+        private readonly HashSet<Entity> m_RecentlyEditedEdges = new();
+        private float m_RecentlyEditedUntil;
 
         private readonly List<Entity> m_SelectedEdges = new();
         private readonly HashSet<Entity> m_TempSelection = new();
@@ -51,7 +56,53 @@ namespace RoadRailSpeeds.Systems
         public bool IncludePaths { get; set; } = true;
         public bool IncludeRails { get; set; } = true;
         public bool IncludeWater { get; set; } = true;
-        public bool ShowInvisible { get; set; }
+        public bool ShowInvisible { get; private set; }
+
+        // Reveal the game's dashed markers. Preserve visibility already enabled by other tools.
+        public void SetShowInvisible(bool enabled)
+        {
+            if (ShowInvisible == enabled)
+            {
+                return;
+            }
+
+            if (enabled)
+            {
+                m_EnabledNativeMarkers = !m_RenderingSystem.markersVisible;
+                if (m_EnabledNativeMarkers)
+                {
+                    m_RenderingSystem.markersVisible = true;
+                }
+            }
+            else
+            {
+                if (m_EnabledNativeMarkers && m_RenderingSystem.markersVisible)
+                {
+                    m_RenderingSystem.markersVisible = false;
+                }
+
+                m_EnabledNativeMarkers = false;
+            }
+
+            ShowInvisible = enabled;
+        }
+
+        public void MarkSelectionEdited()
+        {
+            m_RecentlyEditedEdges.Clear();
+            foreach (Entity edge in m_SelectedEdges)
+            {
+                m_RecentlyEditedEdges.Add(edge);
+            }
+
+            m_RecentlyEditedUntil = UnityEngine.Time.unscaledTime + 1.5f;
+        }
+
+        public bool IsRecentlyEdited(Entity edge)
+        {
+            return UnityEngine.Time.unscaledTime < m_RecentlyEditedUntil &&
+                m_RecentlyEditedEdges.Contains(edge);
+        }
 
         public override string toolID => kToolID;
 
@@ -99,6 +150,7 @@ namespace RoadRailSpeeds.Systems
 
             // base.OnCreate initializes tool input actions such as applyAction.
             base.OnCreate();
+            m_RenderingSystem = World.GetOrCreateSystemManaged<RenderingSystem>();
         }
 
         [Preserve]
@@ -109,6 +161,8 @@ namespace RoadRailSpeeds.Systems
             m_SelectedEdges.Clear();
             m_TempSelection.Clear();
             m_HighlightedByThisTool.Clear();
+            m_RecentlyEditedEdges.Clear();
+            m_RecentlyEditedUntil = 0f;
             m_IsDragging = false;
             m_PathStartEdge = Entity.Null;
             m_PathEndEdge = Entity.Null;
@@ -131,7 +185,7 @@ namespace RoadRailSpeeds.Systems
             IncludePaths = true;
             IncludeRails = true;
             IncludeWater = true;
-            ShowInvisible = false;
+            SetShowInvisible(false);
 
             // Enables left-click apply behavior while this tool is active.
             applyAction.shouldBeEnabled = true;
@@ -147,6 +201,8 @@ namespace RoadRailSpeeds.Systems
 
             m_SelectedEdges.Clear();
             m_TempSelection.Clear();
+            m_RecentlyEditedEdges.Clear();
+            m_RecentlyEditedUntil = 0f;
             m_IsDragging = false;
             m_HoverEntity = Entity.Null;
             m_PathStartEdge = Entity.Null;
@@ -154,7 +210,7 @@ namespace RoadRailSpeeds.Systems
 
             requireNet = Layer.None;
             requireNetArrows = false;
-            ShowInvisible = false;
+            SetShowInvisible(false);
         }
 
         public override void InitializeRaycast()

@@ -135,7 +135,7 @@ namespace RoadRailSpeeds.Systems
 
         private void HandleSetShowInvisible(bool enabled)
         {
-            m_SegmentSpeedTool.ShowInvisible = enabled;
+            m_SegmentSpeedTool.SetShowInvisible(enabled);
             m_ShowInvisibleBinding.Value = enabled;
             m_SegmentSpeedTool.RefreshSelectionFilters();
         }

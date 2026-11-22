@@ -6,26 +6,23 @@
 // This notice MUST be kept with copies or substantial portions of this code.
 // ================= </copyright> ======================
 
+// Native rendering draws the dashed blue/green markers. Only selected and hovered
+// speed-editable invisible edges need an ASL overlay: never scan the entire city.
 namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;
     using Colossal.Mathematics;
     using Game;
-    using Game.Common;
     using Game.Net;
-    using Game.Prefabs;
     using Game.Rendering;
-    using Game.Tools;
     using Unity.Collections;
     using Unity.Entities;
     using Unity.Jobs;
     using Unity.Mathematics;
     using UnityEngine;
     using UnityEngine.Scripting;
-    using SubLane = Game.Net.SubLane;
 
-    // Tool-owned overlays avoid changing RenderingSystem.markersVisible, which other tools
-    // and visibility mods also control. Nothing here modifies a network or its building owner.
+    [Preserve]
     public partial class InvisibleNetworkRenderSystem : GameSystemBase
     {
         private struct OverlayCurve
@@ -51,13 +48,9 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
-        private EntityQuery m_Edges;
         private SegmentSpeedToolSystem m_Tool = null!;
         private OverlayRenderSystem m_Overlay = null!;
         private RenderingSystem m_Rendering = null!;
-        private CameraUpdateSystem m_Camera = null!;
-        private readonly HashSet<Entity> m_Selected = new HashSet<Entity>();
-        private readonly Plane[] m_Frustum = new Plane[6];
 
         [Preserve]
         protected override void OnCreate()
@@ -66,12 +59,6 @@ namespace RoadRailSpeeds.Systems
             m_Tool = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
             m_Overlay = World.GetOrCreateSystemManaged<OverlayRenderSystem>();
             m_Rendering = World.GetOrCreateSystemManaged<RenderingSystem>();
-            m_Camera = World.GetOrCreateSystemManaged<CameraUpdateSystem>();
-            m_Edges = SystemAPI.QueryBuilder()
-                .WithAll<Edge, Curve, PrefabRef, SubLane>()
-                .WithAny<Marker, Owner>()
-                .WithNone<Deleted, Temp, Overridden>()
-                .Build();
         }
 
         [Preserve]
@@ -82,72 +69,94 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            Camera camera = m_Camera.activeCamera;
-            if (camera == null)
+            IReadOnlyList<Entity> selected = m_Tool.SelectedEdges;
+            IReadOnlyCollection<Entity> preview = m_Tool.PreviewEdges;
+            if (!m_Tool.IsDraggingSelection && selected.Count == 0 &&
+                m_Tool.HoverEntity == Entity.Null)
             {
                 return;
             }
 
-            GeometryUtility.CalculateFrustumPlanes(camera, m_Frustum);
-            m_Selected.Clear();
-            IEnumerable<Entity> selection = m_Tool.IsDraggingSelection ? m_Tool.PreviewEdges : m_Tool.SelectedEdges;
-            foreach (Entity edge in selection)
-            {
-                m_Selected.Add(edge);
-            }
-
-            using NativeArray<Entity> edges = m_Edges.ToEntityArray(Allocator.Temp);
             NativeList<OverlayCurve> curves = new NativeList<OverlayCurve>(Allocator.TempJob);
-            for (int i = 0; i < edges.Length; i++)
+            try
             {
-                Entity edge = edges[i];
-                if (!SpeedNetworkUtils.IsInvisible(EntityManager, edge))
+                if (m_Tool.IsDraggingSelection)
                 {
-                    continue;
+                    foreach (Entity edge in preview)
+                    {
+                        AddEdge(curves, edge);
+                    }
+                }
+                else if (selected.Count > 0)
+                {
+                    foreach (Entity edge in selected)
+                    {
+                        AddEdge(curves, edge);
+                    }
+                }
+                else
+                {
+                    AddEdge(curves, m_Tool.HoverEntity);
                 }
 
-                Bezier4x3 curve = EntityManager.GetComponentData<Curve>(edge).m_Bezier;
-                if (EntityManager.HasComponent<Elevation>(edge))
+                if (curves.Length == 0)
                 {
-                    float2 elevation = math.min(EntityManager.GetComponentData<Elevation>(edge).m_Elevation, 0f);
-                    curve.a.y -= elevation.x;
-                    curve.b.y -= math.lerp(elevation.x, elevation.y, 1f / 3f);
-                    curve.c.y -= math.lerp(elevation.x, elevation.y, 2f / 3f);
-                    curve.d.y -= elevation.y;
+                    curves.Dispose();
+                    return;
                 }
 
-                float3 min = math.min(math.min(curve.a, curve.b), math.min(curve.c, curve.d));
-                float3 max = math.max(math.max(curve.a, curve.b), math.max(curve.c, curve.d));
-                Bounds bounds = new Bounds((Vector3)((min + max) * 0.5f), (Vector3)(max - min + 4f));
-                if (!GeometryUtility.TestPlanesAABB(m_Frustum, bounds) || !m_Tool.IsEdgeTypeAllowed(edge))
+                OverlayRenderSystem.Buffer buffer = m_Overlay.GetBuffer(out JobHandle dependencies);
+                JobHandle draw = new DrawJob
                 {
-                    continue;
-                }
+                    Curves = curves.AsArray(),
+                    Buffer = buffer
+                }.Schedule(JobHandle.CombineDependencies(Dependency, dependencies));
 
-                bool selected = m_Selected.Contains(edge);
-                bool hovered = edge == m_Tool.HoverEntity;
-                bool path = SpeedNetworkUtils.GetKind(EntityManager, edge) == SpeedNetworkKind.Path;
-                curves.Add(new OverlayCurve
-                {
-                    Curve = curve,
-                    Color = selected ? new Color(1f, 0.82f, 0.2f, 0.95f) :
-                        hovered ? new Color(1f, 1f, 1f, 0.95f) :
-                        path ? new Color(0.4f, 0.95f, 0.65f, 0.7f) : new Color(0.35f, 0.8f, 1f, 0.7f),
-                    Width = selected || hovered ? 1.2f : 0.6f
-                });
+                m_Overlay.AddBufferWriter(draw);
+                Dependency = curves.Dispose(draw);
             }
-
-            if (curves.Length == 0)
+            catch
             {
-                curves.Dispose();
+                if (curves.IsCreated)
+                {
+                    curves.Dispose();
+                }
+
+                throw;
+            }
+        }
+
+        private void AddEdge(NativeList<OverlayCurve> curves, Entity edge)
+        {
+            if (!SpeedNetworkUtils.IsLiveEdge(EntityManager, edge) ||
+                !EntityManager.HasComponent<Curve>(edge) ||
+                !SpeedNetworkUtils.IsInvisible(EntityManager, edge) ||
+                !m_Tool.IsEdgeTypeAllowed(edge))
+            {
                 return;
             }
 
-            OverlayRenderSystem.Buffer buffer = m_Overlay.GetBuffer(out JobHandle dependencies);
-            JobHandle draw = new DrawJob { Curves = curves.AsArray(), Buffer = buffer }
-                .Schedule(JobHandle.CombineDependencies(Dependency, dependencies));
-            m_Overlay.AddBufferWriter(draw);
-            Dependency = curves.Dispose(draw);
+            Bezier4x3 curve = EntityManager.GetComponentData<Curve>(edge).m_Bezier;
+            if (EntityManager.HasComponent<Elevation>(edge))
+            {
+                float2 elevation = math.min(EntityManager.GetComponentData<Elevation>(edge).m_Elevation, 0f);
+                curve.a.y -= elevation.x;
+                curve.b.y -= math.lerp(elevation.x, elevation.y, 1f / 3f);
+                curve.c.y -= math.lerp(elevation.x, elevation.y, 2f / 3f);
+                curve.d.y -= elevation.y;
+            }
+
+            bool edited = m_Tool.IsRecentlyEdited(edge);
+            bool hovered = edge == m_Tool.HoverEntity;
+            curves.Add(new OverlayCurve
+            {
+                Curve = curve,
+                // Green briefly confirms a speed change/reset, gold selects, white hovers.
+                Color = edited ? new Color(0.32f, 1f, 0.53f, 0.97f) :
+                    hovered ? new Color(1f, 1f, 1f, 0.96f) :
+                    new Color(1f, 0.82f, 0.20f, 0.94f),
+                Width = edited ? 1.65f : 1.25f
+            });
         }
     }
 }
