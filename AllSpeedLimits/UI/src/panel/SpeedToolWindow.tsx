@@ -71,6 +71,7 @@ import {
     GLOBAL_PATH_TOTAL,
     ApplyGlobalPathPercent,
     OPEN_ALL_PATHS,
+    OpenAllPaths,
     CloseAllPaths
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
@@ -789,7 +790,10 @@ export const SpeedToolWindow = () => {
                             activeView={activeView}
                             onViewChange={nextView => {
                                 setActiveView(nextView);
-                                if (nextView === "limits" && allPathsOpen && selectionCounter === 0) {
+                                // The All Paths view remains available even if selection is cleared.
+                                if (nextView === "paths") {
+                                    OpenAllPaths();
+                                } else if (allPathsOpen) {
                                     CloseAllPaths();
                                 }
                             }}
