@@ -30,6 +30,7 @@ namespace RoadRailSpeeds
         public const string ModId = "RoadRailSpeeds";
         public const string LogFileName = "AllSpeedLimits";
         public const string ModTag = "[ASL]";
+        internal const string kToggleInvisibleActionName = "ToggleInvisibleNetworks";
 
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.1.0";
@@ -117,6 +118,15 @@ namespace RoadRailSpeeds
             catch (Exception ex)
             {
                 LogUtils.Error($"{ModTag} Options UI registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+            }
+
+            try
+            {
+                setting.RegisterKeyBindings();
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error($"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try

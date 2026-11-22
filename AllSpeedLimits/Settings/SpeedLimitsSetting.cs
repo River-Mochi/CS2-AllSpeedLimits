@@ -14,6 +14,7 @@ namespace RoadRailSpeeds
     using System;                    // Exception
     using Colossal.IO.AssetDatabase; // FileLocation
     using CS2Shared.RiverMochi;      // LogUtils, ShellOpen
+    using Game.Input;                // ActionType, BindingKeyboard, ProxyBinding
     using Game.Modding;              // IMod
     using Game.Settings;             // ModSetting, settings attributes
     using Game.UI;                   // Unit
@@ -24,6 +25,7 @@ namespace RoadRailSpeeds
     [SettingsUITabOrder(kMainTab, kAboutTab)]
     [SettingsUIGroupOrder(kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
     [SettingsUIShowGroupName(kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
+    [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
         public const string kMainTab = "Main";
@@ -88,6 +90,11 @@ namespace RoadRailSpeeds
 
         [SettingsUIHidden]
         public bool StatsExpanded { get; set; } = true;
+
+        // Unassigned by default so ASL cannot collide with Move It (Ctrl+M).
+        [SettingsUISection(kMainTab, kDisplayGroup)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.None, Mod.kToggleInvisibleActionName)]
+        public ProxyBinding ToggleInvisibleMarkersBinding { get; set; }
 
         [SettingsUIButton]
         [SettingsUIConfirmation]

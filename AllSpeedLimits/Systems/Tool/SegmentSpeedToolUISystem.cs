@@ -97,6 +97,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_WholeCityExpandedBinding = null!;
 
         private SpeedLimitsSetting? m_Settings;
+        private ProxyAction? m_ToggleInvisibleAction;
         private float m_LastVehicleStatsRefreshTime = -1f;
 
         protected override string group => Mod.ModId + ".Systems.Tool." + nameof(SegmentSpeedToolUISystem);
@@ -353,6 +354,22 @@ namespace RoadRailSpeeds.Systems
 
             bool toolActive = m_SegmentSpeedTool.IsActive;
             bool toolStateChanged = m_ToolActiveBinding.Value != toolActive;
+
+            // Optional player-assigned shortcut behaves like clicking the dashed eye.
+            // Disabled outside the ASL tool so it does not intercept other tools' hotkeys.
+            m_ToggleInvisibleAction ??= m_Settings?.GetAction(Mod.kToggleInvisibleActionName);
+            if (m_ToggleInvisibleAction != null)
+            {
+                if (m_ToggleInvisibleAction.shouldBeEnabled != toolActive)
+                {
+                    m_ToggleInvisibleAction.shouldBeEnabled = toolActive;
+                }
+
+                if (toolActive && m_ToggleInvisibleAction.WasReleasedThisFrame())
+                {
+                    HandleSetShowInvisible(!m_SegmentSpeedTool.ShowInvisible);
+                }
+            }
 
             m_ToolActiveBinding.Value = toolActive;
 
