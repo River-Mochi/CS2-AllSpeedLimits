@@ -46,8 +46,8 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "除錯 / 日誌" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "顯示/隱藏隱形道路與路徑" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "預設未綁定快捷鍵。僅在 ASL 工具開啟時生效。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "虛線眼睛快捷鍵（隱形網路）" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "點擊「未設定」並指定按鍵。關閉 ASL 面板後仍可使用。" },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "速度單位" },

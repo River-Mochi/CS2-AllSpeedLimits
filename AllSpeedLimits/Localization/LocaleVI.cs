@@ -46,8 +46,8 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Gỡ lỗi / Nhật ký" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Hiện/ẩn mạng vô hình" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Chưa gán phím mặc định. Chỉ dùng khi mở công cụ ASL." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Phím tắt mắt nét đứt" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Nhấp vào 'chưa đặt' rồi chọn phím. Dùng được cả khi đóng bảng ASL." },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Đơn vị tốc độ" },

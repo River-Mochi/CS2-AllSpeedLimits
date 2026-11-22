@@ -29,7 +29,6 @@ namespace RoadRailSpeeds.Systems
 
         private SegmentSpeedToolUISystem m_UISystem = null!;
         private RenderingSystem m_RenderingSystem = null!;
-        private bool m_EnabledNativeMarkers;
         private readonly HashSet<Entity> m_RecentlyEditedEdges = new();
         private float m_RecentlyEditedUntil;
 
@@ -56,35 +55,16 @@ namespace RoadRailSpeeds.Systems
         public bool IncludePaths { get; set; } = true;
         public bool IncludeRails { get; set; } = true;
         public bool IncludeWater { get; set; } = true;
-        public bool ShowInvisible { get; private set; }
+        // The game's visibility state is the source of truth, including changes made
+        // by ToggleMarkers or other mods. The eye and the hotkey control this same flag.
+        public bool ShowInvisible => m_RenderingSystem != null && m_RenderingSystem.markersVisible;
 
-        // Reveal the game's dashed markers. Preserve visibility already enabled by other tools.
         public void SetShowInvisible(bool enabled)
         {
-            if (ShowInvisible == enabled)
+            if (m_RenderingSystem != null && m_RenderingSystem.markersVisible != enabled)
             {
-                return;
+                m_RenderingSystem.markersVisible = enabled;
             }
-
-            if (enabled)
-            {
-                m_EnabledNativeMarkers = !m_RenderingSystem.markersVisible;
-                if (m_EnabledNativeMarkers)
-                {
-                    m_RenderingSystem.markersVisible = true;
-                }
-            }
-            else
-            {
-                if (m_EnabledNativeMarkers && m_RenderingSystem.markersVisible)
-                {
-                    m_RenderingSystem.markersVisible = false;
-                }
-
-                m_EnabledNativeMarkers = false;
-            }
-
-            ShowInvisible = enabled;
         }
 
         public void MarkSelectionEdited()
@@ -185,7 +165,7 @@ namespace RoadRailSpeeds.Systems
             IncludePaths = true;
             IncludeRails = true;
             IncludeWater = true;
-            SetShowInvisible(false);
+            // Marker visibility is global and must survive opening or closing ASL.
 
             // Enables left-click apply behavior while this tool is active.
             applyAction.shouldBeEnabled = true;
@@ -210,7 +190,7 @@ namespace RoadRailSpeeds.Systems
 
             requireNet = Layer.None;
             requireNetArrows = false;
-            SetShowInvisible(false);
+            // Do not turn off globally enabled markers when leaving the tool.
         }
 
         public override void InitializeRaycast()

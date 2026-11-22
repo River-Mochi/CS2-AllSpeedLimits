@@ -46,8 +46,8 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "ดีบัก / ล็อก" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "แสดง/ซ่อนเครือข่ายที่มองไม่เห็น" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "ไม่มีปุ่มลัดเริ่มต้น ใช้ได้เมื่อเปิดเครื่องมือ ASL" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "ปุ่มลัดรูปดวงตาเส้นประ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "คลิก «ยังไม่ตั้งค่า» แล้วเลือกปุ่ม ใช้ได้แม้ปิดหน้าต่าง ASL" },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "หน่วยความเร็ว" },

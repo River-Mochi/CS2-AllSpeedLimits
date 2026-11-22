@@ -47,8 +47,8 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "디버그 / 로그" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "보이지 않는 도로·경로 표시 전환" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "기본 단축키 없음. ASL 도구를 열었을 때만 작동합니다." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "점선 눈 아이콘 단축키" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "'설정 안 됨'을 클릭해 키를 지정하세요. ASL을 닫아도 사용할 수 있습니다." },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "속도 단위" },

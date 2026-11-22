@@ -136,8 +136,11 @@ namespace RoadRailSpeeds.Systems
         private void HandleSetShowInvisible(bool enabled)
         {
             m_SegmentSpeedTool.SetShowInvisible(enabled);
-            m_ShowInvisibleBinding.Value = enabled;
-            m_SegmentSpeedTool.RefreshSelectionFilters();
+            m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
+            if (m_SegmentSpeedTool.IsActive)
+            {
+                m_SegmentSpeedTool.RefreshSelectionFilters();
+            }
         }
 
         private void HandleSetSelectRoads(bool enabled)
@@ -302,7 +305,7 @@ namespace RoadRailSpeeds.Systems
                 // Opening the tool resets all network filters to on. Update the chips here as well
                 // so the panel cannot show an old filter state that the tool is no longer using.
                 m_SelectPathsBinding.Value = true;
-                m_ShowInvisibleBinding.Value = false;
+                m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;
                 m_SelectWaterBinding.Value = true;

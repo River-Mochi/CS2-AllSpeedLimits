@@ -355,19 +355,31 @@ namespace RoadRailSpeeds.Systems
             bool toolActive = m_SegmentSpeedTool.IsActive;
             bool toolStateChanged = m_ToolActiveBinding.Value != toolActive;
 
-            // Optional player-assigned shortcut behaves like clicking the dashed eye.
-            // Disabled outside the ASL tool so it does not intercept other tools' hotkeys.
+            // Optional hotkey toggles the native marker flag, even when ASL is closed.
+            // Default binding is empty, so it does not occupy any existing shortcut.
             m_ToggleInvisibleAction ??= m_Settings?.GetAction(Mod.kToggleInvisibleActionName);
             if (m_ToggleInvisibleAction != null)
             {
-                if (m_ToggleInvisibleAction.shouldBeEnabled != toolActive)
+                if (!m_ToggleInvisibleAction.shouldBeEnabled)
                 {
-                    m_ToggleInvisibleAction.shouldBeEnabled = toolActive;
+                    m_ToggleInvisibleAction.shouldBeEnabled = true;
                 }
 
-                if (toolActive && m_ToggleInvisibleAction.WasReleasedThisFrame())
+                if (m_ToggleInvisibleAction.WasReleasedThisFrame())
                 {
                     HandleSetShowInvisible(!m_SegmentSpeedTool.ShowInvisible);
+                }
+            }
+
+            // Synchronize the eye when another mod changes the shared vanilla flag.
+            // This is just a boolean comparison per UI update; no network scan.
+            bool actualMarkersVisible = m_SegmentSpeedTool.ShowInvisible;
+            if (m_ShowInvisibleBinding.Value != actualMarkersVisible)
+            {
+                m_ShowInvisibleBinding.Value = actualMarkersVisible;
+                if (toolActive)
+                {
+                    m_SegmentSpeedTool.RefreshSelectionFilters();
                 }
             }
 

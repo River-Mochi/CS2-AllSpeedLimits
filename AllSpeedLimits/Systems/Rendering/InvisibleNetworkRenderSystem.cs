@@ -43,7 +43,9 @@ namespace RoadRailSpeeds.Systems
                 for (int i = 0; i < Curves.Length; i++)
                 {
                     OverlayCurve curve = Curves[i];
-                    Buffer.DrawCurve(curve.Color, curve.Curve, curve.Width);
+                    // Narrow, translucent dashes follow the actual Bezier centerline.
+                    // Unlike a wide solid ribbon, they do not obscure vanilla marker edges.
+                    Buffer.DrawDashedCurve(curve.Color, curve.Curve, curve.Width, 2.2f, 1.35f);
                 }
             }
         }
@@ -151,11 +153,12 @@ namespace RoadRailSpeeds.Systems
             curves.Add(new OverlayCurve
             {
                 Curve = curve,
-                // Green briefly confirms a speed change/reset, gold selects, white hovers.
-                Color = edited ? new Color(0.32f, 1f, 0.53f, 0.97f) :
-                    hovered ? new Color(1f, 1f, 1f, 0.96f) :
-                    new Color(1f, 0.82f, 0.20f, 0.94f),
-                Width = edited ? 1.65f : 1.25f
+                // One unobtrusive white color for hover and selection, with a brief
+                // soft green confirmation after applying/resetting a speed.
+                Color = edited ? new Color(0.38f, 1f, 0.57f, 0.65f) :
+                    hovered ? new Color(1f, 1f, 1f, 0.46f) :
+                    new Color(1f, 1f, 1f, 0.62f),
+                Width = edited ? 0.32f : 0.26f
             });
         }
     }
