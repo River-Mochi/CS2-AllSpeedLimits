@@ -137,7 +137,7 @@ export const SpeedToolHint = () => {
                         <button
                             onMouseDown={event => event.stopPropagation()}
                             onClick={OpenAllPaths}
-                            title={TEXT.panel.allPathsTab}
+                            title={TEXT.hint.pathsTooltip}
                             style={{
                                 marginLeft: "8rem", paddingLeft: "6rem", paddingRight: "6rem",
                                 width: "75rem", minWidth: "75rem", maxWidth: "75rem",

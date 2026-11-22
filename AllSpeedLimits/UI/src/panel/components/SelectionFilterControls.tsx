@@ -23,7 +23,7 @@ import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
 
 import pathIcon from "../../images/Bicycle_max.svg";
-import invisibleIcon from "../../images/asl-invisible.svg";
+import invisibleIcon from "../../images/invisible04.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
@@ -192,21 +192,22 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             showTip={showTip}
             hideTip={hideTip}
           />
-          <FilterChip
-            active={paths}
-            text={pathsLabel}
-            tipKind="filterPaths"
-            iconSrc={pathIcon}
-            onToggle={toggle(paths, [roads, rails, water], SetSelectPaths)}
-            showTip={showTip}
-            hideTip={hideTip}
-          />
+
           <FilterChip
             active={rails}
             text={railsLabel}
             tipKind="filterRails"
             iconSrc={railIcon}
             onToggle={toggle(rails, [roads, paths, water], SetSelectRails)}
+            showTip={showTip}
+            hideTip={hideTip}
+          />
+          <FilterChip
+            active={paths}
+            text={pathsLabel}
+            tipKind="filterPaths"
+            iconSrc={pathIcon}
+            onToggle={toggle(paths, [roads, rails, water], SetSelectPaths)}
             showTip={showTip}
             hideTip={hideTip}
           />

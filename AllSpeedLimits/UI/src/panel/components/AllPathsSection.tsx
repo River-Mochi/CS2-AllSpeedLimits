@@ -1,5 +1,5 @@
 // File: UI/src/panel/components/AllPathsSection.tsx
-// Global pathway speed limits, not per-segment pedestrian walking speed.
+// A citywide pathway multiplier; individual ASL segment overrides take priority.
 
 import { Button } from "../../shared/Button";
 import { Slider } from "../../slider/slider";
@@ -16,11 +16,9 @@ type Props = {
         description: string;
         slider: string;
         vanilla: string;
-        saveNote: string;
         apply: string;
         reset: string;
         working: string;
-        customWins: string;
     };
     onChange: (percent: number) => void;
     onApply: () => void;
@@ -33,15 +31,12 @@ export const AllPathsSection = ({
 }: Props) => (
     <div style={{
         paddingTop: "5rem",
-        paddingBottom: "10rem",
-        color: "rgba(255, 255, 255, 0.90)",
+        paddingBottom: "9rem",
+        color: "rgba(235, 244, 250, 0.94)",
         fontSize: "12rem"
     }}>
-        <div style={{ fontWeight: 700, fontSize: "14rem", marginBottom: "7rem" }}>
+        <div style={{ fontWeight: 700, fontSize: "14rem", marginBottom: "11rem" }}>
             {text.heading}
-        </div>
-        <div style={{ lineHeight: "1.35", marginBottom: "10rem", opacity: 0.85 }}>
-            {text.description}
         </div>
         <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -58,19 +53,23 @@ export const AllPathsSection = ({
             onChange={onChange}
         />
         <div style={{
-            display: "flex", justifyContent: "space-between", marginTop: "6rem",
-            marginBottom: "12rem", fontSize: "11rem", opacity: 0.78
+            marginTop: "6rem", marginBottom: "12rem",
+            fontSize: "11rem", opacity: 0.78
         }}>
-            <span>{text.vanilla}</span>
-            <span>{savedPercent}%</span>
+            {text.vanilla}
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
                 focusKey={focusKey}
                 variant="neutral"
-                disabled={busy}
+                disabled={busy || (percent === 100 && savedPercent === 100)}
                 onSelect={onReset}
-                style={{ marginRight: "7rem", minHeight: "27rem", paddingLeft: "9rem", paddingRight: "9rem" }}
+                style={{
+                    marginRight: "7rem",
+                    minHeight: "27rem",
+                    paddingLeft: "13rem",
+                    paddingRight: "13rem"
+                }}
             >
                 {text.reset}
             </Button>
@@ -78,23 +77,31 @@ export const AllPathsSection = ({
                 focusKey={focusKey}
                 disabled={busy || percent === savedPercent}
                 onSelect={onApply}
-                style={{ minHeight: "27rem", paddingLeft: "10rem", paddingRight: "10rem" }}
+                style={{
+                    minHeight: "27rem",
+                    paddingLeft: "13rem",
+                    paddingRight: "13rem"
+                }}
             >
-                {busy ? text.working : text.apply}
+                {text.apply}
             </Button>
         </div>
         {busy && (
-            <div style={{ fontSize: "11rem", marginTop: "8rem" }}>
+            <div style={{ fontSize: "11rem", marginTop: "8rem", opacity: 0.84 }}>
                 {text.working} {total > 0 ? `${processed}/${total}` : ""}
             </div>
         )}
         <div style={{
-            marginTop: "10rem", paddingTop: "7rem", fontSize: "11rem",
-            lineHeight: "1.35", borderTopWidth: "1rem", borderTopStyle: "solid",
-            borderTopColor: "rgba(255,255,255,0.16)", opacity: 0.75
+            marginTop: "12rem",
+            paddingTop: "8rem",
+            fontSize: "11rem",
+            lineHeight: "1.35",
+            borderTopWidth: "1rem",
+            borderTopStyle: "solid",
+            borderTopColor: "rgba(255,255,255,0.16)",
+            opacity: 0.78
         }}>
-            {text.customWins}
-            <div style={{ marginTop: "4rem" }}>{text.saveNote}</div>
+            {text.description}
         </div>
     </div>
 );

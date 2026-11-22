@@ -1144,7 +1144,9 @@ export const SpeedToolWindow = () => {
                                 onApply={() => ApplyGlobalPathPercent(pendingPathPercent)}
                                 onReset={() => {
                                     setPendingPathPercent(100);
-                                    ApplyGlobalPathPercent(100);
+                                    if (savedPathPercent !== 100) {
+                                        ApplyGlobalPathPercent(100);
+                                    }
                                 }}
                             />
                         )}

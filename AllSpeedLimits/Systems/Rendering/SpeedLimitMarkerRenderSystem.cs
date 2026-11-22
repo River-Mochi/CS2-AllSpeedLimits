@@ -169,7 +169,7 @@ namespace RoadRailSpeeds.Systems
         private const float s_MarkerReadableFarHeightPx = 27f;
         // Hidden internal roads can render unusually large near the camera.
         // Cap only invisible-network sign size; visible road/rail/water labels stay untouched.
-        private const float s_InvisibleMarkerMaxHeightPx = 22f;
+        private const float s_InvisibleMarkerMaxHeightPx = 26f;
         private const float s_MarkerReadableMidHeightTransitionZoom = 0.20f;
         private const float s_MarkerReadableScaleStartZoom = 0.45f;
         // Slightly reduce the floating numbers at the closest and farthest zooms so they do not

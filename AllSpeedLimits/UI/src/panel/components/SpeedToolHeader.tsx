@@ -100,47 +100,46 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         opacity: isGuideHovered ? 1 : 0.92
                     }}
                 />
-                <div style={{ display: "flex", alignItems: "center" }} title={title}>
-                    <Button
-                        as="button"
-                        focusKey={focusDisabled}
-                        onMouseDown={(event: MouseEvent) => event.stopPropagation()}
-                        onSelect={() => onViewChange("limits")}
-                        selected={activeView === "limits"}
-                        title={speedLimitsTab}
-                        style={{
-                            cursor: "pointer", minHeight: "22rem", fontSize: "11rem",
-                            maxWidth: "108rem", whiteSpace: "nowrap",
-                            overflow: "hidden", textOverflow: "ellipsis",
-                            paddingTop: "2rem", paddingBottom: "2rem",
-                            paddingLeft: "7rem", paddingRight: "7rem",
-                            borderRadius: "3rem", marginRight: "3rem",
-                            backgroundColor: activeView === "limits"
-                                ? "rgba(63, 160, 203, 0.36)" : "rgba(255,255,255,0.04)"
-                        }}
-                    >
-                        {speedLimitsTab}
-                    </Button>
-                    <Button
-                        as="button"
-                        focusKey={focusDisabled}
-                        onMouseDown={(event: MouseEvent) => event.stopPropagation()}
-                        onSelect={() => onViewChange("paths")}
-                        selected={activeView === "paths"}
-                        title={allPathsTab}
-                        style={{
-                            cursor: "pointer", minHeight: "22rem", fontSize: "11rem",
-                            maxWidth: "108rem", whiteSpace: "nowrap",
-                            overflow: "hidden", textOverflow: "ellipsis",
-                            paddingTop: "2rem", paddingBottom: "2rem",
-                            paddingLeft: "7rem", paddingRight: "7rem",
-                            borderRadius: "3rem",
-                            backgroundColor: activeView === "paths"
-                                ? "rgba(63, 160, 203, 0.36)" : "rgba(255,255,255,0.04)"
-                        }}
-                    >
-                        {allPathsTab}
-                    </Button>
+                <div style={{ display: "flex", alignItems: "center", minWidth: "0" }} title={title} role="tablist">
+                    {([
+                        ["limits", speedLimitsTab],
+                        ["paths", allPathsTab]
+                    ] as const).map(([view, label]) => (
+                        <button
+                            key={view}
+                            type="button"
+                            role="tab"
+                            aria-selected={activeView === view}
+                            title={label}
+                            onMouseDown={(event: MouseEvent) => event.stopPropagation()}
+                            onClick={() => onViewChange(view)}
+                            style={{
+                                color: activeView === view ? "#EFFAFF" : "rgba(218, 235, 244, 0.77)",
+                                fontSize: "12rem",
+                                fontWeight: activeView === view ? 700 : 550,
+                                backgroundColor: activeView === view
+                                    ? "rgba(92, 161, 192, 0.22)" : "transparent",
+                                borderWidth: "0",
+                                borderStyle: "solid",
+                                borderBottomWidth: "2rem",
+                                borderBottomColor: activeView === view ? "#79D4EE" : "transparent",
+                                borderRadius: "0",
+                                minHeight: "25rem",
+                                paddingTop: "3rem",
+                                paddingBottom: "2rem",
+                                paddingLeft: "8rem",
+                                paddingRight: "8rem",
+                                marginRight: "2rem",
+                                maxWidth: "135rem",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                cursor: "pointer"
+                            }}
+                        >
+                            {label}
+                        </button>
+                    ))}
                 </div>
             </div>
 
@@ -201,6 +200,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             height: isMarkersHovered ? "15rem" : "13.5rem",
                             filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
                             opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 1 : 0.58),
+                            // Center the asterisk within the small title-bar ring.
+                            transform: "translate(0.6rem, -0.4rem)",
                             pointerEvents: "none"
                         }}
                     />

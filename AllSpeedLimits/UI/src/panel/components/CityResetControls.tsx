@@ -86,9 +86,9 @@ export const CityResetControls = (props: CityResetControlsProps) => {
                 justifyContent: "space-between"
             }}>
                 {renderResetButton("resetRoads", resetRoadsLabel, onOpenResetRoads, true)}
-                {renderResetButton("resetPaths", resetPathsLabel, onOpenResetPaths, true)}
                 {renderResetButton("resetRails", resetRailsLabel, onOpenResetRails, true)}
                 {renderResetButton("resetWater", resetWaterLabel, onOpenResetWater, true)}
+                {renderResetButton("resetPaths", resetPathsLabel, onOpenResetPaths, true)}
                 {renderResetButton("resetAll", resetAllTypesLabel, onOpenResetAll, false)}
             </div>
         </div>

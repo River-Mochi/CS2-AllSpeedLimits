@@ -162,14 +162,15 @@ namespace RoadRailSpeeds.Systems
             curves.Add(new OverlayCurve
             {
                 Curve = curve,
-                // White = hover/selection, green = brief successful apply/reset.
-                // Brighter outlines preserve readability over a mostly transparent fill.
-                OutlineColor = edited ? new Color(0.32f, 0.96f, 0.47f, 0.90f) :
-                    hovered ? new Color(1f, 1f, 1f, 0.76f) :
-                    new Color(1f, 1f, 1f, 0.87f),
-                FillColor = edited ? new Color(0.32f, 0.96f, 0.47f, 0.27f) :
-                    hovered ? new Color(1f, 1f, 1f, 0.19f) :
-                    new Color(1f, 1f, 1f, 0.28f),
+                // Soft yellow distinguishes selection from vanilla blue/green markers;
+                // a brief white flash confirms a successful apply or reset.
+                // Retain the same thin outlines and translucent dash fills.
+                OutlineColor = edited ? new Color(1f, 1f, 1f, 0.87f) :
+                    hovered ? new Color(1f, 0.91f, 0.55f, 0.78f) :
+                    new Color(1f, 0.83f, 0.30f, 0.90f),
+                FillColor = edited ? new Color(1f, 1f, 1f, 0.28f) :
+                    hovered ? new Color(1f, 0.91f, 0.55f, 0.19f) :
+                    new Color(1f, 0.83f, 0.30f, 0.27f),
                 Width = edited ? 1.30f : hovered ? 1.05f : 1.20f
             });
         }

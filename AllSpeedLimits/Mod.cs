@@ -150,7 +150,9 @@ namespace RoadRailSpeeds
 
                 // Global pathway tuning is idle until requested or a non-vanilla value loads.
                 world.GetOrCreateSystemManaged<GlobalPathSpeedSystem>();
-                updateSystem.UpdateAt<GlobalPathSpeedSystem>(SystemUpdatePhase.GameSimulation);
+                // UIUpdate also runs when simulation is paused. Path Apply/Reset must
+                // complete without forcing the player to unpause their city.
+                updateSystem.UpdateAt<GlobalPathSpeedSystem>(SystemUpdatePhase.UIUpdate);
 
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);
