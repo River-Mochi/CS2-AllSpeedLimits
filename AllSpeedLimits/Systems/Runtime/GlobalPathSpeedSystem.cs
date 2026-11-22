@@ -1,14 +1,20 @@
 // <copyright file="GlobalPathSpeedSystem.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
-// Licensed under the GPL-3.0-or-later with the CS2 Linking Exception.
-// Portions adapted from CS2-Bikes-Paths, MIT licensed; see THIRD_PARTY_NOTICES.md.
+// Licensed under the GNU General Public License v3.0 or later,
+// with the Cities: Skylines II Linking Exception.
+// See LICENSE and LICENSE-EXCEPTION in the project root.
+// This notice MUST be kept with copies or substantial portions of this code.
 // ================= </copyright> ======================
 
+// Portions adapted from MIT-licensed CS2-Bikes-Paths.
+// Attribution in THIRD_PARTY_NOTICES.md.
+//
 // One-time global pathway speed changes, never a background citywide scan.
 // Covers visible/invisible PathwayPrefab compositions and existing bicycle-capable
 // CarLane components. Individual ASL CustomSpeed edges always take precedence.
 namespace RoadRailSpeeds.Systems
 {
+    using Colossal.Serialization.Entities;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Common;
@@ -165,8 +171,8 @@ namespace RoadRailSpeeds.Systems
                 SystemAPI.GetComponentLookup<PathwayData>(true);
             using NativeList<Entity> edges = new NativeList<Entity>(Allocator.Temp);
 
-            foreach ((RefRO<PrefabRef> prefab, DynamicBuffer<SubLane> lanes, Entity edge) in
-                SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<SubLane>>()
+            foreach ((RefRO<PrefabRef> prefab, DynamicBuffer<Game.Net.SubLane> lanes, Entity edge) in
+                SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<Game.Net.SubLane>>()
                     .WithAll<Edge>()
                     .WithNone<Road, Deleted, Temp, Overridden>()
                     .WithEntityAccess())
@@ -190,7 +196,7 @@ namespace RoadRailSpeeds.Systems
         {
             ComponentLookup<PrefabRef> refs = SystemAPI.GetComponentLookup<PrefabRef>(true);
             ComponentLookup<PathwayData> pathways = SystemAPI.GetComponentLookup<PathwayData>(true);
-            BufferLookup<SubLane> sublanes = SystemAPI.GetBufferLookup<SubLane>(true);
+            BufferLookup<Game.Net.SubLane> sublanes = SystemAPI.GetBufferLookup<Game.Net.SubLane>(true);
             ComponentLookup<Game.Net.CarLane> carLanes =
                 SystemAPI.GetComponentLookup<Game.Net.CarLane>(false);
             int end = math.min(m_EdgeIndex + kEdgesPerUpdate, m_PathEdges.Length);
@@ -222,7 +228,7 @@ namespace RoadRailSpeeds.Systems
                     continue;
                 }
 
-                DynamicBuffer<SubLane> lanes = sublanes[edge];
+                DynamicBuffer<Game.Net.SubLane> lanes = sublanes[edge];
                 for (int i = 0; i < lanes.Length; i++)
                 {
                     Entity laneEntity = lanes[i].m_SubLane;

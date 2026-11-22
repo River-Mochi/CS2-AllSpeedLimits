@@ -1,6 +1,9 @@
 // <copyright file="GlobalPathSpeedSystem.Report.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
-// Licensed under GPL-3.0-or-later with the CS2 Linking Exception.
+// Licensed under the GNU General Public License v3.0 or later,
+// with the Cities: Skylines II Linking Exception.
+// See LICENSE and LICENSE-EXCEPTION in the project root.
+// This notice MUST be kept with copies or substantial portions of this code.
 // ================= </copyright> ======================
 
 // One-click, read-only diagnostics. Never scans while the panel is idle.
@@ -44,10 +47,10 @@ namespace RoadRailSpeeds.Systems
 
             ComponentLookup<PathwayData> pathData = SystemAPI.GetComponentLookup<PathwayData>(true);
             ComponentLookup<Game.Net.CarLane> carLanes = SystemAPI.GetComponentLookup<Game.Net.CarLane>(true);
-            ComponentLookup<PedestrianLane> pedLanes = SystemAPI.GetComponentLookup<PedestrianLane>(true);
+            ComponentLookup<Game.Net.PedestrianLane> pedLanes = SystemAPI.GetComponentLookup<Game.Net.PedestrianLane>(true);
 
-            foreach ((RefRO<PrefabRef> reference, DynamicBuffer<SubLane> lanes, Entity edge) in
-                SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<SubLane>>()
+            foreach ((RefRO<PrefabRef> reference, DynamicBuffer<Game.Net.SubLane> lanes, Entity edge) in
+                SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<Game.Net.SubLane>>()
                     .WithAll<Edge>().WithNone<Road, Deleted, Temp, Overridden>().WithEntityAccess())
             {
                 if (!pathData.HasComponent(reference.ValueRO.m_Prefab))
