@@ -43,9 +43,17 @@ namespace RoadRailSpeeds.Systems
                 for (int i = 0; i < Curves.Length; i++)
                 {
                     OverlayCurve curve = Curves[i];
-                    // Draw a slim, translucent centerline along the true Bezier curve.
-                    // Native blue/green dashed markers remain visible underneath.
-                    Buffer.DrawCurve(curve.Color, curve.Curve, curve.Width);
+                    // Project longer, separate dashes onto surfaces instead of drawing a
+                    // free-standing 3D ribbon. Keep vanilla blue/green network markers.
+                    Buffer.DrawDashedCurve(
+                        curve.Color,
+                        curve.Color,
+                        0f,
+                        OverlayRenderSystem.StyleFlags.Projected,
+                        curve.Curve,
+                        curve.Width,
+                        6f,
+                        3.5f);
                 }
             }
         }
@@ -153,12 +161,12 @@ namespace RoadRailSpeeds.Systems
             curves.Add(new OverlayCurve
             {
                 Curve = curve,
-                // White centerline for hover/selection; cyan-blue for 1.5 seconds
-                // after applying or resetting, matching ASL's custom-speed colors.
-                Color = edited ? new Color(0.42f, 0.85f, 1f, 0.78f) :
-                    hovered ? new Color(1f, 1f, 1f, 0.56f) :
-                    new Color(1f, 1f, 1f, 0.68f),
-                Width = edited ? 0.55f : hovered ? 0.40f : 0.48f
+                // White = hover/selection, green = brief successful apply/reset.
+                // Avoid cyan, which is already used by vanilla invisible-road arrows.
+                Color = edited ? new Color(0.32f, 0.96f, 0.47f, 0.77f) :
+                    hovered ? new Color(1f, 1f, 1f, 0.58f) :
+                    new Color(1f, 1f, 1f, 0.70f),
+                Width = edited ? 0.60f : hovered ? 0.46f : 0.55f
             });
         }
     }

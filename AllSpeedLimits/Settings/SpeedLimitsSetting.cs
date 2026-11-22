@@ -23,8 +23,8 @@ namespace RoadRailSpeeds
 
     [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
     [SettingsUITabOrder(kMainTab, kAboutTab)]
-    [SettingsUIGroupOrder(kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
-    [SettingsUIShowGroupName(kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
+    [SettingsUIGroupOrder(kDisplayGroup, kKeybindsGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
+    [SettingsUIShowGroupName(kDisplayGroup, kKeybindsGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
     [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
@@ -32,6 +32,7 @@ namespace RoadRailSpeeds
         public const string kAboutTab = "About";
 
         public const string kDisplayGroup = "Display";
+        public const string kKeybindsGroup = "Keybinds";
         public const string kResetGroup = "ResetGameDefaults";
         public const string kUsageGroup = "Usage";
         public const string kAboutInfoGroup = "AboutInfo";
@@ -92,7 +93,7 @@ namespace RoadRailSpeeds
         public bool StatsExpanded { get; set; } = true;
 
         // Unassigned by default so ASL cannot collide with Move It (Ctrl+M).
-        [SettingsUISection(kMainTab, kDisplayGroup)]
+        [SettingsUISection(kMainTab, kKeybindsGroup)]
         [SettingsUIKeyboardBinding(BindingKeyboard.None, Mod.kToggleInvisibleActionName)]
         public ProxyBinding ToggleInvisibleMarkersBinding { get; set; }
 

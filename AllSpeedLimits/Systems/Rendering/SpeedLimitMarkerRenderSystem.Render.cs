@@ -236,6 +236,14 @@ namespace RoadRailSpeeds.Systems
                             meshInfo.Mesh,
                             textScaleMultiplier,
                             normalizedZoom);
+                        if (SpeedNetworkUtils.IsInvisible(EntityManager, edge))
+                        {
+                            textScaleMultiplier = CapInvisibleMarkerScreenScale(
+                                hoverCamera,
+                                markerPosition,
+                                meshInfo.Mesh,
+                                textScaleMultiplier);
+                        }
                     }
 
                     Rect screenBounds = default;
@@ -599,6 +607,37 @@ namespace RoadRailSpeeds.Systems
             return Mathf.Max(textScaleMultiplier, readableScale);
         }
 
+
+        // Cap hidden-network labels in actual screen pixels; perspective can otherwise
+        // make a nearby invisible-road number much larger than the road signs beside it.
+        private static float CapInvisibleMarkerScreenScale(
+            Camera camera,
+            Vector3 markerPosition,
+            Mesh mesh,
+            float scale)
+        {
+            float localHeight = mesh.bounds.size.y;
+            if (localHeight <= 0f)
+            {
+                return scale;
+            }
+
+            Vector3 baseScreen = camera.WorldToScreenPoint(markerPosition);
+            Vector3 topScreen = camera.WorldToScreenPoint(
+                markerPosition + camera.transform.up * (localHeight * scale));
+            if (baseScreen.z <= 0f || topScreen.z <= 0f)
+            {
+                return scale;
+            }
+
+            float visibleHeightPx = Mathf.Abs(topScreen.y - baseScreen.y);
+            if (visibleHeightPx <= s_InvisibleMarkerMaxHeightPx)
+            {
+                return scale;
+            }
+
+            return scale * (s_InvisibleMarkerMaxHeightPx / visibleHeightPx);
+        }
 
         private static Camera? GetGameCamera(List<Camera> cameras)
         {
