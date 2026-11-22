@@ -71,12 +71,10 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry.
 <!--Required DLC, can be set multiple times. Supported values are "Landmark Buildings", "San Fransisco Set", "Beach Properties", "Urban Promenades", "Modern Architecture"-->
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-<ChangeLog>
-- Open all panel sections by default on first install and remember collapsed sections.
-- Refine panel icons and the Custom slider row layout. Reset button is now next to the speed number stepper.
+<ChangeLog>.
+- Add speed limit control for Invisible roads.
+- New eyeball icon to toggle invisible roads for editing.
 - Update images.
-- Internal tidy and refactor.
-- Updated for game patch 1.6.2
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
