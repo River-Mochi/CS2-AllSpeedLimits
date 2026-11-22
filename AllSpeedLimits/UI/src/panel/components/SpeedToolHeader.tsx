@@ -107,8 +107,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         onMouseDown={(event: MouseEvent) => event.stopPropagation()}
                         onSelect={() => onViewChange("limits")}
                         selected={activeView === "limits"}
+                        title={speedLimitsTab}
                         style={{
-                            cursor: "pointer", minHeight: "22rem", fontSize: "12rem",
+                            cursor: "pointer", minHeight: "22rem", fontSize: "11rem",
+                            maxWidth: "108rem", whiteSpace: "nowrap",
+                            overflow: "hidden", textOverflow: "ellipsis",
                             paddingTop: "2rem", paddingBottom: "2rem",
                             paddingLeft: "7rem", paddingRight: "7rem",
                             borderRadius: "3rem", marginRight: "3rem",
@@ -124,8 +127,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         onMouseDown={(event: MouseEvent) => event.stopPropagation()}
                         onSelect={() => onViewChange("paths")}
                         selected={activeView === "paths"}
+                        title={allPathsTab}
                         style={{
-                            cursor: "pointer", minHeight: "22rem", fontSize: "12rem",
+                            cursor: "pointer", minHeight: "22rem", fontSize: "11rem",
+                            maxWidth: "108rem", whiteSpace: "nowrap",
+                            overflow: "hidden", textOverflow: "ellipsis",
                             paddingTop: "2rem", paddingBottom: "2rem",
                             paddingLeft: "7rem", paddingRight: "7rem",
                             borderRadius: "3rem",
