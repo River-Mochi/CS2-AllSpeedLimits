@@ -174,7 +174,7 @@ namespace RoadRailSpeeds.Systems
             foreach ((RefRO<PrefabRef> prefab, DynamicBuffer<Game.Net.SubLane> lanes, Entity edge) in
                 SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<Game.Net.SubLane>>()
                     .WithAll<Edge>()
-                    .WithNone<Road, Deleted, Temp, Overridden>()
+                    .WithNone<Road, Deleted, Temp>().WithNone<Overridden>()
                     .WithEntityAccess())
             {
                 if (lanes.Length > 0 && pathways.HasComponent(prefab.ValueRO.m_Prefab))
