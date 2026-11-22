@@ -28,7 +28,8 @@ namespace RoadRailSpeeds.Systems
         private struct OverlayCurve
         {
             public Bezier4x3 Curve;
-            public Color Color;
+            public Color OutlineColor;
+            public Color FillColor;
             public float Width;
         }
 
@@ -43,17 +44,17 @@ namespace RoadRailSpeeds.Systems
                 for (int i = 0; i < Curves.Length; i++)
                 {
                     OverlayCurve curve = Curves[i];
-                    // Project longer, separate dashes onto surfaces instead of drawing a
-                    // free-standing 3D ribbon. Keep vanilla blue/green network markers.
+                    // Project wider, translucent dashes with a thin, brighter border.
+                    // Keep vanilla blue/green marker lines visible underneath.
                     Buffer.DrawDashedCurve(
-                        curve.Color,
-                        curve.Color,
-                        0f,
+                        curve.OutlineColor,
+                        curve.FillColor,
+                        0.12f,
                         OverlayRenderSystem.StyleFlags.Projected,
                         curve.Curve,
                         curve.Width,
-                        6f,
-                        3.5f);
+                        4.8f,
+                        3f);
                 }
             }
         }
@@ -162,11 +163,14 @@ namespace RoadRailSpeeds.Systems
             {
                 Curve = curve,
                 // White = hover/selection, green = brief successful apply/reset.
-                // Avoid cyan, which is already used by vanilla invisible-road arrows.
-                Color = edited ? new Color(0.32f, 0.96f, 0.47f, 0.77f) :
-                    hovered ? new Color(1f, 1f, 1f, 0.58f) :
-                    new Color(1f, 1f, 1f, 0.70f),
-                Width = edited ? 0.60f : hovered ? 0.46f : 0.55f
+                // Brighter outlines preserve readability over a mostly transparent fill.
+                OutlineColor = edited ? new Color(0.32f, 0.96f, 0.47f, 0.90f) :
+                    hovered ? new Color(1f, 1f, 1f, 0.76f) :
+                    new Color(1f, 1f, 1f, 0.87f),
+                FillColor = edited ? new Color(0.32f, 0.96f, 0.47f, 0.27f) :
+                    hovered ? new Color(1f, 1f, 1f, 0.19f) :
+                    new Color(1f, 1f, 1f, 0.28f),
+                Width = edited ? 1.30f : hovered ? 1.05f : 1.20f
             });
         }
     }
