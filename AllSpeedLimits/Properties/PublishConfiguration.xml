@@ -42,18 +42,18 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 
 
 ## Support and Feedback
-* Easiest way to support is to click the LIKE 👍 button (top right). No donations requested. It takes weeks and months to make these level of mods and many hours with testers.
-* Feedback and PRs welcome: see Github or Discord links (to the right of this page).
+* Support by clicking the LIKE 👍 button (top right). No donations requested. It takes weeks and months to make these level of mods and many hours with testers.
+* For feedback, use the [Discord](https://discord.gg/gwXgvtyhjc) | [Github](https://github.com/River-Mochi/CS2-AllSpeedLimits) links on this page. PRs are welcome, GPL-3.0 license.
 
 ## ❤️ Credits and Special Thanks
 Huge appreciation hugs and waves to everyone
 
 * River-mochi: mod author
-* Chaosfun: testing and [video demo here](https://www.youtube.com/watch?v=qADctjYS5-w)
+* Chaosfun: testing and [video of older version](https://www.youtube.com/watch?v=qADctjYS5-w)
 * Maestro, Gagaxm, Obelix, Sunny Scunny: testing and feedback.
 * yenayang: technical advisor
 * Thanks to everyone who tested, supported, or guided development along the way!
-* Thumbnail photo taken in Toronto, Canada by [Alex Smith](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
+* Thumbnail photo: Toronto, Canada by [Alex Smith](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
 * History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
 
 tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry.
@@ -80,9 +80,9 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry.
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - New: individual speed limits on bike and mixed pedestrian/bike paths.
-- New: edit supported invisible roads and paths; dashed eye + optional hotkey.
-- New: Paths tab for global path speeds (30–500%); individual edits take priority.
-- Improved: speed markers, selection highlights and UI.
+- New: edit supported invisible roads and paths; dashed lines button + optional hotkey.
+- New: Paths tab for global Path speeds (30–500%); individual segment bike path edits take priority over global all city slider. so you can set global figure, then tweak custom segments manually still.
+- Improved UI: speed markers, selection highlights.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
