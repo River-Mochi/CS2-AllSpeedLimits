@@ -37,7 +37,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Vehicles are still limited by their max speeds (different for each type).
 * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
 * **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
-* Performance: stats update only while the speed tool panel is open. Mod runs only when you have it open, make a change, then it goes back to sleep - easy, done.
+* Performance: floating labels and stats run while ASL is open. Global path changes apply on request or city load, then go idle. Saved speeds use lightweight checks.
 * ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
 * The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
 

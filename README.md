@@ -31,7 +31,7 @@ Fine-tune speed limits in Cities: Skylines II.
 ## Saves and performance
 
 - Speed changes are saved with the city. A small backup is stored in `ModsData/AllSpeedLimits`; old `ModsData/SpeedLimits` backups are migrated.
-- Whole-city actions run in batches, including while the city is paused. Floating numbers, selection overlays, and vehicle stats run only while the ASL tool is open.
+- Whole-city actions run in batches. Global Paths applies even while paused. Floating numbers, selection overlays, and vehicle stats run only while the ASL tool is open.
 
 ## License
 
