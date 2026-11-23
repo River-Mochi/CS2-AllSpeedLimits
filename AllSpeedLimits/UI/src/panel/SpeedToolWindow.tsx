@@ -1185,8 +1185,7 @@ export const SpeedToolWindow = () => {
                 text={TEXT}
                 panelTooltip={panelTooltip}
                 panelTooltipsEnabled={panelTooltipsEnabled}
-                position={position}
-                panelWidth={panelWidth}
+                panelBounds={panelRef.current?.getBoundingClientRect() ?? null}
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}
                 tooltipFontScale={tooltipFontScale}

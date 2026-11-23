@@ -2,13 +2,14 @@
 // Purpose: Floating side/help tooltips for the speed tool panel.
 
 import type { CSSProperties, ReactNode } from "react";
-import { REM_TO_TOOLTIP_PX, RIGHT_TOOLTIP_GAP_PX, RIGHT_TOOLTIP_TOP_OFFSETS } from "../constants";
+import { RIGHT_TOOLTIP_TOP_OFFSETS } from "../constants";
 import type { PanelTooltipKind } from "../types";
 import { PanelSideTooltip } from "./PanelSideTooltip";
 
-type PanelPosition = {
-    x: number;
-    y: number;
+type PanelBounds = {
+    left: number;
+    right: number;
+    top: number;
 };
 
 type RoadGroupTooltip = {
@@ -20,8 +21,7 @@ type SpeedToolOverlaysProps = {
     text: any;
     panelTooltip: PanelTooltipKind | null;
     panelTooltipsEnabled: boolean;
-    position: PanelPosition;
-    panelWidth: number;
+    panelBounds: PanelBounds | null;
     tooltipBaseStyle: CSSProperties;
     tooltipFontSize: string;
     tooltipFontScale: number;
@@ -39,8 +39,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         text,
         panelTooltip,
         panelTooltipsEnabled,
-        position,
-        panelWidth,
+        panelBounds,
         tooltipBaseStyle,
         tooltipFontSize,
         tooltipFontScale,
@@ -75,7 +74,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         }
 
         let topOffset = RIGHT_TOOLTIP_TOP_OFFSETS[panelTooltip];
-        let leftOffset = panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX;
         let maxWidth = "196rem";
         let fontSize = tooltipFontSize;
         let content: ReactNode = null;
@@ -182,8 +180,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         return (
             <PanelSideTooltip
                 visible={true}
-                position={position}
-                leftOffsetPx={leftOffset}
+                panelBounds={panelBounds}
                 topOffsetPx={topOffset}
                 maxWidth={maxWidth}
                 fontSize={fontSize}
@@ -198,8 +195,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             {isGuideHovered && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
-                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    panelBounds={panelBounds}
                     topOffsetPx={20}
                     maxWidth="200rem"
                     fontSize={tooltipFontSize}
@@ -210,8 +206,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             {isMarkersHovered && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
-                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    panelBounds={panelBounds}
                     topOffsetPx={28}
                     maxWidth="210rem"
                     fontSize={tooltipFontSize}
@@ -229,8 +224,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             {isHelpHovered && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
-                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    panelBounds={panelBounds}
                     topOffsetPx={30}
                     maxWidth="210rem"
                     fontSize={tooltipFontSize}

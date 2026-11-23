@@ -166,6 +166,9 @@ namespace RoadRailSpeeds.Systems
         // Keep floating numbers readable at every zoom. These values do not resize the tooltip below.
         private const float s_MarkerReadableCloseHeightPx = 16f;
         private const float s_MarkerReadableMidHeightPx = 18f;
+        // Hidden-network numbers get a small close/mid-zoom bump; others stay unchanged.
+        private const float s_InvisibleMarkerReadableCloseHeightPx = 18.5f;
+        private const float s_InvisibleMarkerReadableMidHeightPx = 20.5f;
         private const float s_MarkerReadableFarHeightPx = 27f;
         // Hidden internal roads can render unusually large near the camera.
         // Cap only invisible-network sign size; visible road/rail/water labels stay untouched.

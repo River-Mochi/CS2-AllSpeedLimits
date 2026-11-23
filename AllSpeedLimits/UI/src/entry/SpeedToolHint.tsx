@@ -138,7 +138,7 @@ export const SpeedToolHint = () => {
                                 roads: TEXT.tooltips.filterRoads,
                                 rails: TEXT.tooltips.filterRails,
                                 water: TEXT.tooltips.filterWater,
-                                paths: TEXT.tooltips.filterPaths,
+                                paths: TEXT.panel.filterPaths,
                                 invisible: TEXT.hint.invisibleTooltip
                             }}
                         />

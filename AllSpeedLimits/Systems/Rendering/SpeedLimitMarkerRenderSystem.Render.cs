@@ -230,13 +230,15 @@ namespace RoadRailSpeeds.Systems
 
                     if (hoverCamera != null)
                     {
+                        bool invisibleEdge = SpeedNetworkUtils.IsInvisible(EntityManager, edge);
                         textScaleMultiplier = ApplyReadableScreenScale(
                             hoverCamera,
                             markerPosition,
                             meshInfo.Mesh,
                             textScaleMultiplier,
-                            normalizedZoom);
-                        if (SpeedNetworkUtils.IsInvisible(EntityManager, edge))
+                            normalizedZoom,
+                            invisibleEdge);
+                        if (invisibleEdge)
                         {
                             textScaleMultiplier = CapInvisibleMarkerScreenScale(
                                 hoverCamera,
@@ -549,7 +551,8 @@ namespace RoadRailSpeeds.Systems
             Vector3 markerPosition,
             Mesh mesh,
             float textScaleMultiplier,
-            float normalizedZoom)
+            float normalizedZoom,
+            bool invisibleEdge)
         {
             float localTextHeight = Mathf.Max(mesh.bounds.size.y, 0.01f);
             float pixelsPerWorldUnit;
@@ -584,8 +587,8 @@ namespace RoadRailSpeeds.Systems
                 1f,
                 Mathf.Clamp01(normalizedZoom / s_MarkerReadableMidHeightTransitionZoom));
             float midTargetPixelHeight = Mathf.Lerp(
-                s_MarkerReadableCloseHeightPx,
-                s_MarkerReadableMidHeightPx,
+                invisibleEdge ? s_InvisibleMarkerReadableCloseHeightPx : s_MarkerReadableCloseHeightPx,
+                invisibleEdge ? s_InvisibleMarkerReadableMidHeightPx : s_MarkerReadableMidHeightPx,
                 closeToMidReadability);
             float farReadability = Mathf.SmoothStep(
                 0f,
