@@ -10,8 +10,9 @@
 // Attribution in THIRD_PARTY_NOTICES.md.
 //
 // One-time global pathway speed changes, never a background citywide scan.
-// Covers visible/invisible PathwayPrefab compositions and existing bicycle-capable
-// CarLane components. Individual ASL CustomSpeed edges always take precedence.
+// Covers bicycle-only and mixed bike/pedestrian PathwayPrefab compositions
+// and bicycle-capable lanes. Pedestrian-only paths and vehicle roads are excluded.
+// Individual ASL CustomSpeed edges always take precedence.
 namespace RoadRailSpeeds.Systems
 {
     using System.Collections.Generic;
@@ -129,7 +130,7 @@ namespace RoadRailSpeeds.Systems
             // Some invisible *vehicle* roads are also PathwayPrefabs, but
             // their car lanes deliberately use speeds unlike PathwayData.
             // Never treat those as global pedestrian/bicycle paths.
-            if (!IsPedestrianOrBicyclePathway(prefabEntity))
+            if (!IsBicyclePathway(prefabEntity))
             {
                 return false;
             }
@@ -139,32 +140,32 @@ namespace RoadRailSpeeds.Systems
         }
 
         // Classify prefab lane geometry, not its name or visibility.
-        // Mixed pedestrian/bike paths are allowed; any Car-capable lane
-        // excludes the entire prefab, including its composition data.
-        private bool IsPedestrianOrBicyclePathway(Entity prefabEntity)
+        // Only bike-only and mixed pedestrian/bike paths are eligible.
+        // Pedestrian-only paths and any Car-capable pathway are excluded.
+        private bool IsBicyclePathway(Entity prefabEntity)
         {
             if (!EntityManager.HasBuffer<NetGeometrySection>(prefabEntity))
             {
                 return false;
             }
 
-            bool hasPedestrianOrBike = false;
+            bool hasBicycle = false;
             DynamicBuffer<NetGeometrySection> sections =
                 EntityManager.GetBuffer<NetGeometrySection>(prefabEntity);
             for (int i = 0; i < sections.Length; i++)
             {
                 if (HasVehicleLaneInSection(
-                    sections[i].m_Section, ref hasPedestrianOrBike, 0))
+                    sections[i].m_Section, ref hasBicycle, 0))
                 {
                     return false;
                 }
             }
 
-            return hasPedestrianOrBike;
+            return hasBicycle;
         }
 
         private bool HasVehicleLaneInSection(
-            Entity sectionEntity, ref bool hasPedestrianOrBike, int depth)
+            Entity sectionEntity, ref bool hasBicycle, int depth)
         {
             // Fail closed if a third-party asset contains unexpected recursion.
             if (depth > 8 || sectionEntity == Entity.Null)
@@ -200,12 +201,8 @@ namespace RoadRailSpeeds.Systems
 
                             if ((types & RoadTypes.Bicycle) != RoadTypes.None)
                             {
-                                hasPedestrianOrBike = true;
+                                hasBicycle = true;
                             }
-                        }
-                        else if (EntityManager.HasComponent<PedestrianLaneData>(lanePrefab))
-                        {
-                            hasPedestrianOrBike = true;
                         }
                     }
                 }
@@ -218,7 +215,7 @@ namespace RoadRailSpeeds.Systems
                 for (int i = 0; i < sections.Length; i++)
                 {
                     if (HasVehicleLaneInSection(
-                        sections[i].m_SubSection, ref hasPedestrianOrBike, depth + 1))
+                        sections[i].m_SubSection, ref hasBicycle, depth + 1))
                     {
                         return true;
                     }

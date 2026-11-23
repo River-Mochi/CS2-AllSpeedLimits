@@ -29,6 +29,8 @@ namespace RoadRailSpeeds.Systems
             int mismatchedCompositions = 0;
             int edges = 0;
             int excludedPathEdges = 0;
+            int excludedPedestrianOnlyEdges = 0;
+            int excludedUnknownEdges = 0;
             int excludedCarLanes = 0;
             int customEdges = 0;
             int cars = 0;
@@ -44,7 +46,7 @@ namespace RoadRailSpeeds.Systems
             float multiplier = currentPercent / 100f;
             const float toleranceMs = 0.001f;
             LogUtils.Info(() =>
-                $"{Mod.ModTag} Path speed report BEGIN percent={currentPercent} busy={IsApplying} " +
+                $"{Mod.ModTag} Bike path speed report BEGIN percent={currentPercent} busy={IsApplying} " +
                 "expectedPathwayMs=vanillaPrefabKmh/3.6*percent/100; CarLane m/s, ASL labels use x1.8.");
 
             foreach ((RefRO<PathwayData> data, Entity entity) in
@@ -73,8 +75,11 @@ namespace RoadRailSpeeds.Systems
                     float current = actualMs * 3.6f;
                     float expected = expectedMs * 3.6f;
                     float vanilla = vanillaMs * 3.6f;
+                    string prefabName = m_PrefabSystem.TryGetPrefab(entity, out PrefabBase pathPrefab)
+                        ? pathPrefab.name : "Unknown";
                     LogUtils.Info(() =>
-                        $"{Mod.ModTag} Path prefab sample: {entity.Index}:{entity.Version} " +
+                        $"{Mod.ModTag} Bike path prefab sample: name={prefabName} " +
+                        $"entity={entity.Index}:{entity.Version} " +
                         $"vanillaKmh={vanilla:0.##} expectedKmh={expected:0.##} actualKmh={current:0.##} " +
                         $"ratioPercent={actualMs / vanillaMs * 100f:0.#}.");
                     samples++;
@@ -119,13 +124,17 @@ namespace RoadRailSpeeds.Systems
 
                 if (!TryGetBaseSpeed(reference.ValueRO.m_Prefab, out _))
                 {
-                    // These pathways have vehicle lanes (or unknown geometry),
-                    // so the global pedestrian/bicycle multiplier must not touch them.
+                    // Exclude vehicle roads and pedestrian-only paths from global
+                    // bike scaling, preserving their original lane speeds.
                     excludedPathEdges++;
+                    bool containsCarLane = false;
+                    bool containsPedestrianLane = false;
                     for (int i = 0; i < lanes.Length; i++)
                     {
-                        if (carLanes.TryGetComponent(lanes[i].m_SubLane, out Game.Net.CarLane excluded))
+                        Entity excludedLane = lanes[i].m_SubLane;
+                        if (carLanes.TryGetComponent(excludedLane, out Game.Net.CarLane excluded))
                         {
+                            containsCarLane = true;
                             if (excludedCarLanes == 0)
                             {
                                 float preservedKmh = excluded.m_SpeedLimit * 1.8f;
@@ -136,6 +145,15 @@ namespace RoadRailSpeeds.Systems
                             }
                             excludedCarLanes++;
                         }
+                        else if (pedLanes.HasComponent(excludedLane))
+                        {
+                            containsPedestrianLane = true;
+                        }
+                    }
+                    if (!containsCarLane)
+                    {
+                        if (containsPedestrianLane) excludedPedestrianOnlyEdges++;
+                        else excludedUnknownEdges++;
                     }
                     continue;
                 }
@@ -229,16 +247,18 @@ namespace RoadRailSpeeds.Systems
             }
 
             LogUtils.Info(() =>
-                $"{Mod.ModTag} Path speed report END prefabs={prefabs} prefabMatches={matchingPrefabs} " +
+                $"{Mod.ModTag} Bike path speed report END prefabs={prefabs} prefabMatches={matchingPrefabs} " +
                 $"prefabMismatches={mismatchedPrefabs} compositions={compositions} " +
                 $"compositionMatches={matchingCompositions} compositionMismatches={mismatchedCompositions} " +
-                $"pathEdges={edges} excludedPathEdges={excludedPathEdges} " +
+                $"bikePathEdges={edges} excludedPathEdges={excludedPathEdges} " +
+                $"excludedPedestrianOnlyEdges={excludedPedestrianOnlyEdges} " +
+                $"excludedUnknownEdges={excludedUnknownEdges} " +
                 $"excludedVehicleLanesPreserved={excludedCarLanes} " +
                 $"customEdges={customEdges} bikeCapableLanes={cars} " +
                 $"nonCustomLaneMatches={matchingCarLanes} nonCustomLaneMismatches={mismatchedCarLanes} " +
                 $"mismatchVehicleLanes={mismatchedVehicleLanes} mismatchBicycleLanes={mismatchedBicycleLanes} " +
                 $"mismatchOtherLanes={mismatchedOtherLanes} " +
-                $"pedestrianOnlyLanes={pedestrian} samples={samples} mismatchSamples={mismatchSamples}.");
+                $"pedestrianLanesOnBikePaths={pedestrian} samples={samples} mismatchSamples={mismatchSamples}.");
         }
     }
 }
