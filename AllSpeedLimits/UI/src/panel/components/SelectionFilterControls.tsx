@@ -1,7 +1,7 @@
 // File: UI/src/panel/components/SelectionFilterControls.tsx
 // Purpose: Compact toggles limiting which net types the tool can select (roads / rails / water).
 
-import { Button } from "cs2/ui";
+import { Button, Tooltip } from "cs2/ui";
 import { useState } from "react";
 import type { PanelTooltipKind } from "../types";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
@@ -36,9 +36,10 @@ type FilterChipProps = {
   onToggle: () => void;
   showTip: (kind: PanelTooltipKind) => void;
   hideTip: () => void;
+  nativeTooltip?: string;
 };
 
-const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip }: FilterChipProps) => {
+const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip }: FilterChipProps) => {
   const [hovered, setHovered] = useState(false);
   // Use the game's resolved button here. A direct import registers controller focus twice and
   // floods the log with duplicate-focus errors.
@@ -54,14 +55,13 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
     ? "contrast(1.2) saturate(1.3) brightness(1.12)"
     : "contrast(1.2) saturate(1.3)";
 
-  return (
+  const chip = (
     <Button
       as="button"
       focusKey={focusDisabled}
       theme={{ button: "" }}
       aria-pressed={active}
       aria-label={text}
-      title={text}
       onMouseEnter={() => { setHovered(true); showTip(tipKind); }}
       onMouseLeave={() => { setHovered(false); hideTip(); }}
       onSelect={onToggle}
@@ -123,6 +123,10 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
       )}
     </Button>
   );
+  // Use a native CS2 tooltip only in the initial hint panel.
+  return nativeTooltip
+    ? <Tooltip tooltip={nativeTooltip} direction="up">{chip}</Tooltip>
+    : chip;
 };
 
 type SelectionFilterControlsProps = {
@@ -134,6 +138,13 @@ type SelectionFilterControlsProps = {
   waterLabel: string;
   showTip: (kind: PanelTooltipKind) => void;
   hideTip: () => void;
+  nativeTooltips?: {
+    roads: string;
+    rails: string;
+    water: string;
+    paths: string;
+    invisible: string;
+  };
 };
 
 export const SelectionFilterControls = (props: SelectionFilterControlsProps) => {
@@ -145,7 +156,8 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
     railsLabel,
     waterLabel,
     showTip,
-    hideTip
+    hideTip,
+    nativeTooltips
   } = props;
 
   const paths = useSafeBinding(SELECT_PATHS, true);
@@ -188,6 +200,7 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             text={roadsLabel}
             tipKind="filterRoads"
             iconSrc={roadIcon}
+            nativeTooltip={nativeTooltips?.roads}
             onToggle={toggle(roads, [paths, rails, water], SetSelectRoads)}
             showTip={showTip}
             hideTip={hideTip}
@@ -198,16 +211,8 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             text={railsLabel}
             tipKind="filterRails"
             iconSrc={railIcon}
+            nativeTooltip={nativeTooltips?.rails}
             onToggle={toggle(rails, [roads, paths, water], SetSelectRails)}
-            showTip={showTip}
-            hideTip={hideTip}
-          />
-          <FilterChip
-            active={paths}
-            text={pathsLabel}
-            tipKind="filterPaths"
-            iconSrc={pathIcon}
-            onToggle={toggle(paths, [roads, rails, water], SetSelectPaths)}
             showTip={showTip}
             hideTip={hideTip}
           />
@@ -216,16 +221,34 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
             text={waterLabel}
             tipKind="filterWater"
             iconSrc={waterIcon}
+            nativeTooltip={nativeTooltips?.water}
             onToggle={toggle(water, [roads, paths, rails], SetSelectWater)}
             showTip={showTip}
             hideTip={hideTip}
           />
-          <div style={{ marginLeft: "6rem", borderLeft: "1rem solid rgba(255,255,255,0.16)", paddingLeft: "3rem" }}>
+          <FilterChip
+            active={paths}
+            text={pathsLabel}
+            tipKind="filterPaths"
+            iconSrc={pathIcon}
+            nativeTooltip={nativeTooltips?.paths}
+            onToggle={toggle(paths, [roads, rails, water], SetSelectPaths)}
+            showTip={showTip}
+            hideTip={hideTip}
+          />
+          <div style={{
+            marginLeft: "9rem",
+            borderLeftWidth: "1rem",
+            borderLeftStyle: "solid",
+            borderLeftColor: "rgba(255,255,255,0.22)",
+            paddingLeft: "9rem"
+          }}>
             <FilterChip
               active={invisible}
               text={invisibleLabel}
               tipKind="showInvisible"
               iconSrc={invisibleIcon}
+              nativeTooltip={nativeTooltips?.invisible}
               onToggle={() => SetShowInvisible(!invisible)}
               showTip={showTip}
               hideTip={hideTip}

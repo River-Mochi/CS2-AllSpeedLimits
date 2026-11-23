@@ -144,6 +144,15 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "filterWater") {
             maxWidth = "184rem";
             content = renderTooltipBlock(text.panel.filterWater, [text.tooltips.filterWater]);
+        } else if (panelTooltip === "pathSlider") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.allPaths.sliderTooltip]);
+        } else if (panelTooltip === "pathApply") {
+            maxWidth = "215rem";
+            content = renderTooltipBlock("", [text.panel.allPaths.applyTooltip]);
+        } else if (panelTooltip === "pathReset") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.allPaths.resetTooltip]);
         } else if (panelTooltip === "apply") {
             maxWidth = "190rem";
             content = renderTooltipBlock(text.buttons.apply, [text.tooltips.apply]);

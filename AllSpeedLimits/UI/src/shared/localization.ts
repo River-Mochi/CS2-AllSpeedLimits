@@ -35,7 +35,8 @@ const buildText = (lookup: TextLookup) => ({
         hint: {
             title: text(lookup, "hint.title"),
             instruction: text(lookup, "hint.instruction"),
-            pathsTooltip: text(lookup, "hint.pathsTooltip")
+            pathsTooltip: text(lookup, "hint.pathsTooltip"),
+            invisibleTooltip: text(lookup, "hint.invisibleTooltip")
         },
         panel: {
             title: text(lookup, "panel.title"),
@@ -61,7 +62,8 @@ const buildText = (lookup: TextLookup) => ({
                 reset: text(lookup, "paths.reset"),
                 working: text(lookup, "paths.working"),
                 sliderTooltip: text(lookup, "paths.sliderTooltip"),
-                resetTooltip: text(lookup, "paths.resetTooltip")
+                resetTooltip: text(lookup, "paths.resetTooltip"),
+                applyTooltip: text(lookup, "paths.applyTooltip")
             },
             selectFilter: text(lookup, "panel.selectFilter"),
             filterPaths: text(lookup, "panel.filterPaths"),

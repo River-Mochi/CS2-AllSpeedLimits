@@ -129,7 +129,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                                 paddingBottom: "2rem",
                                 paddingLeft: "8rem",
                                 paddingRight: "8rem",
-                                marginRight: "2rem",
+                                marginRight: view === "limits" ? "8rem" : "0",
                                 maxWidth: "135rem",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
@@ -200,8 +200,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             height: isMarkersHovered ? "15rem" : "13.5rem",
                             filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
                             opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 1 : 0.58),
-                            // Center the asterisk within the small title-bar ring.
-                            transform: "translate(0.6rem, -0.4rem)",
+                            // Nudge left to center the asterisk in the ring.
+                            transform: "translate(-0.5rem, -0.4rem)",
                             pointerEvents: "none"
                         }}
                     />

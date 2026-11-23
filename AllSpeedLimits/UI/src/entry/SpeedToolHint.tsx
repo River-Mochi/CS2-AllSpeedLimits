@@ -2,6 +2,7 @@
 // Purpose: First-use hint panel shown before a road/rail segment is selected.
 
 import { SelectionFilterControls } from "../panel/components/SelectionFilterControls";
+import { Tooltip } from "cs2/ui";
 import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
@@ -52,7 +53,7 @@ export const SpeedToolHint = () => {
                 position: "absolute",
                 left: `${position.x}px`,
                 top: `${position.y}px`,
-                width: "350rem",
+                width: "365rem",
                 pointerEvents: "auto"
             }}>
             <Panel
@@ -133,11 +134,18 @@ export const SpeedToolHint = () => {
                             waterLabel={TEXT.panel.filterWater}
                             showTip={() => {}}
                             hideTip={() => {}}
+                            nativeTooltips={{
+                                roads: TEXT.tooltips.filterRoads,
+                                rails: TEXT.tooltips.filterRails,
+                                water: TEXT.tooltips.filterWater,
+                                paths: TEXT.tooltips.filterPaths,
+                                invisible: TEXT.hint.invisibleTooltip
+                            }}
                         />
+                        <Tooltip tooltip={TEXT.hint.pathsTooltip} direction="up">
                         <button
                             onMouseDown={event => event.stopPropagation()}
                             onClick={OpenAllPaths}
-                            title={TEXT.hint.pathsTooltip}
                             style={{
                                 marginLeft: "8rem", paddingLeft: "6rem", paddingRight: "6rem",
                                 width: "75rem", minWidth: "75rem", maxWidth: "75rem",
@@ -151,6 +159,7 @@ export const SpeedToolHint = () => {
                         >
                             {TEXT.panel.allPathsTab}
                         </button>
+                        </Tooltip>
                     </div>
                 </div>
             </Panel>

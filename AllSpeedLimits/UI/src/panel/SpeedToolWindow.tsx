@@ -188,6 +188,14 @@ export const SpeedToolWindow = () => {
     const [isExpandAllHovered, setIsExpandAllHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
+    // A filter can unmount while hovered when switching tabs. Always drop
+    // that tooltip rather than leaving a stale Water/Bike tooltip onscreen.
+    useEffect(() => {
+        setPanelTooltip(null);
+        setIsGuideHovered(false);
+        setIsMarkersHovered(false);
+        setIsHelpHovered(false);
+    }, [activeView, toolActive, panelTooltipsEnabled]);
     // Default OPEN on first install so the "First segment selected" summary is discoverable. These
     // states are persisted through hidden ModSetting values, not COHTML/browser localStorage.
     const [selectionInfoExpanded, setSelectionInfoExpanded] = useState(savedSelectionInfoExpanded);
@@ -789,6 +797,7 @@ export const SpeedToolWindow = () => {
                             allPathsTab={TEXT.panel.allPathsTab}
                             activeView={activeView}
                             onViewChange={nextView => {
+                                hidePanelTooltip();
                                 setActiveView(nextView);
                                 // The All Paths view remains available even if selection is cleared.
                                 if (nextView === "paths") {
@@ -1140,6 +1149,8 @@ export const SpeedToolWindow = () => {
                                 total={globalPathTotal}
                                 focusKey={FOCUS_DISABLED}
                                 text={TEXT.panel.allPaths}
+                                onShowTip={showPanelTooltip}
+                                onHideTip={hidePanelTooltip}
                                 onChange={setPendingPathPercent}
                                 onApply={() => ApplyGlobalPathPercent(pendingPathPercent)}
                                 onReset={() => {
