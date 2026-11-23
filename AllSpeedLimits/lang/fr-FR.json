@@ -50,7 +50,7 @@
   "help.unitTitle": "Unités :",
   "hint.instruction": "Cliquez ou glissez pour sélectionner. Les pointillés montrent les voies et chemins invisibles.",
   "hint.pathsTooltip": "Vitesse globale des chemins",
-  "hint.bikeTooltip": "Sélectionner les pistes cyclables et les chemins partagés avec voies cyclables.",
+  "hint.bikeTooltip": "Choisir les pistes cyclables ; mêmes réglages de vitesse que les routes.",
   "hint.invisibleTooltip": "Afficher ou masquer les voies et chemins invisibles.",
   "hint.title": "Route • Rail • Eau",
   "panel.allPathsTab": "Chemins",

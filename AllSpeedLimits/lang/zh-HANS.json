@@ -50,7 +50,7 @@
   "help.unitTitle": "单位：",
   "hint.instruction": "点击或拖动来选择路段。用虚线显示隐藏的道路和路径。",
   "hint.pathsTooltip": "全城路径速度",
-  "hint.bikeTooltip": "选择自行车道及设有自行车车道的共用路径。",
+  "hint.bikeTooltip": "选择自行车道；限速操作与道路相同。",
   "hint.invisibleTooltip": "显示或隐藏不可见道路和路径。",
   "hint.title": "道路 • 轨道 • 水路",
   "panel.allPathsTab": "路径",

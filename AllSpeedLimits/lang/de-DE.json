@@ -50,7 +50,7 @@
   "help.unitTitle": "Einheiten:",
   "hint.instruction": "Klicken oder ziehen zum Auswählen. Gestrichelte Linien zeigen unsichtbare Straßen und Wege.",
   "hint.pathsTooltip": "Globales Wegtempo",
-  "hint.bikeTooltip": "Radwege und gemeinsame Wege mit Radspuren auswählen.",
+  "hint.bikeTooltip": "Radwege wählen; gleiche Temporegelung wie bei Straßen.",
   "hint.invisibleTooltip": "Unsichtbare Straßen und Wege ein-/ausblenden.",
   "hint.title": "Straße • Schiene • Wasser Tempo",
   "panel.allPathsTab": "Wege",

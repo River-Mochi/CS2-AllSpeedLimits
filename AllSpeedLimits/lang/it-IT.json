@@ -50,7 +50,7 @@
   "help.unitTitle": "Unità:",
   "hint.instruction": "Clicca o trascina per selezionare. Le linee tratteggiate mostrano strade e percorsi invisibili.",
   "hint.pathsTooltip": "Velocità globale percorsi",
-  "hint.bikeTooltip": "Seleziona piste ciclabili e percorsi condivisi con corsie per biciclette.",
+  "hint.bikeTooltip": "Seleziona piste ciclabili; stessi comandi di velocità delle strade.",
   "hint.invisibleTooltip": "Mostra o nascondi strade e percorsi invisibili.",
   "hint.title": "Strada • Rotaia • Acqua",
   "panel.allPathsTab": "Percorsi",

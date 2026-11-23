@@ -50,7 +50,7 @@
   "help.unitTitle": "Đơn vị:",
   "hint.instruction": "Nhấp hoặc kéo để chọn. Dùng đường nét đứt để hiện đường và lối đi ẩn.",
   "hint.pathsTooltip": "Tốc độ lối đi toàn thành phố",
-  "hint.bikeTooltip": "Chọn đường xe đạp và lối đi chung có làn xe đạp.",
+  "hint.bikeTooltip": "Chọn đường xe đạp; chỉnh tốc độ giống đường bộ.",
   "hint.invisibleTooltip": "Hiện hoặc ẩn đường và lối đi vô hình.",
   "hint.title": "Đường • Ray • Nước",
   "panel.allPathsTab": "Lối đi",
