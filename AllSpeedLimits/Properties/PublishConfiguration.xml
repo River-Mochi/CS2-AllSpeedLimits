@@ -30,6 +30,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Remove old "Road Speed Adjuster" (RSA) mod before installing this mod. Old one is no longer maintained (retired).
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
 * Pure pedestrian paths use the global Paths setting; they cannot be changed per segment. This does not change citizens' walking speed.
+* Hidden car/vehicle roads are excluded from the global Paths slider; supported segments can still be edited individually.
 * Paths tab **Reset** restores the global multiplier to 100%. Speed Limits **Paths Reset** clears individual custom path speeds.
 * The global Paths feature also changes bike paths; avoid using its slider alongside the global path-speed slider in Bikes & Paths.
 * Vehicles are still limited by their max speeds (different for each type).

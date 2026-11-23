@@ -21,6 +21,7 @@ Fine-tune speed limits in Cities: Skylines II.
 - The eye shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
 - **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pure pedestrian paths are global-only.
 - Global **Paths** changes shared pathway limits, including bicycle and mixed paths; it does not change pedestrian walking speed.
+- Hidden vehicle-only roads are **not** affected by the global Paths slider; edit supported ones individually under Speed Limits.
 - **Speed Limits → Paths Reset** clears individually customized bike/mixed path speeds. **Paths → Reset** restores the global multiplier to 100%.
 - **Bikes & Paths** also modifies global pathway limits. Avoid applying both global pathway sliders at the same time.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.

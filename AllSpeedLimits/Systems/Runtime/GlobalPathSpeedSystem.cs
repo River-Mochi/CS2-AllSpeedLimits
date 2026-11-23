@@ -14,6 +14,7 @@
 // CarLane components. Individual ASL CustomSpeed edges always take precedence.
 namespace RoadRailSpeeds.Systems
 {
+    using System.Collections.Generic;
     using Colossal.Serialization.Entities;
     using CS2Shared.RiverMochi;
     using Game;
@@ -125,8 +126,106 @@ namespace RoadRailSpeeds.Systems
                 return false;
             }
 
+            // Some invisible *vehicle* roads are also PathwayPrefabs, but
+            // their car lanes deliberately use speeds unlike PathwayData.
+            // Never treat those as global pedestrian/bicycle paths.
+            if (!IsPedestrianOrBicyclePathway(prefabEntity))
+            {
+                return false;
+            }
+
             vanillaSpeedMs = pathPrefab.m_SpeedLimit / 3.6f;
             return vanillaSpeedMs > 0f;
+        }
+
+        // Classify prefab lane geometry, not its name or visibility.
+        // Mixed pedestrian/bike paths are allowed; any Car-capable lane
+        // excludes the entire prefab, including its composition data.
+        private bool IsPedestrianOrBicyclePathway(Entity prefabEntity)
+        {
+            if (!EntityManager.HasBuffer<NetGeometrySection>(prefabEntity))
+            {
+                return false;
+            }
+
+            bool hasPedestrianOrBike = false;
+            DynamicBuffer<NetGeometrySection> sections =
+                EntityManager.GetBuffer<NetGeometrySection>(prefabEntity);
+            for (int i = 0; i < sections.Length; i++)
+            {
+                if (HasVehicleLaneInSection(
+                    sections[i].m_Section, ref hasPedestrianOrBike, 0))
+                {
+                    return false;
+                }
+            }
+
+            return hasPedestrianOrBike;
+        }
+
+        private bool HasVehicleLaneInSection(
+            Entity sectionEntity, ref bool hasPedestrianOrBike, int depth)
+        {
+            // Fail closed if a third-party asset contains unexpected recursion.
+            if (depth > 8 || sectionEntity == Entity.Null)
+            {
+                return true;
+            }
+
+            if (EntityManager.HasBuffer<NetSectionPiece>(sectionEntity))
+            {
+                DynamicBuffer<NetSectionPiece> pieces =
+                    EntityManager.GetBuffer<NetSectionPiece>(sectionEntity);
+                for (int i = 0; i < pieces.Length; i++)
+                {
+                    Entity pieceEntity = pieces[i].m_Piece;
+                    if (!EntityManager.HasBuffer<NetPieceLane>(pieceEntity))
+                    {
+                        continue;
+                    }
+
+                    DynamicBuffer<NetPieceLane> lanes =
+                        EntityManager.GetBuffer<NetPieceLane>(pieceEntity);
+                    for (int j = 0; j < lanes.Length; j++)
+                    {
+                        Entity lanePrefab = lanes[j].m_Lane;
+                        if (EntityManager.HasComponent<CarLaneData>(lanePrefab))
+                        {
+                            RoadTypes types =
+                                EntityManager.GetComponentData<CarLaneData>(lanePrefab).m_RoadTypes;
+                            if ((types & RoadTypes.Car) != RoadTypes.None)
+                            {
+                                return true;
+                            }
+
+                            if ((types & RoadTypes.Bicycle) != RoadTypes.None)
+                            {
+                                hasPedestrianOrBike = true;
+                            }
+                        }
+                        else if (EntityManager.HasComponent<PedestrianLaneData>(lanePrefab))
+                        {
+                            hasPedestrianOrBike = true;
+                        }
+                    }
+                }
+            }
+
+            if (EntityManager.HasBuffer<NetSubSection>(sectionEntity))
+            {
+                DynamicBuffer<NetSubSection> sections =
+                    EntityManager.GetBuffer<NetSubSection>(sectionEntity);
+                for (int i = 0; i < sections.Length; i++)
+                {
+                    if (HasVehicleLaneInSection(
+                        sections[i].m_SubSection, ref hasPedestrianOrBike, depth + 1))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void ApplyPrefabSpeeds(float multiplier)
@@ -170,6 +269,7 @@ namespace RoadRailSpeeds.Systems
             ComponentLookup<PathwayData> pathways =
                 SystemAPI.GetComponentLookup<PathwayData>(true);
             using NativeList<Entity> edges = new NativeList<Entity>(Allocator.Temp);
+            Dictionary<Entity, bool> eligiblePrefabs = new Dictionary<Entity, bool>();
 
             foreach ((RefRO<PrefabRef> prefab, DynamicBuffer<Game.Net.SubLane> lanes, Entity edge) in
                 SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<Game.Net.SubLane>>()
@@ -177,7 +277,19 @@ namespace RoadRailSpeeds.Systems
                     .WithNone<Road, Deleted, Temp>().WithNone<Overridden>()
                     .WithEntityAccess())
             {
-                if (lanes.Length > 0 && pathways.HasComponent(prefab.ValueRO.m_Prefab))
+                Entity prefabEntity = prefab.ValueRO.m_Prefab;
+                if (lanes.Length == 0 || !pathways.HasComponent(prefabEntity))
+                {
+                    continue;
+                }
+
+                if (!eligiblePrefabs.TryGetValue(prefabEntity, out bool eligible))
+                {
+                    eligible = TryGetBaseSpeed(prefabEntity, out _);
+                    eligiblePrefabs.Add(prefabEntity, eligible);
+                }
+
+                if (eligible)
                 {
                     edges.Add(edge);
                 }

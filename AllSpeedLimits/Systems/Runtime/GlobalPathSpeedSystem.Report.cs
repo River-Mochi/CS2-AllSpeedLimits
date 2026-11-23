@@ -28,6 +28,8 @@ namespace RoadRailSpeeds.Systems
             int matchingCompositions = 0;
             int mismatchedCompositions = 0;
             int edges = 0;
+            int excludedPathEdges = 0;
+            int excludedCarLanes = 0;
             int customEdges = 0;
             int cars = 0;
             int matchingCarLanes = 0;
@@ -112,6 +114,29 @@ namespace RoadRailSpeeds.Systems
             {
                 if (!pathData.HasComponent(reference.ValueRO.m_Prefab))
                 {
+                    continue;
+                }
+
+                if (!TryGetBaseSpeed(reference.ValueRO.m_Prefab, out _))
+                {
+                    // These pathways have vehicle lanes (or unknown geometry),
+                    // so the global pedestrian/bicycle multiplier must not touch them.
+                    excludedPathEdges++;
+                    for (int i = 0; i < lanes.Length; i++)
+                    {
+                        if (carLanes.TryGetComponent(lanes[i].m_SubLane, out Game.Net.CarLane excluded))
+                        {
+                            if (excludedCarLanes == 0)
+                            {
+                                float preservedKmh = excluded.m_SpeedLimit * 1.8f;
+                                LogUtils.Info(() =>
+                                    $"{Mod.ModTag} Excluded vehicle pathway sample: " +
+                                    $"edge={edge.Index}:{edge.Version} " +
+                                    $"preservedLaneASLkmh={preservedKmh:0.##}.");
+                            }
+                            excludedCarLanes++;
+                        }
+                    }
                     continue;
                 }
 
@@ -207,7 +232,9 @@ namespace RoadRailSpeeds.Systems
                 $"{Mod.ModTag} Path speed report END prefabs={prefabs} prefabMatches={matchingPrefabs} " +
                 $"prefabMismatches={mismatchedPrefabs} compositions={compositions} " +
                 $"compositionMatches={matchingCompositions} compositionMismatches={mismatchedCompositions} " +
-                $"pathEdges={edges} customEdges={customEdges} bikeCapableLanes={cars} " +
+                $"pathEdges={edges} excludedPathEdges={excludedPathEdges} " +
+                $"excludedVehicleLanesPreserved={excludedCarLanes} " +
+                $"customEdges={customEdges} bikeCapableLanes={cars} " +
                 $"nonCustomLaneMatches={matchingCarLanes} nonCustomLaneMismatches={mismatchedCarLanes} " +
                 $"mismatchVehicleLanes={mismatchedVehicleLanes} mismatchBicycleLanes={mismatchedBicycleLanes} " +
                 $"mismatchOtherLanes={mismatchedOtherLanes} " +
