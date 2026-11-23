@@ -6,11 +6,12 @@
 <!--Name of the mod to display to players-->
 <DisplayName Value="Adjust All Speed Limits" />
 <!--Short description of the mod-->
-<ShortDescription Value="Adjust road, rail, water, bike path and invisible network speed limits." />
+<ShortDescription Value="Adjust road, rail, water, Invisible network speed limits, and bike or pedestrian paths." />
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
 ## Adjust All Speed Limits
+...and paths and invisible roads now too 😄
 
 Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
 
@@ -21,13 +22,13 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Works on:
 * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**
 * 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
-* 👁 **New: Invisible networks** — show vanilla dashed markers and edit supported hidden roads and bike paths. Optional hotkey works even with the panel closed.
-* **New Paths tab:** global pathway speed limits, 30–500% (100% = vanilla). Works on visible/invisible pedestrian and bike paths. Individual bike-path edits take priority.
-* Stats are light: only runs when the panel is open, better data than Info view.
+* 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
+* **New Paths tab:** global pathway speed limits, 30–500% (100% = vanilla). Changes all city visible/invisible pedestrian and bike paths. Additionally, single segment bike-path edits take priority.
+* Stats are light: only runs when the panel is open, better data than the game's info panel.
 
 ## Important
 
-* Remove old "Road Speed Adjuster" (RSA) mod before installing this mod. Old one is no longer maintained (retired).
+* Remove old "Road Speed Adjuster" (RSA) mod before installing this. Old one is no longer maintained (modder retired).
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
 * Pure pedestrian paths use the global Paths setting; they cannot be changed per segment. This does not change citizens' walking speed.
 * Hidden car/vehicle roads are excluded from the global Paths slider; supported segments can still be edited individually.
@@ -56,7 +57,12 @@ Huge appreciation hugs and waves to everyone
 * Thumbnail photo: Toronto, Canada by [Alex Smith](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
 * History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
 
-tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry.
+
+Languages
+
+English, Français, Deutsch, Español, Italiano, Polski, Português (Brasil), Português (Portugal), Türkçe, ไทย Thai, Tiếng Việt, 日本語, 한국어, 简体中文, 繁體中文.
+
+tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invisible roads, invisible paths
 </LongDescription>
 <!--Thumbnail-->
 <Thumbnail Value="Properties/thumbnail-asmithphoto01.jpg" />
