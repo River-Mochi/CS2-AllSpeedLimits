@@ -8,7 +8,8 @@ Fine-tune speed limits in Cities: Skylines II.
 - Change speeds on roads, bike-capable paths, tram/train/subway tracks, and waterways.
 - Adjust individual segments with a slider, number box, or preset signs.
 - Switch to **Paths** in the same panel for global pathway speeds (100% = vanilla).
-- New and existing bicycle-capable paths are updated in batches. Individual ASL speed limits take priority.
+- Set global pathway limits from **30% to 500%** (100% = vanilla), with Apply and Reset.
+- Global updates handle existing and new paths; custom bicycle-path segments still take priority.
 - Reveal the game's **blue/green dashed invisible networks** with the eye icon.
 - Edit supported invisible roads and bike-capable paths; also works on supported building-internal networks.
 - Assign an optional **Dashed Eye hotkey** under Options → Actions → Keybinds. It works even with the ASL panel closed.
@@ -18,8 +19,9 @@ Fine-tune speed limits in Cities: Skylines II.
 ## Important
 
 - The eye shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
-- Bicycle and mixed bicycle/pedestrian paths with speed-editable lanes can be changed per segment. Pure pedestrian paths are not currently selectable.
-- Global **Paths** changes pathway limits, including bicycle and mixed paths; it does not change walking speed.
+- **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pure pedestrian paths are global-only.
+- Global **Paths** changes shared pathway limits, including bicycle and mixed paths; it does not change pedestrian walking speed.
+- **Speed Limits → Paths Reset** clears individually customized bike/mixed path speeds. **Paths → Reset** restores the global multiplier to 100%.
 - **Bikes & Paths** also modifies global pathway limits. Avoid applying both global pathway sliders at the same time.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
 - ASL edits speed limits, not building layouts or vehicle top speeds. Vehicles still obey their maximum speeds.

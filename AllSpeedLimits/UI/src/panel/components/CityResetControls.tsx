@@ -11,6 +11,7 @@ type CityResetControlsProps = {
     resettingLabel: string;
     resetAllLabel: string;
     resetPathsLabel: string;
+    resetPathsTooltip: string;
     resetRoadsLabel: string;
     resetRailsLabel: string;
     resetWaterLabel: string;
@@ -30,6 +31,7 @@ export const CityResetControls = (props: CityResetControlsProps) => {
         resettingLabel,
         resetAllLabel,
         resetPathsLabel,
+        resetPathsTooltip,
         resetRoadsLabel,
         resetRailsLabel,
         resetWaterLabel,
@@ -52,7 +54,9 @@ export const CityResetControls = (props: CityResetControlsProps) => {
             flex: 1,
             minWidth: "0",
             marginRight: addRightMargin ? "3rem" : "0"
-        }}>
+        }}
+            title={action === "resetPaths" ? resetPathsTooltip : undefined}
+        >
             <Button
                 focusKey={focusKey}
                 selected={cityActionApplying === action}

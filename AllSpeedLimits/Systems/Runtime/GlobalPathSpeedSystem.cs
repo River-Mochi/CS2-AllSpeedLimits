@@ -70,7 +70,7 @@ namespace RoadRailSpeeds.Systems
 
         public void ScheduleApply(int percent)
         {
-            m_PendingPercent = math.clamp(percent, 100, 500);
+            m_PendingPercent = math.clamp(percent, 30, 500);
             DisposeBatch();
             m_Pending = true;
             Enabled = true;

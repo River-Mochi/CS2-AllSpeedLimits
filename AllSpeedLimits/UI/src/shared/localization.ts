@@ -59,7 +59,9 @@ const buildText = (lookup: TextLookup) => ({
                 vanilla: text(lookup, "paths.vanilla"),
                 apply: text(lookup, "paths.apply"),
                 reset: text(lookup, "paths.reset"),
-                working: text(lookup, "paths.working")
+                working: text(lookup, "paths.working"),
+                sliderTooltip: text(lookup, "paths.sliderTooltip"),
+                resetTooltip: text(lookup, "paths.resetTooltip")
             },
             selectFilter: text(lookup, "panel.selectFilter"),
             filterPaths: text(lookup, "panel.filterPaths"),
@@ -115,6 +117,7 @@ const buildText = (lookup: TextLookup) => ({
             currentSpeed: text(lookup, "tooltips.currentSpeed"),
             presets: text(lookup, "tooltips.presets"),
             filterPaths: text(lookup, "tooltips.filterPaths"),
+            resetPathsCity: text(lookup, "tooltips.resetPathsCity"),
             showInvisible: text(lookup, "tooltips.showInvisible"),
             filterRoads: text(lookup, "tooltips.filterRoads"),
             filterRails: text(lookup, "tooltips.filterRails"),

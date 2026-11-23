@@ -19,6 +19,8 @@ type Props = {
         apply: string;
         reset: string;
         working: string;
+        sliderTooltip: string;
+        resetTooltip: string;
     };
     onChange: (percent: number) => void;
     onApply: () => void;
@@ -45,13 +47,15 @@ export const AllPathsSection = ({
             <span>{text.slider}</span>
             <span>{percent}%</span>
         </div>
-        <Slider
-            start={100}
-            end={500}
-            step={25}
-            value={percent}
-            onChange={onChange}
-        />
+        <div title={text.sliderTooltip}>
+            <Slider
+                start={30}
+                end={500}
+                step={10}
+                value={percent}
+                onChange={onChange}
+            />
+        </div>
         <div style={{
             marginTop: "6rem", marginBottom: "12rem",
             fontSize: "11rem", opacity: 0.78
@@ -59,20 +63,21 @@ export const AllPathsSection = ({
             {text.vanilla}
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-                focusKey={focusKey}
-                variant="neutral"
-                disabled={busy || (percent === 100 && savedPercent === 100)}
-                onSelect={onReset}
-                style={{
-                    marginRight: "7rem",
-                    minHeight: "27rem",
-                    paddingLeft: "13rem",
-                    paddingRight: "13rem"
-                }}
-            >
-                {text.reset}
-            </Button>
+            <div title={text.resetTooltip} style={{ marginRight: "7rem" }}>
+                <Button
+                    focusKey={focusKey}
+                    variant="neutral"
+                    disabled={busy || (percent === 100 && savedPercent === 100)}
+                    onSelect={onReset}
+                    style={{
+                        minHeight: "27rem",
+                        paddingLeft: "13rem",
+                        paddingRight: "13rem"
+                    }}
+                >
+                    {text.reset}
+                </Button>
+            </div>
             <Button
                 focusKey={focusKey}
                 disabled={busy || percent === savedPercent}

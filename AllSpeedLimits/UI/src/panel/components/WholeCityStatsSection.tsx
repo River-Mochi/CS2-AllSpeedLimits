@@ -203,6 +203,7 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                             resettingLabel={text.panel.resetting}
                             resetAllLabel={text.buttons.resetAll}
                             resetPathsLabel={text.buttons.resetPaths}
+                            resetPathsTooltip={text.tooltips.resetPathsCity}
                             resetRoadsLabel={text.buttons.resetRoads}
                             resetRailsLabel={text.buttons.resetRails}
                             resetWaterLabel={text.buttons.resetWater}

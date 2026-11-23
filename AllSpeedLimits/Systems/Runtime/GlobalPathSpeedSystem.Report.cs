@@ -32,6 +32,10 @@ namespace RoadRailSpeeds.Systems
             int cars = 0;
             int matchingCarLanes = 0;
             int mismatchedCarLanes = 0;
+            int mismatchedVehicleLanes = 0;
+            int mismatchedBicycleLanes = 0;
+            int mismatchedOtherLanes = 0;
+            int mismatchSamples = 0;
             int pedestrian = 0;
             int samples = 0;
             int currentPercent = Mod.Settings?.GlobalPathSpeedPercent ?? 100;
@@ -99,6 +103,8 @@ namespace RoadRailSpeeds.Systems
             ComponentLookup<PathwayData> pathData = SystemAPI.GetComponentLookup<PathwayData>(true);
             ComponentLookup<Game.Net.CarLane> carLanes = SystemAPI.GetComponentLookup<Game.Net.CarLane>(true);
             ComponentLookup<Game.Net.PedestrianLane> pedLanes = SystemAPI.GetComponentLookup<Game.Net.PedestrianLane>(true);
+            ComponentLookup<PrefabRef> laneReferences = SystemAPI.GetComponentLookup<PrefabRef>(true);
+            ComponentLookup<CarLaneData> lanePrefabData = SystemAPI.GetComponentLookup<CarLaneData>(true);
 
             foreach ((RefRO<PrefabRef> reference, DynamicBuffer<Game.Net.SubLane> lanes, Entity edge) in
                 SystemAPI.Query<RefRO<PrefabRef>, DynamicBuffer<Game.Net.SubLane>>()
@@ -123,8 +129,60 @@ namespace RoadRailSpeeds.Systems
                             System.Math.Abs(lane.m_DefaultSpeedLimit - expectedSpeed) <= toleranceMs;
                         if (!custom)
                         {
-                            if (matches) matchingCarLanes++;
-                            else mismatchedCarLanes++;
+                            if (matches)
+                            {
+                                matchingCarLanes++;
+                            }
+                            else
+                            {
+                                mismatchedCarLanes++;
+
+                                // Diagnose the baseline lane differences before any global
+                                // Apply normalizes them. Distinguish hidden vehicle roads
+                                // from bicycle lanes; never modify components in this report.
+                                RoadTypes roadTypes = RoadTypes.None;
+                                Entity lanePrefabEntity = Entity.Null;
+                                if (laneReferences.TryGetComponent(laneEntity, out PrefabRef laneReference))
+                                {
+                                    lanePrefabEntity = laneReference.m_Prefab;
+                                    if (lanePrefabData.HasComponent(lanePrefabEntity))
+                                    {
+                                        roadTypes = lanePrefabData[lanePrefabEntity].m_RoadTypes;
+                                    }
+                                }
+
+                                if ((roadTypes & RoadTypes.Car) != RoadTypes.None)
+                                {
+                                    mismatchedVehicleLanes++;
+                                }
+                                else if ((roadTypes & RoadTypes.Bicycle) != RoadTypes.None)
+                                {
+                                    mismatchedBicycleLanes++;
+                                }
+                                else
+                                {
+                                    mismatchedOtherLanes++;
+                                }
+
+                                if (mismatchSamples < 12)
+                                {
+                                    string edgeName = m_PrefabSystem.TryGetPrefab(
+                                        reference.ValueRO.m_Prefab, out PrefabBase edgePrefab)
+                                        ? edgePrefab.name : "Unknown";
+                                    string laneName = lanePrefabEntity != Entity.Null &&
+                                        m_PrefabSystem.TryGetPrefab(lanePrefabEntity, out PrefabBase lanePrefab)
+                                        ? lanePrefab.name : "Unknown";
+                                    float aslkMh = lane.m_SpeedLimit * 1.8f;
+                                    float defaultAslKmh = lane.m_DefaultSpeedLimit * 1.8f;
+                                    float expectedAslKmh = expectedSpeed * 1.8f;
+                                    LogUtils.Info(() =>
+                                        $"{Mod.ModTag} Path mismatch sample: edgePrefab={edgeName} " +
+                                        $"lanePrefab={laneName} roadTypes={roadTypes} " +
+                                        $"ASLkmh={aslkMh:0.##} laneDefaultASLkmh={defaultAslKmh:0.##} " +
+                                        $"expectedASLkmh={expectedAslKmh:0.##}.");
+                                    mismatchSamples++;
+                                }
+                            }
                         }
 
                         if (samples < 13)
@@ -151,7 +209,9 @@ namespace RoadRailSpeeds.Systems
                 $"compositionMatches={matchingCompositions} compositionMismatches={mismatchedCompositions} " +
                 $"pathEdges={edges} customEdges={customEdges} bikeCapableLanes={cars} " +
                 $"nonCustomLaneMatches={matchingCarLanes} nonCustomLaneMismatches={mismatchedCarLanes} " +
-                $"pedestrianOnlyLanes={pedestrian} samples={samples}.");
+                $"mismatchVehicleLanes={mismatchedVehicleLanes} mismatchBicycleLanes={mismatchedBicycleLanes} " +
+                $"mismatchOtherLanes={mismatchedOtherLanes} " +
+                $"pedestrianOnlyLanes={pedestrian} samples={samples} mismatchSamples={mismatchSamples}.");
         }
     }
 }
