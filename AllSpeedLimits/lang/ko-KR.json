@@ -50,6 +50,7 @@
   "help.unitTitle": "단위:",
   "hint.instruction": "클릭하거나 드래그하여 선택하세요. 점선으로 숨겨진 도로와 경로를 표시합니다.",
   "hint.pathsTooltip": "전체 경로 속도",
+  "hint.bikeTooltip": "자전거 도로와 자전거 차로가 있는 공용 경로를 선택합니다.",
   "hint.invisibleTooltip": "숨겨진 도로와 경로 표시/숨기기.",
   "hint.title": "도로 • 철도 • 수로",
   "panel.allPathsTab": "경로",

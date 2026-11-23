@@ -50,6 +50,7 @@
   "help.unitTitle": "Unidades:",
   "hint.instruction": "Clique ou arraste para selecionar. Linhas tracejadas mostram vias e caminhos invisíveis.",
   "hint.pathsTooltip": "Velocidade global dos caminhos",
+  "hint.bikeTooltip": "Selecione ciclovias e caminhos compartilhados com faixas para bicicletas.",
   "hint.invisibleTooltip": "Mostrar ou ocultar vias e caminhos invisíveis.",
   "hint.title": "Via • Trilho • Água",
   "panel.allPathsTab": "Caminhos",

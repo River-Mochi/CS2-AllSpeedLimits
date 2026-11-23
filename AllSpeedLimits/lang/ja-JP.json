@@ -50,6 +50,7 @@
   "help.unitTitle": "単位:",
   "hint.instruction": "クリックまたはドラッグで選択。点線で非表示の道路と経路を表示できます。",
   "hint.pathsTooltip": "経路の全体速度",
+  "hint.bikeTooltip": "自転車道と自転車レーンのある共用歩道を選択します。",
   "hint.invisibleTooltip": "非表示の道路と経路を表示・非表示。",
   "hint.title": "道路 • 鉄道 • 水路",
   "panel.allPathsTab": "経路",

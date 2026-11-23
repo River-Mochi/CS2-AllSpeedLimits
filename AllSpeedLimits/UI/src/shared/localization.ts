@@ -36,6 +36,7 @@ const buildText = (lookup: TextLookup) => ({
             title: text(lookup, "hint.title"),
             instruction: text(lookup, "hint.instruction"),
             pathsTooltip: text(lookup, "hint.pathsTooltip"),
+            bikeTooltip: text(lookup, "hint.bikeTooltip"),
             invisibleTooltip: text(lookup, "hint.invisibleTooltip")
         },
         panel: {

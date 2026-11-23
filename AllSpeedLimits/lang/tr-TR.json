@@ -50,6 +50,7 @@
   "help.unitTitle": "Birimler:",
   "hint.instruction": "Seçmek için tıkla veya sürükle. Kesikli çizgiler gizli yolları gösterir.",
   "hint.pathsTooltip": "Şehir genelinde yol hızı",
+  "hint.bikeTooltip": "Bisiklet yollarını ve bisiklet şeritli ortak yolları seçin.",
   "hint.invisibleTooltip": "Gizli yolları ve patikaları göster/gizle.",
   "hint.title": "Yol • Ray • Su",
   "panel.allPathsTab": "Yollar",

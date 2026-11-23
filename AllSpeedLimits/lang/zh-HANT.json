@@ -50,6 +50,7 @@
   "help.unitTitle": "單位：",
   "hint.instruction": "點擊或拖曳選擇路段。用虛線顯示隱藏的道路和路徑。",
   "hint.pathsTooltip": "全城路徑速度",
+  "hint.bikeTooltip": "選取自行車道及設有自行車車道的共用路徑。",
   "hint.invisibleTooltip": "顯示或隱藏不可見道路與路徑。",
   "hint.title": "道路 • 軌道 • 水路",
   "panel.allPathsTab": "路徑",

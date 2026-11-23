@@ -50,6 +50,7 @@
   "help.unitTitle": "Units:",
   "hint.instruction": "Click or drag to select segments. Use the dashed lines to show invisible roads and paths.",
   "hint.pathsTooltip": "Global path speeds",
+  "hint.bikeTooltip": "Select bike paths and shared paths with bike lanes.",
   "hint.invisibleTooltip": "Show or hide invisible roads and paths.",
   "hint.title": "Road • Path • Rail • Water Speeds",
   "panel.allPathsTab": "Paths",

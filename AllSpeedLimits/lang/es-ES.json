@@ -50,6 +50,7 @@
   "help.unitTitle": "Unidades:",
   "hint.instruction": "Haz clic o arrastra para seleccionar. Las líneas discontinuas muestran vías y caminos invisibles.",
   "hint.pathsTooltip": "Velocidad global de caminos",
+  "hint.bikeTooltip": "Seleccionar vías ciclistas y caminos compartidos con carriles para bicicletas.",
   "hint.invisibleTooltip": "Mostrar u ocultar vías y caminos invisibles.",
   "hint.title": "Carretera • Vía • Agua",
   "panel.allPathsTab": "Caminos",

@@ -50,6 +50,7 @@
   "help.unitTitle": "Jednostki:",
   "hint.instruction": "Kliknij lub przeciągnij, by zaznaczyć. Przerywane linie pokazują ukryte drogi i ścieżki.",
   "hint.pathsTooltip": "Prędkość wszystkich ścieżek",
+  "hint.bikeTooltip": "Wybieraj drogi rowerowe i wspólne ścieżki z pasami dla rowerów.",
   "hint.invisibleTooltip": "Pokaż lub ukryj niewidoczne drogi i ścieżki.",
   "hint.title": "Drogi • Tory • Woda",
   "panel.allPathsTab": "Ścieżki",
