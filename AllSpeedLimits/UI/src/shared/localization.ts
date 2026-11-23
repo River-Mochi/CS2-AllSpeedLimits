@@ -54,6 +54,13 @@ const buildText = (lookup: TextLookup) => ({
             stats: text(lookup, "panel.stats"),
             speedLimitsTab: text(lookup, "panel.speedLimitsTab"),
             allPathsTab: text(lookup, "panel.allPathsTab"),
+            pedPaths: {
+                heading: text(lookup, "paths.pedHeading"),
+                description: text(lookup, "paths.pedDescription"),
+                sliderTooltip: text(lookup, "paths.pedSliderTooltip"),
+                resetTooltip: text(lookup, "paths.pedResetTooltip"),
+                applyTooltip: text(lookup, "paths.pedApplyTooltip")
+            },
             allPaths: {
                 heading: text(lookup, "paths.heading"),
                 description: text(lookup, "paths.description"),

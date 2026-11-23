@@ -151,6 +151,15 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "pathReset") {
             maxWidth = "240rem";
             content = renderTooltipBlock("", [text.panel.allPaths.resetTooltip]);
+        } else if (panelTooltip === "pedPathSlider") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.pedPaths.sliderTooltip]);
+        } else if (panelTooltip === "pedPathApply") {
+            maxWidth = "215rem";
+            content = renderTooltipBlock("", [text.panel.pedPaths.applyTooltip]);
+        } else if (panelTooltip === "pedPathReset") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.pedPaths.resetTooltip]);
         } else if (panelTooltip === "apply") {
             maxWidth = "190rem";
             content = renderTooltipBlock(text.buttons.apply, [text.tooltips.apply]);

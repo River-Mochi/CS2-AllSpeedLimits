@@ -15,12 +15,16 @@ export function CloseAllPaths() {
   trigger(MOD_ID, "TRIGGER:CLOSE_ALL_PATHS");
 }
 export const GLOBAL_PATH_PERCENT = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_PERCENT");
+export const GLOBAL_PED_PATH_PERCENT = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PED_PATH_PERCENT");
 export const GLOBAL_PATH_BUSY = bindValue<boolean>(MOD_ID, "BINDING:GLOBAL_PATH_BUSY");
 export const GLOBAL_PATH_PROCESSED = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_PROCESSED");
 export const GLOBAL_PATH_TOTAL = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_TOTAL");
 
 export function ApplyGlobalPathPercent(percent: number) {
   trigger(MOD_ID, "TRIGGER:APPLY_GLOBAL_PATH_PERCENT", Math.round(percent));
+}
+export function ApplyGlobalPedPathPercent(percent: number) {
+  trigger(MOD_ID, "TRIGGER:APPLY_GLOBAL_PED_PATH_PERCENT", Math.round(percent));
 }
 
 

@@ -23,16 +23,16 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**
 * 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
 * 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
-* **New Paths tab:** global bike + mixed bike/pedestrian path speed scale, 30–500% (100% = vanilla). Individual bike-path edits take priority. Does not change walking speed.
+* **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–500% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
 ## Important
 
 * Remove old "Road Speed Adjuster" (RSA) mod before installing this. Old one is no longer maintained (modder retired).
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
-* Pedestrian-only paths are not speed-adjustable; the mod does not change walking speed.
-* Hidden car/vehicle roads are excluded from the global Paths slider; supported segments can still be edited individually.
-* Paths tab **Reset** restores the global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the global scale.
+* Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizens' maximum walking speed.
+* Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
+* Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
 * For global bike-path scaling, avoid using the Paths slider alongside the corresponding global slider in Bikes & Paths.
 * Vehicles are still limited by their max speeds (different for each type).
 * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
@@ -87,7 +87,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <ChangeLog>
 - New: individual speed limits on bike and mixed pedestrian/bike paths.
 - New: edit supported invisible roads and paths; dashed lines button + optional hotkey.
-- New: Paths tab for global bike/mixed path speed limits (30–500%). Individual bike-path edits take priority.
+- New: Paths tab with separate global Bike/mixed and Pedestrian-only limits (30–500%). Individual bike-path edits take priority.
 - Improved UI: speed markers, selection highlights.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->

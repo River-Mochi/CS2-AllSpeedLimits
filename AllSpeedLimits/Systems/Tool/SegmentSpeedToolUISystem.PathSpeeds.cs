@@ -48,8 +48,34 @@ namespace RoadRailSpeeds.Systems
             m_GlobalPathBusyBinding.Value = true;
             m_GlobalPathProcessedBinding.Value = 0;
             m_GlobalPathTotalBinding.Value = 0;
-            m_GlobalPathSpeedSystem.ScheduleApply(nextPercent);
-            LogUtils.Info(() => $"{Mod.ModTag} Global pathway speed requested: {nextPercent}%.");
+            m_GlobalPathSpeedSystem.ScheduleApply(
+                nextPercent, m_Settings.GlobalPedPathSpeedPercent);
+            LogUtils.Info(() => $"{Mod.ModTag} Global bike path speed requested: {nextPercent}%.");
+            RequestUpdate();
+        }
+        private void HandleApplyGlobalPedPathPercent(int percent)
+        {
+            m_Settings ??= Mod.Settings;
+            if (m_Settings == null || m_GlobalPathSpeedSystem.IsApplying)
+            {
+                return;
+            }
+
+            int nextPercent = math.clamp(percent, 30, 500);
+            if (m_Settings.GlobalPedPathSpeedPercent != nextPercent)
+            {
+                m_Settings.GlobalPedPathSpeedPercent = nextPercent;
+                m_Settings.ApplyAndSave();
+            }
+
+            m_GlobalPedPathPercentBinding.Value = nextPercent;
+            m_GlobalPathBusyBinding.Value = true;
+            m_GlobalPathProcessedBinding.Value = 0;
+            m_GlobalPathTotalBinding.Value = 0;
+            m_GlobalPathSpeedSystem.ScheduleApply(
+                m_Settings.GlobalPathSpeedPercent, nextPercent);
+            LogUtils.Info(() =>
+                $"{Mod.ModTag} Global pedestrian-only path speed requested: {nextPercent}%.");
             RequestUpdate();
         }
     }

@@ -92,9 +92,13 @@ namespace RoadRailSpeeds
         [SettingsUIHidden]
         public bool StatsExpanded { get; set; } = true;
 
-        // Stored in Options for persistence; the control lives in the in-city All Paths view.
+        // Stored in Options for persistence. GlobalPathSpeedPercent keeps existing
+        // bike/mixed values from older versions; pedestrian-only is independent.
         [SettingsUIHidden]
         public int GlobalPathSpeedPercent { get; set; } = 100;
+
+        [SettingsUIHidden]
+        public int GlobalPedPathSpeedPercent { get; set; } = 100;
 
         // Unassigned by default so ASL cannot collide with Move It (Ctrl+M).
         [SettingsUISection(kMainTab, kKeybindsGroup)]
@@ -192,6 +196,7 @@ namespace RoadRailSpeeds
             WholeCityExpanded = true;
             StatsExpanded = true;
             GlobalPathSpeedPercent = 100;
+            GlobalPedPathSpeedPercent = 100;
             ShowUsage = false;
         }
 

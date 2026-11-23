@@ -10,8 +10,8 @@
 // Attribution in THIRD_PARTY_NOTICES.md.
 //
 // One-time global pathway speed changes, never a background citywide scan.
-// Covers bicycle-only and mixed bike/pedestrian PathwayPrefab compositions
-// and bicycle-capable lanes. Pedestrian-only paths and vehicle roads are excluded.
+// Bike-only and mixed paths use the bike scale; pedestrian-only paths use the
+// separate pedestrian scale. Vehicle roads are excluded from both.
 // Individual ASL CustomSpeed edges always take precedence.
 namespace RoadRailSpeeds.Systems
 {
@@ -32,10 +32,18 @@ namespace RoadRailSpeeds.Systems
     {
         private const int kEdgesPerUpdate = 4096;
 
+        private enum PathCategory
+        {
+            None,
+            Bike,
+            Pedestrian
+        }
+
         private PrefabSystem m_PrefabSystem = null!;
         private NativeArray<Entity> m_PathEdges;
         private int m_EdgeIndex;
         private int m_PendingPercent = 100;
+        private int m_PendingPedestrianPercent = 100;
         private bool m_Pending;
         private int m_PrefabsChanged;
         private int m_CompositionsChanged;
@@ -63,16 +71,20 @@ namespace RoadRailSpeeds.Systems
         {
             base.OnGameLoadingComplete(purpose, mode);
             DisposeBatch();
-            if (mode == GameMode.Game && Mod.Settings != null &&
-                Mod.Settings.GlobalPathSpeedPercent != 100)
+            if (mode == GameMode.Game && Mod.Settings != null)
             {
-                ScheduleApply(Mod.Settings.GlobalPathSpeedPercent);
+                // Reconcile both categories, including 100%, so an older
+                // combined slider cannot leave pedestrian prefabs scaled.
+                ScheduleApply(
+                    Mod.Settings.GlobalPathSpeedPercent,
+                    Mod.Settings.GlobalPedPathSpeedPercent);
             }
         }
 
-        public void ScheduleApply(int percent)
+        public void ScheduleApply(int bikePercent, int pedestrianPercent)
         {
-            m_PendingPercent = math.clamp(percent, 30, 500);
+            m_PendingPercent = math.clamp(bikePercent, 30, 500);
+            m_PendingPedestrianPercent = math.clamp(pedestrianPercent, 30, 500);
             DisposeBatch();
             m_Pending = true;
             Enabled = true;
@@ -89,7 +101,7 @@ namespace RoadRailSpeeds.Systems
                     m_CompositionsChanged = 0;
                     m_LanesChanged = 0;
                     m_CustomEdgesSkipped = 0;
-                    ApplyPrefabSpeeds(m_PendingPercent / 100f);
+                    ApplyPrefabSpeeds();
                     BeginBatch();
                 }
 
@@ -101,10 +113,9 @@ namespace RoadRailSpeeds.Systems
                 if (!m_Pending && !m_PathEdges.IsCreated)
                 {
                     LogUtils.Info(() =>
-                        $"{Mod.ModTag} Global paths {m_PendingPercent}%: prefabs={m_PrefabsChanged} " +
-                        $"compositions={m_CompositionsChanged} lanes={m_LanesChanged} " +
-                        $"customEdgesPreserved={m_CustomEdgesSkipped}. " +
-                        "Pathway prefab/composition data and applicable bicycle lanes updated.");
+                        $"{Mod.ModTag} Global paths bike={m_PendingPercent}% pedestrian={m_PendingPedestrianPercent}%: " +
+                        $"prefabs={m_PrefabsChanged} compositions={m_CompositionsChanged} " +
+                        $"bikeLanes={m_LanesChanged} customEdgesPreserved={m_CustomEdgesSkipped}.");
                     Enabled = false;
                 }
             }
@@ -120,17 +131,22 @@ namespace RoadRailSpeeds.Systems
 
         private bool TryGetBaseSpeed(Entity prefabEntity, out float vanillaSpeedMs)
         {
+            return TryGetBaseSpeed(prefabEntity, out vanillaSpeedMs, out _);
+        }
+
+        private bool TryGetBaseSpeed(
+            Entity prefabEntity, out float vanillaSpeedMs, out PathCategory category)
+        {
             vanillaSpeedMs = 0f;
+            category = PathCategory.None;
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefab) ||
                 !(prefab is PathwayPrefab pathPrefab))
             {
                 return false;
             }
 
-            // Some invisible *vehicle* roads are also PathwayPrefabs, but
-            // their car lanes deliberately use speeds unlike PathwayData.
-            // Never treat those as global pedestrian/bicycle paths.
-            if (!IsBicyclePathway(prefabEntity))
+            category = GetPathCategory(prefabEntity);
+            if (category == PathCategory.None)
             {
                 return false;
             }
@@ -139,33 +155,44 @@ namespace RoadRailSpeeds.Systems
             return vanillaSpeedMs > 0f;
         }
 
-        // Classify prefab lane geometry, not its name or visibility.
-        // Only bike-only and mixed pedestrian/bike paths are eligible.
-        // Pedestrian-only paths and any Car-capable pathway are excluded.
-        private bool IsBicyclePathway(Entity prefabEntity)
+        private float GetPathScale(PathCategory category)
+        {
+            return (category == PathCategory.Bike
+                ? m_PendingPercent : m_PendingPedestrianPercent) / 100f;
+        }
+
+        // A mixed bike/pedestrian path belongs to Bike. Pure pedestrian paths
+        // belong to Pedestrian. Any car-capable network fails closed.
+        private PathCategory GetPathCategory(Entity prefabEntity)
         {
             if (!EntityManager.HasBuffer<NetGeometrySection>(prefabEntity))
             {
-                return false;
+                return PathCategory.None;
             }
 
             bool hasBicycle = false;
+            bool hasPedestrian = false;
             DynamicBuffer<NetGeometrySection> sections =
                 EntityManager.GetBuffer<NetGeometrySection>(prefabEntity);
             for (int i = 0; i < sections.Length; i++)
             {
                 if (HasVehicleLaneInSection(
-                    sections[i].m_Section, ref hasBicycle, 0))
+                    sections[i].m_Section, ref hasBicycle, ref hasPedestrian, 0))
                 {
-                    return false;
+                    return PathCategory.None;
                 }
             }
 
-            return hasBicycle;
+            if (hasBicycle)
+            {
+                return PathCategory.Bike;
+            }
+
+            return hasPedestrian ? PathCategory.Pedestrian : PathCategory.None;
         }
 
         private bool HasVehicleLaneInSection(
-            Entity sectionEntity, ref bool hasBicycle, int depth)
+            Entity sectionEntity, ref bool hasBicycle, ref bool hasPedestrian, int depth)
         {
             // Fail closed if a third-party asset contains unexpected recursion.
             if (depth > 8 || sectionEntity == Entity.Null)
@@ -204,6 +231,10 @@ namespace RoadRailSpeeds.Systems
                                 hasBicycle = true;
                             }
                         }
+                        else if (EntityManager.HasComponent<PedestrianLaneData>(lanePrefab))
+                        {
+                            hasPedestrian = true;
+                        }
                     }
                 }
             }
@@ -215,7 +246,7 @@ namespace RoadRailSpeeds.Systems
                 for (int i = 0; i < sections.Length; i++)
                 {
                     if (HasVehicleLaneInSection(
-                        sections[i].m_SubSection, ref hasBicycle, depth + 1))
+                        sections[i].m_SubSection, ref hasBicycle, ref hasPedestrian, depth + 1))
                     {
                         return true;
                     }
@@ -225,7 +256,7 @@ namespace RoadRailSpeeds.Systems
             return false;
         }
 
-        private void ApplyPrefabSpeeds(float multiplier)
+        private void ApplyPrefabSpeeds()
         {
             foreach ((RefRW<PathwayData> data, Entity prefabEntity) in
                 SystemAPI.Query<RefRW<PathwayData>>()
@@ -233,9 +264,9 @@ namespace RoadRailSpeeds.Systems
                     .WithNone<Deleted, Temp, Overridden>()
                     .WithEntityAccess())
             {
-                if (TryGetBaseSpeed(prefabEntity, out float baseMs))
+                if (TryGetBaseSpeed(prefabEntity, out float baseMs, out PathCategory category))
                 {
-                    float speedMs = baseMs * multiplier;
+                    float speedMs = baseMs * GetPathScale(category);
                     if (math.abs(data.ValueRO.m_SpeedLimit - speedMs) > 0.0001f)
                     {
                         data.ValueRW.m_SpeedLimit = speedMs;
@@ -249,9 +280,9 @@ namespace RoadRailSpeeds.Systems
                     .WithAll<NetCompositionData>()
                     .WithNone<Deleted, Temp, Overridden>())
             {
-                if (TryGetBaseSpeed(reference.ValueRO.m_Prefab, out float baseMs))
+                if (TryGetBaseSpeed(reference.ValueRO.m_Prefab, out float baseMs, out PathCategory category))
                 {
-                    float speedMs = baseMs * multiplier;
+                    float speedMs = baseMs * GetPathScale(category);
                     if (math.abs(data.ValueRO.m_SpeedLimit - speedMs) > 0.0001f)
                     {
                         data.ValueRW.m_SpeedLimit = speedMs;
@@ -282,7 +313,8 @@ namespace RoadRailSpeeds.Systems
 
                 if (!eligiblePrefabs.TryGetValue(prefabEntity, out bool eligible))
                 {
-                    eligible = TryGetBaseSpeed(prefabEntity, out _);
+                    eligible = TryGetBaseSpeed(prefabEntity, out _, out PathCategory category) &&
+                        category == PathCategory.Bike;
                     eligiblePrefabs.Add(prefabEntity, eligible);
                 }
 

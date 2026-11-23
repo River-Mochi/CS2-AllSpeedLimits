@@ -7,9 +7,9 @@ Fine-tune speed limits in Cities: Skylines II.
 - Click a network segment or drag to select several.
 - Change speeds on roads, bike-capable paths, tram/train/subway tracks, and waterways.
 - Adjust individual segments with a slider, number box, or preset signs.
-- Switch to **Paths** for global bike-only and mixed bike/pedestrian path limits (100% = vanilla).
-- Set global bike-path limits from **30% to 500%**, with Apply and Reset.
-- Global changes update eligible existing and new bike/mixed paths; individual ASL bike speeds take priority.
+- Switch to **Paths** for separate global limits on bike/mixed paths and pedestrian-only paths (100% = vanilla).
+- Set each global path category from **30% to 500%**, with independent Apply and Reset.
+- Global changes update eligible existing and new paths; individual ASL bike speeds take priority.
 - Reveal the game's **blue/green dashed invisible networks** with the eye icon.
 - Edit supported invisible roads and bike-capable paths; also works on supported building-internal networks.
 - Assign an optional **Dashed Eye hotkey** under Options → Actions → Keybinds. It works even with the ASL panel closed.
@@ -19,10 +19,10 @@ Fine-tune speed limits in Cities: Skylines II.
 ## Important
 
 - The eye shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
-- **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pedestrian-only paths are not speed-editable.
-- Global **Paths** changes only bike-only and mixed path speed-limit data, not pedestrian-only paths or pedestrian walking speed.
-- Hidden vehicle-only roads are **not** affected by the global Paths slider; edit supported ones individually under Speed Limits.
-- **Speed Limits → Paths Reset** clears individual bike/mixed speeds so they follow the global bike scale. **Paths → Reset** returns the global bike scale to 100%.
+- **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pedestrian-only paths can be changed globally, not individually.
+- The Bike slider controls bike-only and mixed paths. The Pedestrian slider controls pedestrian-only paths. Mixed paths always use the Bike slider. ASL does not change citizen or vehicle maximum speeds.
+- Hidden vehicle-only roads are **not** affected by either global Paths slider; edit supported ones individually under Speed Limits.
+- **Speed Limits → Paths Reset** clears individual bike/mixed speeds so they follow the global Bike scale. Each **Paths → Reset** returns that category to 100%.
 - **Bikes & Paths** also modifies global pathway limits. Avoid applying both global pathway sliders at the same time.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
 - ASL edits speed limits, not building layouts or vehicle top speeds. Vehicles still obey their maximum speeds.

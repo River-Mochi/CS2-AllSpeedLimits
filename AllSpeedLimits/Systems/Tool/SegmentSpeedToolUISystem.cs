@@ -56,6 +56,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_SelectWaterBinding = null!;
         private ValueBindingHelper<bool> m_OpenAllPathsBinding = null!;
         private ValueBindingHelper<int> m_GlobalPathPercentBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPedPathPercentBinding = null!;
         private ValueBindingHelper<bool> m_GlobalPathBusyBinding = null!;
         private ValueBindingHelper<int> m_GlobalPathProcessedBinding = null!;
         private ValueBindingHelper<int> m_GlobalPathTotalBinding = null!;
@@ -184,6 +185,7 @@ namespace RoadRailSpeeds.Systems
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
             m_OpenAllPathsBinding = CreateBinding("OPEN_ALL_PATHS", false);
             m_GlobalPathPercentBinding = CreateBinding("GLOBAL_PATH_PERCENT", m_Settings?.GlobalPathSpeedPercent ?? 100);
+            m_GlobalPedPathPercentBinding = CreateBinding("GLOBAL_PED_PATH_PERCENT", m_Settings?.GlobalPedPathSpeedPercent ?? 100);
             m_GlobalPathBusyBinding = CreateBinding("GLOBAL_PATH_BUSY", false);
             m_GlobalPathProcessedBinding = CreateBinding("GLOBAL_PATH_PROCESSED", 0);
             m_GlobalPathTotalBinding = CreateBinding("GLOBAL_PATH_TOTAL", 0);
@@ -216,6 +218,7 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger<bool>("SET_SELECT_WATER", HandleSetSelectWater);
             CreateTrigger<int, int>("SET_TOOL_PANEL_POSITION", HandleSetToolPanelPosition);
             CreateTrigger<int>("APPLY_GLOBAL_PATH_PERCENT", HandleApplyGlobalPathPercent);
+            CreateTrigger<int>("APPLY_GLOBAL_PED_PATH_PERCENT", HandleApplyGlobalPedPathPercent);
             CreateTrigger("OPEN_ALL_PATHS", HandleOpenAllPaths);
             CreateTrigger("CLOSE_ALL_PATHS", HandleCloseAllPaths);
 
@@ -264,6 +267,7 @@ namespace RoadRailSpeeds.Systems
             m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? true;
             m_OpenAllPathsBinding.Value = false;
             m_GlobalPathPercentBinding.Value = m_Settings?.GlobalPathSpeedPercent ?? 100;
+            m_GlobalPedPathPercentBinding.Value = m_Settings?.GlobalPedPathSpeedPercent ?? 100;
             m_GlobalPathBusyBinding.Value = m_GlobalPathSpeedSystem.IsApplying;
             m_GlobalPathProcessedBinding.Value = m_GlobalPathSpeedSystem.ProcessedEdges;
             m_GlobalPathTotalBinding.Value = m_GlobalPathSpeedSystem.TotalEdges;

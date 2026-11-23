@@ -24,12 +24,16 @@ namespace RoadRailSpeeds.Systems
             int prefabs = 0;
             int matchingPrefabs = 0;
             int mismatchedPrefabs = 0;
+            int bikePrefabs = 0;
+            int pedestrianPrefabs = 0;
             int compositions = 0;
             int matchingCompositions = 0;
             int mismatchedCompositions = 0;
-            int edges = 0;
+            int bikeCompositions = 0;
+            int pedestrianCompositions = 0;
+            int bikePathEdges = 0;
+            int pedestrianPathEdges = 0;
             int excludedPathEdges = 0;
-            int excludedPedestrianOnlyEdges = 0;
             int excludedUnknownEdges = 0;
             int excludedCarLanes = 0;
             int customEdges = 0;
@@ -42,24 +46,29 @@ namespace RoadRailSpeeds.Systems
             int mismatchSamples = 0;
             int pedestrian = 0;
             int samples = 0;
-            int currentPercent = Mod.Settings?.GlobalPathSpeedPercent ?? 100;
-            float multiplier = currentPercent / 100f;
+            int bikePercent = Mod.Settings?.GlobalPathSpeedPercent ?? 100;
+            int pedestrianPercent = Mod.Settings?.GlobalPedPathSpeedPercent ?? 100;
             const float toleranceMs = 0.001f;
             LogUtils.Info(() =>
-                $"{Mod.ModTag} Bike path speed report BEGIN percent={currentPercent} busy={IsApplying} " +
-                "expectedPathwayMs=vanillaPrefabKmh/3.6*percent/100; CarLane m/s, ASL labels use x1.8.");
+                $"{Mod.ModTag} Path speed report BEGIN bikePercent={bikePercent} " +
+                $"pedestrianPercent={pedestrianPercent} busy={IsApplying} " +
+                "expectedPathwayMs=vanillaPrefabKmh/3.6*categoryPercent/100; " +
+                "CarLane m/s, ASL labels use x1.8.");
 
             foreach ((RefRO<PathwayData> data, Entity entity) in
                 SystemAPI.Query<RefRO<PathwayData>>()
                     .WithAll<PrefabData>().WithNone<Deleted, Temp, Overridden>().WithEntityAccess())
             {
-                if (!TryGetBaseSpeed(entity, out float vanillaMs))
+                if (!TryGetBaseSpeed(entity, out float vanillaMs, out PathCategory category))
                 {
                     continue;
                 }
 
                 prefabs++;
-                float expectedMs = vanillaMs * multiplier;
+                if (category == PathCategory.Bike) bikePrefabs++;
+                else pedestrianPrefabs++;
+                float expectedMs = vanillaMs *
+                    (category == PathCategory.Bike ? bikePercent : pedestrianPercent) / 100f;
                 float actualMs = data.ValueRO.m_SpeedLimit;
                 if (System.Math.Abs(actualMs - expectedMs) <= toleranceMs)
                 {
@@ -78,7 +87,7 @@ namespace RoadRailSpeeds.Systems
                     string prefabName = m_PrefabSystem.TryGetPrefab(entity, out PrefabBase pathPrefab)
                         ? pathPrefab.name : "Unknown";
                     LogUtils.Info(() =>
-                        $"{Mod.ModTag} Bike path prefab sample: name={prefabName} " +
+                        $"{Mod.ModTag} Path prefab sample: category={category} name={prefabName} " +
                         $"entity={entity.Index}:{entity.Version} " +
                         $"vanillaKmh={vanilla:0.##} expectedKmh={expected:0.##} actualKmh={current:0.##} " +
                         $"ratioPercent={actualMs / vanillaMs * 100f:0.#}.");
@@ -91,13 +100,17 @@ namespace RoadRailSpeeds.Systems
                     .WithAll<NetCompositionData>()
                     .WithNone<Deleted, Temp, Overridden>())
             {
-                if (!TryGetBaseSpeed(reference.ValueRO.m_Prefab, out float vanillaMs))
+                if (!TryGetBaseSpeed(reference.ValueRO.m_Prefab, out float vanillaMs, out PathCategory category))
                 {
                     continue;
                 }
 
                 compositions++;
-                if (System.Math.Abs(composition.ValueRO.m_SpeedLimit - vanillaMs * multiplier) <= toleranceMs)
+                if (category == PathCategory.Bike) bikeCompositions++;
+                else pedestrianCompositions++;
+                float expectedMs = vanillaMs *
+                    (category == PathCategory.Bike ? bikePercent : pedestrianPercent) / 100f;
+                if (System.Math.Abs(composition.ValueRO.m_SpeedLimit - expectedMs) <= toleranceMs)
                 {
                     matchingCompositions++;
                 }
@@ -122,13 +135,12 @@ namespace RoadRailSpeeds.Systems
                     continue;
                 }
 
-                if (!TryGetBaseSpeed(reference.ValueRO.m_Prefab, out _))
+                if (!TryGetBaseSpeed(reference.ValueRO.m_Prefab, out _, out PathCategory category))
                 {
-                    // Exclude vehicle roads and pedestrian-only paths from global
-                    // bike scaling, preserving their original lane speeds.
+                    // Exclude vehicle roads and unsupported geometry from both
+                    // global sliders, preserving their original lane speeds.
                     excludedPathEdges++;
                     bool containsCarLane = false;
-                    bool containsPedestrianLane = false;
                     for (int i = 0; i < lanes.Length; i++)
                     {
                         Entity excludedLane = lanes[i].m_SubLane;
@@ -145,26 +157,23 @@ namespace RoadRailSpeeds.Systems
                             }
                             excludedCarLanes++;
                         }
-                        else if (pedLanes.HasComponent(excludedLane))
-                        {
-                            containsPedestrianLane = true;
-                        }
                     }
                     if (!containsCarLane)
                     {
-                        if (containsPedestrianLane) excludedPedestrianOnlyEdges++;
-                        else excludedUnknownEdges++;
+                        excludedUnknownEdges++;
                     }
                     continue;
                 }
 
-                edges++;
+                if (category == PathCategory.Bike) bikePathEdges++;
+                else pedestrianPathEdges++;
                 bool custom = EntityManager.HasComponent<CustomSpeed>(edge);
                 if (custom) customEdges++;
                 for (int i = 0; i < lanes.Length; i++)
                 {
                     Entity laneEntity = lanes[i].m_SubLane;
-                    if (carLanes.TryGetComponent(laneEntity, out Game.Net.CarLane lane))
+                    if (category == PathCategory.Bike &&
+                        carLanes.TryGetComponent(laneEntity, out Game.Net.CarLane lane))
                     {
                         cars++;
                         float expectedSpeed = pathData[reference.ValueRO.m_Prefab].m_SpeedLimit;
@@ -247,12 +256,14 @@ namespace RoadRailSpeeds.Systems
             }
 
             LogUtils.Info(() =>
-                $"{Mod.ModTag} Bike path speed report END prefabs={prefabs} prefabMatches={matchingPrefabs} " +
-                $"prefabMismatches={mismatchedPrefabs} compositions={compositions} " +
+                $"{Mod.ModTag} Path speed report END prefabs={prefabs} " +
+                $"bikePrefabs={bikePrefabs} pedestrianPrefabs={pedestrianPrefabs} " +
+                $"prefabMatches={matchingPrefabs} prefabMismatches={mismatchedPrefabs} " +
+                $"compositions={compositions} bikeCompositions={bikeCompositions} " +
+                $"pedestrianCompositions={pedestrianCompositions} " +
                 $"compositionMatches={matchingCompositions} compositionMismatches={mismatchedCompositions} " +
-                $"bikePathEdges={edges} excludedPathEdges={excludedPathEdges} " +
-                $"excludedPedestrianOnlyEdges={excludedPedestrianOnlyEdges} " +
-                $"excludedUnknownEdges={excludedUnknownEdges} " +
+                $"bikePathEdges={bikePathEdges} pedestrianPathEdges={pedestrianPathEdges} " +
+                $"excludedPathEdges={excludedPathEdges} excludedUnknownEdges={excludedUnknownEdges} " +
                 $"excludedVehicleLanesPreserved={excludedCarLanes} " +
                 $"customEdges={customEdges} bikeCapableLanes={cars} " +
                 $"nonCustomLaneMatches={matchingCarLanes} nonCustomLaneMismatches={mismatchedCarLanes} " +

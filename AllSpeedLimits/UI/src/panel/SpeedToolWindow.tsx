@@ -66,10 +66,12 @@ import {
     SetStatsExpanded,
     SetToolActive,
     GLOBAL_PATH_PERCENT,
+    GLOBAL_PED_PATH_PERCENT,
     GLOBAL_PATH_BUSY,
     GLOBAL_PATH_PROCESSED,
     GLOBAL_PATH_TOTAL,
     ApplyGlobalPathPercent,
+    ApplyGlobalPedPathPercent,
     OPEN_ALL_PATHS,
     OpenAllPaths,
     CloseAllPaths
@@ -101,15 +103,20 @@ export const SpeedToolWindow = () => {
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
     const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
     const savedPathPercent = useSafeBinding(GLOBAL_PATH_PERCENT, 100);
+    const savedPedPathPercent = useSafeBinding(GLOBAL_PED_PATH_PERCENT, 100);
     const globalPathBusy = useSafeBinding(GLOBAL_PATH_BUSY, false);
     const globalPathProcessed = useSafeBinding(GLOBAL_PATH_PROCESSED, 0);
     const globalPathTotal = useSafeBinding(GLOBAL_PATH_TOTAL, 0);
     const [activeView, setActiveView] = useState<"limits" | "paths">("limits");
     const [visible, setVisible] = useState(false);
     const [pendingPathPercent, setPendingPathPercent] = useState(100);
+    const [pendingPedPathPercent, setPendingPedPathPercent] = useState(100);
     useEffect(() => {
         setPendingPathPercent(savedPathPercent);
     }, [savedPathPercent]);
+    useEffect(() => {
+        setPendingPedPathPercent(savedPedPathPercent);
+    }, [savedPedPathPercent]);
 
     useEffect(() => {
         if (toolActive && allPathsOpen) {
@@ -1144,11 +1151,14 @@ export const SpeedToolWindow = () => {
                             <AllPathsSection
                                 percent={pendingPathPercent}
                                 savedPercent={savedPathPercent}
+                                pedPercent={pendingPedPathPercent}
+                                pedSavedPercent={savedPedPathPercent}
                                 busy={globalPathBusy}
                                 processed={globalPathProcessed}
                                 total={globalPathTotal}
                                 focusKey={FOCUS_DISABLED}
                                 text={TEXT.panel.allPaths}
+                                pedText={TEXT.panel.pedPaths}
                                 onShowTip={showPanelTooltip}
                                 onHideTip={hidePanelTooltip}
                                 onChange={setPendingPathPercent}
@@ -1157,6 +1167,14 @@ export const SpeedToolWindow = () => {
                                     setPendingPathPercent(100);
                                     if (savedPathPercent !== 100) {
                                         ApplyGlobalPathPercent(100);
+                                    }
+                                }}
+                                onPedChange={setPendingPedPathPercent}
+                                onPedApply={() => ApplyGlobalPedPathPercent(pendingPedPathPercent)}
+                                onPedReset={() => {
+                                    setPendingPedPathPercent(100);
+                                    if (savedPedPathPercent !== 100) {
+                                        ApplyGlobalPedPathPercent(100);
                                     }
                                 }}
                             />
