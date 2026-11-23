@@ -19,8 +19,6 @@ namespace RoadRailSpeeds.Systems
     using Unity.Collections;
     using Unity.Entities;
     using UnityEngine.Scripting;
-    using CarLane = Game.Net.CarLane;
-    using SubLane = Game.Net.SubLane;
 
     // Global path tuning can write lanes without Updated/PathfindUpdated. Explicit ASL
     // segment choices win, without depending on or changing the other mod's settings.
@@ -33,7 +31,7 @@ namespace RoadRailSpeeds.Systems
         {
             base.OnCreate();
             m_CustomPaths = SystemAPI.QueryBuilder()
-                .WithAll<CustomSpeed, Edge, PrefabRef, SubLane>()
+                .WithAll<CustomSpeed, Edge, PrefabRef, Game.Net.SubLane>()
                 .WithNone<Road, TrainTrack, TramTrack, SubwayTrack, Waterway>()
                 .WithNone<Deleted, Temp, Overridden>()
                 .Build();
@@ -52,9 +50,9 @@ namespace RoadRailSpeeds.Systems
             {
                 Speeds = SystemAPI.GetComponentTypeHandle<CustomSpeed>(true),
                 Prefabs = SystemAPI.GetComponentTypeHandle<PrefabRef>(true),
-                SubLanes = SystemAPI.GetBufferTypeHandle<SubLane>(true),
+                SubLanes = SystemAPI.GetBufferTypeHandle<Game.Net.SubLane>(true),
                 Pathways = SystemAPI.GetComponentLookup<PathwayData>(true),
-                CarLanes = SystemAPI.GetComponentLookup<CarLane>()
+                CarLanes = SystemAPI.GetComponentLookup<Game.Net.CarLane>()
             }.Schedule(m_CustomPaths, Dependency);
         }
 
@@ -63,15 +61,15 @@ namespace RoadRailSpeeds.Systems
         {
             [ReadOnly] public ComponentTypeHandle<CustomSpeed> Speeds;
             [ReadOnly] public ComponentTypeHandle<PrefabRef> Prefabs;
-            [ReadOnly] public BufferTypeHandle<SubLane> SubLanes;
+            [ReadOnly] public BufferTypeHandle<Game.Net.SubLane> SubLanes;
             [ReadOnly] public ComponentLookup<PathwayData> Pathways;
-            public ComponentLookup<CarLane> CarLanes;
+            public ComponentLookup<Game.Net.CarLane> CarLanes;
 
             public void Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 NativeArray<CustomSpeed> speeds = chunk.GetNativeArray(ref Speeds);
                 NativeArray<PrefabRef> prefabs = chunk.GetNativeArray(ref Prefabs);
-                BufferAccessor<SubLane> buffers = chunk.GetBufferAccessor(ref SubLanes);
+                BufferAccessor<Game.Net.SubLane> buffers = chunk.GetBufferAccessor(ref SubLanes);
                 for (int i = 0; i < chunk.Count; i++)
                 {
                     if (!Pathways.HasComponent(prefabs[i].m_Prefab))
@@ -80,11 +78,11 @@ namespace RoadRailSpeeds.Systems
                     }
 
                     float speed = speeds[i].m_Speed / 1.8f;
-                    DynamicBuffer<SubLane> lanes = buffers[i];
+                    DynamicBuffer<Game.Net.SubLane> lanes = buffers[i];
                     for (int j = 0; j < lanes.Length; j++)
                     {
                         Entity entity = lanes[j].m_SubLane;
-                        if (CarLanes.TryGetComponent(entity, out CarLane lane) &&
+                        if (CarLanes.TryGetComponent(entity, out Game.Net.CarLane lane) &&
                             (lane.m_DefaultSpeedLimit != speed || lane.m_SpeedLimit != speed))
                         {
                             lane.m_DefaultSpeedLimit = speed;

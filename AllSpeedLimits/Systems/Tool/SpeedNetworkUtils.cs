@@ -13,7 +13,6 @@ namespace RoadRailSpeeds.Systems
     using Game.Prefabs;
     using Game.Tools;
     using Unity.Entities;
-    using SubLane = Game.Net.SubLane;
 
     internal enum SpeedNetworkKind
     {
@@ -77,9 +76,9 @@ namespace RoadRailSpeeds.Systems
 
             // Invisible vehicle roads can be PathwayPrefabs. Classify by their traffic lanes,
             // not by an asset name or the presence of the Road component alone.
-            if (manager.HasBuffer<SubLane>(edge))
+            if (manager.HasBuffer<Game.Net.SubLane>(edge))
             {
-                DynamicBuffer<SubLane> lanes = manager.GetBuffer<SubLane>(edge, true);
+                DynamicBuffer<Game.Net.SubLane> lanes = manager.GetBuffer<Game.Net.SubLane>(edge, true);
                 for (int i = 0; i < lanes.Length; i++)
                 {
                     Entity lane = lanes[i].m_SubLane;
@@ -100,14 +99,43 @@ namespace RoadRailSpeeds.Systems
             return SpeedNetworkKind.Path;
         }
 
-        public static bool HasSpeedLanes(EntityManager manager, Entity edge)
+        // After removing an individual bike-path override, its lanes must
+        // return to the currently active global Paths scale, not the stored
+        // vanilla value. Vehicle-only pathway roads remain excluded.
+        public static bool TryGetActivePathSpeedGameUnits(
+            EntityManager manager, Entity edge, out float speedGameUnits)
         {
-            if (!manager.HasBuffer<SubLane>(edge))
+            speedGameUnits = 0f;
+            if (GetKind(manager, edge) != SpeedNetworkKind.Path ||
+                !manager.HasComponent<PrefabRef>(edge))
             {
                 return false;
             }
 
-            DynamicBuffer<SubLane> lanes = manager.GetBuffer<SubLane>(edge, true);
+            Entity prefabEntity = manager.GetComponentData<PrefabRef>(edge).m_Prefab;
+            if (!manager.HasComponent<PathwayData>(prefabEntity))
+            {
+                return false;
+            }
+
+            float currentSpeed = manager.GetComponentData<PathwayData>(prefabEntity).m_SpeedLimit;
+            if (currentSpeed <= 0f || float.IsNaN(currentSpeed) || float.IsInfinity(currentSpeed))
+            {
+                return false;
+            }
+
+            speedGameUnits = currentSpeed;
+            return true;
+        }
+
+        public static bool HasSpeedLanes(EntityManager manager, Entity edge)
+        {
+            if (!manager.HasBuffer<Game.Net.SubLane>(edge))
+            {
+                return false;
+            }
+
+            DynamicBuffer<Game.Net.SubLane> lanes = manager.GetBuffer<Game.Net.SubLane>(edge, true);
             for (int i = 0; i < lanes.Length; i++)
             {
                 Entity lane = lanes[i].m_SubLane;

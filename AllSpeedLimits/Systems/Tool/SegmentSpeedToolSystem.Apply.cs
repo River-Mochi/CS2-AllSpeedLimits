@@ -215,12 +215,18 @@ namespace RoadRailSpeeds.Systems
                     }
                 }
 
-                if (!originalSpeed.HasValue || originalSpeed.Value <= 0f)
+                // Clear the individual override back to the *current global
+                // pathway scale*. Roads and rails still reset to original.
+                bool activePath = SpeedNetworkUtils.TryGetActivePathSpeedGameUnits(
+                    EntityManager, targetEdge, out float activePathSpeed);
+                if ((!originalSpeed.HasValue || originalSpeed.Value <= 0f) && !activePath)
                 {
                     continue;
                 }
 
-                float speedGameUnits = originalSpeed.Value / 1.8f;
+                float speedGameUnits = activePath
+                    ? activePathSpeed
+                    : originalSpeed.Value / 1.8f;
 
                 if (EntityManager.HasBuffer<SubLane>(edge))
                 {

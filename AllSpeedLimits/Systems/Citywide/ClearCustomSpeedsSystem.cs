@@ -225,15 +225,20 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            if (!originalSpeed.HasValue || originalSpeed.Value <= 0f)
+            // Whole-city Paths Reset clears individual overrides but must keep
+            // the active global pathway scale for bike/mixed path lanes.
+            bool activePath = SpeedNetworkUtils.TryGetActivePathSpeedGameUnits(
+                EntityManager, GetBaseEntity(entity), out float activePathSpeed);
+            if ((!originalSpeed.HasValue || originalSpeed.Value <= 0f) && !activePath)
             {
-                // If an old speed was never recorded, remove our override and let the game choose
-                // its standard speed. Report the total once instead of flooding the log per segment.
+                // The original cannot be inferred for this entity.
                 m_ClearNoOriginalCount++;
                 return;
             }
 
-            float speedGameUnits = originalSpeed.Value / 1.8f;
+            float speedGameUnits = activePath
+                ? activePathSpeed
+                : originalSpeed.Value / 1.8f;
 
             if (!EntityManager.HasBuffer<SubLane>(entity))
             {
