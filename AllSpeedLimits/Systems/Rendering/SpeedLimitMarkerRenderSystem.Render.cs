@@ -248,6 +248,13 @@ namespace RoadRailSpeeds.Systems
                         }
                     }
 
+                    // Reduce only close-up bike-path labels, after the readability floor.
+                    // Use the already-classified marker identity; no extra network queries.
+                    if (identity.GroupKey.NetworkKind == MarkerNetworkKind.Path)
+                    {
+                        textScaleMultiplier *= Mathf.Lerp(0.72f, 1f, closeScaleBlend);
+                    }
+
                     Rect screenBounds = default;
                     bool hasScreenBounds = hoverCamera != null &&
                         TryGetMarkerScreenBounds(

@@ -119,7 +119,9 @@ export const SpeedToolWindow = () => {
     }, [savedPedPathPercent]);
 
     useEffect(() => {
-        if (toolActive && allPathsOpen) {
+        if (!toolActive) {
+            setActiveView("limits");
+        } else if (allPathsOpen) {
             setActiveView("paths");
             setVisible(true);
         }
@@ -440,6 +442,10 @@ export const SpeedToolWindow = () => {
             // selected right before it) — extending or replacing an existing selection leaves the
             // panel wherever the player put it, so it doesn't jump around mid-edit.
             if (lastSelectionCounter.current === 0) {
+                setActiveView("limits");
+                if (allPathsOpen) {
+                    CloseAllPaths();
+                }
                 snapTo({
                     x: selectionClickX + PANEL_CLICK_OFFSET_PX,
                     y: selectionClickY + PANEL_CLICK_OFFSET_PX

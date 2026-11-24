@@ -29,9 +29,9 @@ export const PANEL_WIDTH_REM = 299;
 // title bar isn't pinned exactly under the cursor and the clicked segment stays visible.
 export const PANEL_CLICK_OFFSET_PX = 16;
 export const PRIMARY_ACTION_BUTTON_WIDTH_REM = 58;
-export const SPEED_STEPPER_WIDTH_REM = 76;
-export const SPEED_STEPPER_BUTTON_WIDTH_REM = 22;
-export const SPEED_STEPPER_NUMBER_WIDTH_REM = 32;
+export const SPEED_STEPPER_WIDTH_REM = 104;
+export const SPEED_STEPPER_BUTTON_WIDTH_REM = 28;
+export const SPEED_STEPPER_NUMBER_WIDTH_REM = 42;
 
 // Stats table column geometry. Shared so the column headers (rendered on the "Stats" section
 // line) line up with the number columns in the table below them.
