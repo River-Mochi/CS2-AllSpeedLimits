@@ -6,6 +6,7 @@ Fine-tune speed limits in Cities: Skylines II.
 
 - Click a network segment or drag to select several.
 - Change speeds on roads, bike-capable paths, tram/train/subway tracks, and waterways.
+- Options: bicycle and electric scooter maximum speed (30–1000%, default 100%). Acceleration and braking adjust automatically.
 - Adjust individual segments with a slider, number box, or preset signs.
 - Switch to **Paths** for separate global limits on bike/mixed paths and pedestrian-only paths (100% = vanilla).
 - Set each global path category from **30% to 500%**, with independent Apply and Reset.
@@ -20,10 +21,10 @@ Fine-tune speed limits in Cities: Skylines II.
 
 - The eye shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
 - **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pedestrian-only paths can be changed globally, not individually.
-- The Bike slider controls bike-only and mixed paths. The Pedestrian slider controls pedestrian-only paths. Mixed paths always use the Bike slider. ASL does not change citizen or vehicle maximum speeds.
+- The Bike slider controls bike-only and mixed paths. The Pedestrian slider controls pedestrian-only paths. Mixed paths always use the Bike slider. ASL changes bicycle/e-scooter maximum speed only through the separate Options setting. It does not change citizen walking speed or other vehicle maximum speeds.
 - Hidden vehicle-only roads are **not** affected by either global Paths slider; edit supported ones individually under Speed Limits.
 - **Speed Limits → Paths Reset** clears individual bike/mixed speeds so they follow the global Bike scale. Each **Paths → Reset** returns that category to 100%.
-- **Bikes & Paths** also modifies global pathway limits. Avoid applying both global pathway sliders at the same time.
+- **Bikes & Paths 1.1.6+** delegates overlapping tuning to ASL. Update B+P before using both mods. Older B+P versions can still overwrite pathway limits.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
 - ASL edits speed limits, not building layouts or vehicle top speeds. Vehicles still obey their maximum speeds.
 - Custom speeds remain after removing ASL. **Reset them and save your city before uninstalling** if you want vanilla values.

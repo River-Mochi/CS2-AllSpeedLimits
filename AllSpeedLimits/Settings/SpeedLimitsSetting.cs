@@ -23,8 +23,8 @@ namespace RoadRailSpeeds
 
     [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
     [SettingsUITabOrder(kMainTab, kAboutTab)]
-    [SettingsUIGroupOrder(kDisplayGroup, kKeybindsGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
-    [SettingsUIShowGroupName(kDisplayGroup, kKeybindsGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
+    [SettingsUIGroupOrder(kDisplayGroup, kKeybindsGroup, kBicycleGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
+    [SettingsUIShowGroupName(kDisplayGroup, kKeybindsGroup, kBicycleGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
     [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
@@ -33,6 +33,7 @@ namespace RoadRailSpeeds
 
         public const string kDisplayGroup = "Display";
         public const string kKeybindsGroup = "Keybinds";
+        public const string kBicycleGroup = "BicycleSpeed";
         public const string kResetGroup = "ResetGameDefaults";
         public const string kUsageGroup = "Usage";
         public const string kAboutInfoGroup = "AboutInfo";
@@ -99,6 +100,54 @@ namespace RoadRailSpeeds
 
         [SettingsUIHidden]
         public int GlobalPedPathSpeedPercent { get; set; } = 100;
+
+        private int m_BicycleSpeedPercent = 100;
+
+        [SettingsUISection(kMainTab, kBicycleGroup)]
+        [SettingsUISlider(min = 30f, max = 1000f, step = 10f, unit = Unit.kPercentage)]
+        public int BicycleSpeedPercent
+        {
+            get => m_BicycleSpeedPercent;
+            set
+            {
+                int percent = Math.Max(30, Math.Min(1000, value));
+                if (m_BicycleSpeedPercent != percent)
+                {
+                    m_BicycleSpeedPercent = percent;
+                    RequestBicycleSpeedApply();
+                }
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUISection(kMainTab, kBicycleGroup)]
+        public bool ResetBicycleSpeed
+        {
+            set
+            {
+                if (value)
+                {
+                    BicycleSpeedPercent = 100;
+                    ApplyAndSave();
+                    RequestBicycleSpeedApply();
+                }
+            }
+        }
+
+        private void RequestBicycleSpeedApply()
+        {
+            // Ignore temporary/default settings objects during deserialization.
+            if (Mod.Settings != this)
+            {
+                return;
+            }
+
+            World? world = World.DefaultGameObjectInjectionWorld;
+            if (world != null && world.IsCreated)
+            {
+                world.GetExistingSystemManaged<BicycleSpeedSystem>()?.ScheduleApply();
+            }
+        }
 
         // Unassigned by default so ASL cannot collide with Move It (Ctrl+M).
         [SettingsUISection(kMainTab, kKeybindsGroup)]
@@ -197,6 +246,7 @@ namespace RoadRailSpeeds
             StatsExpanded = true;
             GlobalPathSpeedPercent = 100;
             GlobalPedPathSpeedPercent = 100;
+            BicycleSpeedPercent = 100;
             ShowUsage = false;
         }
 

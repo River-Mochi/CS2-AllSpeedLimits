@@ -23,6 +23,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**
 * 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
 * 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
+* **New Options setting:** Bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Acceleration and braking adjust automatically.
 * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–500% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
@@ -33,7 +34,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizens' maximum walking speed.
 * Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
 * Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
-* For global bike-path scaling, avoid using the Paths slider alongside the corresponding global slider in Bikes & Paths.
+* Bikes + Paths 1.1.6+ automatically leaves overlapping speed controls to ASL. Update B+P before using both mods.
 * Vehicles are still limited by their max speeds (different for each type).
 * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
 * **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
@@ -88,6 +89,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 - New: individual speed limits on bike and mixed pedestrian/bike paths.
 - New: edit supported invisible roads and paths; dashed lines button + optional hotkey.
 - New: Paths tab with separate global Bike/mixed and Pedestrian-only limits (30–500%). Individual bike-path edits take priority.
+- New: bicycle and electric scooter vehicle speed in Options (30–1000%, default 100%).
 - Improved UI: speed markers, selection highlights.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->

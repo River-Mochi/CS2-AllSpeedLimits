@@ -118,6 +118,7 @@ namespace RoadRailSpeeds.Systems
 
                 LogVehicleStatsReportToLog();
                 m_GlobalPathSpeedSystem.LogPathReport();
+                World.GetExistingSystemManaged<BicycleSpeedSystem>()?.LogBicycleReport();
 
                 LogUtils.Info(() => $"{Mod.ModTag} Debug report END");
             }

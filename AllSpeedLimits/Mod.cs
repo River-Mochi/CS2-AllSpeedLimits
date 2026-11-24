@@ -154,6 +154,9 @@ namespace RoadRailSpeeds
                 // complete without forcing the player to unpause their city.
                 updateSystem.UpdateAt<GlobalPathSpeedSystem>(SystemUpdatePhase.UIUpdate);
 
+                world.GetOrCreateSystemManaged<BicycleSpeedSystem>();
+                updateSystem.UpdateAt<BicycleSpeedSystem>(SystemUpdatePhase.UIUpdate);
+
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);
 

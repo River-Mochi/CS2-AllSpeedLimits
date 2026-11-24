@@ -26,6 +26,9 @@ composition and runtime-lane scaling from
 [River-Mochi / CS2-Bikes-Paths](https://github.com/River-Mochi/CS2-Bikes-Paths),
 licensed under the MIT License. Copyright (c) 2026 River-Mochi.
 
+`AllSpeedLimits/Systems/Runtime/BicycleSpeedSystem.cs` also adapts the bicycle
+prefab maximum-speed, acceleration and braking tuning from CS2-Bikes-Paths.
+
 ## MIT License
 
 Copyright (c) 2024 yenyang
