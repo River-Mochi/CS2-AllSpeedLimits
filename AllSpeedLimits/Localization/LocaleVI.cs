@@ -42,6 +42,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Tùy chọn hiển thị" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "Phím tắt" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "Xe đạp và xe scooter điện" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "Trạng thái xe cá nhân" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Khôi phục mặc định game" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Cách dùng" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
@@ -105,6 +106,53 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = mặc định trò chơi. Tự điều chỉnh tăng tốc và phanh. Vẫn tuân thủ giới hạn tốc độ đường đi. Hãy cập nhật Bikes + Paths nếu đang dùng." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Đặt lại tốc độ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Đưa tốc độ xe đạp và scooter điện về 100%." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Nhóm xe đạp" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "Xe đạp và scooter điện.\n" +
+                    "**Đang chạy** = có làn hiện tại (đang di chuyển).\n" +
+                    "**Tổng đang đỗ** = gồm mọi cờ Parked ở mọi nơi, không chỉ bãi đỗ."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "Nhóm ô tô" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "Chỉ xe cá nhân (không gồm nhóm xe đạp).\n" +
+                    "**Đang chạy** = có làn hiện tại (đang di chuyển).\n" +
+                    "**Đang đỗ** = mọi **ParkedCar**, không chỉ bãi đỗ.\n" +
+                    "Quét chỉ chạy khi menu Options mở, không chạy trong lúc chơi thành phố, nên không lo FPS."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "Xe đỗ ẩn" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**Tổng ở biên OC** = xe trong nhóm ô tô có ParkedCar tại kết nối Outside City (OC).\n" +
+                    "Một số thành phố có nhiều xe bị kẹt ở trạng thái đỗ tại kết nối Outside City.\n" +
+                    "Dùng <Log hidden cars> để xem phân nhóm mẫu của xe ẩn."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "Ghi log xe ẩn" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "Ghi báo cáo một lần vào **Logs/AllSpeedLimits.log**.\n" +
+                    "Có tổng số + phân nhóm Bucket A/B/C và số ID mẫu.\n" +
+                    "Dùng mod Scene Explorer để nhảy tới ID thực thể Vehicle được liệt kê và kiểm tra."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "Mở log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "Mở **Logs/AllSpeedLimits.log** nếu có.\n" +
+                    "Nếu chưa tìm thấy file, sẽ mở thư mục Logs."
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "Chưa tải trạng thái." },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "Chưa có thành phố... ¯\\_(ツ)_/¯ ...Không có thống kê" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "chạy thành phố vài phút để có dữ liệu." },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} chạy | {1} xe đạp | {2} scooter | {3} / {4} đỗ/tổng" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} chạy | {1} đỗ | {2} tổng | {3} rơ moóc" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} ẩn ở biên OC | cập nhật {1}" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Khôi phục tốc độ mặc định của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),

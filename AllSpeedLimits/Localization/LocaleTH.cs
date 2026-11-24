@@ -42,6 +42,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "ตัวเลือกการแสดงผล" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "ปุ่มลัด" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "จักรยานและสกู๊ตเตอร์ไฟฟ้า" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "สถานะยานพาหนะส่วนบุคคล" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "คืนค่าเริ่มต้นของเกม" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "วิธีใช้" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
@@ -105,6 +106,53 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = ค่าเริ่มต้นของเกม ระบบปรับการเร่งและเบรกอัตโนมัติ ยังใช้ขีดจำกัดความเร็วของทางอยู่ หากใช้ Bikes + Paths ให้อัปเดตด้วย" },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนค่าความเร็ว" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนค่าความเร็วจักรยานและสกู๊ตเตอร์ไฟฟ้าเป็น 100%" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "กลุ่มจักรยาน" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "จักรยานและสกู๊ตเตอร์ไฟฟ้า\n" +
+                    "**กำลังใช้งาน** = มีเลนปัจจุบัน (กำลังเคลื่อนที่)\n" +
+                    "**จอดทั้งหมด** = รวมสถานะ Parked จากทุกที่ ไม่ใช่เฉพาะลานจอดรถ"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "กลุ่มรถยนต์" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "เฉพาะรถยนต์ส่วนบุคคล (ไม่รวมกลุ่มจักรยาน)\n" +
+                    "**กำลังใช้งาน** = มีเลนปัจจุบัน (กำลังเคลื่อนที่)\n" +
+                    "**จอดอยู่** = รถที่มีสถานะ **ParkedCar** ทั้งหมด ไม่ใช่เฉพาะในลานจอดรถ\n " +
+                    "การสแกนทำงานเฉพาะเมื่อเปิดเมนูตัวเลือก ไม่ทำงานระหว่างเล่นในเมือง จึงไม่กระทบ FPS"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "รถที่จอดแบบซ่อนอยู่" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**รวมที่ขอบเขต OC** = รถยนต์ในกลุ่มรถที่มี ParkedCar ณ จุดเชื่อมต่อนอกเมือง (OC)\n" +
+                    "บางเมืองอาจมีรถจำนวนมากติดค้างในสถานะจอดที่จุดเชื่อมต่อนอกเมือง\n" +
+                    "ใช้ <บันทึกรถที่ซ่อนอยู่> เพื่อดูตัวอย่างการแบ่งกลุ่มรถที่ซ่อนอยู่\n"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "บันทึกรถที่ซ่อนอยู่" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "เขียนรายงานหนึ่งครั้งไปยัง **Logs/AllSpeedLimits.log**\n" +
+                    "มีจำนวนรวม + การแบ่ง Bucket A/B/C และหมายเลข ID ตัวอย่าง\n" +
+                    "ใช้ม็อด Scene Explorer เพื่อ Jump To ไปยัง ID เอนทิตี Vehicle ที่แสดงไว้และตรวจสอบ"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "เปิดไฟล์บันทึก" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "เปิด **Logs/AllSpeedLimits.log** หากมีไฟล์นี้\n" +
+                    "หากยังไม่พบไฟล์ จะเปิดโฟลเดอร์ Logs แทน"
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "ยังไม่ได้โหลดสถานะ" },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "ไม่มีเมือง... ¯\\_(ツ)_/¯ ...ไม่มีสถิติ" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "เดินเกมสักครู่เพื่อเก็บข้อมูล" },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} ใช้งาน | {1} จักรยาน | {2} สกู๊ตเตอร์ | {3} / {4} จอด/ทั้งหมด" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} ใช้งาน | {1} จอด | {2} ทั้งหมด | {3} รถพ่วง" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} ซ่อนอยู่ที่ขอบเขต OC | อัปเดต {1}" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "คืนค่าความเร็วเริ่มต้นของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),

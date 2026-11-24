@@ -43,6 +43,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "표시 옵션" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "단축키" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "자전거 및 전동 킥보드" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "개인 차량 상태" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "게임 기본값 복원" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "사용법" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
@@ -106,6 +107,53 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = 게임 기본값. 가속과 제동도 자동 조정됩니다. 경로 제한 속도는 유지됩니다. Bikes + Paths 사용 시 업데이트하세요." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "속도 초기화" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "자전거와 전동 킥보드 속도를 100%로 복원합니다." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "자전거 그룹" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "자전거와 전동 스쿠터.\n" +
+                    "**활성** = 현재 차선이 있음(이동 중).\n" +
+                    "**총 주차** = 주차장뿐 아니라 모든 곳의 Parked 플래그를 포함합니다."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "자동차 그룹" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "개인 자동차만 포함(자전거 그룹 제외).\n" +
+                    "**활성** = 현재 차선이 있음(이동 중).\n" +
+                    "**주차** = 주차장뿐 아니라 모든 **ParkedCar**.\n" +
+                    "스캔은 옵션 메뉴가 열려 있을 때만 실행되며 도시 플레이 중에는 실행되지 않으므로 FPS 걱정이 없습니다."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "숨겨진 주차 차량" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**OC 경계 총합** = Outside City (OC) 연결 지점에서 ParkedCar 상태인 자동차 그룹 차량.\n" +
+                    "일부 도시에서는 Outside City 연결 지점에 주차된 채 멈춘 차량이 많이 보일 수 있습니다.\n" +
+                    "숨겨진 차량의 샘플 분류는 <Log hidden cars>를 사용하세요."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "숨겨진 차량 로그" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "**Logs/AllSpeedLimits.log**에 1회 보고서를 작성합니다.\n" +
+                    "총합 + Bucket A/B/C 분류와 샘플 ID 번호를 포함합니다.\n" +
+                    "Scene Explorer 모드로 나열된 Vehicle 엔티티 ID로 이동해 확인하세요."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "로그 열기" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "**Logs/AllSpeedLimits.log**가 있으면 엽니다.\n" +
+                    "파일이 아직 없으면 대신 Logs 폴더를 엽니다."
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "상태를 불러오지 않았습니다." },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "도시 없음... ¯\\_(ツ)_/¯ ...통계 없음" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "데이터를 얻으려면 도시를 몇 분 실행하세요." },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} 활성 | {1} 자전거 | {2} 스쿠터 | {3} / {4} 주차/총합" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} 활성 | {1} 주차 | {2} 총합 | {3} 트레일러" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} OC 경계에서 숨김 | 업데이트 {1}" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "게임 기본 속도 복원" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),

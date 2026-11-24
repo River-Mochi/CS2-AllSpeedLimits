@@ -42,6 +42,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Opções de exibição" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "Teclas de atalho" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "Bicicletas e patinetes elétricos" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "Status dos veículos pessoais" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Restaurar padrões do jogo" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Uso" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
@@ -105,6 +106,53 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = padrão do jogo. Aceleração e frenagem se ajustam automaticamente. Limites dos caminhos continuam valendo. Atualize Bikes + Paths se usar." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restaurar velocidade" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restaura bicicletas e patinetes elétricos para 100%." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Grupo das bikes" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "Bicicletas e scooters elétricos.\n" +
+                    "**Ativo** = tem uma faixa atual (em movimento).\n" +
+                    "**Total estacionado** = inclui todos os flags Parked de qualquer lugar, não só estacionamentos."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "Grupo dos carros" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "Somente carros pessoais (exclui o grupo das bikes).\n" +
+                    "**Ativo** = tem uma faixa atual (em movimento).\n" +
+                    "**Estacionado** = todos os **ParkedCar**, não só estacionamentos.\n" +
+                    "A varredura só roda enquanto o menu Opções está aberto, não durante o gameplay da cidade, então sem preocupação com FPS."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "Carros estacionados ocultos" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**Total na borda OC** = veículos do grupo de carros com ParkedCar na conexão Outside City (OC).\n" +
+                    "Algumas cidades mostram muitos carros presos estacionados na conexão Outside City.\n" +
+                    "Use <Log hidden cars> para um exemplo de detalhamento dos carros ocultos."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "Registrar carros ocultos" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "Escreve um relatório único em **Logs/AllSpeedLimits.log**.\n" +
+                    "Inclui total + detalhamento Bucket A/B/C e números de ID de exemplo.\n" +
+                    "Use o mod Scene Explorer para ir aos IDs de entidade Vehicle listados e investigar."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "Abrir log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "Abre **Logs/AllSpeedLimits.log** se existir.\n" +
+                    "Se o arquivo ainda não existir, abre a pasta Logs."
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "Status não carregado." },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "Sem cidade... ¯\\_(ツ)_/¯ ...Sem estatísticas" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "rode a cidade por alguns minutos para obter dados." },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} ativos | {1} bikes | {2} scooters | {3} / {4} estacionados/total" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} ativos | {1} estacionados | {2} total | {3} trailers" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} ocultos na borda OC | atualizado {1}" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Restaurar velocidades padrão do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),

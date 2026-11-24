@@ -42,6 +42,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "顯示選項" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "快捷鍵" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "自行車和電動滑板車" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "個人車輛狀態" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "還原遊戲預設值" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "使用方法" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
@@ -105,6 +106,53 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = 遊戲預設。自動調整加速和煞車。仍受道路及路徑速限影響。如使用 Bikes + Paths，請更新。" },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "重設車速" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "將自行車和電動滑板車車速恢復為 100%。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "自行車群組" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "自行車與電動滑板車。\n" +
+                    "**活動** = 目前有車道（正在移動）。\n" +
+                    "**總停放** = 包含所有位置的 Parked 標記，不只是停車場。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "汽車群組" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "僅個人汽車（不包含自行車群組）。\n" +
+                    "**活動** = 目前有車道（正在移動）。\n" +
+                    "**停放** = 所有 **ParkedCar**，不只是停車場。\n" +
+                    "掃描只在選項選單開啟時執行，不在城市正常遊玩時執行，因此不用擔心 FPS。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "隱藏停放汽車" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**OC 邊界總數** = 在 Outside City (OC) 連接處帶 ParkedCar 的汽車群組車輛。\n" +
+                    "有些城市會在 Outside City 連接處出現大量卡住的停放汽車。\n" +
+                    "使用 <Log hidden cars> 查看隱藏汽車的範例分類。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "記錄隱藏汽車" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "向 **Logs/AllSpeedLimits.log** 寫入一次性報告。\n" +
+                    "包含總數 + Bucket A/B/C 分類與範例 ID。\n" +
+                    "使用 Scene Explorer 模組跳到列出的 Vehicle 實體 ID 並檢查。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "開啟日誌" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "如果存在，開啟 **Logs/AllSpeedLimits.log**。\n" +
+                    "如果尚未找到檔案，則改為開啟 Logs 資料夾。"
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "狀態未載入。" },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "沒有城市... ¯\\_(ツ)_/¯ ...沒有統計" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "執行城市幾分鐘以取得資料。" },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} 活動 | {1} 自行車 | {2} 滑板車 | {3} / {4} 停放/總數" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} 活動 | {1} 停放 | {2} 總數 | {3} 拖車" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} 在 OC 邊界隱藏 | 更新 {1}" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "還原遊戲預設速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),

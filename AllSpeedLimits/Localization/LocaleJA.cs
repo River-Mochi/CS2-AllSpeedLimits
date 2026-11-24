@@ -43,6 +43,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "表示オプション" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "キー割り当て" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "自転車・電動キックボード" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "個人車両ステータス" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "ゲーム既定に戻す" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "使い方" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
@@ -106,6 +107,53 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = ゲーム標準。加速・制動も自動調整。経路の速度制限は有効です。Bikes + Paths を使用中なら更新してください。" },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "速度をリセット" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "自転車と電動キックボードの速度を100%に戻します。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "自転車グループ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "自転車と電動スクーター。\n" +
+                    "**Active** = 現在のレーンがある（移動中）。\n" +
+                    "**Total Parked** = 駐車場だけでなく、どこにある Parked フラグも含みます。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "車グループ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "個人車のみ（自転車グループを除く）。\n" +
+                    "**Active** = 現在のレーンがある（移動中）。\n" +
+                    "**Parked** = 駐車場だけでなく、すべての **ParkedCar**。\n" +
+                    "スキャンは Options メニューが開いている時だけ実行され、都市プレイ中は動かないので FPS の心配はありません。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "隠れた駐車車両" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**OC 境界の合計** = Outside City (OC) 接続にある ParkedCar の車グループ車両。\n" +
+                    "都市によっては、Outside City 接続で駐車状態のまま詰まった車が大量に出ることがあります。\n" +
+                    "隠れた車のサンプル内訳は <Log hidden cars> を使ってください。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "隠れた車をログ出力" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "**Logs/AllSpeedLimits.log** に 1 回だけレポートを書き込みます。\n" +
+                    "合計 + Bucket A/B/C の内訳とサンプル ID 番号を含みます。\n" +
+                    "Scene Explorer mod で一覧の Vehicle エンティティ ID へジャンプして調査できます。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "ログを開く" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "**Logs/AllSpeedLimits.log** があれば開きます。\n" +
+                    "ファイルがまだ見つからない場合は、代わりに Logs フォルダーを開きます。"
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "ステータス未読み込み。" },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "都市なし... ¯\\_(ツ)_/¯ ...統計なし" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "データ取得のため、都市を数分動かしてください。" },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} 稼働中 | 自転車 {1} | スクーター {2} | 駐車/合計 {3} / {4}" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} 稼働中 | 駐車 {1} | 合計 {2} | トレーラー {3}" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} OC 境界で非表示 | 更新 {1}" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "ゲーム既定の速度に戻す" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
