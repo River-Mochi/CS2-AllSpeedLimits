@@ -20,6 +20,7 @@ type ScaleProps = {
     focusKey: unknown;
     text: ScaleText;
     vanilla: string;
+    showDefaultHint: boolean;
     apply: string;
     reset: string;
     sliderTip: PanelTooltipKind;
@@ -34,7 +35,7 @@ type ScaleProps = {
 
 const PathScaleRow = (props: ScaleProps) => {
     const {
-        percent, savedPercent, busy, focusKey, text, vanilla, apply, reset,
+        percent, savedPercent, busy, focusKey, text, vanilla, showDefaultHint, apply, reset,
         sliderTip, applyTip, resetTip, onChange, onApply, onReset, onShowTip, onHideTip
     } = props;
 
@@ -42,27 +43,34 @@ const PathScaleRow = (props: ScaleProps) => {
         <div>
             <div style={{
                 display: "flex", alignItems: "center", justifyContent: "space-between",
-                fontWeight: 700, fontSize: "14rem", marginBottom: "10rem"
+                fontWeight: 700, fontSize: "13rem", marginBottom: "6rem"
             }}>
                 <span>{text.heading}</span>
-                <span>{percent}%</span>
+                {showDefaultHint && (
+                    <span style={{ fontWeight: 500, fontSize: "10rem", opacity: 0.74 }}>
+                        {vanilla}
+                    </span>
+                )}
             </div>
-            <div onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
-                <Slider
-                    start={30}
-                    end={500}
-                    step={10}
-                    value={percent}
-                    onChange={onChange}
-                />
+            <div style={{ display: "flex", alignItems: "center" }}
+                 onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <Slider
+                        start={30}
+                        end={500}
+                        step={10}
+                        value={percent}
+                        onChange={onChange}
+                    />
+                </div>
+                <span style={{
+                    minWidth: "44rem", textAlign: "right", marginLeft: "8rem",
+                    fontWeight: 700, fontSize: "14rem"
+                }}>
+                    {percent}%
+                </span>
             </div>
-            <div style={{
-                marginTop: "6rem", marginBottom: "10rem",
-                fontSize: "11rem", opacity: 0.78
-            }}>
-                {vanilla}
-            </div>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "8rem" }}>
                 <div
                     onMouseEnter={() => onShowTip(resetTip)}
                     onMouseLeave={onHideTip}
@@ -98,7 +106,7 @@ const PathScaleRow = (props: ScaleProps) => {
                 </div>
             </div>
             <div style={{
-                marginTop: "9rem",
+                marginTop: "6rem",
                 fontSize: "11rem",
                 lineHeight: "1.35",
                 opacity: 0.78
@@ -142,8 +150,8 @@ export const AllPathsSection = (props: Props) => {
 
     return (
         <div style={{
-            paddingTop: "5rem",
-            paddingBottom: "9rem",
+            paddingTop: "3rem",
+            paddingBottom: "6rem",
             color: "rgba(235, 244, 250, 0.94)",
             fontSize: "12rem"
         }}>
@@ -154,6 +162,7 @@ export const AllPathsSection = (props: Props) => {
                 focusKey={focusKey}
                 text={text}
                 vanilla={text.vanilla}
+                showDefaultHint={true}
                 apply={text.apply}
                 reset={text.reset}
                 sliderTip="pathSlider"
@@ -166,8 +175,8 @@ export const AllPathsSection = (props: Props) => {
                 onHideTip={onHideTip}
             />
             <div style={{
-                marginTop: "14rem",
-                marginBottom: "14rem",
+                marginTop: "10rem",
+                marginBottom: "10rem",
                 borderTopWidth: "1rem",
                 borderTopStyle: "solid",
                 borderTopColor: "rgba(255,255,255,0.18)"
@@ -179,6 +188,7 @@ export const AllPathsSection = (props: Props) => {
                 focusKey={focusKey}
                 text={pedText}
                 vanilla={text.vanilla}
+                showDefaultHint={false}
                 apply={text.apply}
                 reset={text.reset}
                 sliderTip="pedPathSlider"

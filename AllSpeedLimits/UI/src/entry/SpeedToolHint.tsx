@@ -147,14 +147,14 @@ export const SpeedToolHint = () => {
                             onMouseDown={event => event.stopPropagation()}
                             onClick={OpenAllPaths}
                             style={{
-                                marginLeft: "8rem", paddingLeft: "6rem", paddingRight: "6rem",
-                                width: "75rem", minWidth: "75rem", maxWidth: "75rem",
-                                overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis",
-                                height: "28rem", cursor: "pointer", borderRadius: "3rem",
-                                fontSize: "11rem", fontWeight: 700, color: "#D6F0FF",
-                                backgroundColor: "rgba(63,160,203,0.20)",
-                                borderWidth: "1rem", borderStyle: "solid",
-                                borderColor: "rgba(101,185,224,0.65)"
+                                marginLeft: "8rem", paddingLeft: "5rem", paddingRight: "5rem",
+                                minWidth: "42rem", height: "28rem",
+                                whiteSpace: "nowrap", cursor: "pointer",
+                                fontSize: "12rem", fontWeight: 700, color: "#B6E7FC",
+                                backgroundColor: "transparent",
+                                borderWidth: "0",
+                                borderBottomWidth: "1rem", borderBottomStyle: "solid",
+                                borderBottomColor: "rgba(121,212,238,0.7)"
                             }}
                         >
                             {TEXT.panel.allPathsTab}

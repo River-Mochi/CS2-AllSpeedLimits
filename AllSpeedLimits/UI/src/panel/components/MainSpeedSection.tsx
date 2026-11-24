@@ -1,6 +1,6 @@
 // File: UI/src/panel/components/MainSpeedSection.tsx
-// Purpose: Collapsible "Slider" section — slider, precise stepper, and reset above Apply.
-// Presets auto-apply, so Apply lives here with the slider/stepper (the only controls that need it).
+// Purpose: Custom speed slider and stepper above adjacent Apply / Reset actions.
+// Presets auto-apply; the custom slider and stepper require Apply.
 
 import { useState } from "react";
 import type { ReactNode } from "react";
@@ -55,13 +55,13 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
 
     const [resetHovered, setResetHovered] = useState(false);
     const controlHeight = "26rem";
-    const resetWidthRem = 26;
-    const controlGapRem = 4;
-    const actionWidth = `${stepperWidthRem + controlGapRem + resetWidthRem}rem`;
+    const resetWidthRem = 28;
+    const controlGapRem = 6;
+    const applyWidthRem = stepperWidthRem + 18;
 
     return (
         <div style={{ marginBottom: "8rem" }}>
-            {/* Row 1: slider (with min/max labels), stepper, and reset. */}
+            {/* Row 1: slider with min/max labels and precise stepper. */}
             <div style={{ display: "flex", alignItems: "center", marginBottom: "8rem" }}>
                 <div style={{ flex: 1, minWidth: "0", marginRight: "8rem" }}>
                     <Slider
@@ -84,6 +84,34 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
                     {stepper}
+
+                </div>
+            </div>
+            {/* Row 2: Apply and Reset are adjacent, away from the stepper. */}
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                    focusKey={focusKey}
+                    selected={isApplying}
+                    disabled={isApplying}
+                    onSelect={onApply}
+                    onMouseEnter={onApplyMouseEnter}
+                    onMouseLeave={onControlMouseLeave}
+                    style={{
+                        width: `${applyWidthRem}rem`,
+                        minWidth: `${applyWidthRem}rem`,
+                        minHeight: controlHeight,
+                        height: controlHeight,
+                        boxSizing: "border-box",
+                        paddingTop: "0",
+                        paddingRight: "0",
+                        paddingBottom: "0",
+                        paddingLeft: "0",
+                        fontSize: "15rem",
+                        fontWeight: 800
+                    }}
+                >
+                    {applyButtonText}
+                </Button>
                     <Button
                         focusKey={focusKey}
                         selected={isResetting}
@@ -126,33 +154,6 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                             />
                         )}
                     </Button>
-                </div>
-            </div>
-            {/* Row 2: Apply spans the stepper and reset controls above it. */}
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                    focusKey={focusKey}
-                    selected={isApplying}
-                    disabled={isApplying}
-                    onSelect={onApply}
-                    onMouseEnter={onApplyMouseEnter}
-                    onMouseLeave={onControlMouseLeave}
-                    style={{
-                        width: actionWidth,
-                        minWidth: actionWidth,
-                        minHeight: controlHeight,
-                        height: controlHeight,
-                        boxSizing: "border-box",
-                        paddingTop: "0",
-                        paddingRight: "0",
-                        paddingBottom: "0",
-                        paddingLeft: "0",
-                        fontSize: "15rem",
-                        fontWeight: 800
-                    }}
-                >
-                    {applyButtonText}
-                </Button>
             </div>
         </div>
     );
