@@ -23,8 +23,8 @@ namespace RoadRailSpeeds
 
     [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
     [SettingsUITabOrder(kMainTab, kBicycleTab, kAboutTab)]
-    [SettingsUIGroupOrder(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
-    [SettingsUIShowGroupName(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kAboutDebugGroup)]
+    [SettingsUIGroupOrder(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kPersonalStatusGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
+    [SettingsUIShowGroupName(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kPersonalStatusGroup, kAboutDebugGroup)]
     [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
@@ -35,6 +35,7 @@ namespace RoadRailSpeeds
         public const string kDisplayGroup = "Display";
         public const string kKeybindsGroup = "Keybinds";
         public const string kBicycleGroup = "BicycleSpeed";
+        public const string kPersonalStatusGroup = "PersonalVehicleStatus";
         public const string kResetGroup = "ResetGameDefaults";
         public const string kUsageGroup = "Usage";
         public const string kAboutInfoGroup = "AboutInfo";
@@ -131,6 +132,71 @@ namespace RoadRailSpeeds
                     BicycleSpeedPercent = 100;
                     ApplyAndSave();
                     RequestBicycleSpeedApply();
+                }
+            }
+        }
+
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public string StatusSummary1
+        {
+            get
+            {
+                PersonalVehicleStatus.RefreshIfNeeded();
+                return PersonalVehicleStatus.BikesRow;
+            }
+        }
+
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public string StatusSummary2
+        {
+            get
+            {
+                PersonalVehicleStatus.RefreshIfNeeded();
+                return PersonalVehicleStatus.CarsRow;
+            }
+        }
+
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public string StatusSummary3
+        {
+            get
+            {
+                PersonalVehicleStatus.RefreshIfNeeded();
+                return PersonalVehicleStatus.CarsRow3;
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUIButtonGroup("PersonalStatusButtons")]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public bool LogBorderHiddenCars
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                World? world = World.DefaultGameObjectInjectionWorld;
+                if (world != null && world.IsCreated &&
+                    Game.SceneFlow.GameManager.instance?.gameMode == Game.GameMode.Game)
+                {
+                    world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>().LogBorderParkedSamples();
+                }
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUIButtonGroup("PersonalStatusButtons")]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public bool OpenLogFromStatus
+        {
+            set
+            {
+                if (value)
+                {
+                    ShellOpen.OpenModLogOrLogsFolder();
                 }
             }
         }

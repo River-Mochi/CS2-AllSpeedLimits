@@ -29,6 +29,9 @@ licensed under the MIT License. Copyright (c) 2026 River-Mochi.
 `AllSpeedLimits/Systems/Runtime/BicycleSpeedSystem.cs` also adapts the bicycle
 prefab maximum-speed, acceleration and braking tuning from CS2-Bikes-Paths.
 
+The personal vehicle status snapshot, cached Options rows, localization helper,
+and hidden-car diagnostic report also adapt MIT-licensed CS2-Bikes-Paths code.
+
 ## MIT License
 
 Copyright (c) 2024 yenyang

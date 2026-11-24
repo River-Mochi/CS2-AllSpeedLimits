@@ -33,6 +33,7 @@ namespace RoadRailSpeeds.Systems
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
+            PersonalVehicleStatus.InvalidateCache();
             Enabled = mode == GameMode.Game;
         }
 
