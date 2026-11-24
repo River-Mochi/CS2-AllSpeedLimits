@@ -23,7 +23,8 @@ import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
 
 import pathIcon from "../../images/Bicycle_max.svg";
-import invisibleIcon from "../../images/asl-invisible-white-arrows.svg";
+import invisibleOffIcon from "../../images/asl-invisible-white-arrows.svg";
+import invisibleOnIcon from "../../images/asl-invisible-colored-arrows.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
@@ -37,9 +38,10 @@ type FilterChipProps = {
   showTip: (kind: PanelTooltipKind) => void;
   hideTip: () => void;
   nativeTooltip?: string;
+  showActiveDot?: boolean;
 };
 
-const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip }: FilterChipProps) => {
+const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip, showActiveDot = true }: FilterChipProps) => {
   const [hovered, setHovered] = useState(false);
   // Use the game's resolved button here. A direct import registers controller focus twice and
   // floods the log with duplicate-focus errors.
@@ -108,7 +110,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
         </span>
       )}
 
-      {active && (
+      {active && showActiveDot && (
         <span style={{
           position: "absolute",
           left: "2rem",
@@ -247,7 +249,8 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
               active={invisible}
               text={invisibleLabel}
               tipKind="showInvisible"
-              iconSrc={invisibleIcon}
+              iconSrc={invisible ? invisibleOnIcon : invisibleOffIcon}
+              showActiveDot={false}
               nativeTooltip={nativeTooltips?.invisible}
               onToggle={() => SetShowInvisible(!invisible)}
               showTip={showTip}
