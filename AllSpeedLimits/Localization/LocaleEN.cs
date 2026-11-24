@@ -48,7 +48,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Log" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Dashed Eye Hotkey (Invisible Networks)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Invisible Networks Hotkey" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Click 'not set', then press a shortcut. Works anywhere in the city, even with ASL closed. Leave unassigned to disable." },
 
                 // Speed unit preference
@@ -121,15 +121,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Show short how-to notes below." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<City Panel>\n" +
-                    "1. Click or drag-select segments.\n" +
-                    "2. Set <New speed>, then click <Apply>.\n" +
-                    "3. <Reset> restores selected segments.\n" +
-                    "4. <Preset> buttons apply instantly.\n\n" +
-                    "<Whole City>\n" +
-                    "Choose a road group, then apply <New speed> to that group.\n" +
-                    "Use <Roads>, <Rails>, <Water>, or <All> to clear custom speeds.\n" +
-                    "<Save city> after whole city changes."
+                    "Click or drag-select segments. Set speed and Apply; presets apply instantly.\n" +
+                    "Dashed lines show invisible networks.\n" +
+                    "Paths: 200% doubles default limits; individual edits take priority.\n" +
+                    "Save the city after changes."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

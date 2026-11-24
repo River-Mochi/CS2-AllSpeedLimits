@@ -48,7 +48,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Journal" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Raccourci de l’œil pointillé" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Raccourci des réseaux invisibles" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Cliquez sur « non défini » puis choisissez une touche. Fonctionne même sans ouvrir ASL." },
 
                 // Speed unit preference
@@ -123,16 +123,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Affiche de courtes notes d’aide ci-dessous." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Panneau de ville>\n" +
-                    "1. Cliquez ou glissez pour sélectionner des segments.\n" +
-                    "2. Réglez <Nouvelle vitesse>, puis cliquez sur <Appliquer>.\n" +
-                    "3. <Réinit.> restaure les segments sélectionnés.\n" +
-                    "4. Les boutons <Préréglages> s’appliquent instantanément.\n" +
-                    "\n" +
-                    "<Ville entière>\n" +
-                    "Choisissez un groupe de routes, puis appliquez <Nouvelle vitesse> à ce groupe.\n" +
-                    "Utilisez <Routes>, <Rails>, <Eau> ou <Tout> pour effacer les vitesses personnalisées.\n" +
-                    "<Sauvegardez la ville> après les changements dans toute la ville."
+                    "Cliquez ou glissez pour sélectionner des segments. Réglez la vitesse et appliquez ; les préréglages sont immédiats.\n" +
+                    "Les pointillés affichent les réseaux invisibles.\n" +
+                    "Chemins : 200% double la limite de base ; les réglages individuels priment.\n" +
+                    "Sauvegardez la ville."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

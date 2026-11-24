@@ -48,7 +48,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Depuración / Log" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Atajo del ojo punteado (redes invisibles)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Atajo de redes invisibles" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Haz clic en «sin asignar» y elige una tecla. Funciona también con ASL cerrado." },
 
                 // Speed unit preference
@@ -123,16 +123,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Muestra notas rápidas debajo." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Panel de ciudad>\n" +
-                    "1. Haz clic o arrastra para seleccionar segmentos.\n" +
-                    "2. Ajusta <Nueva velocidad> y pulsa <Aplicar>.\n" +
-                    "3. <Restablecer> restaura los segmentos elegidos.\n" +
-                    "4. Los botones <Preajustes> se aplican al instante.\n" +
-                    "\n" +
-                    "<Toda la ciudad>\n" +
-                    "Elige un grupo de carreteras y aplica <Nueva velocidad> a ese grupo.\n" +
-                    "Usa <Carreteras>, <Vías>, <Agua> o <Todo> para borrar velocidades personalizadas.\n" +
-                    "<Guarda la ciudad> tras cambios en toda la ciudad."
+                    "Selecciona tramos con clic o arrastre. Ajusta la velocidad y aplica; los preajustes son inmediatos.\n" +
+                    "Las líneas discontinuas muestran redes invisibles.\n" +
+                    "Caminos: 200% duplica el límite base; los cambios individuales tienen prioridad.\n" +
+                    "Guarda la ciudad."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

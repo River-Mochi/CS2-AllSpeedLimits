@@ -48,7 +48,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Log" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Tastenkürzel: gestricheltes Auge" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Tastenkürzel für unsichtbare Netze" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Auf „Nicht belegt“ klicken und Taste wählen. Funktioniert auch ohne ASL-Fenster." },
 
                 // Speed unit preference
@@ -123,16 +123,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Zeigt kurze Hinweise unten an." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Stadt-Panel>\n" +
-                    "1. Segmente anklicken oder per Ziehen auswählen.\n" +
-                    "2. <Neues Tempo> setzen, dann <Anwenden> klicken.\n" +
-                    "3. <Zurücksetzen> stellt ausgewählte Segmente wieder her.\n" +
-                    "4. <Vorgaben> werden sofort angewendet.\n" +
-                    "\n" +
-                    "<Ganze Stadt>\n" +
-                    "Eine Straßengruppe wählen, dann <Neues Tempo> darauf anwenden.\n" +
-                    "Mit <Straßen>, <Schienen>, <Wasser> oder <Alle> eigene Werte löschen.\n" +
-                    "Nach Änderungen in der ganzen Stadt <Stadt speichern>."
+                    "Segmente anklicken oder per Ziehen auswählen. Tempo einstellen und anwenden; Vorgaben gelten sofort.\n" +
+                    "Gestrichelte Linien zeigen unsichtbare Netze.\n" +
+                    "Wege: 200% verdoppeln Standardlimits; individuelle Änderungen haben Vorrang.\n" +
+                    "Stadt nach Änderungen speichern."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
