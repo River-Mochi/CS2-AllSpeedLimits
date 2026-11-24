@@ -23,7 +23,7 @@ import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
 
 import pathIcon from "../../images/Bicycle_max.svg";
-import invisibleIcon from "../../images/asl-invisible03.svg";
+import invisibleIcon from "../../images/asl-invisible-white-arrows.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
