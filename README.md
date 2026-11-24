@@ -7,6 +7,7 @@ Fine-tune speed limits in Cities: Skylines II.
 - Click a network segment or drag to select several.
 - Change speeds on roads, bike-capable paths, tram/train/subway tracks, and waterways.
 - Options → Bicycles: bicycle and electric scooter maximum speed (30–1000%, default 100%). Acceleration and braking adjust automatically.
+- Bicycles tab: personal vehicle counts, parked vehicles and hidden cars at outside connections; status refreshes on demand in Options. Detailed hidden-car report available in the ASL log.
 - Adjust individual segments with a slider, number box, or preset signs.
 - Switch to **Paths** for separate global limits on bike/mixed paths and pedestrian-only paths (100% = vanilla).
 - Set each global path category from **30% to 500%**, with independent Apply and Reset.

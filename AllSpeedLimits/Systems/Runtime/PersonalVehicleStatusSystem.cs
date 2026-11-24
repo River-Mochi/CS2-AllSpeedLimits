@@ -17,6 +17,7 @@ namespace RoadRailSpeeds.Systems
     using Game.Tools;
     using Game;
     using System;               // DateTime, StringComparison
+    using System.Text;           // Shared partial-class generator imports
     using CS2Shared.RiverMochi; // LogUtils
     using Game.Common;          // Deleted, Destroyed, Owner
     using Game.Objects;         // Unspawned
@@ -180,6 +181,7 @@ namespace RoadRailSpeeds.Systems
             long bikeGroupParked = 0;
             long bikeGroupActive = 0;
             long scooterTotal = 0;
+            Dictionary<Entity, bool> scooterByPrefab = new Dictionary<Entity, bool>();
 
             long carGroupTotal = 0;
             long carGroupParked = 0;
@@ -224,8 +226,16 @@ namespace RoadRailSpeeds.Systems
                         else
                             bikeGroupActive++;
 
-                        if (IsElectricScooterPrefab(prefabEntity))
+                        if (!scooterByPrefab.TryGetValue(prefabEntity, out bool isScooter))
+                        {
+                            isScooter = IsElectricScooterPrefab(prefabEntity);
+                            scooterByPrefab.Add(prefabEntity, isScooter);
+                        }
+
+                        if (isScooter)
+                        {
                             scooterTotal++;
+                        }
 
                         continue;
                     }
@@ -257,11 +267,7 @@ namespace RoadRailSpeeds.Systems
                 }
             }
 
-            long trailerTotal;
-            using (NativeArray<Entity> trailerEntities = m_TrailerQuery.ToEntityArray(Allocator.Temp))
-            {
-                trailerTotal = trailerEntities.Length;
-            }
+            long trailerTotal = m_TrailerQuery.CalculateEntityCount();
 
             long bikeOnlyTotal = bikeGroupTotal - scooterTotal;
             if (bikeOnlyTotal < 0)

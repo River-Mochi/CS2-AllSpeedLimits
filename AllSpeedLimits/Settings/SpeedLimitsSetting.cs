@@ -141,7 +141,7 @@ namespace RoadRailSpeeds
         {
             get
             {
-                PersonalVehicleStatus.RefreshIfNeeded();
+                RefreshPersonalVehicleStatusSafe();
                 return PersonalVehicleStatus.BikesRow;
             }
         }
@@ -151,7 +151,7 @@ namespace RoadRailSpeeds
         {
             get
             {
-                PersonalVehicleStatus.RefreshIfNeeded();
+                RefreshPersonalVehicleStatusSafe();
                 return PersonalVehicleStatus.CarsRow;
             }
         }
@@ -161,7 +161,7 @@ namespace RoadRailSpeeds
         {
             get
             {
-                PersonalVehicleStatus.RefreshIfNeeded();
+                RefreshPersonalVehicleStatusSafe();
                 return PersonalVehicleStatus.CarsRow3;
             }
         }
@@ -198,6 +198,18 @@ namespace RoadRailSpeeds
                 {
                     ShellOpen.OpenModLogOrLogsFolder();
                 }
+            }
+        }
+
+        private static void RefreshPersonalVehicleStatusSafe()
+        {
+            try
+            {
+                PersonalVehicleStatus.RefreshIfNeeded();
+            }
+            catch (Exception exception)
+            {
+                LogUtils.WarnOnce("PersonalVehicleStatusRefresh", () => $"{Mod.ModTag} Personal vehicle status refresh failed: {exception.Message}");
             }
         }
 

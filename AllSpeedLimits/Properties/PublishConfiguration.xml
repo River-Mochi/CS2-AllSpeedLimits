@@ -24,6 +24,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
 * 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
 * **New Options → Bicycles tab:** Bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Acceleration and braking adjust automatically.
+* **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
 * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–500% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
