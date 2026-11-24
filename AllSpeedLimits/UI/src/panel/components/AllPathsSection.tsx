@@ -66,7 +66,7 @@ const PathScaleRow = (props: ScaleProps) => {
             </div>
             <div onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
                 <Slider start={30} end={500} step={10} value={percent}
-                    onChange={value => { if (!busy) onChange(value); }} />
+                    onChange={(value: number) => { if (!busy) onChange(value); }} />
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "8rem" }}>
                 <div onMouseEnter={() => onShowTip(applyTip)} onMouseLeave={onHideTip} style={{ marginRight: "7rem" }}>
