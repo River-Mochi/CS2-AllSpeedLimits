@@ -43,8 +43,8 @@ const PathScaleRow = (props: ScaleProps) => {
                 display: "flex", alignItems: "center", justifyContent: "space-between",
                 fontWeight: 700, fontSize: "13rem", marginBottom: "6rem"
             }}>
-                <span>{text.heading}</span>
-                <div style={{ display: "flex", alignItems: "center", width: "128rem", marginLeft: "6rem" }}
+                <span style={{ flex: 1, minWidth: "0" }}>{text.heading}</span>
+                <div style={{ display: "flex", alignItems: "center", width: "128rem", minWidth: "128rem", flexShrink: 0, marginLeft: "6rem" }}
                      onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
                     <Button focusKey={focusKey} variant="neutral" disabled={busy || percent <= 30}
                         onSelect={() => onChange(Math.max(30, percent - 10))}

@@ -10,15 +10,15 @@ Fine-tune speed limits in Cities: Skylines II.
 - Switch to **Paths** for separate global limits on bike/mixed paths and pedestrian-only paths (100% = vanilla).
 - Set each global path category from **30% to 500%**, with independent Apply and Reset.
 - Global changes update eligible existing and new paths; individual ASL bike speeds take priority.
-- Reveal the game's **blue/green dashed invisible networks** with the eye icon.
+- Reveal the game's **blue/green dashed invisible networks** with the dashed-lines button.
 - Edit supported invisible roads and bike-capable paths; also works on supported building-internal networks.
-- Assign an optional **Dashed Eye hotkey** under Options → Actions → Keybinds. It works even with the ASL panel closed.
+- Assign an optional **Invisible Networks Hotkey** under Options → Actions → Keybinds. It works even with the ASL panel closed.
 - Reset selected speeds, clear custom speeds by type, or apply citywide road/rail speeds.
 - Switch between km/h and mph, show floating speeds, and view optional vehicle stats.
 
 ## Important
 
-- The eye shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
+- The dashed-lines button shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
 - **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pedestrian-only paths can be changed globally, not individually.
 - The Bike slider controls bike-only and mixed paths. The Pedestrian slider controls pedestrian-only paths. Mixed paths always use the Bike slider. ASL does not change citizen or vehicle maximum speeds.
 - Hidden vehicle-only roads are **not** affected by either global Paths slider; edit supported ones individually under Speed Limits.
