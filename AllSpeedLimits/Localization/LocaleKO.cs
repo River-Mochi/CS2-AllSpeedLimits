@@ -36,6 +36,7 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "동작" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "자전거" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "정보" },
 
                 // Groups
@@ -49,7 +50,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "디버그 / 로그" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "점선 눈 아이콘 단축키" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "숨은 네트워크 단축키" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "'설정 안 됨'을 클릭해 키를 지정하세요. ASL을 닫아도 사용할 수 있습니다." },
 
                 // Speed unit preference
@@ -129,16 +130,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "아래에 짧은 사용법을 표시합니다." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<도시 패널>\n" +
-                    "1. 구간을 클릭하거나 드래그 선택합니다.\n" +
-                    "2. <새 속도>를 정한 뒤 <적용>을 누릅니다.\n" +
-                    "3. <초기화>는 선택 구간을 복원합니다.\n" +
-                    "4. <프리셋> 버튼은 즉시 적용됩니다.\n" +
-                    "\n" +
-                    "<도시 전체>\n" +
-                    "도로 그룹을 선택한 뒤 그 그룹에 <새 속도>를 적용합니다.\n" +
-                    "<도로>, <철도>, <수로>, <전체>로 사용자 속도를 지웁니다.\n" +
-                    "도시 전체 변경 후에는 <도시 저장>을 하세요."
+                    "클릭 또는 드래그로 구간 선택. 속도를 설정하고 적용하세요. 프리셋은 즉시 적용됩니다.\n" +
+                    "점선 버튼으로 숨은 네트워크 표시.\n" +
+                    "경로: 200%는 기본 제한 속도의 2배. 개별 설정 우선.\n" +
+                    "변경 후 도시를 저장하세요."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

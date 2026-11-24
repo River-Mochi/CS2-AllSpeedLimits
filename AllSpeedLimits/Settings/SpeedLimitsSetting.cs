@@ -22,13 +22,14 @@ namespace RoadRailSpeeds
     using Unity.Entities;            // World
 
     [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
-    [SettingsUITabOrder(kMainTab, kAboutTab)]
-    [SettingsUIGroupOrder(kDisplayGroup, kKeybindsGroup, kBicycleGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
-    [SettingsUIShowGroupName(kDisplayGroup, kKeybindsGroup, kBicycleGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
+    [SettingsUITabOrder(kMainTab, kBicycleTab, kAboutTab)]
+    [SettingsUIGroupOrder(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
+    [SettingsUIShowGroupName(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kAboutDebugGroup)]
     [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
         public const string kMainTab = "Main";
+        public const string kBicycleTab = "Bicycles";
         public const string kAboutTab = "About";
 
         public const string kDisplayGroup = "Display";
@@ -55,9 +56,6 @@ namespace RoadRailSpeeds
         public SpeedUnit SpeedUnitPreference { get; set; } = SpeedUnit.Auto;
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
-        public bool SyncSliderWithSelection { get; set; } = true;
-
-        [SettingsUISection(kMainTab, kDisplayGroup)]
         [SettingsUISlider(min = 5f, max = 25f, step = 5f, unit = "integer")]
         public int PanelSliderIncrement { get; set; } = 10;
 
@@ -67,6 +65,9 @@ namespace RoadRailSpeeds
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool DoubleSpeedDisplay { get; set; }
+
+        [SettingsUISection(kMainTab, kDisplayGroup)]
+        public bool SyncSliderWithSelection { get; set; } = true;
 
         [SettingsUIHidden]
         public bool PanelTooltipsEnabled { get; set; } = true;
@@ -103,7 +104,7 @@ namespace RoadRailSpeeds
 
         private int m_BicycleSpeedPercent = 100;
 
-        [SettingsUISection(kMainTab, kBicycleGroup)]
+        [SettingsUISection(kBicycleTab, kBicycleGroup)]
         [SettingsUISlider(min = 30f, max = 1000f, step = 10f, unit = Unit.kPercentage)]
         public int BicycleSpeedPercent
         {
@@ -120,7 +121,7 @@ namespace RoadRailSpeeds
         }
 
         [SettingsUIButton]
-        [SettingsUISection(kMainTab, kBicycleGroup)]
+        [SettingsUISection(kBicycleTab, kBicycleGroup)]
         public bool ResetBicycleSpeed
         {
             set

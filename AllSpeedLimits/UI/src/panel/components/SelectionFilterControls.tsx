@@ -23,8 +23,7 @@ import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
 
 import pathIcon from "../../images/Bicycle_max.svg";
-import invisibleOffIcon from "../../images/asl-invisible-white-arrows.svg";
-import invisibleOnIcon from "../../images/asl-invisible-colored-arrows.svg";
+import invisibleIcon from "../../images/asl-invisible-colored-arrows.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
@@ -39,9 +38,10 @@ type FilterChipProps = {
   hideTip: () => void;
   nativeTooltip?: string;
   showActiveDot?: boolean;
+  wideIcon?: boolean;
 };
 
-const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip, showActiveDot = true }: FilterChipProps) => {
+const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip, showActiveDot = true, wideIcon = false }: FilterChipProps) => {
   const [hovered, setHovered] = useState(false);
   // Use the game's resolved button here. A direct import registers controller focus twice and
   // floods the log with duplicate-focus errors.
@@ -69,8 +69,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
       onSelect={onToggle}
       style={{
         position: "relative",
-        width: USE_ICONS ? "30rem" : "auto",
-        minWidth: USE_ICONS ? "30rem" : "46rem",
+        width: USE_ICONS ? (wideIcon ? "44rem" : "30rem") : "auto",
+        minWidth: USE_ICONS ? (wideIcon ? "44rem" : "30rem") : "46rem",
         height: "30rem",
         marginLeft: "2rem",
         paddingLeft: USE_ICONS ? "0" : "8rem",
@@ -96,7 +96,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
           src={iconSrc}
           alt={text}
           style={{
-            width: "26rem",
+            width: wideIcon ? "40rem" : "26rem",
             height: "26rem",
             pointerEvents: "none",
             opacity: 1,
@@ -249,8 +249,9 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
               active={invisible}
               text={invisibleLabel}
               tipKind="showInvisible"
-              iconSrc={invisible ? invisibleOnIcon : invisibleOffIcon}
+              iconSrc={invisibleIcon}
               showActiveDot={false}
+              wideIcon={true}
               nativeTooltip={nativeTooltips?.invisible}
               onToggle={() => SetShowInvisible(!invisible)}
               showTip={showTip}

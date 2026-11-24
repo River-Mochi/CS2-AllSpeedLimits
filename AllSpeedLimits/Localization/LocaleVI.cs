@@ -35,6 +35,7 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Thao tác" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "Xe đạp" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Giới thiệu" },
 
                 // Groups
@@ -48,7 +49,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Gỡ lỗi / Nhật ký" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Phím tắt mắt nét đứt" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Phím tắt mạng lưới ẩn" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Nhấp vào 'chưa đặt' rồi chọn phím. Dùng được cả khi đóng bảng ASL." },
 
                 // Speed unit preference
@@ -128,16 +129,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Hiện ghi chú nhanh bên dưới." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Bảng thành phố>\n" +
-                    "1. Bấm hoặc kéo chọn các đoạn.\n" +
-                    "2. Đặt <Tốc độ mới>, rồi bấm <Áp dụng>.\n" +
-                    "3. <Đặt lại> khôi phục các đoạn đã chọn.\n" +
-                    "4. Các nút <Cài sẵn> áp dụng ngay.\n" +
-                    "\n" +
-                    "<Toàn thành phố>\n" +
-                    "Chọn nhóm đường, rồi áp dụng <Tốc độ mới> cho nhóm đó.\n" +
-                    "Dùng <Đường>, <Ray>, <Nước> hoặc <Tất cả> để xóa tốc độ tùy chỉnh.\n" +
-                    "<Lưu thành phố> sau thay đổi toàn thành phố."
+                    "Nhấp hoặc kéo để chọn đoạn. Đặt tốc độ rồi áp dụng; nút đặt sẵn áp dụng ngay.\n" +
+                    "Nút nét đứt hiện mạng lưới ẩn.\n" +
+                    "Đường đi: 200% gấp đôi giới hạn gốc; chỉnh riêng từng đoạn được ưu tiên.\n" +
+                    "Lưu thành phố."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

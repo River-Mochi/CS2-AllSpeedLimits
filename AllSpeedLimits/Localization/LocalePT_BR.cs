@@ -35,6 +35,7 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Ações" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "Bicicletas" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Sobre" },
 
                 // Groups
@@ -48,7 +49,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Log" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Atalho do olho tracejado" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Atalho de redes invisíveis" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Clique em 'não definido' e escolha uma tecla. Funciona mesmo com o ASL fechado." },
 
                 // Speed unit preference
@@ -128,16 +129,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Mostra notas rápidas abaixo." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Painel da cidade>\n" +
-                    "1. Clique ou arraste para selecionar segmentos.\n" +
-                    "2. Defina <Nova velocidade> e clique em <Aplicar>.\n" +
-                    "3. <Redefinir> restaura os segmentos selecionados.\n" +
-                    "4. Botões de <Predefinição> aplicam na hora.\n" +
-                    "\n" +
-                    "<Cidade inteira>\n" +
-                    "Escolha um grupo de estradas e aplique <Nova velocidade> a esse grupo.\n" +
-                    "Use <Vias>, <Trilhos>, <Água> ou <Tudo> para limpar velocidades personalizadas.\n" +
-                    "<Salve a cidade> após mudanças na cidade inteira."
+                    "Clique ou arraste para selecionar trechos. Ajuste a velocidade e aplique; predefinições são imediatas.\n" +
+                    "As linhas tracejadas mostram redes invisíveis.\n" +
+                    "Caminhos: 200% dobra o limite padrão; ajustes individuais têm prioridade.\n" +
+                    "Salve a cidade."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

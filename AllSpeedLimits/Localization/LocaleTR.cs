@@ -35,6 +35,7 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Eylemler" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "Bisikletler" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Hakkında" },
 
                 // Groups
@@ -48,7 +49,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Hata ayıklama / Günlük" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Kesik çizgili göz kısayolu" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Görünmez ağlar kısayolu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "“Ayarlanmadı” alanına tıklayıp tuş atayın. ASL kapalıyken de çalışır." },
 
                 // Speed unit preference
@@ -128,16 +129,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Aşağıda kısa kullanım notlarını gösterir." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Şehir paneli>\n" +
-                    "1. Bölümlere tıkla veya sürükleyerek seç.\n" +
-                    "2. <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
-                    "3. <Sıfırla> seçili bölümleri geri yükler.\n" +
-                    "4. <Ön ayar> düğmeleri anında uygulanır.\n" +
-                    "\n" +
-                    "<Tüm şehir>\n" +
-                    "Bir yol grubu seç, sonra o gruba <Yeni hız> uygula.\n" +
-                    "Özel hızları temizlemek için <Yollar>, <Raylar>, <Su> veya <Tümü> kullan.\n" +
-                    "Tüm şehir değişikliklerinden sonra <Şehri kaydet>."
+                    "Kesimleri tıklayarak veya sürükleyerek seçin. Hızı ayarlayıp uygulayın; hazır ayarlar anında uygulanır.\n" +
+                    "Kesikli çizgiler görünmez ağları gösterir.\n" +
+                    "Yollar: %200 varsayılan sınırı ikiye katlar; tekil ayarlar önceliklidir.\n" +
+                    "Şehri kaydedin."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -23,7 +23,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**
 * 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
 * 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
-* **New Options setting:** Bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Acceleration and braking adjust automatically.
+* **New Options → Bicycles tab:** Bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Acceleration and braking adjust automatically.
 * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–500% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
@@ -33,6 +33,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
 * Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizens' maximum walking speed.
 * Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
+* Example: Bike 200% changes a 30 km/h default bike path to 60 km/h. Individual edits take priority.
 * Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
 * Bikes + Paths 1.1.6+ automatically leaves overlapping speed controls to ASL. Update B+P before using both mods.
 * Vehicles are still limited by their max speeds (different for each type).

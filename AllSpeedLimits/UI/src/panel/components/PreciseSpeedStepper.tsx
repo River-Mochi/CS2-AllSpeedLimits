@@ -87,6 +87,8 @@ export const PreciseSpeedStepper = memo((props: PreciseSpeedStepperProps) => {
                 disabled={disabled}
                 style={{
                     width: `${buttonWidthRem}rem`,
+                    minWidth: `${buttonWidthRem}rem`,
+                    boxSizing: "border-box",
                     height: controlHeight,
                     minHeight: controlHeight,
                     display: "flex",
@@ -124,6 +126,8 @@ export const PreciseSpeedStepper = memo((props: PreciseSpeedStepperProps) => {
             title={groupTitle}
             style={{
                 width: `${widthRem}rem`,
+                minWidth: `${widthRem}rem`,
+                flexShrink: 0,
                 marginLeft: "0",
                 display: "flex",
                 flexDirection: "row",
@@ -135,6 +139,8 @@ export const PreciseSpeedStepper = memo((props: PreciseSpeedStepperProps) => {
             <div
                 style={{
                     width: `${numberWidthRem}rem`,
+                    minWidth: `${numberWidthRem}rem`,
+                    boxSizing: "border-box",
                     height: controlHeight,
                     minHeight: controlHeight,
                     backgroundColor: "rgba(5, 10, 14, 0.42)",

@@ -19,8 +19,6 @@ type ScaleProps = {
     busy: boolean;
     focusKey: unknown;
     text: ScaleText;
-    vanilla: string;
-    showDefaultHint: boolean;
     apply: string;
     reset: string;
     sliderTip: PanelTooltipKind;
@@ -35,7 +33,7 @@ type ScaleProps = {
 
 const PathScaleRow = (props: ScaleProps) => {
     const {
-        percent, savedPercent, busy, focusKey, text, vanilla, showDefaultHint, apply, reset,
+        percent, savedPercent, busy, focusKey, text, apply, reset,
         sliderTip, applyTip, resetTip, onChange, onApply, onReset, onShowTip, onHideTip
     } = props;
 
@@ -45,63 +43,42 @@ const PathScaleRow = (props: ScaleProps) => {
                 display: "flex", alignItems: "center", justifyContent: "space-between",
                 fontWeight: 700, fontSize: "13rem", marginBottom: "6rem"
             }}>
-                <span>{text.heading}</span>
-                {showDefaultHint && (
-                    <span style={{ fontWeight: 500, fontSize: "10rem", opacity: 0.74 }}>
-                        {vanilla}
-                    </span>
-                )}
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}
-                 onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                    <Slider
-                        start={30}
-                        end={500}
-                        step={10}
-                        value={percent}
-                        onChange={onChange}
-                    />
-                </div>
-                <span style={{
-                    minWidth: "44rem", textAlign: "right", marginLeft: "8rem",
-                    fontWeight: 700, fontSize: "14rem"
-                }}>
-                    {percent}%
-                </span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "8rem" }}>
-                <div
-                    onMouseEnter={() => onShowTip(resetTip)}
-                    onMouseLeave={onHideTip}
-                    style={{ marginRight: "7rem" }}
-                >
-                    <Button
-                        focusKey={focusKey}
-                        variant="neutral"
-                        disabled={busy || (percent === 100 && savedPercent === 100)}
-                        onSelect={onReset}
-                        style={{
-                            minHeight: "27rem",
-                            paddingLeft: "13rem",
-                            paddingRight: "13rem"
-                        }}
-                    >
-                        {reset}
+                <span style={{ flex: 1, minWidth: "0" }}>{text.heading}</span>
+                <div style={{ display: "flex", alignItems: "center", width: "128rem", minWidth: "128rem", flexShrink: 0, marginLeft: "6rem" }}
+                     onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
+                    <Button focusKey={focusKey} variant="neutral" disabled={busy || percent <= 30}
+                        onSelect={() => onChange(Math.max(30, percent - 10))}
+                        style={{ width: "28rem", minWidth: "28rem", minHeight: "26rem", paddingLeft: "0", paddingRight: "0" }}>
+                        −
+                    </Button>
+                    <span style={{
+                        flex: 1, textAlign: "center", fontWeight: 700, fontSize: "14rem",
+                        backgroundColor: "rgba(5, 10, 14, 0.42)", borderWidth: "1rem",
+                        borderStyle: "solid", borderColor: "rgba(78, 195, 240, 0.48)",
+                        borderRadius: "3rem", lineHeight: "24rem", marginLeft: "3rem", marginRight: "3rem"
+                    }}>{percent}%</span>
+                    <Button focusKey={focusKey} variant="neutral" disabled={busy || percent >= 500}
+                        onSelect={() => onChange(Math.min(500, percent + 10))}
+                        style={{ width: "28rem", minWidth: "28rem", minHeight: "26rem", paddingLeft: "0", paddingRight: "0" }}>
+                        +
                     </Button>
                 </div>
-                <div onMouseEnter={() => onShowTip(applyTip)} onMouseLeave={onHideTip}>
-                    <Button
-                        focusKey={focusKey}
-                        disabled={busy || percent === savedPercent}
-                        onSelect={onApply}
-                        style={{
-                            minHeight: "27rem",
-                            paddingLeft: "13rem",
-                            paddingRight: "13rem"
-                        }}
-                    >
+            </div>
+            <div onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
+                <Slider start={30} end={500} step={10} value={percent}
+                    onChange={value => { if (!busy) onChange(value); }} />
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "8rem" }}>
+                <div onMouseEnter={() => onShowTip(applyTip)} onMouseLeave={onHideTip} style={{ marginRight: "7rem" }}>
+                    <Button focusKey={focusKey} disabled={busy || percent === savedPercent}
+                        onSelect={onApply} style={{ minHeight: "27rem", paddingLeft: "13rem", paddingRight: "13rem" }}>
                         {apply}
+                    </Button>
+                </div>
+                <div onMouseEnter={() => onShowTip(resetTip)} onMouseLeave={onHideTip}>
+                    <Button focusKey={focusKey} variant="neutral" disabled={busy || (percent === 100 && savedPercent === 100)}
+                        onSelect={onReset} style={{ minHeight: "27rem", paddingLeft: "13rem", paddingRight: "13rem" }}>
+                        {reset}
                     </Button>
                 </div>
             </div>
@@ -161,8 +138,6 @@ export const AllPathsSection = (props: Props) => {
                 busy={busy}
                 focusKey={focusKey}
                 text={text}
-                vanilla={text.vanilla}
-                showDefaultHint={true}
                 apply={text.apply}
                 reset={text.reset}
                 sliderTip="pathSlider"
@@ -187,8 +162,6 @@ export const AllPathsSection = (props: Props) => {
                 busy={busy}
                 focusKey={focusKey}
                 text={pedText}
-                vanilla={text.vanilla}
-                showDefaultHint={false}
                 apply={text.apply}
                 reset={text.reset}
                 sliderTip="pedPathSlider"

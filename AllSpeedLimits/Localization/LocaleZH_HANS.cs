@@ -36,6 +36,7 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "自行车" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "关于" },
 
                 // Groups
@@ -49,7 +50,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "调试 / 日志" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "虚线眼睛快捷键（隐形网络）" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "隐藏路网快捷键" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "点击“未设置”并指定按键。关闭 ASL 面板后仍可使用。" },
 
                 // Speed unit preference
@@ -129,16 +130,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "在下方显示简短说明。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<城市面板>\n" +
-                    "1. 点击或拖动选择区段。\n" +
-                    "2. 设置 <新速度>，然后点击 <应用>。\n" +
-                    "3. <重置> 会恢复所选区段。\n" +
-                    "4. <预设> 按钮会立即生效。\n" +
-                    "\n" +
-                    "<全城>\n" +
-                    "选择一个道路组，然后把 <新速度> 应用到该组。\n" +
-                    "用 <道路>、<轨道>、<水路> 或 <全部> 清除自定义速度。\n" +
-                    "全城修改后请 <保存城市>。"
+                    "点击或拖选路段。设置速度后应用；预设按钮立即生效。\n" +
+                    "虚线按钮显示隐藏路网。\n" +
+                    "路径：200% 使默认限速翻倍，单独修改的路段优先。\n" +
+                    "修改后保存城市。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

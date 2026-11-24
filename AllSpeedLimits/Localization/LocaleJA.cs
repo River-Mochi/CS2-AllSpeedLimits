@@ -36,6 +36,7 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "自転車" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "情報" },
 
                 // Groups
@@ -49,7 +50,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "デバッグ / ログ" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "点線の目アイコンのショートカット" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "非表示ネットワークのショートカット" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "「未設定」をクリックしてキーを割り当てます。ASLを閉じていても使用できます。" },
 
                 // Speed unit preference
@@ -129,16 +130,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "下に短い使い方メモを表示します。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<都市パネル>\n" +
-                    "1. セグメントをクリック、またはドラッグ選択します。\n" +
-                    "2. <新速度> を設定して <適用> をクリックします。\n" +
-                    "3. <リセット> は選択セグメントを戻します。\n" +
-                    "4. <プリセット> ボタンはすぐ適用されます。\n" +
-                    "\n" +
-                    "<都市全体>\n" +
-                    "道路グループを選び、そのグループに <新速度> を適用します。\n" +
-                    "<道路>、<鉄道>、<水路>、<全て> でカスタム速度を消去します。\n" +
-                    "都市全体の変更後は <都市を保存> してください。"
+                    "クリックまたはドラッグで区間を選択。速度を設定して適用。プリセットは即時適用。\n" +
+                    "破線ボタンで非表示ネットワークを表示。\n" +
+                    "経路：200%で標準の制限速度が2倍。個別設定を優先。\n" +
+                    "変更後はセーブ。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

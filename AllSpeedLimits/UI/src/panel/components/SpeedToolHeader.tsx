@@ -6,7 +6,6 @@ import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
 import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
-import starBlueGreenIcon from "../../images/star-all-bluegreen.svg";
 
 type SpeedToolHeaderProps = {
     title: string;
@@ -157,7 +156,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     onMouseLeave={() => setIsMarkersHovered(false)}
                     style={{
                         position: "relative",
-                        backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
+                        backgroundColor: speedMarkersHidden && isMarkersHovered ? "rgba(245, 188, 64, 0.18)" : isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
                         borderWidth: "0",
                         borderStyle: "solid",
                         borderColor: "rgba(255, 255, 255, 0)",
@@ -177,34 +176,13 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         marginRight: "1rem"
                     }}
                 >
-                    <div style={{
-                        position: "absolute",
-                        top: "4.5rem",
-                        left: "4.5rem",
-                        width: "17rem",
-                        height: "17rem",
-                        borderRadius: "50%",
-                        borderWidth: speedMarkersHidden ? "2.2rem" : "2rem",
-                        borderStyle: "solid",
-                        borderColor: speedMarkersHidden
-                            ? "rgba(110, 200, 235, 0.88)"
-                            : (isMarkersHovered ? "rgba(255, 255, 255, 0.86)" : "rgba(255, 255, 255, 0.34)"),
-                        boxSizing: "border-box",
+                    <span style={{
+                        fontSize: isMarkersHovered ? "19rem" : "17rem",
+                        fontWeight: 700,
+                        lineHeight: "1",
+                        color: speedMarkersHidden ? "#F5BC40" : "rgba(255, 255, 255, 0.75)",
                         pointerEvents: "none"
-                    }} />
-                    <img
-                        src={starBlueGreenIcon}
-                        alt=""
-                        style={{
-                            width: isMarkersHovered ? "15rem" : "13.5rem",
-                            height: isMarkersHovered ? "15rem" : "13.5rem",
-                            filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
-                            opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 1 : 0.58),
-                            // Nudge left to center the asterisk in the ring.
-                            transform: "translate(-0.5rem, -0.4rem)",
-                            pointerEvents: "none"
-                        }}
-                    />
+                    }}>№</span>
                 </Button>
 
                 <Button

@@ -57,7 +57,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
     const controlHeight = "26rem";
     const resetWidthRem = 28;
     const controlGapRem = 6;
-    const applyWidthRem = stepperWidthRem + 18;
+    const applyWidthRem = stepperWidthRem - resetWidthRem - controlGapRem;
 
     return (
         <div style={{ marginBottom: "8rem" }}>
