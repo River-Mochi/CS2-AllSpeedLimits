@@ -47,7 +47,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "ดีบัก / ล็อก" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "ปุ่มลัดรูปดวงตาเส้นประ" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "ปุ่มลัดเครือข่ายที่ซ่อนอยู่" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "คลิก «ยังไม่ตั้งค่า» แล้วเลือกปุ่ม ใช้ได้แม้ปิดหน้าต่าง ASL" },
 
                 // Speed unit preference
@@ -122,16 +122,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "แสดงวิธีใช้สั้น ๆ ด้านล่าง" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<แผงเมือง>\n" +
-                    "1. คลิกหรือลากเลือกช่วง\n" +
-                    "2. ตั้ง <ความเร็วใหม่> แล้วกด <ใช้>\n" +
-                    "3. <รีเซ็ต> คืนค่าช่วงที่เลือก\n" +
-                    "4. ปุ่ม <พรีเซ็ต> จะใช้ทันที\n" +
-                    "\n" +
-                    "<ทั้งเมือง>\n" +
-                    "เลือกกลุ่มถนน แล้วใช้ <ความเร็วใหม่> กับกลุ่มนั้น\n" +
-                    "ใช้ <ถนน>, <ราง>, <น้ำ> หรือ <ทั้งหมด> เพื่อล้างความเร็วที่กำหนดเอง\n" +
-                    "<บันทึกเมือง> หลังเปลี่ยนทั้งเมือง"
+                    "คลิกหรือลากเพื่อเลือกช่วงทาง ตั้งความเร็วแล้วกดใช้ ค่าที่ตั้งไว้ล่วงหน้ามีผลทันที\n" +
+                    "ปุ่มเส้นประแสดงเครือข่ายที่ซ่อนอยู่\n" +
+                    "ทางเดิน: 200% เพิ่มขีดจำกัดเดิมเป็นสองเท่า การตั้งค่ารายช่วงมีความสำคัญกว่า\n" +
+                    "บันทึกเมืองหลังแก้ไข"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

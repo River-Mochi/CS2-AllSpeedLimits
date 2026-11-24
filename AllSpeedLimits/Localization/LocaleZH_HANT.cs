@@ -47,7 +47,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "除錯 / 日誌" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "虛線眼睛快捷鍵（隱形網路）" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "隱藏路網快捷鍵" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "點擊「未設定」並指定按鍵。關閉 ASL 面板後仍可使用。" },
 
                 // Speed unit preference
@@ -122,16 +122,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "在下方顯示簡短說明。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<城市面板>\n" +
-                    "1. 點擊或拖曳選取區段。\n" +
-                    "2. 設定 <新速度>，然後點擊 <套用>。\n" +
-                    "3. <重置> 會還原所選區段。\n" +
-                    "4. <預設> 按鈕會立即生效。\n" +
-                    "\n" +
-                    "<全城>\n" +
-                    "選擇一個道路群組，然後把 <新速度> 套用到該群組。\n" +
-                    "用 <道路>、<軌道>、<水路> 或 <全部> 清除自訂速度。\n" +
-                    "全城修改後請 <儲存城市>。"
+                    "點擊或拖曳選取路段。設定速度後套用；預設按鈕立即生效。\n" +
+                    "虛線按鈕顯示隱藏路網。\n" +
+                    "路徑：200% 使預設速限加倍，個別修改的路段優先。\n" +
+                    "修改後儲存城市。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
