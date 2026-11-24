@@ -32,6 +32,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
 * Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizens' maximum walking speed.
 * Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
+* Example: Bike 200% changes a 30 km/h default bike path to 60 km/h. Individual edits take priority.
 * Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
 * For global bike-path scaling, avoid using the Paths slider alongside the corresponding global slider in Bikes & Paths.
 * Vehicles are still limited by their max speeds (different for each type).

@@ -23,8 +23,8 @@ namespace RoadRailSpeeds
 
     [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
     [SettingsUITabOrder(kMainTab, kAboutTab)]
-    [SettingsUIGroupOrder(kDisplayGroup, kKeybindsGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
-    [SettingsUIShowGroupName(kDisplayGroup, kKeybindsGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
+    [SettingsUIGroupOrder(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
+    [SettingsUIShowGroupName(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
     [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
@@ -54,9 +54,6 @@ namespace RoadRailSpeeds
         public SpeedUnit SpeedUnitPreference { get; set; } = SpeedUnit.Auto;
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
-        public bool SyncSliderWithSelection { get; set; } = true;
-
-        [SettingsUISection(kMainTab, kDisplayGroup)]
         [SettingsUISlider(min = 5f, max = 25f, step = 5f, unit = "integer")]
         public int PanelSliderIncrement { get; set; } = 10;
 
@@ -66,6 +63,9 @@ namespace RoadRailSpeeds
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool DoubleSpeedDisplay { get; set; }
+
+        [SettingsUISection(kMainTab, kDisplayGroup)]
+        public bool SyncSliderWithSelection { get; set; } = true;
 
         [SettingsUIHidden]
         public bool PanelTooltipsEnabled { get; set; } = true;

@@ -22,6 +22,7 @@ Fine-tune speed limits in Cities: Skylines II.
 - **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pedestrian-only paths can be changed globally, not individually.
 - The Bike slider controls bike-only and mixed paths. The Pedestrian slider controls pedestrian-only paths. Mixed paths always use the Bike slider. ASL does not change citizen or vehicle maximum speeds.
 - Hidden vehicle-only roads are **not** affected by either global Paths slider; edit supported ones individually under Speed Limits.
+- Example: Bike 200% makes a 30 km/h default bike path show 60 km/h current speed. Individual segment edits take priority; resetting an individual bike path returns it to the active Bike scale, not necessarily 100%.
 - **Speed Limits → Paths Reset** clears individual bike/mixed speeds so they follow the global Bike scale. Each **Paths → Reset** returns that category to 100%.
 - **Bikes & Paths** also modifies global pathway limits. Avoid applying both global pathway sliders at the same time.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
