@@ -26,8 +26,8 @@ Fine-tune speed limits in Cities: Skylines II.
 - **Speed Limits → Paths Reset** clears individual bike/mixed speeds so they follow the global Bike scale. Each **Paths → Reset** returns that category to 100%.
 - **Bikes & Paths 1.1.6+** delegates overlapping tuning to ASL. Update B+P before using both mods. Older B+P versions can still overwrite pathway limits.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
-- ASL edits speed limits, not building layouts or vehicle top speeds. Vehicles still obey their maximum speeds.
-- Custom speeds remain after removing ASL. **Reset them and save your city before uninstalling** if you want vanilla values.
+- ASL does not modify building layouts. Vehicles still obey their maximum speeds and network limits. Only bicycle/e-scooter maximum speed is tunable in Options.
+- Custom network speeds remain after removing ASL. **Reset them and save your city before uninstalling** if you want vanilla values. Reset the bicycle speed in Options to 100% as well.
 
 ## Saves and performance
 
