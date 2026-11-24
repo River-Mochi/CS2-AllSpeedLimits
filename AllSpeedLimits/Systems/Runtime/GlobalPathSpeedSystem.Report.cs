@@ -9,13 +9,19 @@
 // One-click, read-only diagnostics. Never scans while the panel is idle.
 namespace RoadRailSpeeds.Systems
 {
+    // Match the other partial for Unity ECS generated code in Visual Studio.
+    using System.Collections.Generic;
+    using Colossal.Serialization.Entities;
     using CS2Shared.RiverMochi;
+    using Game;
     using Game.Common;
     using Game.Net;
     using Game.Prefabs;
     using Game.Tools;
     using RoadRailSpeeds.Components;
+    using Unity.Collections;
     using Unity.Entities;
+    using Unity.Mathematics;
 
     public partial class GlobalPathSpeedSystem
     {

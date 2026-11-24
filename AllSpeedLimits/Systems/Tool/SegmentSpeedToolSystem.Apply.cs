@@ -219,14 +219,19 @@ namespace RoadRailSpeeds.Systems
                 // pathway scale*. Roads and rails still reset to original.
                 bool activePath = SpeedNetworkUtils.TryGetActivePathSpeedGameUnits(
                     EntityManager, targetEdge, out float activePathSpeed);
-                if ((!originalSpeed.HasValue || originalSpeed.Value <= 0f) && !activePath)
+                float speedGameUnits;
+                if (activePath)
+                {
+                    speedGameUnits = activePathSpeed;
+                }
+                else if (originalSpeed.HasValue && originalSpeed.Value > 0f)
+                {
+                    speedGameUnits = originalSpeed.Value / 1.8f;
+                }
+                else
                 {
                     continue;
                 }
-
-                float speedGameUnits = activePath
-                    ? activePathSpeed
-                    : originalSpeed.Value / 1.8f;
 
                 if (EntityManager.HasBuffer<SubLane>(edge))
                 {

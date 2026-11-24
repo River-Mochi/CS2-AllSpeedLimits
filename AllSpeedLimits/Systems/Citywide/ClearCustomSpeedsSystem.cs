@@ -229,16 +229,21 @@ namespace RoadRailSpeeds.Systems
             // the active global pathway scale for bike/mixed path lanes.
             bool activePath = SpeedNetworkUtils.TryGetActivePathSpeedGameUnits(
                 EntityManager, GetBaseEntity(entity), out float activePathSpeed);
-            if ((!originalSpeed.HasValue || originalSpeed.Value <= 0f) && !activePath)
+            float speedGameUnits;
+            if (activePath)
+            {
+                speedGameUnits = activePathSpeed;
+            }
+            else if (originalSpeed.HasValue && originalSpeed.Value > 0f)
+            {
+                speedGameUnits = originalSpeed.Value / 1.8f;
+            }
+            else
             {
                 // The original cannot be inferred for this entity.
                 m_ClearNoOriginalCount++;
                 return;
             }
-
-            float speedGameUnits = activePath
-                ? activePathSpeed
-                : originalSpeed.Value / 1.8f;
 
             if (!EntityManager.HasBuffer<SubLane>(entity))
             {
