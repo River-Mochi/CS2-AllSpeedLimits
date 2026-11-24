@@ -47,7 +47,7 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Log" },
 
                 // Optional invisible-network hotkey (unassigned by default).
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Skrót przerywanego oka" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Skrót ukrytych sieci" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Kliknij „nie ustawiono” i wybierz klawisz. Działa także przy zamkniętym ASL." },
 
                 // Speed unit preference
@@ -122,16 +122,10 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Pokaż krótkie notatki poniżej." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Panel miasta>\n" +
-                    "1. Kliknij albo przeciągnij, aby wybrać segmenty.\n" +
-                    "2. Ustaw <Nową prędkość>, potem kliknij <Zastosuj>.\n" +
-                    "3. <Przywróć> przywraca wybrane segmenty.\n" +
-                    "4. <Ustawienia wstępne> działają od razu.\n" +
-                    "\n" +
-                    "<Całe miasto>\n" +
-                    "Wybierz grupę dróg i zastosuj do niej <Nową prędkość>.\n" +
-                    "Użyj <Drogi>, <Tory>, <Woda> lub <Wszystko>, aby wyczyścić własne prędkości.\n" +
-                    "Po zmianach w całym mieście <zapisz miasto>."
+                    "Kliknij lub przeciągnij, aby wybrać odcinki. Ustaw prędkość i zastosuj; presety działają od razu.\n" +
+                    "Przerywane linie pokazują ukryte sieci.\n" +
+                    "Ścieżki: 200% podwaja limit domyślny; zmiany indywidualne mają priorytet.\n" +
+                    "Zapisz miasto."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
