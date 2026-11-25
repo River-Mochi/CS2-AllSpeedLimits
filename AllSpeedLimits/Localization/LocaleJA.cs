@@ -109,9 +109,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "車両の最高速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = ゲーム標準。加速・制動も自動調整。経路の速度制限は有効です。Bikes + Paths を使用中なら更新してください。" },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "速度をリセット" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "自転車と電動キックボードの速度を100%に戻します。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = ゲーム標準。**\n" +
+                    "自転車と電動キックボードの最高速度を変更。加速と制動も自動調整します。\n" +
+                    "経路の制限速度は引き続き適用されます。\n" +
+                    "旧版の Bikes + Paths がある場合はそちらが車両速度を管理します。無効にするか、ASL対応版を使用してください。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "ゲーム標準に戻す" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "自転車と電動キックボードの速度・加速・制動を **100% のゲーム標準** に戻します。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "自転車グループ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

@@ -108,9 +108,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "車輛最高速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = 遊戲預設。自動調整加速和煞車。仍受道路及路徑速限影響。如使用 Bikes + Paths，請更新。" },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "重設車速" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "將自行車和電動滑板車車速恢復為 100%。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = 遊戲預設值。**\n" +
+                    "調整自行車及電動滑板車的最高速度，加速和煞車自動調整。\n" +
+                    "仍受路徑速限約束，不會改變路徑速限。\n" +
+                    "若安裝舊版 Bikes + Paths，則由該模組控制車輛速度。請停用或使用相容 ASL 的新版。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "恢復遊戲預設值" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "將自行車及電動滑板車的速度、加速和煞車恢復至 **100% 遊戲預設值**。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "自行車群組" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

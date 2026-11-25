@@ -79,7 +79,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 cursor: isDragging ? "grabbing" : "grab"
             }}
         >
-            <div style={{ display: "flex", alignItems: "center", paddingLeft: "4rem" }}>
+            <div style={{ display: "flex", alignItems: "center", paddingLeft: "4rem", flex: 1, minWidth: "0", overflow: "hidden" }}>
                 <img
                     src={speedLimitIcon}
                     alt=""
@@ -93,12 +93,13 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     style={{
                         width: isGuideHovered ? "25rem" : "23rem",
                         height: isGuideHovered ? "25rem" : "23rem",
-                        marginRight: "9rem",
+                        marginRight: "5rem",
+                        flexShrink: 0,
                         marginLeft: "-2rem",
                         opacity: isGuideHovered ? 1 : 0.92
                     }}
                 />
-                <div style={{ display: "flex", alignItems: "center", minWidth: "0" }} title={title} role="tablist">
+                <div style={{ display: "flex", alignItems: "center", flex: 1, minWidth: "0", overflow: "hidden" }} title={title} role="tablist">
                     {([
                         ["limits", speedLimitsTab],
                         ["paths", allPathsTab]
@@ -125,9 +126,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                                 minHeight: "25rem",
                                 paddingTop: "3rem",
                                 paddingBottom: "2rem",
-                                paddingLeft: "8rem",
-                                paddingRight: "8rem",
-                                marginRight: view === "limits" ? "8rem" : "0",
+                                paddingLeft: "5rem",
+                                paddingRight: "5rem",
+                                marginRight: view === "limits" ? "3rem" : "0",
+                                flexShrink: 1,
+                                minWidth: "0",
                                 maxWidth: "135rem",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
@@ -141,7 +144,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 </div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", flexShrink: 0, minWidth: "80rem" }}>
                 <Button
                     as="button"
                     focusKey={focusDisabled}

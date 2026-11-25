@@ -108,9 +108,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Maksymalna prędkość pojazdów" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = ustawienie gry. Przyspieszenie i hamowanie dostosowują się automatycznie. Limity ścieżek nadal obowiązują. Zaktualizuj Bikes + Paths, jeśli używasz." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywróć prędkość" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywraca prędkość rowerów i hulajnóg do 100%." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = ustawienia gry.**\n" +
+                    "Zmienia maksymalną prędkość rowerów i hulajnóg elektrycznych. Przyspieszenie i hamowanie są dostosowane automatycznie.\n" +
+                    "Limity ścieżek nadal obowiązują.\n" +
+                    "Starszy Bikes + Paths steruje prędkością pojazdów zamiast ASL. Wyłącz go lub użyj wersji zgodnej z ASL." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywróć ustawienia gry" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywraca prędkość, przyspieszenie i hamowanie rowerów oraz hulajnóg do **100% ustawień gry**." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Grupa rowerów" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

@@ -109,9 +109,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Velocidad máxima del vehículo" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = valor del juego. Aceleración y frenado se ajustan solos. Se respetan los límites de las vías. Actualiza Bikes + Paths si lo usas." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restablecer velocidad" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restablece bicicletas y patinetes eléctricos al 100%." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = valores del juego.**\n" +
+                    "Cambia la velocidad máxima de bicicletas y patinetes eléctricos. La aceleración y el frenado se ajustan automáticamente.\n" +
+                    "Los límites de las vías siguen vigentes.\n" +
+                    "Una versión antigua de Bikes + Paths controla la velocidad en su lugar. Desactívala o usa su versión compatible con ASL." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restaurar valores del juego" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restaura velocidad, aceleración y frenado de bicicletas y patinetes al **100% del juego**." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Grupo bici" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

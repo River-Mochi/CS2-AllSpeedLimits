@@ -109,9 +109,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Maximale Fahrzeuggeschwindigkeit" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = Spielstandard. Beschleunigung und Bremsen passen sich an. Weglimits gelten weiterhin. Bikes + Paths ggf. aktualisieren." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Fahrradtempo zurücksetzen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Fahrräder und E-Scooter auf 100% zurücksetzen." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = Spielstandard.**\n" +
+                    "Ändert die Höchstgeschwindigkeit von Fahrrädern und E-Scootern. Beschleunigung und Bremsen werden angepasst.\n" +
+                    "Weglimits gelten weiterhin.\n" +
+                    "Eine ältere Version von Bikes + Paths steuert das Fahrzeugtempo stattdessen. Deaktivieren oder ASL-kompatible Version nutzen." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Spielstandard wiederherstellen" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Tempo, Beschleunigung und Bremsen von Fahrrädern und E-Scootern auf **100% Spielstandard** zurücksetzen." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Fahrradgruppe" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

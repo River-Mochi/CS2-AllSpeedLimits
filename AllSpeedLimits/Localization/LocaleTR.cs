@@ -108,9 +108,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Azami araç hızı" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = oyun varsayılanı. Hızlanma ve frenleme otomatik ayarlanır. Yol hız sınırları geçerlidir. Bikes + Paths yüklüyse güncelleyin." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Hızı sıfırla" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Bisiklet ve elektrikli scooter hızını %100'e döndürür." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**%100 = oyun varsayılanı.**\n" +
+                    "Bisiklet ve elektrikli scooterların azami hızını değiştirir. Hızlanma ve frenleme otomatik ayarlanır.\n" +
+                    "Yol hız sınırları geçerliliğini korur.\n" +
+                    "Eski Bikes + Paths sürümü araç hızlarını kontrol eder. Devre dışı bırakın veya ASL uyumlu sürümünü kullanın." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Oyun varsayılanına dön" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Bisiklet ve scooter hızını, hızlanmasını ve frenlemesini **%100 oyun varsayılanına** döndürür." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Bisiklet grubu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

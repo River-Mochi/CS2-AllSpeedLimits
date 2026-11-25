@@ -108,9 +108,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Maximum vehicle speed" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = game default. Acceleration and braking adjust automatically. Path limits still apply. Update Bikes + Paths if installed." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Reset bicycle speed" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restore bicycle and electric scooter vehicle speed to 100%." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = Game defaults.**\n" +
+                    "Changes the maximum speed of bicycles and electric scooters. Acceleration and braking adjust automatically.\n" +
+                    "Path speed limits still apply; this does not change path limits.\n" +
+                    "If an older Bikes + Paths mod is installed, it controls vehicle speeds instead. Disable it or use its ASL-compatible update." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Reset to game defaults" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restore bicycle and electric scooter speed, acceleration and braking to **100% game defaults**." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Bike group" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

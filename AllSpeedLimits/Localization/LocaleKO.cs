@@ -109,9 +109,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "차량 최고 속도" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = 게임 기본값. 가속과 제동도 자동 조정됩니다. 경로 제한 속도는 유지됩니다. Bikes + Paths 사용 시 업데이트하세요." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "속도 초기화" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "자전거와 전동 킥보드 속도를 100%로 복원합니다." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = 게임 기본값.**\n" +
+                    "자전거와 전동 킥보드의 최대 속도를 변경합니다. 가속과 제동은 자동 조정됩니다.\n" +
+                    "경로 제한 속도는 그대로 적용됩니다.\n" +
+                    "구버전 Bikes + Paths가 설치되어 있으면 해당 모드가 차량 속도를 제어합니다. 비활성화하거나 ASL 호환 버전을 사용하세요." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "게임 기본값 복원" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "자전거와 전동 킥보드의 속도, 가속, 제동을 **100% 게임 기본값**으로 복원합니다." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "자전거 그룹" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

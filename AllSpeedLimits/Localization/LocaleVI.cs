@@ -108,9 +108,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Tốc độ tối đa của xe" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = mặc định trò chơi. Tự điều chỉnh tăng tốc và phanh. Vẫn tuân thủ giới hạn tốc độ đường đi. Hãy cập nhật Bikes + Paths nếu đang dùng." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Đặt lại tốc độ" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Đưa tốc độ xe đạp và scooter điện về 100%." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = mặc định của game.**\n" +
+                    "Đổi tốc độ tối đa của xe đạp và xe scooter điện. Tăng tốc và phanh tự điều chỉnh.\n" +
+                    "Giới hạn tốc độ đường đi vẫn có hiệu lực.\n" +
+                    "Bikes + Paths bản cũ sẽ kiểm soát tốc độ xe. Hãy tắt hoặc dùng bản tương thích ASL." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Khôi phục mặc định của game" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Khôi phục tốc độ, tăng tốc và phanh của xe đạp và scooter về **100% mặc định của game**." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Nhóm xe đạp" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),

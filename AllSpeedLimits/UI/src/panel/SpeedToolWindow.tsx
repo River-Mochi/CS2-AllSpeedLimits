@@ -195,6 +195,7 @@ export const SpeedToolWindow = () => {
     const [isGuideHovered, setIsGuideHovered] = useState(false);
     const [isHelpHovered, setIsHelpHovered] = useState(false);
     const [isMarkersHovered, setIsMarkersHovered] = useState(false);
+    const [isDragGripHovered, setIsDragGripHovered] = useState(false);
     const [isExpandAllHovered, setIsExpandAllHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
@@ -312,7 +313,7 @@ export const SpeedToolWindow = () => {
     };
 
     const showPanelTooltip = (kind: PanelTooltipKind) => {
-        if (panelTooltipsEnabled) {
+        if (panelTooltipsEnabled && !isDragging) {
             setPanelTooltip(kind);
         }
     };
@@ -658,6 +659,7 @@ export const SpeedToolWindow = () => {
 
         event.preventDefault();
         event.stopPropagation();
+        hidePanelTooltip();
         startDragging(event.clientX, event.clientY);
     };
 
@@ -1188,12 +1190,19 @@ export const SpeedToolWindow = () => {
                             />
                         )}
                         <div onMouseDown={handleMouseDown}
-                            onMouseEnter={() => showPanelTooltip("dragGrip")} onMouseLeave={hidePanelTooltip}
+                            onMouseEnter={() => {
+                                setIsDragGripHovered(true);
+                                showPanelTooltip("dragGrip");
+                            }}
+                            onMouseLeave={() => {
+                                setIsDragGripHovered(false);
+                                hidePanelTooltip();
+                            }}
                             style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
                                 height: "19rem", paddingTop: "6rem", boxSizing: "border-box",
                                 cursor: isDragging ? "grabbing" : "grab" }}>
                             <img src={dragGripIcon} alt="" style={{ width: "34rem", height: "11rem",
-                                marginRight: "4rem", opacity: isDragging ? 1 : 0.65, pointerEvents: "none" }} />
+                                marginRight: "4rem", opacity: isDragging || isDragGripHovered ? 1 : 0.65, pointerEvents: "none" }} />
                         </div>
                     </div>
                 </Panel>
@@ -1217,8 +1226,8 @@ export const SpeedToolWindow = () => {
 
             <SpeedToolOverlays
                 text={TEXT}
-                panelTooltip={panelTooltip}
-                panelTooltipsEnabled={panelTooltipsEnabled}
+                panelTooltip={isDragging ? null : panelTooltip}
+                panelTooltipsEnabled={panelTooltipsEnabled && !isDragging}
                 panelBounds={panelRef.current?.getBoundingClientRect() ?? null}
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}

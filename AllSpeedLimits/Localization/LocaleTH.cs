@@ -108,9 +108,13 @@ namespace RoadRailSpeeds
 
                 // Clear all custom speeds
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "ความเร็วสูงสุดของยานพาหนะ" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "100% = ค่าเริ่มต้นของเกม ระบบปรับการเร่งและเบรกอัตโนมัติ ยังใช้ขีดจำกัดความเร็วของทางอยู่ หากใช้ Bikes + Paths ให้อัปเดตด้วย" },
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนค่าความเร็ว" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนค่าความเร็วจักรยานและสกู๊ตเตอร์ไฟฟ้าเป็น 100%" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = ค่าเริ่มต้นของเกม**\n" +
+                    "ปรับความเร็วสูงสุดของจักรยานและสกู๊ตเตอร์ไฟฟ้า การเร่งและเบรกปรับอัตโนมัติ\n" +
+                    "ยังคงใช้ขีดจำกัดความเร็วของเส้นทาง\n" +
+                    "หากติดตั้ง Bikes + Paths รุ่นเก่า ม็อดนั้นจะควบคุมความเร็วยานพาหนะ ให้ปิดหรือใช้รุ่นที่รองรับ ASL" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนค่าเริ่มต้นของเกม" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนความเร็ว การเร่ง และการเบรกของจักรยานและสกู๊ตเตอร์ไฟฟ้าเป็น **100% ค่าเริ่มต้นของเกม**" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "กลุ่มจักรยาน" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
