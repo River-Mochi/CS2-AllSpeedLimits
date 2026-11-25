@@ -5,10 +5,14 @@ import { useRef } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 
 export const Slider = (props: any) => {
-    const VSlider = VanillaComponentResolver.instance.Slider;
+    const resolver = VanillaComponentResolver.instance;
+    const VSlider = resolver.Slider;
     const draggingRef = useRef(false);
     const dragAnchorRef = useRef(Number(props.value));
     const {
+        // Mouse-driven panels must not register multiple slider focus keys in PanelContent.
+        // Preserve an explicit focus key (including null) if a caller needs one.
+        focusKey = resolver.FOCUS_DISABLED,
         step: requestedStep = 1,
         onDragStart,
         onDragEnd,
@@ -55,6 +59,7 @@ export const Slider = (props: any) => {
     return (
         <VSlider
             {...sliderProps}
+            focusKey={focusKey}
             style={sliderStyle}
             noFill={noFill ?? false}
             gamepadStep={step}
