@@ -25,7 +25,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
 * **New Options → Bicycles tab:** Bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Acceleration and braking adjust automatically.
 * **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
-* **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–500% (100% = vanilla). Individual bike-path edits take priority.
+* **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
 ## Important
@@ -36,7 +36,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
 * Example: Bike 200% changes a 30 km/h default bike path to 60 km/h. Individual edits take priority.
 * Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
-* Bikes + Paths 1.1.6+ automatically leaves overlapping speed controls to ASL. Update B+P before using both mods.
+* Moving from Bikes + Paths? ASL replaces it. Before switching, use Game defaults in B+P alone, let the changes finish and save. Then install ASL and choose your speeds. B+P 1.1.6+ delegates overlapping tuning to ASL; older versions can conflict.
 * Vehicles are still limited by their max speeds (different for each type).
 * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
 * **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
@@ -90,7 +90,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <ChangeLog>
 - New: individual speed limits on bike and mixed pedestrian/bike paths.
 - New: edit supported invisible roads and paths; dashed lines button + optional hotkey.
-- New: Paths tab with separate global Bike/mixed and Pedestrian-only limits (30–500%). Individual bike-path edits take priority.
+- New: Paths tab with separate global Bike/mixed and Pedestrian-only limits (30–300%). Individual bike-path edits take priority.
 - New: bicycle and electric scooter vehicle speed in Options (30–1000%, default 100%).
 - Improved UI: speed markers, selection highlights.
 </ChangeLog>
