@@ -144,6 +144,9 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             maxWidth = "184rem";
             content = renderTooltipBlock(text.panel.filterWater, [text.tooltips.filterWater]);
         } else if (panelTooltip === "dragGrip") {
+            if (panelBounds?.bottom !== undefined) {
+                topOffset = Math.max(0, panelBounds.bottom - panelBounds.top - 24);
+            }
             content = renderTooltipBlock("", [text.tooltips.draggable]);
         } else if (panelTooltip === "pathSlider") {
             maxWidth = "240rem";
