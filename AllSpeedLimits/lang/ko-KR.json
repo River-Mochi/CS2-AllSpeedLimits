@@ -80,7 +80,7 @@
   "panel.wholeCity": "도시 전체",
   "panel.working": "작업 중...",
   "paths.heading": "자전거 도로 속도 배율",
-  "paths.description": "도시 전체 자전거길 및 혼합 경로 제한 속도. 개별 설정이 우선합니다.",
+  "paths.description": "개별 구간 설정이 전체 슬라이더보다 우선합니다.",
   "paths.slider": "자전거 도로 속도 배율",
   "paths.vanilla": "100% = 게임 기본값",
   "paths.apply": "적용",

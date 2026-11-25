@@ -181,7 +181,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Panel miasta>\n" +
-                    "▪ Kliknij lub przeciągnij, by wybrać odcinki. Ustaw <Nową prędkość> i kliknij <Zastosuj>.\n" +
+                    "▪ Kliknij jeden odcinek lub przeciągnij, by wybrać wiele. Ustaw <Nową prędkość> i kliknij <Zastosuj>.\n" +
                     "▪ <Presety> (liczby w okręgach) działają od razu, bez Zastosuj.\n" +
                     "▪ <Reset> przywraca wybrane odcinki.\n" +
                     "▪ <Ukryte sieci>: przerywany przycisk pokazuje/ukrywa ukryte drogi i ścieżki.\n" +

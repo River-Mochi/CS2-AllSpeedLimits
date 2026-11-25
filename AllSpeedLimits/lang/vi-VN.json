@@ -80,7 +80,7 @@
   "panel.wholeCity": "Cả thành phố",
   "panel.working": "Đang chạy...",
   "paths.heading": "Tỉ lệ tốc độ đường xe đạp",
-  "paths.description": "Giới hạn toàn thành phố cho đường xe đạp và đường hỗn hợp. Chỉnh riêng từng đoạn được ưu tiên.",
+  "paths.description": "Tốc độ chỉnh riêng vẫn được ưu tiên hơn thanh trượt toàn thành phố.",
   "paths.slider": "Tỉ lệ tốc độ đường xe đạp",
   "paths.vanilla": "100% = mặc định trò chơi",
   "paths.apply": "Áp dụng",

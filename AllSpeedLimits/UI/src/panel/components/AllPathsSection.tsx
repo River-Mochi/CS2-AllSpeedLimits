@@ -19,6 +19,7 @@ type ScaleProps = {
     busy: boolean;
     focusKey: unknown;
     text: ScaleText;
+    showDescription?: boolean;
     apply: string;
     reset: string;
     sliderTip: PanelTooltipKind;
@@ -33,7 +34,7 @@ type ScaleProps = {
 
 const PathScaleRow = (props: ScaleProps) => {
     const {
-        percent, savedPercent, busy, focusKey, text, apply, reset,
+        percent, savedPercent, busy, focusKey, text, showDescription = false, apply, reset,
         sliderTip, applyTip, resetTip, onChange, onApply, onReset, onShowTip, onHideTip
     } = props;
 
@@ -93,6 +94,12 @@ const PathScaleRow = (props: ScaleProps) => {
                     </div>
                 </div>
             </div>
+            {showDescription && (
+                <div style={{ marginTop: "6rem", fontSize: "11rem", lineHeight: "1.3",
+                    color: "rgba(226,236,241,0.78)" }}>
+                    {text.description}
+                </div>
+            )}
         </div>
     );
 };
@@ -143,6 +150,7 @@ export const AllPathsSection = (props: Props) => {
                 busy={busy}
                 focusKey={focusKey}
                 text={text}
+                showDescription
                 apply={text.apply}
                 reset={text.reset}
                 sliderTip="pathSlider"

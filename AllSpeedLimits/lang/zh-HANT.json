@@ -80,7 +80,7 @@
   "panel.wholeCity": "全城",
   "panel.working": "處理中...",
   "paths.heading": "自行車道速度倍率",
-  "paths.description": "全城自行車道及混合路徑速限。個別修改的自行車道路段優先。",
+  "paths.description": "個別設定的速限優先於全城滑桿。",
   "paths.slider": "自行車道速度倍率",
   "paths.vanilla": "100% = 遊戲預設值",
   "paths.apply": "套用",

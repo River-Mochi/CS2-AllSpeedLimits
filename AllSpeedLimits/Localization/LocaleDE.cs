@@ -182,7 +182,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Stadtpanel>\n" +
-                    "▪ Segmente anklicken oder ziehen. <Neues Tempo> einstellen, dann <Anwenden>.\n" +
+                    "▪ Ein Segment anklicken oder mehrere per Ziehen wählen. <Neues Tempo> einstellen, dann <Anwenden>.\n" +
                     "▪ <Vorgaben> (eingekreiste Zahlen) gelten sofort, ohne Anwenden.\n" +
                     "▪ <Zurücksetzen> stellt ausgewählte Segmente wieder her.\n" +
                     "▪ <Unsichtbar>: gestrichelte Schaltfläche zeigt/versteckt verborgene Straßen und Wege.\n" +

@@ -80,6 +80,7 @@ import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResol
 import { useText } from "../shared/localization";
 import { Button } from "../shared/Button";
 import expandCollapseAllIcon from "../images/icon-expandCollapseAll.svg";
+import dragGripIcon from "../images/asl-drag-grip.svg";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useToolPanelPosition } from "../shared/useSharedPanelPosition";
 import { SaveToolPanelPosition, TOOL_PANEL_X, TOOL_PANEL_Y } from "../shared/bindings";
@@ -1190,10 +1191,8 @@ export const SpeedToolWindow = () => {
                             onMouseEnter={() => showPanelTooltip("dragGrip")} onMouseLeave={hidePanelTooltip}
                             style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
                                 height: "13rem", cursor: isDragging ? "grabbing" : "grab" }}>
-                            <div style={{ display: "flex", alignItems: "center", marginRight: "4rem", pointerEvents: "none" }}>
-                                {[0, 1, 2, 3].map(dot => <div key={dot} style={{ width: "5rem", height: "5rem",
-                                    marginLeft: "4rem", borderRadius: "50%", backgroundColor: isDragging ? "#79D4EE" : "rgba(200,220,230,0.50)" }} />)}
-                            </div>
+                            <img src={dragGripIcon} alt="" style={{ width: "34rem", height: "11rem",
+                                marginRight: "4rem", opacity: isDragging ? 1 : 0.65, pointerEvents: "none" }} />
                         </div>
                     </div>
                 </Panel>

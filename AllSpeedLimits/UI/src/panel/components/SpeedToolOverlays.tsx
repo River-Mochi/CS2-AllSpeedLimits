@@ -150,7 +150,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             content = renderTooltipBlock("", [text.tooltips.draggable]);
         } else if (panelTooltip === "pathSlider") {
             maxWidth = "240rem";
-            content = renderTooltipBlock("", [text.panel.allPaths.description, text.panel.allPaths.sliderTooltip]);
+            content = renderTooltipBlock("", [text.panel.allPaths.sliderTooltip]);
         } else if (panelTooltip === "pathApply") {
             maxWidth = "215rem";
             content = renderTooltipBlock("", [text.panel.allPaths.applyTooltip]);

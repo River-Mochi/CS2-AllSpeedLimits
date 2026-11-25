@@ -80,7 +80,7 @@
   "panel.wholeCity": "Tüm şehir",
   "panel.working": "Çalışıyor...",
   "paths.heading": "Bisiklet yolu hız ölçeği",
-  "paths.description": "Şehir genelinde bisiklet ve karma yol limitleri. Tekil kesim ayarları önceliklidir.",
+  "paths.description": "Tekil hız ayarları genel kaydırıcıdan önceliklidir.",
   "paths.slider": "Bisiklet yolu hız ölçeği",
   "paths.vanilla": "%100 = oyun varsayılanı",
   "paths.apply": "Uygula",

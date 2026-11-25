@@ -80,7 +80,7 @@
   "panel.wholeCity": "全城",
   "panel.working": "处理中...",
   "paths.heading": "自行车道速度倍率",
-  "paths.description": "全城自行车道及混合路径限速。单独修改的自行车道路段优先。",
+  "paths.description": "单独设置的限速优先于全城滑块。",
   "paths.slider": "自行车道速度倍率",
   "paths.vanilla": "100% = 游戏默认值",
   "paths.apply": "应用",

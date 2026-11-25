@@ -80,7 +80,7 @@
   "panel.wholeCity": "Cidade inteira",
   "panel.working": "A trabalhar...",
   "paths.heading": "Escala de velocidade das bicicletas",
-  "paths.description": "Limites globais de ciclovias e caminhos mistos. Ajustes individuais têm prioridade.",
+  "paths.description": "Ajustes individuais têm prioridade sobre este controlo global.",
   "paths.slider": "Escala de velocidade das bicicletas",
   "paths.vanilla": "100% = padrão do jogo",
   "paths.apply": "Aplicar",

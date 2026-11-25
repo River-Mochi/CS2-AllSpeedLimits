@@ -182,7 +182,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<도시 패널>\n" +
-                    "▪ 클릭 또는 드래그로 구간 선택. <새 속도> 설정 후 <적용>.\n" +
+                    "▪ 클릭으로 한 구간, 드래그로 여러 구간 선택. <새 속도> 설정 후 <적용>.\n" +
                     "▪ <프리셋> (원 안 숫자)은 적용 버튼 없이 즉시 적용됩니다.\n" +
                     "▪ <초기화>로 선택 구간 복원.\n" +
                     "▪ <숨은 네트워크>: 점선 버튼으로 숨은 도로와 경로 표시/숨기기.\n" +

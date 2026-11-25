@@ -182,7 +182,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Pannello città>\n" +
-                    "▪ Clicca o trascina per selezionare. Imposta <Nuova velocità>, poi <Applica>.\n" +
+                    "▪ Clicca un segmento o trascina per selezionarne molti. Imposta <Nuova velocità>, poi <Applica>.\n" +
                     "▪ I <preset> (numeri cerchiati) si applicano subito, senza Applica.\n" +
                     "▪ <Ripristina> ripristina i segmenti selezionati.\n" +
                     "▪ <Invisibile>: il pulsante tratteggiato mostra/nasconde strade e percorsi nascosti.\n" +

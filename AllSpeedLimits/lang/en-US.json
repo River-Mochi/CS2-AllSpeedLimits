@@ -80,7 +80,7 @@
   "panel.wholeCity": "Whole city",
   "panel.working": "Working...",
   "paths.heading": "Bike path speed scale",
-  "paths.description": "Citywide bike + mixed path limits. Individual bike-path edits take priority.",
+  "paths.description": "Individual custom edits still take priority over this global slider.",
   "paths.slider": "Bike path speed scale",
   "paths.vanilla": "100% = game default",
   "paths.apply": "Apply",
