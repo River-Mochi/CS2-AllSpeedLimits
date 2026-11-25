@@ -64,9 +64,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
 
     const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
     const selectionTooltipIconActive = !panelTooltipsEnabled;
-    const selectionTooltipIconFilter = selectionTooltipIconActive
-        ? "brightness(1.18) sepia(0.95) hue-rotate(-40deg) saturate(4.2)"
-        : "none";
+    const selectionTooltipIconFilterForDisabled = "brightness(1.18) sepia(0.95) hue-rotate(-40deg) saturate(4.2)";
+    const selectionTooltipIconFilter = selectionTooltipIconActive ? selectionTooltipIconFilterForDisabled : "none";
 
     return (
         <div
@@ -180,7 +179,9 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         fontSize: isMarkersHovered ? "19rem" : "17rem",
                         fontWeight: 700,
                         lineHeight: "1",
-                        color: speedMarkersHidden ? "#F5BC40" : "rgba(255, 255, 255, 0.75)",
+                        color: "#FFFFFF",
+                        filter: speedMarkersHidden ? selectionTooltipIconFilterForDisabled : "none",
+                        opacity: speedMarkersHidden ? 1 : isMarkersHovered ? 0.96 : 0.64,
                         pointerEvents: "none"
                     }}>№</span>
                 </Button>
@@ -190,6 +191,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     focusKey={focusDisabled}
                     theme={{ button: "" }}
                     onSelect={onToggleTooltips}
+                    aria-disabled={panelTooltipsEnabled}
                     onMouseEnter={() => {
                         hidePanelTooltip();
                         setIsHelpHovered(true);

@@ -10,6 +10,7 @@ type PanelBounds = {
     left: number;
     right: number;
     top: number;
+    bottom?: number;
 };
 
 type RoadGroupTooltip = {
@@ -142,9 +143,11 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "filterWater") {
             maxWidth = "184rem";
             content = renderTooltipBlock(text.panel.filterWater, [text.tooltips.filterWater]);
+        } else if (panelTooltip === "dragGrip") {
+            content = renderTooltipBlock("", [text.tooltips.draggable]);
         } else if (panelTooltip === "pathSlider") {
             maxWidth = "240rem";
-            content = renderTooltipBlock("", [text.panel.allPaths.sliderTooltip]);
+            content = renderTooltipBlock("", [text.panel.allPaths.description, text.panel.allPaths.sliderTooltip]);
         } else if (panelTooltip === "pathApply") {
             maxWidth = "215rem";
             content = renderTooltipBlock("", [text.panel.allPaths.applyTooltip]);
@@ -153,7 +156,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             content = renderTooltipBlock("", [text.panel.allPaths.resetTooltip]);
         } else if (panelTooltip === "pedPathSlider") {
             maxWidth = "240rem";
-            content = renderTooltipBlock("", [text.panel.pedPaths.sliderTooltip]);
+            content = renderTooltipBlock("", [text.panel.pedPaths.description, text.panel.pedPaths.sliderTooltip]);
         } else if (panelTooltip === "pedPathApply") {
             maxWidth = "215rem";
             content = renderTooltipBlock("", [text.panel.pedPaths.applyTooltip]);
