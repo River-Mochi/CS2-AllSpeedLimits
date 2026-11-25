@@ -177,10 +177,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Hiện ghi chú nhanh bên dưới." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Nhấp hoặc kéo để chọn đoạn. Đặt tốc độ rồi áp dụng; nút đặt sẵn áp dụng ngay.\n" +
-                    "Nút nét đứt hiện mạng lưới ẩn.\n" +
-                    "Đường đi: 200% gấp đôi giới hạn gốc; chỉnh riêng từng đoạn được ưu tiên.\n" +
-                    "Lưu thành phố."
+                    "<Bảng thành phố>\n" +
+                    "▪ Bấm hoặc kéo chọn các đoạn.\n" +
+                    "▪ Đặt <Tốc độ mới>, rồi bấm <Áp dụng>.\n" +
+                    "▪ <Đặt lại> khôi phục các đoạn đã chọn.\n" +
+                    "▪ Các nút <Cài sẵn> áp dụng ngay.\n" +
+                    "<Toàn thành phố>\n" +
+                    "▪ Chọn nhóm đường, rồi áp dụng <Tốc độ mới> cho nhóm đó.\n" +
+                    "▪ Dùng <Đường>, <Ray>, <Nước> hoặc <Tất cả> để xóa tốc độ tùy chỉnh.\n" +
+                    "▪ <Mạng lưới ẩn>: nút nét đứt hiện đường và lối đi ẩn.\n" +
+                    "▪ <Đường đi>: hệ số xe đạp và đi bộ toàn thành phố. 100% = mặc định; 200% gấp đôi giới hạn.\n" +
+                    "▪ <Chỉnh sửa riêng> từng đoạn đường xe đạp được ưu tiên. Đặt lại dùng hệ số xe đạp hiện tại.\n" +
+                    "▪ <Lưu thành phố> sau thay đổi toàn thành phố."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

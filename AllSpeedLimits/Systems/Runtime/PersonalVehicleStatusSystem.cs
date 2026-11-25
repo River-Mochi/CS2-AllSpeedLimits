@@ -112,8 +112,13 @@ namespace RoadRailSpeeds.Systems
             Enabled = false;
         }
 
-        protected override void OnUpdate( )
+        protected override void OnUpdate()
         {
+            if (!PersonalVehicleStatus.IsCurrentVisit(World))
+            {
+                PersonalVehicleStatus.InvalidateCache();
+                Enabled = false;
+            }
         }
 
         // Builds the snapshot used by Options UI rows.

@@ -136,6 +136,7 @@ namespace RoadRailSpeeds
             }
         }
 
+        [Colossal.IO.AssetDatabase.Exclude]
         [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
         public string StatusSummary1
         {
@@ -146,6 +147,7 @@ namespace RoadRailSpeeds
             }
         }
 
+        [Colossal.IO.AssetDatabase.Exclude]
         [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
         public string StatusSummary2
         {
@@ -156,6 +158,7 @@ namespace RoadRailSpeeds
             }
         }
 
+        [Colossal.IO.AssetDatabase.Exclude]
         [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
         public string StatusSummary3
         {

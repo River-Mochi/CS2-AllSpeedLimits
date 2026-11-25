@@ -157,6 +157,9 @@ namespace RoadRailSpeeds
                 world.GetOrCreateSystemManaged<BicycleSpeedSystem>();
                 updateSystem.UpdateAt<BicycleSpeedSystem>(SystemUpdatePhase.UIUpdate);
 
+                world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>();
+                updateSystem.UpdateAt<PersonalVehicleStatusSystem>(SystemUpdatePhase.UIUpdate);
+
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);
 

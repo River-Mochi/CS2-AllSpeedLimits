@@ -23,7 +23,7 @@ import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
 
 import pathIcon from "../../images/Bicycle_max.svg";
-import invisibleIcon from "../../images/asl-invisible-colored-arrows.svg";
+import invisibleIcon from "../../images/asl-invisible-dashed-loop.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
@@ -99,7 +99,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
             width: wideIcon ? "40rem" : "26rem",
             height: "26rem",
             pointerEvents: "none",
-            opacity: 1,
+            opacity: wideIcon && !active && !hovered ? 0.65 : 1,
             filter: iconFilter,
             transform: hovered ? "scale(1.05)" : "none"
           }}

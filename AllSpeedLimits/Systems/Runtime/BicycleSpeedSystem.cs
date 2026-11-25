@@ -18,6 +18,11 @@ namespace RoadRailSpeeds.Systems
     using Game.Tools;
     using Unity.Entities;
     using Unity.Mathematics;
+    using System;
+    using System.Collections.Generic;
+    using Game.Objects;
+    using Game.Vehicles;
+    using Unity.Collections;
 
     public partial class BicycleSpeedSystem : GameSystemBase
     {

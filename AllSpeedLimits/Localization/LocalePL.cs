@@ -177,10 +177,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Pokaż krótkie notatki poniżej." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Kliknij lub przeciągnij, aby wybrać odcinki. Ustaw prędkość i zastosuj; presety działają od razu.\n" +
-                    "Przerywane linie pokazują ukryte sieci.\n" +
-                    "Ścieżki: 200% podwaja limit domyślny; zmiany indywidualne mają priorytet.\n" +
-                    "Zapisz miasto."
+                    "<Panel miasta>\n" +
+                    "▪ Kliknij albo przeciągnij, aby wybrać segmenty.\n" +
+                    "▪ Ustaw <Nową prędkość>, potem kliknij <Zastosuj>.\n" +
+                    "▪ <Przywróć> przywraca wybrane segmenty.\n" +
+                    "▪ <Ustawienia wstępne> działają od razu.\n" +
+                    "<Całe miasto>\n" +
+                    "▪ Wybierz grupę dróg i zastosuj do niej <Nową prędkość>.\n" +
+                    "▪ Użyj <Drogi>, <Tory>, <Woda> lub <Wszystko>, aby wyczyścić własne prędkości.\n" +
+                    "▪ <Ukryte sieci>: przycisk z linią przerywaną pokazuje ukryte drogi i ścieżki.\n" +
+                    "▪ <Ścieżki>: skale rowerowa i piesza dla całego miasta. 100% = ustawienie gry; 200% podwaja limit.\n" +
+                    "▪ <Zmiany indywidualne> na ścieżkach rowerowych mają priorytet. Reset przywraca aktywną skalę rowerową.\n" +
+                    "▪ Po zmianach w całym mieście <zapisz miasto>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

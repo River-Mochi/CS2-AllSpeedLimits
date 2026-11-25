@@ -177,10 +177,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Mostra notas rápidas abaixo." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Clique ou arraste para selecionar trechos. Ajuste a velocidade e aplique; predefinições são imediatas.\n" +
-                    "As linhas tracejadas mostram redes invisíveis.\n" +
-                    "Caminhos: 200% dobra o limite padrão; ajustes individuais têm prioridade.\n" +
-                    "Salve a cidade."
+                    "<Painel da cidade>\n" +
+                    "▪ Clique ou arraste para selecionar segmentos.\n" +
+                    "▪ Defina <Nova velocidade> e clique em <Aplicar>.\n" +
+                    "▪ <Redefinir> restaura os segmentos selecionados.\n" +
+                    "▪ Botões de <Predefinição> aplicam na hora.\n" +
+                    "<Cidade inteira>\n" +
+                    "▪ Escolha um grupo de estradas e aplique <Nova velocidade> a esse grupo.\n" +
+                    "▪ Use <Vias>, <Trilhos>, <Água> ou <Tudo> para limpar velocidades personalizadas.\n" +
+                    "▪ <Invisível>: o botão tracejado mostra vias e caminhos ocultos.\n" +
+                    "▪ <Caminhos>: escalas de bicicleta e pedestres para toda a cidade. 100% = padrão do jogo; 200% dobra o limite.\n" +
+                    "▪ <Ajustes individuais> nas ciclovias têm prioridade. Restaurar usa a escala de bicicleta ativa.\n" +
+                    "▪ <Salve a cidade> após mudanças na cidade inteira."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

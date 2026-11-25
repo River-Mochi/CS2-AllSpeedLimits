@@ -118,7 +118,10 @@ namespace RoadRailSpeeds.Systems
 
                 LogVehicleStatsReportToLog();
                 m_GlobalPathSpeedSystem.LogPathReport();
-                World.GetExistingSystemManaged<BicycleSpeedSystem>()?.LogBicycleReport();
+                BicycleSpeedSystem? bicycleSystem = World.GetExistingSystemManaged<BicycleSpeedSystem>();
+                bicycleSystem?.LogBicycleReport();
+                bicycleSystem?.LogPersonalVehicleDiagnostics();
+                World.GetExistingSystemManaged<PersonalVehicleStatusSystem>()?.LogOcHiddenBucketsOneLine();
 
                 LogUtils.Info(() => $"{Mod.ModTag} Debug report END");
             }

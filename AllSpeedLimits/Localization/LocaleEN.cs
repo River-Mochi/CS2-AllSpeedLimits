@@ -176,10 +176,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Show short how-to notes below." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Click or drag-select segments. Set speed and Apply; presets apply instantly.\n" +
-                    "Dashed lines show invisible networks.\n" +
-                    "Paths: 200% doubles default limits; individual edits take priority.\n" +
-                    "Save the city after changes."
+                    "<City Panel>\n" +
+                    "▪ Click or drag-select segments.\n" +
+                    "▪ Set <New speed>, then click <Apply>.\n" +
+                    "▪ <Reset> restores selected segments.\n" +
+                    "▪ <Preset> buttons apply instantly.\n" +
+                    "<Whole City>\n" +
+                    "▪ Choose a road group, then apply <New speed> to that group.\n" +
+                    "▪ Use <Roads>, <Rails>, <Water>, or <All> to clear custom speeds.\n" +
+                    "▪ <Invisible>: dashed button shows hidden roads and paths.\n" +
+                    "▪ <Paths>: Bike and Pedestrian scales apply citywide. 100% = game default; 200% doubles the limit.\n" +
+                    "▪ <Custom edits> to bike segments take priority. Reset returns them to the active Bike scale.\n" +
+                    "▪ <Save city> after whole city changes."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

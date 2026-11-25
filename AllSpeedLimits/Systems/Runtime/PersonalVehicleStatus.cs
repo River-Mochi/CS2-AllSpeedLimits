@@ -11,17 +11,18 @@
 
 namespace RoadRailSpeeds.Systems
 {
-    using System;                 // DateTime, TimeSpan
+    using System;
+    using System.Reflection;
+    using Colossal.UI.Binding;
+    using Game.UI.InGame;
+    using Game.UI.Menu;
     using CS2Shared.RiverMochi;   // PersonalVehicleLocale
     using Game;                   // IsGame()
     using Game.SceneFlow;         // GameManager
     using Unity.Entities;         // World
-    using UnityEngine;            // Time.frameCount
 
     public static class PersonalVehicleStatus
     {
-        private const int kRefreshIntervalSeconds = 10;
-
         internal const string KeyStatusNotLoaded = "ASL_PERSONAL_STATUS_NOT_LOADED";
         internal const string KeyStatsNotAvail = "ASL_PERSONAL_STATS_NOT_AVAIL";
         internal const string KeyCarsNotAvail = "ASL_PERSONAL_STATS_CARS_NOT_AVAIL";
@@ -47,100 +48,102 @@ namespace RoadRailSpeeds.Systems
         public static string CarsRow { get; private set; } = string.Empty;
         public static string CarsRow3 { get; private set; } = string.Empty;
 
-        private static bool s_WasInGame;
-        private static bool s_HasSnapshotThisCity;
-        private static long s_LastRefreshTicksUtc;
-        private static int s_LastUiFrame = -1;
+        // Native Options has no public selected-page/section accessor. Resolve the
+        // existing read-only bindings once; the public screen guard is always required.
+        private static readonly FieldInfo? s_PageField = typeof(OptionsUISystem).GetField(
+            "m_ActivePageBinding", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo? s_SectionField = typeof(OptionsUISystem).GetField(
+            "m_ActiveSectionBinding", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static bool s_HasSnapshot;
+        private static World? s_World;
+        private static ValueBinding<string>? s_PageBinding;
+        private static ValueBinding<string>? s_SectionBinding;
+        private static string? s_Page;
+        private static string? s_Section;
 
-        public static void InvalidateCache( )
+        public static void InvalidateCache()
         {
-            s_HasSnapshotThisCity = false;
-            s_LastRefreshTicksUtc = 0;
-            s_LastUiFrame = -1;
-
+            s_HasSnapshot = false;
+            s_World = null;
+            s_PageBinding = null;
+            s_SectionBinding = null;
+            s_Page = null;
+            s_Section = null;
             BikesRow = PersonalVehicleLocale.Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
-            CarsRow = PersonalVehicleLocale.Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
-            CarsRow3 = PersonalVehicleLocale.Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
+            CarsRow = string.Empty;
+            CarsRow3 = string.Empty;
         }
 
-        public static void MarkDirty( )
+        public static void MarkDirty() => InvalidateCache();
+
+        private static bool IsOptionsOpen(World world)
         {
-            s_HasSnapshotThisCity = false;
-            s_LastRefreshTicksUtc = 0;
+            GameManager? gm = GameManager.instance;
+            if (gm == null || !gm.gameMode.IsGame() || gm.isGameLoading)
+            {
+                return false;
+            }
+
+            GameScreenUISystem? screen = world.GetExistingSystemManaged<GameScreenUISystem>();
+            return screen != null && screen.activeScreen == GameScreenUISystem.GameScreen.Options;
         }
 
-        public static void RefreshIfNeeded( )
+        internal static bool IsCurrentVisit(World world)
         {
-            World world = World.DefaultGameObjectInjectionWorld;
-            if (world == null || !world.IsCreated)
+            return s_HasSnapshot && s_World == world && IsOptionsOpen(world) &&
+                s_PageBinding?.value == s_Page && s_SectionBinding?.value == s_Section;
+        }
+
+        public static void RefreshIfNeeded()
+        {
+            World? world = World.DefaultGameObjectInjectionWorld;
+            if (world == null || !world.IsCreated || !IsOptionsOpen(world))
             {
-                return;
-            }
+                if (s_HasSnapshot)
+                {
+                    InvalidateCache();
+                }
 
-            int frame = Time.frameCount;
-            if (frame == s_LastUiFrame)
-            {
-                return;
-            }
-
-            s_LastUiFrame = frame;
-
-            if (string.IsNullOrEmpty(BikesRow))
-            {
-                BikesRow = PersonalVehicleLocale.SafeFormat(KeyStatusNotLoaded, FallbackStatusNotLoaded);
-            }
-
-            if (string.IsNullOrEmpty(CarsRow))
-            {
-                CarsRow = PersonalVehicleLocale.SafeFormat(KeyStatusNotLoaded, FallbackStatusNotLoaded);
-            }
-
-            if (string.IsNullOrEmpty(CarsRow3))
-            {
-                CarsRow3 = PersonalVehicleLocale.SafeFormat(KeyStatusNotLoaded, FallbackStatusNotLoaded);
-            }
-
-            GameManager gm = GameManager.instance;
-            bool isGame = (gm != null && gm.gameMode.IsGame());
-
-            if (isGame != s_WasInGame)
-            {
-                s_WasInGame = isGame;
-                InvalidateCache();
-            }
-
-            if (!isGame)
-            {
-                BikesRow = PersonalVehicleLocale.SafeFormat(KeyStatsNotAvail, FallbackStatsNotAvail);
-                CarsRow = PersonalVehicleLocale.SafeFormat(KeyCarsNotAvail, FallbackCarsNotAvail);
+                BikesRow = PersonalVehicleLocale.Localize(KeyStatsNotAvail, FallbackStatsNotAvail);
+                CarsRow = string.Empty;
                 CarsRow3 = string.Empty;
                 return;
             }
 
-            long nowUtc = DateTime.UtcNow.Ticks;
-
-            if (!s_HasSnapshotThisCity)
-            {
-                BuildSnapshotSafe(world);
-                s_HasSnapshotThisCity = true;
-                s_LastRefreshTicksUtc = nowUtc;
-                return;
-            }
-
-            int interval = kRefreshIntervalSeconds;
-            if (interval < 1)
-            {
-                interval = 5;
-            }
-
-            long nextAllowed = s_LastRefreshTicksUtc + TimeSpan.FromSeconds(interval).Ticks;
-            if (nowUtc < nextAllowed)
+            if (IsCurrentVisit(world))
             {
                 return;
             }
 
+            InvalidateCache();
+            s_World = world;
+            OptionsUISystem? options = world.GetExistingSystemManaged<OptionsUISystem>();
+            if (options != null)
+            {
+                try
+                {
+                    s_PageBinding = s_PageField?.GetValue(options) as ValueBinding<string>;
+                    s_SectionBinding = s_SectionField?.GetValue(options) as ValueBinding<string>;
+                    s_Page = s_PageBinding?.value;
+                    s_Section = s_SectionBinding?.value;
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.WarnOnce("PersonalStatusBindings", () => $"{Mod.ModTag} Options tab tracking unavailable: {ex.Message}");
+                }
+            }
+
+            // If a future game update changes these private bindings, retain the
+            // screen-level guard and refresh on reopening Options, not on a timer.
+            if (s_PageBinding == null || s_SectionBinding == null)
+            {
+                LogUtils.WarnOnce("PersonalStatusBindingMissing", () => $"{Mod.ModTag} Options tab tracking unavailable; refresh on reopening Options.");
+            }
+
+            s_HasSnapshot = true;
             BuildSnapshotSafe(world);
-            s_LastRefreshTicksUtc = nowUtc;
+            // Only observe the active Options visit; never schedule another scan.
+            world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>().Enabled = true;
         }
 
         private static void BuildSnapshotSafe(World world)
@@ -149,8 +152,9 @@ namespace RoadRailSpeeds.Systems
             {
                 BuildAndApplySnapshot(world);
             }
-            catch
+            catch (Exception exception)
             {
+                LogUtils.WarnOnce("PersonalStatusSnapshot", () => $"{Mod.ModTag} Personal vehicle status scan failed: {exception.Message}");
                 BikesRow = PersonalVehicleLocale.Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
                 CarsRow = PersonalVehicleLocale.Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
                 CarsRow3 = PersonalVehicleLocale.Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
@@ -161,6 +165,7 @@ namespace RoadRailSpeeds.Systems
         {
             PersonalVehicleStatusSystem sys = world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>();
             PersonalVehicleStatusSystem.Snapshot snap = sys.BuildSnapshot();
+            LogUtils.Info(() => $"{Mod.ModTag} Personal vehicle status snapshot refreshed.");
 
             BikesRow = PersonalVehicleLocale.SafeFormat(
                 KeyBikesRow,

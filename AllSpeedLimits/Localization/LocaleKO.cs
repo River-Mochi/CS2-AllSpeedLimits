@@ -178,10 +178,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "아래에 짧은 사용법을 표시합니다." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "클릭 또는 드래그로 구간 선택. 속도를 설정하고 적용하세요. 프리셋은 즉시 적용됩니다.\n" +
-                    "점선 버튼으로 숨은 네트워크 표시.\n" +
-                    "경로: 200%는 기본 제한 속도의 2배. 개별 설정 우선.\n" +
-                    "변경 후 도시를 저장하세요."
+                    "<도시 패널>\n" +
+                    "▪ 구간을 클릭하거나 드래그 선택합니다.\n" +
+                    "▪ <새 속도>를 정한 뒤 <적용>을 누릅니다.\n" +
+                    "▪ <초기화>는 선택 구간을 복원합니다.\n" +
+                    "▪ <프리셋> 버튼은 즉시 적용됩니다.\n" +
+                    "<도시 전체>\n" +
+                    "▪ 도로 그룹을 선택한 뒤 그 그룹에 <새 속도>를 적용합니다.\n" +
+                    "▪ <도로>, <철도>, <수로>, <전체>로 사용자 속도를 지웁니다.\n" +
+                    "▪ <숨은 네트워크>: 점선 버튼으로 숨은 도로와 경로를 표시합니다.\n" +
+                    "▪ <경로>: 도시 전체 자전거길과 보행로 배율. 100% = 게임 기본값, 200%는 제한 속도 2배.\n" +
+                    "▪ 자전거길 <개별 설정>이 우선합니다. 초기화하면 현재 자전거길 배율을 적용합니다.\n" +
+                    "▪ 도시 전체 변경 후에는 <도시 저장>을 하세요."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
