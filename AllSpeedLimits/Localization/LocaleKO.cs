@@ -88,7 +88,7 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL 툴팁 표시" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
                     "**기본값 = 켜짐**  켜 두는 것을 권장합니다.\n\n" +
                     "도시 내 툴팁을 표시합니다. 정보 버튼으로 다시 켤 수 있습니다." },
 

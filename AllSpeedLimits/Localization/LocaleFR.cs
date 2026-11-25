@@ -88,7 +88,7 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Afficher les infobulles ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
                     "**Par défaut = ACTIVÉ**  Il est vivement conseillé de le laisser activé.\n\n" +
                     "Affiche les infobulles en ville. Le bouton info peut les réactiver." },
 

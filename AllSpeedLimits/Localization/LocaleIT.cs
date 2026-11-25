@@ -88,7 +88,7 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostra tooltip ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
                     "**Predefinito = ON**  Si consiglia di lasciarlo attivo.\n\n" +
                     "Mostra i tooltip in città. Il pulsante info può riattivarli." },
 

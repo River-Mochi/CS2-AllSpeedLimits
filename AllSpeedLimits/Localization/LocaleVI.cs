@@ -87,7 +87,7 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Hiện chú giải ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
                     "**Mặc định = BẬT**  Nên giữ bật.\n\n" +
                     "Hiện chú giải trong thành phố. Nút thông tin có thể bật lại." },
 

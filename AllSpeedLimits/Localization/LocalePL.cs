@@ -87,7 +87,7 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Pokaż podpowiedzi ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
                     "**Domyślnie = WŁ.**  Zalecamy pozostawić włączone.\n\n" +
                     "Pokazuje podpowiedzi w mieście. Przycisk informacji może je ponownie włączyć." },
 
