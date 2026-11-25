@@ -87,7 +87,9 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "แสดงคำแนะนำ ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "แสดงคำแนะนำในเมือง ปุ่มข้อมูลใช้เปิดอีกครั้งได้" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                    "**ค่าเริ่มต้น = เปิด**  แนะนำให้เปิดไว้\n\n" +
+                    "แสดงคำแนะนำในเมือง ปุ่มข้อมูลใช้เปิดอีกครั้งได้" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "แสดงค่าความเร็วสองเท่าของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),

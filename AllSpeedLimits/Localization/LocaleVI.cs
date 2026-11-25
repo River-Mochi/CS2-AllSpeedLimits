@@ -87,7 +87,9 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Hiện chú giải ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Hiện chú giải trong thành phố. Nút thông tin có thể bật lại." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                    "**Mặc định = BẬT**  Nên giữ bật.\n\n" +
+                    "Hiện chú giải trong thành phố. Nút thông tin có thể bật lại." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Hiện tốc độ nhân đôi của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),

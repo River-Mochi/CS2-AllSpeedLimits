@@ -1190,7 +1190,8 @@ export const SpeedToolWindow = () => {
                         <div onMouseDown={handleMouseDown}
                             onMouseEnter={() => showPanelTooltip("dragGrip")} onMouseLeave={hidePanelTooltip}
                             style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
-                                height: "13rem", cursor: isDragging ? "grabbing" : "grab" }}>
+                                height: "19rem", paddingTop: "6rem", boxSizing: "border-box",
+                                cursor: isDragging ? "grabbing" : "grab" }}>
                             <img src={dragGripIcon} alt="" style={{ width: "34rem", height: "11rem",
                                 marginRight: "4rem", opacity: isDragging ? 1 : 0.65, pointerEvents: "none" }} />
                         </div>

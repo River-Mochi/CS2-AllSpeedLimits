@@ -87,7 +87,9 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL ipuçlarını göster" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Şehirdeki ASL ipuçlarını gösterir. Bilgi düğmesi yeniden açabilir." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                    "**Varsayılan = AÇIK**  Açık bırakmanız önerilir.\n\n" +
+                    "Şehirdeki ASL ipuçlarını gösterir. Bilgi düğmesi yeniden açabilir." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Oyunun çift hızlarını göster" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),

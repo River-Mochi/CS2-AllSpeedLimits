@@ -87,7 +87,9 @@ namespace RoadRailSpeeds
 
                 // Double speed display
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostrar dicas do ASL" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostra dicas na cidade. O botão de informações pode reativá-las." },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), 
+                    "**Padrão = ATIVADO**  Recomendamos manter ativado.\n\n" +
+                    "Mostra dicas na cidade. O botão de informações pode reativá-las." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Mostrar velocidades dobradas do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
