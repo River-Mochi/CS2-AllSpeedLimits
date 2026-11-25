@@ -86,6 +86,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Hiện chú giải ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Hiện chú giải trong thành phố. Nút thông tin có thể bật lại." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Hiện tốc độ nhân đôi của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Tắt> hiển thị thang đơn giản hơn, thường gần với ký hiệu trên đường.\n" +
@@ -178,17 +181,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Bảng thành phố>\n" +
-                    "▪ Bấm hoặc kéo chọn các đoạn.\n" +
-                    "▪ Đặt <Tốc độ mới>, rồi bấm <Áp dụng>.\n" +
+                    "▪ Nhấp hoặc kéo để chọn đoạn. Đặt <Tốc độ mới>, rồi <Áp dụng>.\n" +
+                    "▪ <Nút đặt sẵn> (số trong vòng tròn) áp dụng ngay, không cần nút Áp dụng.\n" +
                     "▪ <Đặt lại> khôi phục các đoạn đã chọn.\n" +
-                    "▪ Các nút <Cài sẵn> áp dụng ngay.\n" +
+                    "▪ <Mạng lưới ẩn>: nút nét đứt hiện/ẩn đường và lối đi ẩn.\n" +
                     "<Toàn thành phố>\n" +
-                    "▪ Chọn nhóm đường, rồi áp dụng <Tốc độ mới> cho nhóm đó.\n" +
-                    "▪ Dùng <Đường>, <Ray>, <Nước> hoặc <Tất cả> để xóa tốc độ tùy chỉnh.\n" +
-                    "▪ <Mạng lưới ẩn>: nút nét đứt hiện đường và lối đi ẩn.\n" +
-                    "▪ <Đường đi>: hệ số xe đạp và đi bộ toàn thành phố. 100% = mặc định; 200% gấp đôi giới hạn.\n" +
-                    "▪ <Chỉnh sửa riêng> từng đoạn đường xe đạp được ưu tiên. Đặt lại dùng hệ số xe đạp hiện tại.\n" +
-                    "▪ <Lưu thành phố> sau thay đổi toàn thành phố."
+                    "▪ Chọn nhóm đường rồi áp dụng tốc độ mới.\n" +
+                    "▪ <Nút đặt lại màu đỏ>: đường bộ, đường sắt, đường thủy, lối đi hoặc tất cả xóa tốc độ tùy chỉnh tương ứng.\n" +
+                    "▪ <Đường đi>: thanh trượt xe đạp và đi bộ áp dụng toàn thành phố. 100% = mặc định; 200% gấp đôi giới hạn.\n" +
+                    "▪ <Chỉnh riêng đường xe đạp> được ưu tiên. Đường chỉ dành cho người đi bộ chỉ chỉnh toàn thành phố.\n" +
+                    "▪ <Lưu thành phố> để giữ thay đổi khi tải lại."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

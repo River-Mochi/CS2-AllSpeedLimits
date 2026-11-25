@@ -86,6 +86,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Pokaż podpowiedzi ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Pokazuje podpowiedzi w mieście. Przycisk informacji może je ponownie włączyć." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Pokaż podwojone prędkości gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Wył.> pokazuje prostszą skalę, zwykle bliższą oznaczeniom na drogach.\n" +
@@ -178,17 +181,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Panel miasta>\n" +
-                    "▪ Kliknij albo przeciągnij, aby wybrać segmenty.\n" +
-                    "▪ Ustaw <Nową prędkość>, potem kliknij <Zastosuj>.\n" +
-                    "▪ <Przywróć> przywraca wybrane segmenty.\n" +
-                    "▪ <Ustawienia wstępne> działają od razu.\n" +
+                    "▪ Kliknij lub przeciągnij, by wybrać odcinki. Ustaw <Nową prędkość> i kliknij <Zastosuj>.\n" +
+                    "▪ <Presety> (liczby w okręgach) działają od razu, bez Zastosuj.\n" +
+                    "▪ <Reset> przywraca wybrane odcinki.\n" +
+                    "▪ <Ukryte sieci>: przerywany przycisk pokazuje/ukrywa ukryte drogi i ścieżki.\n" +
                     "<Całe miasto>\n" +
-                    "▪ Wybierz grupę dróg i zastosuj do niej <Nową prędkość>.\n" +
-                    "▪ Użyj <Drogi>, <Tory>, <Woda> lub <Wszystko>, aby wyczyścić własne prędkości.\n" +
-                    "▪ <Ukryte sieci>: przycisk z linią przerywaną pokazuje ukryte drogi i ścieżki.\n" +
-                    "▪ <Ścieżki>: skale rowerowa i piesza dla całego miasta. 100% = ustawienie gry; 200% podwaja limit.\n" +
-                    "▪ <Zmiany indywidualne> na ścieżkach rowerowych mają priorytet. Reset przywraca aktywną skalę rowerową.\n" +
-                    "▪ Po zmianach w całym mieście <zapisz miasto>."
+                    "▪ Wybierz grupę dróg i zastosuj nową prędkość.\n" +
+                    "▪ <Czerwone przyciski resetu>: drogi, tory, woda, ścieżki lub Wszystko usuwają odpowiednie zmiany.\n" +
+                    "▪ <Ścieżki>: suwaki rowerowe i piesze dla całego miasta. 100% = ustawienie gry; 200% podwaja limit.\n" +
+                    "▪ <Indywidualne zmiany> rowerowe mają priorytet. Ścieżki piesze tylko globalnie.\n" +
+                    "▪ <Zapisz miasto>, aby zachować zmiany po wczytaniu."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

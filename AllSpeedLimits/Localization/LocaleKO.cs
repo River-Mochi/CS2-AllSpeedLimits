@@ -87,6 +87,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL 툴팁 표시" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "도시 내 툴팁을 표시합니다. 정보 버튼으로 다시 켤 수 있습니다." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "게임의 2배 속도 표시" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<끄기>는 더 단순한 눈금을 보여 주며 보통 도로 표시와 더 가깝습니다.\n" +
@@ -179,17 +182,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<도시 패널>\n" +
-                    "▪ 구간을 클릭하거나 드래그 선택합니다.\n" +
-                    "▪ <새 속도>를 정한 뒤 <적용>을 누릅니다.\n" +
-                    "▪ <초기화>는 선택 구간을 복원합니다.\n" +
-                    "▪ <프리셋> 버튼은 즉시 적용됩니다.\n" +
+                    "▪ 클릭 또는 드래그로 구간 선택. <새 속도> 설정 후 <적용>.\n" +
+                    "▪ <프리셋> (원 안 숫자)은 적용 버튼 없이 즉시 적용됩니다.\n" +
+                    "▪ <초기화>로 선택 구간 복원.\n" +
+                    "▪ <숨은 네트워크>: 점선 버튼으로 숨은 도로와 경로 표시/숨기기.\n" +
                     "<도시 전체>\n" +
-                    "▪ 도로 그룹을 선택한 뒤 그 그룹에 <새 속도>를 적용합니다.\n" +
-                    "▪ <도로>, <철도>, <수로>, <전체>로 사용자 속도를 지웁니다.\n" +
-                    "▪ <숨은 네트워크>: 점선 버튼으로 숨은 도로와 경로를 표시합니다.\n" +
-                    "▪ <경로>: 도시 전체 자전거길과 보행로 배율. 100% = 게임 기본값, 200%는 제한 속도 2배.\n" +
-                    "▪ 자전거길 <개별 설정>이 우선합니다. 초기화하면 현재 자전거길 배율을 적용합니다.\n" +
-                    "▪ 도시 전체 변경 후에는 <도시 저장>을 하세요."
+                    "▪ 도로 그룹을 선택하고 새 속도를 적용하세요.\n" +
+                    "▪ <빨간 초기화 버튼>: 도로, 철도, 수로, 경로 또는 전체의 개별 속도 삭제.\n" +
+                    "▪ <경로 탭>: 자전거길과 보행로 슬라이더는 도시 전체에 적용. 100% = 기본값, 200% = 2배.\n" +
+                    "▪ 자전거길 <개별 설정> 우선. 보행 전용 경로는 도시 전체로만 설정 가능.\n" +
+                    "▪ 다시 불러올 때 유지하려면 <도시 저장>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -86,6 +86,9 @@ namespace RoadRailSpeeds
                     "<Default 110%>" },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Show ASL Tooltips" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Show in-city ASL tooltips. The info button can turn them back on." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Show Game Doubled Speeds" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Off> shows a simpler scale, usually closer to road decals.\n" +
@@ -177,17 +180,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<City Panel>\n" +
-                    "▪ Click or drag-select segments.\n" +
-                    "▪ Set <New speed>, then click <Apply>.\n" +
+                    "▪ Click or drag-select segments. Set <New speed>, then click <Apply>.\n" +
+                    "▪ <Preset buttons> (circled numbers) apply instantly; no Apply needed.\n" +
                     "▪ <Reset> restores selected segments.\n" +
-                    "▪ <Preset> buttons apply instantly.\n" +
+                    "▪ <Invisible>: dashed button shows/hides hidden roads and paths.\n" +
                     "<Whole City>\n" +
-                    "▪ Choose a road group, then apply <New speed> to that group.\n" +
-                    "▪ Use <Roads>, <Rails>, <Water>, or <All> to clear custom speeds.\n" +
-                    "▪ <Invisible>: dashed button shows hidden roads and paths.\n" +
-                    "▪ <Paths>: Bike and Pedestrian scales apply citywide. 100% = game default; 200% doubles the limit.\n" +
-                    "▪ <Custom edits> to bike segments take priority. Reset returns them to the active Bike scale.\n" +
-                    "▪ <Save city> after whole city changes."
+                    "▪ Choose a road group, then apply New speed to that group.\n" +
+                    "▪ <Red reset buttons>: Roads, Rails, Water, Paths or All clear related custom speeds.\n" +
+                    "▪ <Paths Tab>: Bike and Pedestrian sliders apply citywide. 100% = game default; 200% doubles the limit.\n" +
+                    "▪ <Custom Bike edits>: individual bike segments keep their own speed, overriding the global slider. Pedestrian-only paths are citywide only.\n" +
+                    "▪ <Save city> after changes to keep them when reloading."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -6,6 +6,7 @@ import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
 import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
+import advisorInfoDisabledIcon from "../../images/AdvisorInfoViewGold.svg";
 
 type SpeedToolHeaderProps = {
     title: string;
@@ -64,9 +65,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
 
     const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
     const selectionTooltipIconActive = !panelTooltipsEnabled;
-    const selectionTooltipIconFilter = selectionTooltipIconActive
-        ? "brightness(1.18) sepia(0.95) hue-rotate(-40deg) saturate(4.2)"
-        : "none";
+    const disabledIconColor = "#FFD264";
 
     return (
         <div
@@ -180,7 +179,8 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         fontSize: isMarkersHovered ? "19rem" : "17rem",
                         fontWeight: 700,
                         lineHeight: "1",
-                        color: speedMarkersHidden ? "#F5BC40" : "rgba(255, 255, 255, 0.75)",
+                        color: speedMarkersHidden ? disabledIconColor : "#FFFFFF",
+                        opacity: speedMarkersHidden ? 1 : isMarkersHovered ? 0.96 : 0.64,
                         pointerEvents: "none"
                     }}>№</span>
                 </Button>
@@ -190,6 +190,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     focusKey={focusDisabled}
                     theme={{ button: "" }}
                     onSelect={onToggleTooltips}
+                    aria-disabled={panelTooltipsEnabled}
                     onMouseEnter={() => {
                         hidePanelTooltip();
                         setIsHelpHovered(true);
@@ -219,12 +220,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     }}
                 >
                     <img
-                        src={advisorInfoIcon}
+                        src={selectionTooltipIconActive ? advisorInfoDisabledIcon : advisorInfoIcon}
                         alt=""
                         style={{
                             width: isHelpHovered ? "26rem" : "24.5rem",
                             height: isHelpHovered ? "26rem" : "24.5rem",
-                            filter: selectionTooltipIconFilter,
                             opacity: selectionTooltipIconActive ? 1 : isHelpHovered ? 0.96 : 0.64,
                             pointerEvents: "none"
                         }}

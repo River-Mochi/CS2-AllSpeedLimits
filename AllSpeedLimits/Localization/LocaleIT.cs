@@ -87,6 +87,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostra tooltip ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostra i tooltip in città. Il pulsante info può riattivarli." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Mostra velocità doppie del gioco" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Disattivo> mostra una scala più semplice, di solito più vicina alle marcature stradali.\n" +
@@ -179,17 +182,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Pannello città>\n" +
-                    "▪ Clicca o trascina per selezionare segmenti.\n" +
-                    "▪ Imposta <Nuova velocità>, poi clicca <Applica>.\n" +
+                    "▪ Clicca o trascina per selezionare. Imposta <Nuova velocità>, poi <Applica>.\n" +
+                    "▪ I <preset> (numeri cerchiati) si applicano subito, senza Applica.\n" +
                     "▪ <Ripristina> ripristina i segmenti selezionati.\n" +
-                    "▪ I pulsanti <Preset> si applicano subito.\n" +
-                    "<Tutta la città>\n" +
-                    "▪ Scegli un gruppo di strade e applica <Nuova velocità> a quel gruppo.\n" +
-                    "▪ Usa <Strade>, <Rotaie>, <Acqua> o <Tutto> per eliminare le velocità personalizzate.\n" +
-                    "▪ <Invisibile>: il pulsante tratteggiato mostra strade e percorsi nascosti.\n" +
-                    "▪ <Percorsi>: scale bici e pedoni per tutta la città. 100% = valore del gioco; 200% raddoppia il limite.\n" +
-                    "▪ Le <modifiche individuali> dei tratti ciclabili hanno priorità. Ripristina usa la scala bici attiva.\n" +
-                    "▪ <Salva la città> dopo le modifiche in tutta la città."
+                    "▪ <Invisibile>: il pulsante tratteggiato mostra/nasconde strade e percorsi nascosti.\n" +
+                    "<Intera città>\n" +
+                    "▪ Scegli un gruppo stradale e applica la nuova velocità.\n" +
+                    "▪ <Pulsanti rossi>: strade, binari, acqua, percorsi o Tutti cancellano i relativi limiti personalizzati.\n" +
+                    "▪ <Percorsi>: cursori bici e pedoni per tutta la città. 100% = valore del gioco; 200% raddoppia il limite.\n" +
+                    "▪ I <tratti ciclabili personalizzati> mantengono la velocità. I percorsi solo pedonali si regolano in tutta la città.\n" +
+                    "▪ <Salva la città> per mantenere le modifiche al caricamento."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

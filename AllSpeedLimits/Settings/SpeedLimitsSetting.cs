@@ -71,7 +71,7 @@ namespace RoadRailSpeeds
         [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool SyncSliderWithSelection { get; set; } = true;
 
-        [SettingsUIHidden]
+        [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool PanelTooltipsEnabled { get; set; } = true;
 
         // Toggled from the panel title bar. Hides the floating speed numbers over roads/rails/water.

@@ -835,7 +835,7 @@ export const SpeedToolWindow = () => {
                             setIsMarkersHovered={setIsMarkersHovered}
                             onMouseDown={handleMouseDown}
                             onClose={handleClose}
-                            onToggleTooltips={() => SetPanelTooltipsEnabled(!panelTooltipsEnabled)}
+                            onToggleTooltips={() => { if (!panelTooltipsEnabled) SetPanelTooltipsEnabled(true); }}
                             onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
                             hidePanelTooltip={hidePanelTooltip}
                         />
@@ -1165,6 +1165,7 @@ export const SpeedToolWindow = () => {
                                 focusKey={FOCUS_DISABLED}
                                 text={TEXT.panel.allPaths}
                                 pedText={TEXT.panel.pedPaths}
+                                wholeCityLabel={TEXT.panel.wholeCity}
                                 onShowTip={showPanelTooltip}
                                 onHideTip={hidePanelTooltip}
                                 onChange={setPendingPathPercent}
@@ -1185,11 +1186,14 @@ export const SpeedToolWindow = () => {
                                 }}
                             />
                         )}
-                        <div onMouseDown={handleMouseDown} title={TEXT.tooltips.draggable}
+                        <div onMouseDown={handleMouseDown}
+                            onMouseEnter={() => showPanelTooltip("dragGrip")} onMouseLeave={hidePanelTooltip}
                             style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
                                 height: "13rem", cursor: isDragging ? "grabbing" : "grab" }}>
-                            <div style={{ width: "42rem", height: "5rem", borderRadius: "3rem",
-                                marginRight: "4rem", backgroundColor: isDragging ? "#79D4EE" : "rgba(200,220,230,0.40)" }} />
+                            <div style={{ display: "flex", alignItems: "center", marginRight: "4rem", pointerEvents: "none" }}>
+                                {[0, 1, 2, 3].map(dot => <div key={dot} style={{ width: "5rem", height: "5rem",
+                                    marginLeft: "4rem", borderRadius: "50%", backgroundColor: isDragging ? "#79D4EE" : "rgba(200,220,230,0.50)" }} />)}
+                            </div>
                         </div>
                     </div>
                 </Panel>

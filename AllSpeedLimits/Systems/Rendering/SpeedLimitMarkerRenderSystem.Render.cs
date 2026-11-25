@@ -228,9 +228,10 @@ namespace RoadRailSpeeds.Systems
                     // Keep the same world/on-screen dimensions while retaining the smoother SDF.
                     textScaleMultiplier *= s_MarkerWorldScaleNormalization;
 
+                    bool invisibleEdge = false;
                     if (hoverCamera != null)
                     {
-                        bool invisibleEdge = SpeedNetworkUtils.IsInvisible(EntityManager, edge);
+                        invisibleEdge = SpeedNetworkUtils.IsInvisible(EntityManager, edge);
                         textScaleMultiplier = ApplyReadableScreenScale(
                             hoverCamera,
                             markerPosition,
@@ -253,6 +254,11 @@ namespace RoadRailSpeeds.Systems
                     if (identity.GroupKey.NetworkKind == MarkerNetworkKind.Path)
                     {
                         textScaleMultiplier *= Mathf.Lerp(0.72f, 1f, closeScaleBlend);
+                    }
+
+                    if (invisibleEdge && identity.GroupKey.NetworkKind == MarkerNetworkKind.Road)
+                    {
+                        textScaleMultiplier *= Mathf.Lerp(1.12f, 1f, closeScaleBlend);
                     }
 
                     Rect screenBounds = default;

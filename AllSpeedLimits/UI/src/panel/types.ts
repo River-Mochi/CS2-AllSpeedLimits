@@ -33,6 +33,7 @@ export type PanelTooltipKind =
     | "filterRoads"
     | "filterRails"
     | "filterWater"
+    | "dragGrip"
     | "pathSlider"
     | "pathApply"
     | "pathReset"
