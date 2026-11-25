@@ -84,6 +84,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL ツールチップを表示" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "都市内のツールチップを表示。情報ボタンで再表示できます。" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "ゲーム内の倍速表示を使う" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<オフ> はよりシンプルな目盛りで、道路表示に近いことが多いです。\n" +
@@ -124,17 +127,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<都市パネル>\n" +
-                    "▪ セグメントをクリック、またはドラッグ選択します。\n" +
-                    "▪ <新速度> を設定して <適用> をクリックします。\n" +
-                    "▪ <リセット> は選択セグメントを戻します。\n" +
-                    "▪ <プリセット> ボタンはすぐ適用されます。\n" +
-                    "<都市全体>\n" +
-                    "▪ 道路グループを選び、そのグループに <新速度> を適用します。\n" +
-                    "▪ <道路>、<鉄道>、<水路>、<全て> でカスタム速度を消去します。\n" +
-                    "▪ <非表示>：破線ボタンで隠れた道路や経路を表示。\n" +
-                    "▪ <経路>：自転車道・歩道の速度を市内全体で調整。100% = ゲーム標準、200%で制限速度が2倍。\n" +
-                    "▪ 自転車道の<個別設定>を優先。リセットすると現在の自転車道倍率に戻ります。\n" +
-                    "▪ 都市全体の変更後は <都市を保存> してください。"
+                    "▪ クリックまたはドラッグで区間を選択。<新しい速度>を設定して<適用>。\n" +
+                    "▪ <プリセット>（丸数字）は即時適用。適用ボタンは不要。\n" +
+                    "▪ <リセット>で選択区間を復元。\n" +
+                    "▪ <非表示>：破線ボタンで隠れた道路や経路を表示/非表示。\n" +
+                    "<市内全体>\n" +
+                    "▪ 道路グループを選び、新しい速度を適用。\n" +
+                    "▪ <赤いリセットボタン>：道路、線路、水路、経路、全ての個別設定を解除。\n" +
+                    "▪ <経路タブ>：自転車道と歩道の倍率は市内全体に適用。100% = ゲーム標準、200%で2倍。\n" +
+                    "▪ 自転車道の<個別設定>を優先。歩道専用は市内全体のみ。\n" +
+                    "▪ 変更後は<セーブ>して再ロード時に保持。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

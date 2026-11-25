@@ -84,6 +84,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL-Tooltips anzeigen" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Zeigt ASL-Tooltips in der Stadt. Die Info-Schaltfläche schaltet sie wieder ein." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Verdoppelte Spielwerte anzeigen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Aus> zeigt eine einfachere Skala, meist näher an Straßenmarkierungen.\n" +
@@ -123,18 +126,17 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Zeigt kurze Hinweise unten an." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Stadt-Panel>\n" +
-                    "▪ Segmente anklicken oder per Ziehen auswählen.\n" +
-                    "▪ <Neues Tempo> setzen, dann <Anwenden> klicken.\n" +
+                    "<Stadtpanel>\n" +
+                    "▪ Segmente anklicken oder ziehen. <Neues Tempo> einstellen, dann <Anwenden>.\n" +
+                    "▪ <Vorgaben> (eingekreiste Zahlen) gelten sofort, ohne Anwenden.\n" +
                     "▪ <Zurücksetzen> stellt ausgewählte Segmente wieder her.\n" +
-                    "▪ <Vorgaben> werden sofort angewendet.\n" +
+                    "▪ <Unsichtbar>: gestrichelte Schaltfläche zeigt/versteckt verborgene Straßen und Wege.\n" +
                     "<Ganze Stadt>\n" +
-                    "▪ Eine Straßengruppe wählen, dann <Neues Tempo> darauf anwenden.\n" +
-                    "▪ Mit <Straßen>, <Schienen>, <Wasser> oder <Alle> eigene Werte löschen.\n" +
-                    "▪ <Unsichtbar>: Die gestrichelte Schaltfläche zeigt versteckte Straßen und Wege.\n" +
-                    "▪ <Wege>: Rad- und Fußwegtempo stadtweit. 100% = Spielstandard; 200% verdoppelt das Limit.\n" +
-                    "▪ <Einzelne Änderungen> an Radwegen haben Vorrang. Zurücksetzen nutzt das aktive Radweglimit.\n" +
-                    "▪ Nach Änderungen in der ganzen Stadt <Stadt speichern>."
+                    "▪ Straßengruppe wählen und neues Tempo anwenden.\n" +
+                    "▪ <Rote Reset-Tasten>: Straßen, Schienen, Wasser, Wege oder Alle löschen zugehörige Tempolimits.\n" +
+                    "▪ <Wege>: Rad- und Fußwegregler gelten stadtweit. 100% = Spielstandard; 200% verdoppelt das Limit.\n" +
+                    "▪ <Einzelne Radwege> behalten ihr eigenes Tempo. Reine Fußwege sind nur stadtweit einstellbar.\n" +
+                    "▪ <Stadt speichern>, damit Änderungen beim Laden erhalten bleiben."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

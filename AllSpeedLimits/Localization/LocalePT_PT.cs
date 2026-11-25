@@ -83,6 +83,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostrar dicas do ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Mostra dicas na cidade. O botão de informação pode reativá-las." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Mostrar velocidades duplicadas do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Desligado> mostra uma escala mais simples, normalmente mais próxima das marcações da estrada.\n" +
@@ -123,17 +126,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Painel da cidade>\n" +
-                    "▪ Clica ou arrasta para selecionar segmentos.\n" +
-                    "▪ Define <Nova velocidade> e clica em <Aplicar>.\n" +
-                    "▪ <Repor> repõe os segmentos selecionados.\n" +
-                    "▪ Botões de <Predefinição> aplicam logo.\n" +
+                    "▪ Clique ou arraste para selecionar segmentos. Defina <Nova velocidade> e <Aplicar>.\n" +
+                    "▪ <Predefinições> (números em círculos) são imediatas, sem Aplicar.\n" +
+                    "▪ <Repor> restaura os segmentos selecionados.\n" +
+                    "▪ <Invisível>: botão tracejado mostra/oculta vias e caminhos ocultos.\n" +
                     "<Cidade inteira>\n" +
-                    "▪ Escolhe um grupo de estradas e aplica <Nova velocidade> a esse grupo.\n" +
-                    "▪ Usa <Estradas>, <Carris>, <Água> ou <Tudo> para limpar velocidades personalizadas.\n" +
-                    "▪ <Invisível>: o botão tracejado mostra vias e caminhos ocultos.\n" +
-                    "▪ <Caminhos>: escalas de bicicleta e peões para toda a cidade. 100% = padrão do jogo; 200% duplica o limite.\n" +
-                    "▪ <Ajustes individuais> nas ciclovias têm prioridade. Repor usa a escala de bicicleta ativa.\n" +
-                    "▪ <Guarda a cidade> após alterações na cidade inteira."
+                    "▪ Escolha um grupo de vias e aplique a nova velocidade.\n" +
+                    "▪ <Botões vermelhos>: vias, carris, água, caminhos ou Todos limpam os ajustes correspondentes.\n" +
+                    "▪ <Caminhos>: controlos de bicicleta e peões para toda a cidade. 100% = padrão do jogo; 200% duplica o limite.\n" +
+                    "▪ <Ajustes individuais> nas ciclovias têm prioridade. Caminhos só pedonais são globais.\n" +
+                    "▪ <Guarde a cidade> para manter as alterações ao carregar."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -83,6 +83,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "顯示 ASL 提示" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "顯示城市內的 ASL 提示。資訊按鈕可重新開啟。" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "顯示遊戲雙倍速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<關> 顯示較簡單的刻度，通常更接近道路標線。\n" +
@@ -123,17 +126,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<城市面板>\n" +
-                    "▪ 點擊或拖曳選取區段。\n" +
-                    "▪ 設定 <新速度>，然後點擊 <套用>。\n" +
-                    "▪ <重置> 會還原所選區段。\n" +
-                    "▪ <預設> 按鈕會立即生效。\n" +
+                    "▪ 點擊或拖曳選取路段。設定<新速度>，再點擊<套用>。\n" +
+                    "▪ <預設按鈕>（圓圈數字）立即生效，無需點擊套用。\n" +
+                    "▪ <重設>恢復選取路段。\n" +
+                    "▪ <隱藏路網>：虛線按鈕顯示/隱藏道路及路徑。\n" +
                     "<全城>\n" +
-                    "▪ 選擇一個道路群組，然後把 <新速度> 套用到該群組。\n" +
-                    "▪ 用 <道路>、<軌道>、<水路> 或 <全部> 清除自訂速度。\n" +
-                    "▪ <隱藏路網>：虛線按鈕顯示隱藏道路和路徑。\n" +
-                    "▪ <路徑>：全城自行車道及步行路徑倍率。100% = 遊戲預設；200% 使速限加倍。\n" +
-                    "▪ 自行車道路段的<個別修改>優先。重設恢復至目前自行車道倍率。\n" +
-                    "▪ 全城修改後請 <儲存城市>。"
+                    "▪ 選擇道路組並套用新速度。\n" +
+                    "▪ <紅色重設按鈕>：道路、軌道、水路、路徑或全部，清除相應自訂速限。\n" +
+                    "▪ <路徑分頁>：自行車道及步行路徑滑桿全城生效。100% = 遊戲預設；200% 速限加倍。\n" +
+                    "▪ <自行車道路段個別修改>優先，保留自己的速限。純步行路徑僅支援全城調整。\n" +
+                    "▪ <儲存城市>，重新載入時保留修改。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

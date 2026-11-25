@@ -84,6 +84,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "显示 ASL 提示" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "显示城市内的 ASL 提示。信息按钮可重新开启。" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "显示游戏双倍速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<关> 显示更简单的刻度，通常更接近道路标线。\n" +
@@ -124,17 +127,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<城市面板>\n" +
-                    "▪ 点击或拖动选择区段。\n" +
-                    "▪ 设置 <新速度>，然后点击 <应用>。\n" +
-                    "▪ <重置> 会恢复所选区段。\n" +
-                    "▪ <预设> 按钮会立即生效。\n" +
+                    "▪ 点击或拖选路段。设置<新速度>，再点击<应用>。\n" +
+                    "▪ <预设按钮>（圆圈数字）立即生效，无需点击应用。\n" +
+                    "▪ <重置>恢复选定路段。\n" +
+                    "▪ <隐藏路网>：虚线按钮显示/隐藏道路及路径。\n" +
                     "<全城>\n" +
-                    "▪ 选择一个道路组，然后把 <新速度> 应用到该组。\n" +
-                    "▪ 用 <道路>、<轨道>、<水路> 或 <全部> 清除自定义速度。\n" +
-                    "▪ <隐藏路网>：虚线按钮显示隐藏道路和路径。\n" +
-                    "▪ <路径>：全城自行车道及步行路径倍率。100% = 游戏默认；200% 使限速翻倍。\n" +
-                    "▪ 自行车道路段的<单独修改>优先。重置恢复至当前自行车道倍率。\n" +
-                    "▪ 全城修改后请 <保存城市>。"
+                    "▪ 选择道路组并应用新速度。\n" +
+                    "▪ <红色重置按钮>：道路、轨道、水路、路径或全部，清除相应自定义限速。\n" +
+                    "▪ <路径选项卡>：自行车道及步行路径滑块全城生效。100% = 游戏默认；200% 限速翻倍。\n" +
+                    "▪ <自行车道路段单独修改>优先，保留自己的限速。纯步行路径仅支持全城调整。\n" +
+                    "▪ <保存城市>，重新载入时保留修改。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -84,6 +84,9 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Afficher les infobulles ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Affiche les infobulles en ville. Le bouton info peut les réactiver." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Afficher les vitesses doublées du jeu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Désactivé> affiche une échelle plus simple, souvent plus proche des marquages routiers.\n" +
@@ -123,18 +126,17 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Affiche de courtes notes d’aide ci-dessous." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "<Panneau de ville>\n" +
-                    "▪ Cliquez ou glissez pour sélectionner des segments.\n" +
-                    "▪ Réglez <Nouvelle vitesse>, puis cliquez sur <Appliquer>.\n" +
-                    "▪ <Réinit.> restaure les segments sélectionnés.\n" +
-                    "▪ Les boutons <Préréglages> s’appliquent instantanément.\n" +
-                    "<Ville entière>\n" +
-                    "▪ Choisissez un groupe de routes, puis appliquez <Nouvelle vitesse> à ce groupe.\n" +
-                    "▪ Utilisez <Routes>, <Rails>, <Eau> ou <Tout> pour effacer les vitesses personnalisées.\n" +
-                    "▪ <Invisible> : le bouton en pointillés affiche les routes et chemins cachés.\n" +
+                    "<Panneau en ville>\n" +
+                    "▪ Cliquez ou glissez pour sélectionner. Réglez <Nouvelle vitesse>, puis <Appliquer>.\n" +
+                    "▪ Les <préréglages> (nombres cerclés) s'appliquent aussitôt, sans Appliquer.\n" +
+                    "▪ <Réinitialiser> restaure les segments sélectionnés.\n" +
+                    "▪ <Invisible> : le bouton pointillé affiche/masque les routes et chemins cachés.\n" +
+                    "<Toute la ville>\n" +
+                    "▪ Choisissez un groupe de routes et appliquez la nouvelle vitesse.\n" +
+                    "▪ <Boutons rouges> : routes, rails, eau, chemins ou Tout effacent les vitesses personnalisées correspondantes.\n" +
                     "▪ <Chemins> : réglages vélo et piéton pour toute la ville. 100% = jeu par défaut ; 200% double la limite.\n" +
-                    "▪ Les <réglages individuels> des pistes cyclables priment. Réinitialiser applique l’échelle vélo active.\n" +
-                    "▪ <Sauvegardez la ville> après les changements dans toute la ville."
+                    "▪ Les <pistes cyclables personnalisées> gardent leur vitesse. Les chemins piétons seuls se règlent à l'échelle de la ville.\n" +
+                    "▪ <Sauvegardez la ville> pour conserver les changements au chargement."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
