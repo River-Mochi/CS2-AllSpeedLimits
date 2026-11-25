@@ -58,6 +58,8 @@ namespace RoadRailSpeeds.Systems
             "m_ActiveSectionBinding", BindingFlags.Instance | BindingFlags.NonPublic);
         private static bool s_HasSnapshot;
         private static int s_VisitNumber;
+        private static int s_VisitScanCount;
+        private static int s_TotalScanCount;
         private static uint? s_SnapshotFrame;
         private static long s_VisitStartTimestamp;
         private static World? s_World;
@@ -74,7 +76,7 @@ namespace RoadRailSpeeds.Systems
                     ? s_World.GetExistingSystemManaged<SimulationSystem>()?.frameIndex
                     : null;
                 double visitSeconds = (Stopwatch.GetTimestamp() - s_VisitStartTimestamp) / (double)Stopwatch.Frequency;
-                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} END scans=1 " +
+                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} END scans={s_VisitScanCount} totalScans={s_TotalScanCount} " +
                     $"startFrame={s_SnapshotFrame} endFrame={currentFrame} durationSec={visitSeconds:0.0}.");
             }
 
@@ -174,6 +176,7 @@ namespace RoadRailSpeeds.Systems
 
             s_HasSnapshot = true;
             s_VisitNumber++;
+            s_VisitScanCount = 0;
             s_SnapshotFrame = world.GetExistingSystemManaged<SimulationSystem>()?.frameIndex;
             s_VisitStartTimestamp = Stopwatch.GetTimestamp();
             BuildSnapshotSafe(world);
@@ -185,9 +188,12 @@ namespace RoadRailSpeeds.Systems
         {
             try
             {
+                s_VisitScanCount++;
+                s_TotalScanCount++;
+                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} scan={s_VisitScanCount} BEGIN totalScans={s_TotalScanCount} frame={s_SnapshotFrame}.");
                 BuildAndApplySnapshot(world);
                 double elapsedMs = (Stopwatch.GetTimestamp() - s_VisitStartTimestamp) * 1000.0 / Stopwatch.Frequency;
-                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} scan=1 " +
+                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} scan={s_VisitScanCount} COMPLETE " +
                     $"screen=Options frame={s_SnapshotFrame} durationMs={elapsedMs:0.00} page={s_Page ?? "fallback"} section={s_Section ?? "fallback"}.");
             }
             catch (Exception exception)
