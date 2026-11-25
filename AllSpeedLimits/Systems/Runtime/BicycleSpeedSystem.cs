@@ -53,7 +53,7 @@ namespace RoadRailSpeeds.Systems
             {
                 if (HasLegacyBikesAndPaths())
                 {
-                    LogUtils.Info(() => $"{Mod.ModTag} Bicycle tuning skipped: update Bikes + Paths to its ASL-compatible version.");
+                    LogUtils.Info(() => $"{Mod.ModTag} Bicycle tuning skipped: remove legacy Bikes + Paths when using ASL.");
                     return;
                 }
 
@@ -100,7 +100,7 @@ namespace RoadRailSpeeds.Systems
         {
             if (HasLegacyBikesAndPaths())
             {
-                LogUtils.Info(() => $"{Mod.ModTag} Bicycle report: legacy Bikes + Paths owns vehicle tuning. Update B+P.");
+                LogUtils.Info(() => $"{Mod.ModTag} Bicycle report: legacy Bikes + Paths owns vehicle tuning. Remove B+P when using ASL.");
                 return;
             }
 

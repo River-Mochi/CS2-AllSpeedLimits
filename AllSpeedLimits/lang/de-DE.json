@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Nur Fußwege. 100% = Spielstandard; darunter sinken die Weglimits. Mischwege folgen der Radweg-Skala.",
   "paths.pedResetTooltip": "Fußweg-Skala auf 100 % zurücksetzen.",
   "paths.pedApplyTooltip": "Fußweg-Skala stadtweit anwenden. Keine Einzelbearbeitung.",
-  "paths.sliderTooltip": "Rad- und Mischwege. 100% = Spielstandard; 200% verdoppelt die Weglimits.",
+  "paths.sliderTooltip": "Rad- und gemischte Wege. 100% = Spielstandard. Beispiel: 200% erhöht das Radlimit von 30 auf 60 km/h. Gehgeschwindigkeit bleibt gleich. Der Fußwegregler gilt nur für reine Fußwege.",
   "paths.resetTooltip": "Radweg-Skala auf 100 % zurücksetzen. Eigene Abschnittslimits bleiben.",
   "paths.applyTooltip": "Radweg-Skala für die ganze Stadt anwenden. Einzellimits bleiben.",
   "reminder.dismiss": "Schließen",

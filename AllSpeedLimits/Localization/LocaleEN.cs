@@ -112,7 +112,7 @@ namespace RoadRailSpeeds
                     "**100% = Game defaults.**\n" +
                     "Changes the maximum speed of bicycles and electric scooters. Acceleration and braking adjust automatically.\n" +
                     "Path speed limits still apply; this does not change path limits.\n" +
-                    "If an older Bikes + Paths mod is installed, it controls vehicle speeds instead. Disable it or use its ASL-compatible update." },
+                    "Remove Bikes + Paths when using ASL. ASL replaces all its features. Older versions can conflict with ASL." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Reset to game defaults" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restore bicycle and electric scooter speed, acceleration and braking to **100% game defaults**." },
 

@@ -112,7 +112,7 @@ namespace RoadRailSpeeds
                     "**100% = mặc định của game.**\n" +
                     "Đổi tốc độ tối đa của xe đạp và xe scooter điện. Tăng tốc và phanh tự điều chỉnh.\n" +
                     "Giới hạn tốc độ đường đi vẫn có hiệu lực.\n" +
-                    "Bikes + Paths bản cũ sẽ kiểm soát tốc độ xe. Hãy tắt hoặc dùng bản tương thích ASL." },
+                    "Hãy gỡ Bikes + Paths khi dùng ASL. ASL có đầy đủ tính năng của mod này. Bản cũ có thể gây xung đột." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Khôi phục mặc định của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Khôi phục tốc độ, tăng tốc và phanh của xe đạp và scooter về **100% mặc định của game**." },
 

@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Chemins piétons seuls. 100% = jeu par défaut ; en dessous, limites réduites. Les chemins mixtes suivent le réglage vélo.",
   "paths.pedResetTooltip": "Remettre l'échelle des chemins piétons à 100 %.",
   "paths.pedApplyTooltip": "Appliquer l'échelle piétonne à la ville. Aucun réglage par tronçon.",
-  "paths.sliderTooltip": "Pistes cyclables et chemins mixtes. 100% = jeu par défaut ; 200% double les limites.",
+  "paths.sliderTooltip": "Pistes cyclables et chemins mixtes. 100% = jeu. Exemple : 200% passe la limite vélo de 30 à 60 km/h. La vitesse de marche ne change pas. Le réglage piéton concerne uniquement les chemins piétons.",
   "paths.resetTooltip": "Remettre l'échelle vélo à 100 %. Garder les limites personnalisées.",
   "paths.applyTooltip": "Appliquer l'échelle vélo à toute la ville. Les réglages par tronçon restent.",
   "reminder.dismiss": "Fermer",

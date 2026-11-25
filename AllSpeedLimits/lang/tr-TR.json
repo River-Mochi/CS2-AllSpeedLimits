@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Yalnız yaya yolları. %100 = oyun varsayılanı; altında hız sınırları düşer. Karma yollar bisiklet ölçeğini izler.",
   "paths.pedResetTooltip": "Yaya yolu ölçeğini %100'e döndür.",
   "paths.pedApplyTooltip": "Yaya yoluna şehir genelinde uygula. Tek tek düzenlenemez.",
-  "paths.sliderTooltip": "Bisiklet ve karma yollar. %100 = oyun varsayılanı; %200 hız sınırlarını ikiye katlar.",
+  "paths.sliderTooltip": "Bisiklet ve karma yollar. %100 = oyun varsayılanı. Örnek: %200 bisiklet hız sınırını 30'dan 60 km/saate çıkarır. Yürüme hızı değişmez. Yaya kaydırıcısı yalnızca yayalara özel yollar içindir.",
   "paths.resetTooltip": "Bisiklet hızını oyun varsayılanı %100'e döndür. Tekil limitler kalır.",
   "paths.applyTooltip": "Bisiklet ölçeğini tüm şehirde uygula. Tekil ayarlar kalır.",
   "reminder.dismiss": "Kapat",

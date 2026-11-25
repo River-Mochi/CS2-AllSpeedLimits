@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "歩行者専用道。100% = ゲーム標準、100%未満で制限速度が低下。共用路は自転車道の倍率に従います。",
   "paths.pedResetTooltip": "歩行者専用道を標準の100%に戻します。",
   "paths.pedApplyTooltip": "歩行者専用道に街全体で適用。区間ごとの編集は不可。",
-  "paths.sliderTooltip": "自転車道・共用路。100% = ゲーム標準、200%で制限速度が2倍。",
+  "paths.sliderTooltip": "自転車道と混合道。100% = ゲーム既定値。例：200% で自転車の制限速度が 30 km/h から 60 km/h に。歩行速度は変わりません。歩道スライダーは歩行者専用道のみ対象。",
   "paths.resetTooltip": "自転車道を標準の100%に戻します。個別の設定は維持。",
   "paths.applyTooltip": "街全体の自転車道へ適用。個別の設定は維持。",
   "reminder.dismiss": "閉じる",

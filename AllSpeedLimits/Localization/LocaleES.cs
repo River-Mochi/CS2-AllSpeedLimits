@@ -113,7 +113,7 @@ namespace RoadRailSpeeds
                     "**100% = valores del juego.**\n" +
                     "Cambia la velocidad máxima de bicicletas y patinetes eléctricos. La aceleración y el frenado se ajustan automáticamente.\n" +
                     "Los límites de las vías siguen vigentes.\n" +
-                    "Una versión antigua de Bikes + Paths controla la velocidad en su lugar. Desactívala o usa su versión compatible con ASL." },
+                    "Elimina Bikes + Paths si usas ASL. ASL sustituye todas sus funciones. Las versiones antiguas pueden causar conflictos." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restaurar valores del juego" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Restaura velocidad, aceleración y frenado de bicicletas y patinetes al **100% del juego**." },
 

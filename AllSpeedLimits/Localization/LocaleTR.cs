@@ -112,7 +112,7 @@ namespace RoadRailSpeeds
                     "**%100 = oyun varsayılanı.**\n" +
                     "Bisiklet ve elektrikli scooterların azami hızını değiştirir. Hızlanma ve frenleme otomatik ayarlanır.\n" +
                     "Yol hız sınırları geçerliliğini korur.\n" +
-                    "Eski Bikes + Paths sürümü araç hızlarını kontrol eder. Devre dışı bırakın veya ASL uyumlu sürümünü kullanın." },
+                    "ASL kullanıyorsan Bikes + Paths modunu kaldır. ASL tüm özelliklerini içerir. Eski sürümler çakışabilir." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Oyun varsayılanına dön" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Bisiklet ve scooter hızını, hızlanmasını ve frenlemesini **%100 oyun varsayılanına** döndürür." },
 

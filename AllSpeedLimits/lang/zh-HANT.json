@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "僅步行專用路徑。100% = 遊戲預設，低於 100% 降低路徑速限。混合路徑採用自行車道倍率。",
   "paths.pedResetTooltip": "將全域步行路徑倍率恢復為預設100%。",
   "paths.pedApplyTooltip": "將步行路徑倍率套用至全城；無法單獨編輯路段。",
-  "paths.sliderTooltip": "自行車道及混合路徑。100% = 遊戲預設，200% 速限翻倍。",
+  "paths.sliderTooltip": "自行車道及混合道路。100% = 遊戲預設。例：200% 將自行車限速從 30 提升至 60 公里/小時。步行速度不變。行人道滑桿僅適用於純行人道。",
   "paths.resetTooltip": "全域自行車道恢復遊戲預設的100%，保留單段限速。",
   "paths.applyTooltip": "將自行車道倍率套用至全城。保留單段自訂設定。",
   "reminder.dismiss": "關閉",

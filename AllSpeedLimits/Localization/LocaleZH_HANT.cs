@@ -112,7 +112,7 @@ namespace RoadRailSpeeds
                     "**100% = 遊戲預設值。**\n" +
                     "調整自行車及電動滑板車的最高速度，加速和煞車自動調整。\n" +
                     "仍受路徑速限約束，不會改變路徑速限。\n" +
-                    "若安裝舊版 Bikes + Paths，則由該模組控制車輛速度。請停用或使用相容 ASL 的新版。" },
+                    "使用 ASL 時請移除 Bikes + Paths。ASL 已整合其全部功能，舊版可能發生衝突。" },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "恢復遊戲預設值" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "將自行車及電動滑板車的速度、加速和煞車恢復至 **100% 遊戲預設值**。" },
 

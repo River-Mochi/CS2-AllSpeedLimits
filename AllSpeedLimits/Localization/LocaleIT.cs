@@ -113,7 +113,7 @@ namespace RoadRailSpeeds
                     "**100% = valori del gioco.**\n" +
                     "Modifica la velocità massima di bici e monopattini elettrici. Accelerazione e frenata si adattano automaticamente.\n" +
                     "I limiti dei percorsi restano validi.\n" +
-                    "Una vecchia versione di Bikes + Paths controlla invece le velocità. Disattivala o usa la versione compatibile con ASL." },
+                    "Rimuovi Bikes + Paths se usi ASL. ASL sostituisce tutte le sue funzioni. Le vecchie versioni possono causare conflitti." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Ripristina valori del gioco" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Ripristina velocità, accelerazione e frenata di bici e monopattini al **100% dei valori del gioco**." },
 

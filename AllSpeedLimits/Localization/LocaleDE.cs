@@ -113,7 +113,7 @@ namespace RoadRailSpeeds
                     "**100% = Spielstandard.**\n" +
                     "Ändert die Höchstgeschwindigkeit von Fahrrädern und E-Scootern. Beschleunigung und Bremsen werden angepasst.\n" +
                     "Weglimits gelten weiterhin.\n" +
-                    "Eine ältere Version von Bikes + Paths steuert das Fahrzeugtempo stattdessen. Deaktivieren oder ASL-kompatible Version nutzen." },
+                    "Entferne Bikes + Paths, wenn du ASL nutzt. ASL ersetzt alle Funktionen. Ältere Versionen können Konflikte verursachen." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Spielstandard wiederherstellen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Tempo, Beschleunigung und Bremsen von Fahrrädern und E-Scootern auf **100% Spielstandard** zurücksetzen." },
 

@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Chỉ đường đi bộ. 100% = mặc định của game; dưới 100% giảm giới hạn tốc độ. Đường hỗn hợp theo hệ số xe đạp.",
   "paths.pedResetTooltip": "Khôi phục mức đường đi bộ về 100%.",
   "paths.pedApplyTooltip": "Áp dụng mức đi bộ toàn thành phố. Không chỉnh từng đoạn.",
-  "paths.sliderTooltip": "Đường xe đạp và đường hỗn hợp. 100% = mặc định của game; 200% gấp đôi giới hạn tốc độ.",
+  "paths.sliderTooltip": "Đường xe đạp và đường hỗn hợp. 100% = mặc định game. Ví dụ: 200% tăng giới hạn xe đạp từ 30 lên 60 km/h. Tốc độ đi bộ không đổi. Thanh người đi bộ chỉ áp dụng cho lối đi bộ riêng.",
   "paths.resetTooltip": "Khôi phục mức xe đạp về 100% mặc định. Giữ giới hạn riêng.",
   "paths.applyTooltip": "Áp dụng mức xe đạp cho toàn thành phố. Giữ chỉnh sửa từng đoạn.",
   "reminder.dismiss": "Đóng",

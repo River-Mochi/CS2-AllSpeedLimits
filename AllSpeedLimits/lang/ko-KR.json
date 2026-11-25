@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "보행 전용 경로. 100% = 게임 기본값, 100% 미만이면 제한 속도가 낮아집니다. 혼합 경로는 자전거길 배율을 따릅니다.",
   "paths.pedResetTooltip": "보행 전용 경로를 기본 100%로 초기화.",
   "paths.pedApplyTooltip": "보행 전용 경로를 도시 전체에 적용. 구간별 편집 불가.",
-  "paths.sliderTooltip": "자전거길 및 혼합 경로. 100% = 게임 기본값, 200%는 제한 속도 2배.",
+  "paths.sliderTooltip": "자전거길 및 혼합 경로. 100% = 게임 기본값. 예: 200%로 설정하면 자전거 제한 속도가 30km/h에서 60km/h로 증가합니다. 보행 속도는 그대로이며 보행로 슬라이더는 보행자 전용 경로에만 적용됩니다.",
   "paths.resetTooltip": "자전거 경로를 기본 100%로 초기화. 개별 설정은 유지.",
   "paths.applyTooltip": "자전거 경로 배율을 도시 전체에 적용. 개별 설정은 유지.",
   "reminder.dismiss": "닫기",

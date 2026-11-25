@@ -36,7 +36,7 @@ Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network
 * Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
 * Example: Bike 200% changes a 30 km/h default bike path to 60 km/h. Individual edits take priority.
 * Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
-* Moving from Bikes + Paths? You can safely remove B+P anytime and use ASL. No reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ delegates overlapping tuning to ASL; older versions can conflict.
+* Moving from Bikes + Paths? ASL replaces B+P. Remove Bikes + Paths when using ASL; no reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ is compatible during the transition; older versions can conflict.
 * Vehicles are still limited by their max speeds (different for each type).
 * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
 * **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.

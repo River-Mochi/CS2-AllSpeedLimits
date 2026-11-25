@@ -166,11 +166,11 @@ namespace RoadRailSpeeds.Systems
                 // a brief white flash confirms a successful apply or reset.
                 // Retain the same thin outlines and translucent dash fills.
                 OutlineColor = edited ? new Color(1f, 1f, 1f, 0.87f) :
-                    hovered ? new Color(1f, 0.91f, 0.55f, 0.78f) :
-                    new Color(1f, 0.83f, 0.30f, 0.90f),
+                    hovered ? new Color(229f / 255f, 225f / 255f, 147f / 255f, 0.78f) :
+                    new Color(221f / 255f, 224f / 255f, 126f / 255f, 0.90f),
                 FillColor = edited ? new Color(1f, 1f, 1f, 0.28f) :
-                    hovered ? new Color(1f, 0.91f, 0.55f, 0.19f) :
-                    new Color(1f, 0.83f, 0.30f, 0.27f),
+                    hovered ? new Color(229f / 255f, 225f / 255f, 147f / 255f, 0.19f) :
+                    new Color(221f / 255f, 224f / 255f, 126f / 255f, 0.27f),
                 Width = edited ? 1.30f : hovered ? 1.05f : 1.20f
             });
         }

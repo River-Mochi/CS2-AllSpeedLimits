@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Só caminhos pedonais. 100% = padrão do jogo; abaixo de 100% reduz os limites. Caminhos mistos seguem a escala de bicicleta.",
   "paths.pedResetTooltip": "Repõe a escala pedonal a 100%.",
   "paths.pedApplyTooltip": "Aplica a escala pedonal à cidade. Sem edição por troço.",
-  "paths.sliderTooltip": "Ciclovias e caminhos mistos. 100% = padrão do jogo; 200% duplica os limites.",
+  "paths.sliderTooltip": "Ciclovias e caminhos mistos. 100% = predefinição do jogo. Exemplo: 200% aumenta o limite das bicicletas de 30 para 60 km/h. A velocidade a pé não muda. O controlo pedonal só afeta caminhos exclusivos para peões.",
   "paths.resetTooltip": "Repõe a escala de bicicletas a 100%. Mantém os limites por troço.",
   "paths.applyTooltip": "Aplica a escala de bicicletas à cidade. Os ajustes por troço mantêm-se.",
   "reminder.dismiss": "Fechar",

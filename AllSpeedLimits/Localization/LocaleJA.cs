@@ -113,7 +113,7 @@ namespace RoadRailSpeeds
                     "**100% = ゲーム標準。**\n" +
                     "自転車と電動キックボードの最高速度を変更。加速と制動も自動調整します。\n" +
                     "経路の制限速度は引き続き適用されます。\n" +
-                    "旧版の Bikes + Paths がある場合はそちらが車両速度を管理します。無効にするか、ASL対応版を使用してください。" },
+                    "ASL を使う場合は Bikes + Paths を削除してください。全機能は ASL に統合済みです。旧版は競合することがあります。" },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "ゲーム標準に戻す" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "自転車と電動キックボードの速度・加速・制動を **100% のゲーム標準** に戻します。" },
 

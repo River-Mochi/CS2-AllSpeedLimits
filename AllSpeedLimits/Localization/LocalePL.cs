@@ -112,7 +112,7 @@ namespace RoadRailSpeeds
                     "**100% = ustawienia gry.**\n" +
                     "Zmienia maksymalną prędkość rowerów i hulajnóg elektrycznych. Przyspieszenie i hamowanie są dostosowane automatycznie.\n" +
                     "Limity ścieżek nadal obowiązują.\n" +
-                    "Starszy Bikes + Paths steruje prędkością pojazdów zamiast ASL. Wyłącz go lub użyj wersji zgodnej z ASL." },
+                    "Usuń Bikes + Paths, jeśli używasz ASL. ASL zastępuje wszystkie jego funkcje. Starsze wersje mogą powodować konflikty." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywróć ustawienia gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywraca prędkość, przyspieszenie i hamowanie rowerów oraz hulajnóg do **100% ustawień gry**." },
 

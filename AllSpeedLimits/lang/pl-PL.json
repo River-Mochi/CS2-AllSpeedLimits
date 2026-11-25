@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Tylko ścieżki piesze. 100% = ustawienie gry; poniżej 100% limity są niższe. Ścieżki mieszane korzystają ze skali rowerowej.",
   "paths.pedResetTooltip": "Przywróć skalę ścieżek pieszych do 100%.",
   "paths.pedApplyTooltip": "Zastosuj skalę pieszą w mieście. Bez edycji odcinków.",
-  "paths.sliderTooltip": "Ścieżki rowerowe i mieszane. 100% = ustawienie gry; 200% podwaja limity.",
+  "paths.sliderTooltip": "Ścieżki rowerowe i mieszane. 100% = domyślnie. Przykład: 200% zwiększa limit rowerów z 30 do 60 km/h. Prędkość chodzenia się nie zmienia. Suwak pieszych dotyczy tylko ścieżek wyłącznie pieszych.",
   "paths.resetTooltip": "Przywróć rowerowe 100%. Własne limity odcinków zostają.",
   "paths.applyTooltip": "Zastosuj skalę rowerową w mieście. Własne limity zostają.",
   "reminder.dismiss": "Zamknij",

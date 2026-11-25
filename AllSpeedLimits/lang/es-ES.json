@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Solo caminos peatonales. 100% = valor del juego; por debajo se reducen los límites. Los caminos mixtos siguen la escala ciclista.",
   "paths.pedResetTooltip": "Restablecer caminos peatonales al 100% del juego.",
   "paths.pedApplyTooltip": "Aplicar escala peatonal a toda la ciudad. No se editan por tramo.",
-  "paths.sliderTooltip": "Vías ciclistas y mixtas. 100% = valor del juego; 200% duplica los límites.",
+  "paths.sliderTooltip": "Vías ciclistas y mixtas. 100% = valor del juego. Ejemplo: 200% sube el límite ciclista de 30 a 60 km/h. La velocidad a pie no cambia. El control peatonal solo afecta a vías exclusivas para peatones.",
   "paths.resetTooltip": "Restablecer bici al 100% del juego. Conserva los límites individuales.",
   "paths.applyTooltip": "Aplicar escala de bici a toda la ciudad. Mantiene los ajustes individuales.",
   "reminder.dismiss": "Cerrar",

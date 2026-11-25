@@ -91,7 +91,7 @@
   "paths.pedSliderTooltip": "Solo percorsi pedonali. 100% = valore del gioco; sotto 100% riduce i limiti. I percorsi misti seguono la scala bici.",
   "paths.pedResetTooltip": "Riporta la scala pedonale a 100%.",
   "paths.pedApplyTooltip": "Applica la scala pedonale in città. Non si modifica per tratto.",
-  "paths.sliderTooltip": "Percorsi ciclabili e misti. 100% = valore del gioco; 200% raddoppia i limiti.",
+  "paths.sliderTooltip": "Piste ciclabili e percorsi misti. 100% = valore di gioco. Esempio: 200% porta il limite bici da 30 a 60 km/h. La velocità a piedi non cambia. Il cursore pedoni vale solo per percorsi esclusivamente pedonali.",
   "paths.resetTooltip": "Riporta la scala bici a 100%. I limiti per tratto restano.",
   "paths.applyTooltip": "Applica la scala bici a tutta la città. Le modifiche individuali restano.",
   "reminder.dismiss": "Chiudi",

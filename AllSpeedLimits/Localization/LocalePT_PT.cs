@@ -112,7 +112,7 @@ namespace RoadRailSpeeds
                     "**100% = padrão do jogo.**\n" +
                     "Altera a velocidade máxima de bicicletas e trotinetes elétricas. Aceleração e travagem são ajustadas automaticamente.\n" +
                     "Os limites dos caminhos continuam a aplicar-se.\n" +
-                    "Uma versão antiga de Bikes + Paths controla a velocidade dos veículos. Desative-a ou use a versão compatível com ASL." },
+                    "Remove Bikes + Paths se usares ASL. O ASL substitui todas as suas funções. Versões antigas podem causar conflitos." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Repor padrão do jogo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Repõe velocidade, aceleração e travagem de bicicletas e trotinetes a **100% do padrão do jogo**." },
 
