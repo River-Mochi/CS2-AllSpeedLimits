@@ -80,7 +80,7 @@
   "panel.wholeCity": "Toda la ciudad",
   "panel.working": "Trabajando...",
   "paths.heading": "Escala de vías ciclistas",
-  "paths.description": "Límites globales de vías ciclistas y mixtas. Los cambios individuales tienen prioridad.",
+  "paths.description": "Los ajustes individuales tienen prioridad sobre este control global.",
   "paths.slider": "Escala de vías ciclistas",
   "paths.vanilla": "100% = valor del juego",
   "paths.apply": "Aplicar",

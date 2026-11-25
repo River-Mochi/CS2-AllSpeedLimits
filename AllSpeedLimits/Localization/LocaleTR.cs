@@ -126,7 +126,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Şehir paneli>\n" +
-                    "▪ Kesimleri tıklayarak veya sürükleyerek seçin. <Yeni hız> belirleyip <Uygula> düğmesine basın.\n" +
+                    "▪ Bir kesime tıklayın veya sürükleyerek birden çok kesim seçin. <Yeni hız> belirleyip <Uygula> düğmesine basın.\n" +
                     "▪ <Hazır ayarlar> (daire içindeki sayılar) anında uygulanır; Uygula gerekmez.\n" +
                     "▪ <Sıfırla> seçili kesimleri geri yükler.\n" +
                     "▪ <Görünmez ağlar>: kesikli düğme gizli yolları gösterir/gizler.\n" +

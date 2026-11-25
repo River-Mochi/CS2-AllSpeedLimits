@@ -80,7 +80,7 @@
   "panel.wholeCity": "Ganze Stadt",
   "panel.working": "Arbeite...",
   "paths.heading": "Radweg-Temposkala",
-  "paths.description": "Stadtweite Limits für Rad- und Mischwege. Individuelle Änderungen haben Vorrang.",
+  "paths.description": "Individuelle Änderungen haben Vorrang vor diesem Regler.",
   "paths.slider": "Radweg-Temposkala",
   "paths.vanilla": "100 % = Spielstandard",
   "paths.apply": "Anwenden",

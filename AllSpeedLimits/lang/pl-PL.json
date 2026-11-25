@@ -80,7 +80,7 @@
   "panel.wholeCity": "Całe miasto",
   "panel.working": "Praca...",
   "paths.heading": "Skala prędkości rowerów",
-  "paths.description": "Limity ścieżek rowerowych i mieszanych w całym mieście. Zmiany indywidualne mają priorytet.",
+  "paths.description": "Indywidualne zmiany mają pierwszeństwo przed suwakiem globalnym.",
   "paths.slider": "Skala prędkości rowerów",
   "paths.vanilla": "100% = wartość gry",
   "paths.apply": "Zastosuj",

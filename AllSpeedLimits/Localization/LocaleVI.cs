@@ -126,7 +126,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Bảng thành phố>\n" +
-                    "▪ Nhấp hoặc kéo để chọn đoạn. Đặt <Tốc độ mới>, rồi <Áp dụng>.\n" +
+                    "▪ Nhấp chọn một đoạn hoặc kéo chọn nhiều đoạn. Đặt <Tốc độ mới>, rồi <Áp dụng>.\n" +
                     "▪ <Nút đặt sẵn> (số trong vòng tròn) áp dụng ngay, không cần nút Áp dụng.\n" +
                     "▪ <Đặt lại> khôi phục các đoạn đã chọn.\n" +
                     "▪ <Mạng lưới ẩn>: nút nét đứt hiện/ẩn đường và lối đi ẩn.\n" +

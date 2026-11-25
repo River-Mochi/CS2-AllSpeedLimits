@@ -125,7 +125,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<City Panel>\n" +
-                    "▪ Click or drag-select segments. Set <New speed>, then click <Apply>.\n" +
+                    "▪ Click one or drag-select many segments. Set <New speed>, then click <Apply>.\n" +
                     "▪ <Preset buttons> (circled numbers) apply instantly; no Apply needed.\n" +
                     "▪ <Reset> restores selected segments.\n" +
                     "▪ <Invisible>: dashed button shows/hides hidden roads and paths.\n" +

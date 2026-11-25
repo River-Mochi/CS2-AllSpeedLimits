@@ -80,7 +80,7 @@
   "panel.wholeCity": "Ville entière",
   "panel.working": "Travail...",
   "paths.heading": "Échelle de vitesse vélo",
-  "paths.description": "Limites globales des pistes cyclables et voies mixtes. Les réglages individuels priment.",
+  "paths.description": "Les réglages individuels restent prioritaires.",
   "paths.slider": "Échelle de vitesse vélo",
   "paths.vanilla": "100 % = valeur du jeu",
   "paths.apply": "Appliquer",

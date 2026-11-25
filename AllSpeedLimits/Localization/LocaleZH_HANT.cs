@@ -126,7 +126,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<城市面板>\n" +
-                    "▪ 點擊或拖曳選取路段。設定<新速度>，再點擊<套用>。\n" +
+                    "▪ 點擊選取單一路段，或拖曳選取多個路段。設定<新速度>，再點擊<套用>。\n" +
                     "▪ <預設按鈕>（圓圈數字）立即生效，無需點擊套用。\n" +
                     "▪ <重設>恢復選取路段。\n" +
                     "▪ <隱藏路網>：虛線按鈕顯示/隱藏道路及路徑。\n" +

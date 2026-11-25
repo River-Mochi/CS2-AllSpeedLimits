@@ -80,7 +80,7 @@
   "panel.wholeCity": "Tutta città",
   "panel.working": "Lavoro...",
   "paths.heading": "Scala velocità bici",
-  "paths.description": "Limiti globali per percorsi ciclabili e misti. Le modifiche individuali hanno priorità.",
+  "paths.description": "Le modifiche individuali hanno priorità sul cursore globale.",
   "paths.slider": "Scala velocità bici",
   "paths.vanilla": "100% = valore di gioco",
   "paths.apply": "Applica",

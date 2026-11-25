@@ -127,7 +127,7 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<都市パネル>\n" +
-                    "▪ クリックまたはドラッグで区間を選択。<新しい速度>を設定して<適用>。\n" +
+                    "▪ クリックで1区間、ドラッグで複数区間を選択。<新しい速度>を設定して<適用>。\n" +
                     "▪ <プリセット>（丸数字）は即時適用。適用ボタンは不要。\n" +
                     "▪ <リセット>で選択区間を復元。\n" +
                     "▪ <非表示>：破線ボタンで隠れた道路や経路を表示/非表示。\n" +
