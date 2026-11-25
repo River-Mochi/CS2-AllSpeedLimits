@@ -13,6 +13,7 @@ namespace RoadRailSpeeds
 {
     using System;                    // Exception
     using Colossal.IO.AssetDatabase; // FileLocation
+    using Colossal.Json;             // Exclude
     using CS2Shared.RiverMochi;      // LogUtils, ShellOpen
     using Game.Input;                // ActionType, BindingKeyboard, ProxyBinding
     using Game.Modding;              // IMod
@@ -136,7 +137,7 @@ namespace RoadRailSpeeds
             }
         }
 
-        [Colossal.IO.AssetDatabase.Exclude]
+        [Exclude]
         [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
         public string StatusSummary1
         {
@@ -147,7 +148,7 @@ namespace RoadRailSpeeds
             }
         }
 
-        [Colossal.IO.AssetDatabase.Exclude]
+        [Exclude]
         [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
         public string StatusSummary2
         {
@@ -158,7 +159,7 @@ namespace RoadRailSpeeds
             }
         }
 
-        [Colossal.IO.AssetDatabase.Exclude]
+        [Exclude]
         [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
         public string StatusSummary3
         {
