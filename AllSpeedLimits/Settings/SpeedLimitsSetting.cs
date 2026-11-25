@@ -15,6 +15,8 @@ namespace RoadRailSpeeds
     using Colossal.IO.AssetDatabase; // FileLocation
     using Colossal.Json;             // Exclude
     using CS2Shared.RiverMochi;      // LogUtils, ShellOpen
+    using Game;                      // GameMode
+    using Game.SceneFlow;            // GameManager
     using Game.Input;                // ActionType, BindingKeyboard, ProxyBinding
     using Game.Modding;              // IMod
     using Game.Settings;             // ModSetting, settings attributes
@@ -184,7 +186,7 @@ namespace RoadRailSpeeds
 
                 World? world = World.DefaultGameObjectInjectionWorld;
                 if (world != null && world.IsCreated &&
-                    Game.SceneFlow.GameManager.instance?.gameMode == Game.GameMode.Game)
+                    GameManager.instance?.gameMode == GameMode.Game)
                 {
                     world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>().LogBorderParkedSamples();
                 }
