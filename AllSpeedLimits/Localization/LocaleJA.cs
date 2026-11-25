@@ -123,10 +123,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "下に短い使い方メモを表示します。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "クリックまたはドラッグで区間を選択。速度を設定して適用。プリセットは即時適用。\n" +
-                    "破線ボタンで非表示ネットワークを表示。\n" +
-                    "経路：200%で標準の制限速度が2倍。個別設定を優先。\n" +
-                    "変更後はセーブ。"
+                    "<都市パネル>\n" +
+                    "▪ セグメントをクリック、またはドラッグ選択します。\n" +
+                    "▪ <新速度> を設定して <適用> をクリックします。\n" +
+                    "▪ <リセット> は選択セグメントを戻します。\n" +
+                    "▪ <プリセット> ボタンはすぐ適用されます。\n" +
+                    "<都市全体>\n" +
+                    "▪ 道路グループを選び、そのグループに <新速度> を適用します。\n" +
+                    "▪ <道路>、<鉄道>、<水路>、<全て> でカスタム速度を消去します。\n" +
+                    "▪ <非表示>：破線ボタンで隠れた道路や経路を表示。\n" +
+                    "▪ <経路>：自転車道・歩道の速度を市内全体で調整。100% = ゲーム標準、200%で制限速度が2倍。\n" +
+                    "▪ 自転車道の<個別設定>を優先。リセットすると現在の自転車道倍率に戻ります。\n" +
+                    "▪ 都市全体の変更後は <都市を保存> してください。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

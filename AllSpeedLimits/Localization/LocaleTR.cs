@@ -122,10 +122,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Aşağıda kısa kullanım notlarını gösterir." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Kesimleri tıklayarak veya sürükleyerek seçin. Hızı ayarlayıp uygulayın; hazır ayarlar anında uygulanır.\n" +
-                    "Kesikli çizgiler görünmez ağları gösterir.\n" +
-                    "Yollar: %200 varsayılan sınırı ikiye katlar; tekil ayarlar önceliklidir.\n" +
-                    "Şehri kaydedin."
+                    "<Şehir paneli>\n" +
+                    "▪ Bölümlere tıkla veya sürükleyerek seç.\n" +
+                    "▪ <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
+                    "▪ <Sıfırla> seçili bölümleri geri yükler.\n" +
+                    "▪ <Ön ayar> düğmeleri anında uygulanır.\n" +
+                    "<Tüm şehir>\n" +
+                    "▪ Bir yol grubu seç, sonra o gruba <Yeni hız> uygula.\n" +
+                    "▪ Özel hızları temizlemek için <Yollar>, <Raylar>, <Su> veya <Tümü> kullan.\n" +
+                    "▪ <Görünmez ağlar>: kesikli düğme gizli yolları gösterir.\n" +
+                    "▪ <Yollar>: şehir genelinde bisiklet ve yaya ölçekleri. %100 = oyun varsayılanı; %200 sınırı ikiye katlar.\n" +
+                    "▪ Bisiklet yollarındaki <tekil ayarlar> önceliklidir. Sıfırlama etkin bisiklet ölçeğine döner.\n" +
+                    "▪ Tüm şehir değişikliklerinden sonra <Şehri kaydet>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

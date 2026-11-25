@@ -123,10 +123,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Affiche de courtes notes d’aide ci-dessous." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Cliquez ou glissez pour sélectionner des segments. Réglez la vitesse et appliquez ; les préréglages sont immédiats.\n" +
-                    "Les pointillés affichent les réseaux invisibles.\n" +
-                    "Chemins : 200% double la limite de base ; les réglages individuels priment.\n" +
-                    "Sauvegardez la ville."
+                    "<Panneau de ville>\n" +
+                    "▪ Cliquez ou glissez pour sélectionner des segments.\n" +
+                    "▪ Réglez <Nouvelle vitesse>, puis cliquez sur <Appliquer>.\n" +
+                    "▪ <Réinit.> restaure les segments sélectionnés.\n" +
+                    "▪ Les boutons <Préréglages> s’appliquent instantanément.\n" +
+                    "<Ville entière>\n" +
+                    "▪ Choisissez un groupe de routes, puis appliquez <Nouvelle vitesse> à ce groupe.\n" +
+                    "▪ Utilisez <Routes>, <Rails>, <Eau> ou <Tout> pour effacer les vitesses personnalisées.\n" +
+                    "▪ <Invisible> : le bouton en pointillés affiche les routes et chemins cachés.\n" +
+                    "▪ <Chemins> : réglages vélo et piéton pour toute la ville. 100% = jeu par défaut ; 200% double la limite.\n" +
+                    "▪ Les <réglages individuels> des pistes cyclables priment. Réinitialiser applique l’échelle vélo active.\n" +
+                    "▪ <Sauvegardez la ville> après les changements dans toute la ville."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

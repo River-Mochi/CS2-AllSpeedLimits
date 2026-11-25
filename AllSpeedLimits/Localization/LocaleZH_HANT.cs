@@ -122,10 +122,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "在下方顯示簡短說明。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "點擊或拖曳選取路段。設定速度後套用；預設按鈕立即生效。\n" +
-                    "虛線按鈕顯示隱藏路網。\n" +
-                    "路徑：200% 使預設速限加倍，個別修改的路段優先。\n" +
-                    "修改後儲存城市。"
+                    "<城市面板>\n" +
+                    "▪ 點擊或拖曳選取區段。\n" +
+                    "▪ 設定 <新速度>，然後點擊 <套用>。\n" +
+                    "▪ <重置> 會還原所選區段。\n" +
+                    "▪ <預設> 按鈕會立即生效。\n" +
+                    "<全城>\n" +
+                    "▪ 選擇一個道路群組，然後把 <新速度> 套用到該群組。\n" +
+                    "▪ 用 <道路>、<軌道>、<水路> 或 <全部> 清除自訂速度。\n" +
+                    "▪ <隱藏路網>：虛線按鈕顯示隱藏道路和路徑。\n" +
+                    "▪ <路徑>：全城自行車道及步行路徑倍率。100% = 遊戲預設；200% 使速限加倍。\n" +
+                    "▪ 自行車道路段的<個別修改>優先。重設恢復至目前自行車道倍率。\n" +
+                    "▪ 全城修改後請 <儲存城市>。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -123,10 +123,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "Zeigt kurze Hinweise unten an." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "Segmente anklicken oder per Ziehen auswählen. Tempo einstellen und anwenden; Vorgaben gelten sofort.\n" +
-                    "Gestrichelte Linien zeigen unsichtbare Netze.\n" +
-                    "Wege: 200% verdoppeln Standardlimits; individuelle Änderungen haben Vorrang.\n" +
-                    "Stadt nach Änderungen speichern."
+                    "<Stadt-Panel>\n" +
+                    "▪ Segmente anklicken oder per Ziehen auswählen.\n" +
+                    "▪ <Neues Tempo> setzen, dann <Anwenden> klicken.\n" +
+                    "▪ <Zurücksetzen> stellt ausgewählte Segmente wieder her.\n" +
+                    "▪ <Vorgaben> werden sofort angewendet.\n" +
+                    "<Ganze Stadt>\n" +
+                    "▪ Eine Straßengruppe wählen, dann <Neues Tempo> darauf anwenden.\n" +
+                    "▪ Mit <Straßen>, <Schienen>, <Wasser> oder <Alle> eigene Werte löschen.\n" +
+                    "▪ <Unsichtbar>: Die gestrichelte Schaltfläche zeigt versteckte Straßen und Wege.\n" +
+                    "▪ <Wege>: Rad- und Fußwegtempo stadtweit. 100% = Spielstandard; 200% verdoppelt das Limit.\n" +
+                    "▪ <Einzelne Änderungen> an Radwegen haben Vorrang. Zurücksetzen nutzt das aktive Radweglimit.\n" +
+                    "▪ Nach Änderungen in der ganzen Stadt <Stadt speichern>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

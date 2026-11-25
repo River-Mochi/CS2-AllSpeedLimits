@@ -123,10 +123,18 @@ namespace RoadRailSpeeds
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ShowUsage)), "在下方显示简短说明。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
-                    "点击或拖选路段。设置速度后应用；预设按钮立即生效。\n" +
-                    "虚线按钮显示隐藏路网。\n" +
-                    "路径：200% 使默认限速翻倍，单独修改的路段优先。\n" +
-                    "修改后保存城市。"
+                    "<城市面板>\n" +
+                    "▪ 点击或拖动选择区段。\n" +
+                    "▪ 设置 <新速度>，然后点击 <应用>。\n" +
+                    "▪ <重置> 会恢复所选区段。\n" +
+                    "▪ <预设> 按钮会立即生效。\n" +
+                    "<全城>\n" +
+                    "▪ 选择一个道路组，然后把 <新速度> 应用到该组。\n" +
+                    "▪ 用 <道路>、<轨道>、<水路> 或 <全部> 清除自定义速度。\n" +
+                    "▪ <隐藏路网>：虚线按钮显示隐藏道路和路径。\n" +
+                    "▪ <路径>：全城自行车道及步行路径倍率。100% = 游戏默认；200% 使限速翻倍。\n" +
+                    "▪ 自行车道路段的<单独修改>优先。重置恢复至当前自行车道倍率。\n" +
+                    "▪ 全城修改后请 <保存城市>。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 
