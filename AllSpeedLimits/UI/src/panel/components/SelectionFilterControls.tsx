@@ -99,7 +99,7 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
             width: wideIcon ? "40rem" : "26rem",
             height: "26rem",
             pointerEvents: "none",
-            opacity: wideIcon && !active && !hovered ? 0.65 : 1,
+            opacity: wideIcon && !active && !hovered ? 0.5 : 1,
             filter: iconFilter,
             transform: hovered ? "scale(1.05)" : "none"
           }}

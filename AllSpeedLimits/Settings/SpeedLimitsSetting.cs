@@ -100,11 +100,24 @@ namespace RoadRailSpeeds
 
         // Stored in Options for persistence. GlobalPathSpeedPercent keeps existing
         // bike/mixed values from older versions; pedestrian-only is independent.
-        [SettingsUIHidden]
-        public int GlobalPathSpeedPercent { get; set; } = 100;
+        internal const int kMinPathSpeedPercent = 30;
+        internal const int kMaxPathSpeedPercent = 300;
+        private int m_GlobalPathSpeedPercent = 100;
+        private int m_GlobalPedPathSpeedPercent = 100;
 
         [SettingsUIHidden]
-        public int GlobalPedPathSpeedPercent { get; set; } = 100;
+        public int GlobalPathSpeedPercent
+        {
+            get => m_GlobalPathSpeedPercent;
+            set => m_GlobalPathSpeedPercent = Math.Max(kMinPathSpeedPercent, Math.Min(kMaxPathSpeedPercent, value));
+        }
+
+        [SettingsUIHidden]
+        public int GlobalPedPathSpeedPercent
+        {
+            get => m_GlobalPedPathSpeedPercent;
+            set => m_GlobalPedPathSpeedPercent = Math.Max(kMinPathSpeedPercent, Math.Min(kMaxPathSpeedPercent, value));
+        }
 
         private int m_BicycleSpeedPercent = 100;
 

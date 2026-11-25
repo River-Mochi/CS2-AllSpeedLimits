@@ -50,11 +50,11 @@ const PathScaleRow = (props: ScaleProps) => {
             <div style={{ display: "flex", alignItems: "center", marginBottom: "8rem" }}>
                 <div style={{ flex: 1, minWidth: "0", marginRight: "8rem" }}
                     onMouseEnter={() => onShowTip(sliderTip)} onMouseLeave={onHideTip}>
-                    <Slider start={30} end={500} step={10} value={percent}
+                    <Slider start={30} end={300} step={10} value={percent}
                         onChange={(value: number) => { if (!busy) onChange(value); }} />
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11rem",
                         color: "rgba(255,255,255,0.78)", marginTop: "3rem" }}>
-                        <span>30%</span><span>500%</span>
+                        <span>30%</span><span>300%</span>
                     </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -71,8 +71,8 @@ const PathScaleRow = (props: ScaleProps) => {
                         borderColor: "rgba(78,195,240,0.48)", borderRadius: "3rem" }}>
                         <span>{percent}%</span>
                     </div>
-                    <Button focusKey={focusKey} variant="neutral" disabled={busy || percent >= 500}
-                        onSelect={() => onChange(Math.min(500, percent + 10))}
+                    <Button focusKey={focusKey} variant="neutral" disabled={busy || percent >= 300}
+                        onSelect={() => onChange(Math.min(300, percent + 10))}
                         style={{ width: "28rem", minWidth: "28rem", height: "26rem", minHeight: "26rem", paddingLeft: "0", paddingRight: "0" }}>
                         +
                     </Button>

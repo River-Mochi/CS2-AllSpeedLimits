@@ -83,8 +83,8 @@ namespace RoadRailSpeeds.Systems
 
         public void ScheduleApply(int bikePercent, int pedestrianPercent)
         {
-            m_PendingPercent = math.clamp(bikePercent, 30, 500);
-            m_PendingPedestrianPercent = math.clamp(pedestrianPercent, 30, 500);
+            m_PendingPercent = math.clamp(bikePercent, SpeedLimitsSetting.kMinPathSpeedPercent, SpeedLimitsSetting.kMaxPathSpeedPercent);
+            m_PendingPedestrianPercent = math.clamp(pedestrianPercent, SpeedLimitsSetting.kMinPathSpeedPercent, SpeedLimitsSetting.kMaxPathSpeedPercent);
             DisposeBatch();
             m_Pending = true;
             Enabled = true;

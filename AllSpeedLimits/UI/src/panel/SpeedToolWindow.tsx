@@ -1201,7 +1201,7 @@ export const SpeedToolWindow = () => {
                             style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
                                 height: "19rem", paddingTop: "6rem", boxSizing: "border-box",
                                 cursor: isDragging ? "grabbing" : "grab" }}>
-                            <img src={dragGripIcon} alt="" style={{ width: "34rem", height: "11rem",
+                            <img src={dragGripIcon} alt="" style={{ width: "26.5rem", height: "11rem",
                                 marginRight: "4rem", opacity: isDragging || isDragGripHovered ? 1 : 0.65, pointerEvents: "none" }} />
                         </div>
                     </div>

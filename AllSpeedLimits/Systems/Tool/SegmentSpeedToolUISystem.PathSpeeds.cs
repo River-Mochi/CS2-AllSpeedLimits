@@ -36,7 +36,7 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            int nextPercent = math.clamp(percent, 30, 500);
+            int nextPercent = math.clamp(percent, SpeedLimitsSetting.kMinPathSpeedPercent, SpeedLimitsSetting.kMaxPathSpeedPercent);
             // Save the chosen value before queuing work, so a city reload reapplies it.
             if (m_Settings.GlobalPathSpeedPercent != nextPercent)
             {
@@ -61,7 +61,7 @@ namespace RoadRailSpeeds.Systems
                 return;
             }
 
-            int nextPercent = math.clamp(percent, 30, 500);
+            int nextPercent = math.clamp(percent, SpeedLimitsSetting.kMinPathSpeedPercent, SpeedLimitsSetting.kMaxPathSpeedPercent);
             if (m_Settings.GlobalPedPathSpeedPercent != nextPercent)
             {
                 m_Settings.GlobalPedPathSpeedPercent = nextPercent;
