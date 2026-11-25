@@ -148,7 +148,8 @@ export const SpeedToolHint = () => {
                             onClick={OpenAllPaths}
                             style={{
                                 marginLeft: "8rem", paddingLeft: "8rem", paddingRight: "8rem",
-                                minWidth: "52rem", height: "28rem",
+                                minWidth: "52rem", height: "30rem", boxSizing: "border-box",
+                                display: "flex", alignItems: "center", justifyContent: "center",
                                 whiteSpace: "nowrap", cursor: "pointer",
                                 fontSize: "13rem", fontWeight: 700, color: "#E5F4FC",
                                 backgroundColor: "rgba(60, 110, 140, 0.38)",

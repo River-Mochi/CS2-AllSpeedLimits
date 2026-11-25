@@ -1185,6 +1185,12 @@ export const SpeedToolWindow = () => {
                                 }}
                             />
                         )}
+                        <div onMouseDown={handleMouseDown} title={TEXT.tooltips.draggable}
+                            style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
+                                height: "13rem", cursor: isDragging ? "grabbing" : "grab" }}>
+                            <div style={{ width: "42rem", height: "5rem", borderRadius: "3rem",
+                                marginRight: "4rem", backgroundColor: isDragging ? "#79D4EE" : "rgba(200,220,230,0.40)" }} />
+                        </div>
                     </div>
                 </Panel>
             </div>
