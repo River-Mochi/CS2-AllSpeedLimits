@@ -13,6 +13,8 @@ namespace RoadRailSpeeds.Systems
 {
     using System;
     using System.Reflection;
+    using System.Diagnostics;
+    using Game.Simulation;
     using Colossal.UI.Binding;
     using Game.UI.InGame;
     using Game.UI.Menu;
@@ -55,6 +57,9 @@ namespace RoadRailSpeeds.Systems
         private static readonly FieldInfo? s_SectionField = typeof(OptionsUISystem).GetField(
             "m_ActiveSectionBinding", BindingFlags.Instance | BindingFlags.NonPublic);
         private static bool s_HasSnapshot;
+        private static int s_VisitNumber;
+        private static uint? s_SnapshotFrame;
+        private static long s_VisitStartTimestamp;
         private static World? s_World;
         private static ValueBinding<string>? s_PageBinding;
         private static ValueBinding<string>? s_SectionBinding;
@@ -63,7 +68,18 @@ namespace RoadRailSpeeds.Systems
 
         public static void InvalidateCache()
         {
+            if (s_HasSnapshot)
+            {
+                uint? currentFrame = s_World != null && s_World.IsCreated
+                    ? s_World.GetExistingSystemManaged<SimulationSystem>()?.frameIndex
+                    : null;
+                double visitSeconds = (Stopwatch.GetTimestamp() - s_VisitStartTimestamp) / (double)Stopwatch.Frequency;
+                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} END scans=1 " +
+                    $"startFrame={s_SnapshotFrame} endFrame={currentFrame} durationSec={visitSeconds:0.0}.");
+            }
+
             s_HasSnapshot = false;
+            s_SnapshotFrame = null;
             s_World = null;
             s_PageBinding = null;
             s_SectionBinding = null;
@@ -135,12 +151,31 @@ namespace RoadRailSpeeds.Systems
 
             // If a future game update changes these private bindings, retain the
             // screen-level guard and refresh on reopening Options, not on a timer.
-            if (s_PageBinding == null || s_SectionBinding == null)
+            if (s_PageBinding != null && s_SectionBinding != null)
             {
+                // ModSetting registers the page by id; AutomaticSettings prefixes tab ids.
+                // Search results and background getters must not start a city scan.
+                string? pageId = Mod.Settings?.id;
+                if (pageId == null || s_Page != pageId ||
+                    s_Section != pageId + "." + SpeedLimitsSetting.kBicycleTab)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                // Drop partially available bindings so fallback tracks Options only.
+                s_PageBinding = null;
+                s_SectionBinding = null;
+                s_Page = null;
+                s_Section = null;
                 LogUtils.WarnOnce("PersonalStatusBindingMissing", () => $"{Mod.ModTag} Options tab tracking unavailable; refresh on reopening Options.");
             }
 
             s_HasSnapshot = true;
+            s_VisitNumber++;
+            s_SnapshotFrame = world.GetExistingSystemManaged<SimulationSystem>()?.frameIndex;
+            s_VisitStartTimestamp = Stopwatch.GetTimestamp();
             BuildSnapshotSafe(world);
             // Only observe the active Options visit; never schedule another scan.
             world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>().Enabled = true;
@@ -151,6 +186,9 @@ namespace RoadRailSpeeds.Systems
             try
             {
                 BuildAndApplySnapshot(world);
+                double elapsedMs = (Stopwatch.GetTimestamp() - s_VisitStartTimestamp) * 1000.0 / Stopwatch.Frequency;
+                LogUtils.Info(() => $"{Mod.ModTag} Options personal status visit={s_VisitNumber} scan=1 " +
+                    $"screen=Options frame={s_SnapshotFrame} durationMs={elapsedMs:0.00} page={s_Page ?? "fallback"} section={s_Section ?? "fallback"}.");
             }
             catch (Exception exception)
             {
@@ -165,7 +203,7 @@ namespace RoadRailSpeeds.Systems
         {
             PersonalVehicleStatusSystem sys = world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>();
             PersonalVehicleStatusSystem.Snapshot snap = sys.BuildSnapshot();
-            LogUtils.Info(() => $"{Mod.ModTag} Personal vehicle status snapshot refreshed.");
+
 
             BikesRow = PersonalVehicleLocale.SafeFormat(
                 KeyBikesRow,
