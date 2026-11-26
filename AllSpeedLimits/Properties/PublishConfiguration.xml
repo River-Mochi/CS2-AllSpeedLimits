@@ -74,7 +74,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <!--Screenshot, can be set multiple times-->
 <Screenshot Value="Properties/10-image-EN.jpg" />
 <Screenshot Value="Properties/15-image-MiniPanel.jpg" />
-<Screenshot Value="Properties/25-image-OptionsMenu.jpg" />
+<Screenshot Value="Properties/28-image-Invisible.jpg" />
 <Screenshot Value="Properties/30-image-CN-FR.jpg" />
 <!--Tag, can be set multiple times-->
 <Tag Value="" />
