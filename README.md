@@ -1,6 +1,6 @@
 # Adjust All Speed Limits
 
-Fine-tune speed limits in Cities: Skylines II.
+Fine-tune speed limits in Cities Skylines II.
 
 ## Features
 
