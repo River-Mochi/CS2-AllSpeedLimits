@@ -15,34 +15,29 @@
 
 Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
 
-Open ASL, then click a road, rail, waterway or bike path to open the full panel. Filters, invisible networks and the Paths tab are available there.
+Open ASL, then click a road or any network to open the full panel.
 
 ## 🌄 Key Features
 
 * **Adjust speeds on individual segments** with a simple click.
 * **Click-and-drag** over the road/track to modify multiple segments at once.
 * Works on:
-* 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**
-* 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
-* 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
-* **New Options → Bicycles tab:** Optional bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Enable the checkbox to show the slider. OFF by default to avoid conflicts with other vehicle-speed mods. Acceleration and braking adjust automatically.
+* 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**  🚲 **New: Bike paths**
+* 👁 **New: Invisible networks** — see/edit invisible hidden roads and bike paths. Optional hotkey works even with the panel closed.
 * **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
 * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
 ## Important
 
-* Remove old "Road Speed Adjuster" (RSA) mod before installing this. Old one is no longer maintained (modder retired).
+* Remove old "Road Speed Adjuster" (RSA) mod before installing this (modder retired).
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
-* Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizens' maximum walking speed.
-* Hidden car/vehicle roads are excluded from both global Paths sliders; supported segments can still be edited individually.
-* Example: Bike 200% changes a 30 km/h default bike path to 60 km/h. Individual edits take priority.
-* Each Paths tab **Reset** restores its own global multiplier to 100%. Speed Limits **Paths Reset** clears individual bike-path edits so they follow the Bike scale.
-* Moving from Bikes + Paths? ASL replaces B+P. Remove Bikes + Paths when using ASL; no reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ is compatible during the transition; older versions can conflict.
-* Vehicles are still limited by their max speeds (different for each type).
+* Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizen max walking speed.
+* Moving from Bikes + Paths? ASL replaces B+P. Remove Bikes + Paths when using ASL; no reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ is compatible with ASL during the transition.
+* Vehicles are limited by their model type max speeds as well. This mod is for the Networks themselves, but in Options you can adjust Bicycle vehicles.
 * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
 * **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
-* Performance: floating labels and stats run while ASL is open. Global path changes apply on request or city load, then go idle. Saved speeds use lightweight checks.
+* Lightweight: stats only runs while ASL is open. Global path changes apply on request or city load only, then go idle.
 * ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
 * The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
 
@@ -55,13 +50,13 @@ Open ASL, then click a road, rail, waterway or bike path to open the full panel.
 Huge appreciation hugs and waves to everyone
 
 * River-mochi: mod author
-* Chaosfun: testing and [video of older version](https://www.youtube.com/watch?v=qADctjYS5-w)
+* Chaosfun: testing and [video of older version](https://www.youtube.com/watch?v=qADctjYS5-w) before Invisible roads and paths were added.
 * Maestro, Gagaxm, Obelix, Sunny Scunny: testing and feedback.
 * yenayang: technical advisor
 * Thanks to everyone who tested, supported, or guided development along the way!
-* Thumbnail photo: Toronto, Canada by [Alex Smith](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
+* Thumbnail photo: Toronto, Canada by [Alex Smith free use Unsplash license](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
+* Thumbnail: [dog by Joe Caione, free use Unsplash](https://unsplash.com/photos/shallow-focus-photography-of-white-shih-tzu-puppy-running-on-the-grass-qO-PIF84Vxg)
 * History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
-
 
 Languages
 
@@ -93,6 +88,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 - Bicycle and scooter speed tuning is now opt-in (OFF by default). Existing speed percentages are retained; enable the checkbox to use them.
 - Smaller, more compact start panel with hover guidance.
 - Main panel stays open when filters clear the selection; clearer, rounded tabs.
+- Simplified start panel: click a road or other supported network to open the full controls.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
