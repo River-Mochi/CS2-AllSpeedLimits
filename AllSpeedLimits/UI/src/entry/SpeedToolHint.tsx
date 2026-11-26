@@ -51,7 +51,7 @@ export const SpeedToolHint = () => {
                 position: "absolute",
                 left: `${position.x}px`,
                 top: `${position.y}px`,
-                width: "365rem",
+                width: "295rem",
                 pointerEvents: "auto"
             }}>
             <Panel
@@ -108,31 +108,31 @@ export const SpeedToolHint = () => {
                 <div
                     onMouseDown={handleMouseDown}
                     style={{ 
-                        paddingTop: "12rem",
-                        paddingRight: "16rem",
-                        paddingBottom: "14rem",
-                        paddingLeft: "16rem",
+                        paddingTop: "8rem",
+                        paddingRight: "10rem",
+                        paddingBottom: "9rem",
+                        paddingLeft: "10rem",
                         textAlign: "center",
                         cursor: isDragging ? "grabbing" : "grab"
                 }}>
                     <div style={{
-                        fontSize: "20rem",
+                        fontSize: "18rem",
                         fontWeight: 700,
-                        color: "#E5F4FC",
+                        color: "rgba(229, 244, 252, 0.90)",
                         lineHeight: "1.2"
                     }}>
                         {TEXT.hint.instruction}
                     </div>
                     <div style={{
-                        marginTop: "6rem",
-                        fontSize: "15rem",
+                        marginTop: "4rem",
+                        fontSize: "14rem",
                         color: "rgba(226, 236, 241, 0.90)",
                         lineHeight: "1.3"
                     }}>
                         {TEXT.hint.alternatives}
                     </div>
                     <div style={{
-                        marginTop: "6rem",
+                        marginTop: "4rem",
                         fontSize: "14rem",
                         color: "rgba(226, 236, 241, 0.82)",
                         lineHeight: "1.3"

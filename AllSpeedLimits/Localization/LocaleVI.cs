@@ -107,6 +107,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)), "Chỉnh tốc độ xe đạp và xe điện" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)),
+                    "**TẮT** = ASL không chỉnh tốc độ các xe này.\n" +
+                    "**BẬT** = Chỉnh tốc độ tối đa, tăng tốc và phanh.\n" +
+                    "Để tắt nếu mod khác chỉnh tốc độ xe đạp." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Tốc độ tối đa của xe" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
                     "**100% = mặc định của game.**\n" +

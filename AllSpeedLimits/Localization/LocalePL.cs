@@ -107,6 +107,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)), "Zmień prędkość rowerów i hulajnóg" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)),
+                    "**WYŁ.** = ASL nie zmienia tych prędkości.\n" +
+                    "**WŁ.** = Zmienia prędkość maks., przyspieszenie i hamowanie.\n" +
+                    "Wyłącz, jeśli inny mod steruje tymi prędkościami." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Maksymalna prędkość pojazdów" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
                     "**100% = ustawienia gry.**\n" +

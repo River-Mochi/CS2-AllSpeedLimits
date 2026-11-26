@@ -108,6 +108,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)), "자전거·전동 킥보드 속도 조절" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)),
+                    "**OFF** = ASL이 차량 속도를 변경하지 않습니다.\n" +
+                    "**ON** = 최고 속도, 가속 및 제동을 조절합니다.\n" +
+                    "다른 모드가 자전거 속도를 조절하면 OFF로 두세요." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "차량 최고 속도" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
                     "**100% = 게임 기본값.**\n" +

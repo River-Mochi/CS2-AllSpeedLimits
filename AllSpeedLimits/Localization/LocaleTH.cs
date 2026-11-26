@@ -107,6 +107,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)), "ปรับความเร็วจักรยานและสกู๊ตเตอร์" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)),
+                    "**ปิด** = ASL ไม่ปรับความเร็วยานพาหนะเหล่านี้\n" +
+                    "**เปิด** = ปรับความเร็วสูงสุด การเร่งและการเบรก\n" +
+                    "ปิดไว้หากม็อดอื่นควบคุมความเร็วจักรยาน" },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "ความเร็วสูงสุดของยานพาหนะ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
                     "**100% = ค่าเริ่มต้นของเกม**\n" +

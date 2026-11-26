@@ -15,6 +15,7 @@ namespace RoadRailSpeeds.Systems
     using Game;
     using Game.Common;
     using Game.Prefabs;
+    using Game.SceneFlow;
     using Game.Tools;
     using Unity.Entities;
     using Unity.Mathematics;
@@ -28,6 +29,25 @@ namespace RoadRailSpeeds.Systems
     {
         private PrefabSystem m_PrefabSystem = null!;
 
+        // Only remember the three fields that ASL actually owns, not other CarData fields.
+        private readonly Dictionary<Entity, BicycleSpeedSnapshot> m_OwnedValues = new Dictionary<Entity, BicycleSpeedSnapshot>();
+
+        private readonly struct BicycleSpeedSnapshot
+        {
+            public readonly BicyclePrefab Prefab;
+            public readonly float3 Before;
+            public readonly float3 Applied;
+
+            public BicycleSpeedSnapshot(BicyclePrefab prefab, float3 before, float3 applied)
+            {
+                Prefab = prefab;
+                Before = before;
+                Applied = applied;
+            }
+        }
+
+        private static bool TuningEnabled => Mod.Settings?.EnableBicycleSpeedTuning == true;
+
         protected override void OnCreate()
         {
             base.OnCreate();
@@ -39,21 +59,42 @@ namespace RoadRailSpeeds.Systems
         {
             base.OnGameLoadingComplete(purpose, mode);
             PersonalVehicleStatus.InvalidateCache();
-            Enabled = mode == GameMode.Game;
+            Enabled = mode == GameMode.Game && (TuningEnabled || m_OwnedValues.Count != 0);
+            if (mode == GameMode.Game && !Enabled)
+            {
+                LogUtils.Info(() => $"{Mod.ModTag} Bicycle and scooter tuning disabled; no prefab writes.");
+            }
         }
 
         public void ScheduleApply()
         {
-            Enabled = true;
+            // Settings can change at the main menu. Apply when a city is loaded instead.
+            if (GameManager.instance?.gameMode == GameMode.Game)
+            {
+                Enabled = TuningEnabled || m_OwnedValues.Count != 0;
+            }
         }
 
         protected override void OnUpdate()
         {
             try
             {
+                if (!TuningEnabled && m_OwnedValues.Count == 0)
+                {
+                    return;
+                }
+
                 if (HasLegacyBikesAndPaths())
                 {
+                    // Do not restore over an older B+P that still owns tuning.
+                    m_OwnedValues.Clear();
                     LogUtils.Info(() => $"{Mod.ModTag} Bicycle tuning skipped: remove legacy Bikes + Paths when using ASL.");
+                    return;
+                }
+
+                if (!TuningEnabled)
+                {
+                    RestoreOwnedValues();
                     return;
                 }
 
@@ -62,6 +103,7 @@ namespace RoadRailSpeeds.Systems
                 float accelBrake = math.sqrt(speedScalar);
                 int eligible = 0;
                 int changed = 0;
+                HashSet<Entity> seen = new HashSet<Entity>();
 
                 foreach ((RefRW<CarData> data, Entity entity) in SystemAPI.Query<RefRW<CarData>>()
                     .WithAll<PrefabData, BicycleData>()
@@ -74,14 +116,52 @@ namespace RoadRailSpeeds.Systems
                     }
 
                     eligible++;
+                    seen.Add(entity);
+                    CarData current = data.ValueRO;
+                    float3 before = ReadTunedValues(current);
+
+                    if (m_OwnedValues.TryGetValue(entity, out BicycleSpeedSnapshot previous) && previous.Prefab == prefab)
+                    {
+                        // Retain the original value only while the current field still matches
+                        // ASL's last write. A later external change becomes the new baseline.
+                        before.x = before.x == previous.Applied.x ? previous.Before.x : before.x;
+                        before.y = before.y == previous.Applied.y ? previous.Before.y : before.y;
+                        before.z = before.z == previous.Applied.z ? previous.Before.z : before.z;
+                    }
+
                     GetTarget(prefab, speedScalar, accelBrake, out float maxSpeed, out float acceleration, out float braking);
-                    if (!Matches(data.ValueRO, maxSpeed, acceleration, braking))
+                    if (!Matches(current, maxSpeed, acceleration, braking))
                     {
                         data.ValueRW.m_MaxSpeed = maxSpeed;
                         data.ValueRW.m_Acceleration = acceleration;
                         data.ValueRW.m_Braking = braking;
                         changed++;
                     }
+
+                    float3 applied = ReadTunedValues(data.ValueRO);
+                    if (math.any(before != applied))
+                    {
+                        m_OwnedValues[entity] = new BicycleSpeedSnapshot(prefab, before, applied);
+                    }
+                    else
+                    {
+                        m_OwnedValues.Remove(entity);
+                    }
+                }
+
+                // Prefabs can be recreated when changing cities.
+                List<Entity> stale = new List<Entity>();
+                foreach (Entity entity in m_OwnedValues.Keys)
+                {
+                    if (!seen.Contains(entity))
+                    {
+                        stale.Add(entity);
+                    }
+                }
+
+                foreach (Entity entity in stale)
+                {
+                    m_OwnedValues.Remove(entity);
                 }
 
                 LogUtils.Info(() => $"{Mod.ModTag} Bicycle and scooter speed: {percent}% prefabs={eligible} changed={changed}.");
@@ -96,8 +176,88 @@ namespace RoadRailSpeeds.Systems
             }
         }
 
+        private static float3 ReadTunedValues(CarData data)
+        {
+            return new float3(data.m_MaxSpeed, data.m_Acceleration, data.m_Braking);
+        }
+
+        private void RestoreOwnedValues()
+        {
+            int restored = 0;
+            int externalFieldsPreserved = 0;
+
+            foreach ((RefRW<CarData> data, Entity entity) in SystemAPI.Query<RefRW<CarData>>()
+                .WithAll<PrefabData, BicycleData>()
+                .WithNone<Deleted, Temp, Overridden>()
+                .WithEntityAccess())
+            {
+                if (!m_OwnedValues.TryGetValue(entity, out BicycleSpeedSnapshot snapshot) ||
+                    !TryGetBicyclePrefab(entity, out BicyclePrefab prefab) || snapshot.Prefab != prefab)
+                {
+                    continue;
+                }
+
+                float3 current = ReadTunedValues(data.ValueRO);
+                bool changed = false;
+
+                // Compare each field independently. Never overwrite a newer external value.
+                if (snapshot.Before.x != snapshot.Applied.x)
+                {
+                    if (current.x == snapshot.Applied.x)
+                    {
+                        data.ValueRW.m_MaxSpeed = snapshot.Before.x;
+                        changed = true;
+                    }
+                    else
+                    {
+                        externalFieldsPreserved++;
+                    }
+                }
+
+                if (snapshot.Before.y != snapshot.Applied.y)
+                {
+                    if (current.y == snapshot.Applied.y)
+                    {
+                        data.ValueRW.m_Acceleration = snapshot.Before.y;
+                        changed = true;
+                    }
+                    else
+                    {
+                        externalFieldsPreserved++;
+                    }
+                }
+
+                if (snapshot.Before.z != snapshot.Applied.z)
+                {
+                    if (current.z == snapshot.Applied.z)
+                    {
+                        data.ValueRW.m_Braking = snapshot.Before.z;
+                        changed = true;
+                    }
+                    else
+                    {
+                        externalFieldsPreserved++;
+                    }
+                }
+
+                if (changed)
+                {
+                    restored++;
+                }
+            }
+
+            m_OwnedValues.Clear();
+            LogUtils.Info(() => $"{Mod.ModTag} Bicycle and scooter tuning disabled: restoredPrefabs={restored}, externalFieldsPreserved={externalFieldsPreserved}.");
+        }
+
         public void LogBicycleReport()
         {
+            if (!TuningEnabled)
+            {
+                LogUtils.Info(() => $"{Mod.ModTag} Bicycle speed report: disabled; ASL does not control vehicle speeds.");
+                return;
+            }
+
             if (HasLegacyBikesAndPaths())
             {
                 LogUtils.Info(() => $"{Mod.ModTag} Bicycle report: legacy Bikes + Paths owns vehicle tuning. Remove B+P when using ASL.");

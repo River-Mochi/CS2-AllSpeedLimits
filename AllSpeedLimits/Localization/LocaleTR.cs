@@ -107,6 +107,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)), "Bisiklet ve scooter hızını ayarla" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)),
+                    "**KAPALI** = ASL bu araçların hızına dokunmaz.\n" +
+                    "**AÇIK** = Azami hız, ivme ve frenlemeyi ayarlar.\n" +
+                    "Başka bir mod bu hızları ayarlıyorsa kapalı tut." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Azami araç hızı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
                     "**%100 = oyun varsayılanı.**\n" +

@@ -25,7 +25,7 @@ Open ASL, then click a road, rail, waterway or bike path to open the full panel.
 * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**
 * 🚲 **New: Bike paths + mixed bike/pedestrian paths** — set speeds per segment.
 * 👁 **New: Invisible networks** — show vanilla dashed markers and edit hidden roads and bike paths. Optional hotkey works even with the panel closed.
-* **New Options → Bicycles tab:** Bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Acceleration and braking adjust automatically.
+* **New Options → Bicycles tab:** Optional bicycle + electric scooter maximum speed (30–1000%, 100% = game default). Enable the checkbox to show the slider. OFF by default to avoid conflicts with other vehicle-speed mods. Acceleration and braking adjust automatically.
 * **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
 * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
@@ -81,7 +81,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/adjust-all-speed-limits.1933054/" />
 <!--Version of the mod-->
-<ModVersion Value="1.3.1" />
+<ModVersion Value="1.3.2" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
@@ -90,8 +90,8 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Simplified start panel: click a road or other supported network to open the full controls.
-- Updated start instructions in all 15 languages.
+- Bicycle and scooter speed tuning is now opt-in (OFF by default). Existing speed percentages are retained; enable the checkbox to use them.
+- Smaller, more compact start panel.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

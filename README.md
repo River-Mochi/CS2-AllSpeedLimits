@@ -6,7 +6,7 @@ Fine-tune speed limits in Cities: Skylines II.
 
 - Open ASL and click a road, rail, waterway or bike path to open the full panel. Drag to select several segments. Filters, invisible networks and the Paths tab are available in the full panel.
 - Change speeds on roads, bike-capable paths, tram/train/subway tracks, and waterways.
-- Options → Bicycles: bicycle and electric scooter maximum speed (30–1000%, default 100%). Acceleration and braking adjust automatically.
+- Options → Bicycles: optional bicycle and electric scooter maximum speed (30–1000%, default 100%). Enable the checkbox to show the slider. OFF by default, including after upgrading; saved percentages are retained. Leave OFF if another mod controls vehicle speeds. Turning OFF releases ASL's previous changes where the values still match its last writes. Acceleration and braking adjust automatically when enabled.
 - Bicycles tab: personal vehicle counts, parked vehicles and hidden cars at outside connections; status refreshes on demand in Options. Detailed hidden-car report available in the ASL log.
 - Adjust individual segments with a slider, number box, or preset signs.
 - Switch to **Paths** for separate global limits on bike/mixed paths and pedestrian-only paths (100% = vanilla).
@@ -29,7 +29,7 @@ Fine-tune speed limits in Cities: Skylines II.
 - **Moving from Bikes + Paths?** ASL replaces B+P. Remove Bikes + Paths when using ASL; no reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ is compatible during the transition; older versions can conflict.
 - No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
 - ASL does not modify building layouts. Vehicles still obey their maximum speeds and network limits. Only bicycle/e-scooter maximum speed is tunable in Options.
-- Custom network speeds remain after removing ASL. **Reset them and save your city before uninstalling** if you want vanilla values. Reset the bicycle speed in Options to 100% as well.
+- Custom network speeds remain after removing ASL. **Reset them and save your city before uninstalling** if you want vanilla values. Disable bicycle speed tuning (or reset to 100% while enabled) as well.
 
 ## Saves and performance
 

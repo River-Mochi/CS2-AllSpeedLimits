@@ -108,6 +108,11 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)), "Rad- und Rollertempo ändern" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.EnableBicycleSpeedTuning)),
+                    "**AUS** = ASL lässt die Geschwindigkeiten unverändert.\n" +
+                    "**AN** = Höchsttempo, Beschleunigung und Bremsen ändern.\n" +
+                    "Bei anderen Fahrradtempo-Mods ausgeschaltet lassen." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Maximale Fahrzeuggeschwindigkeit" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
                     "**100% = Spielstandard.**\n" +

@@ -119,10 +119,26 @@ namespace RoadRailSpeeds
             set => m_GlobalPedPathSpeedPercent = Math.Max(kMinPathSpeedPercent, Math.Min(kMaxPathSpeedPercent, value));
         }
 
+        private bool m_EnableBicycleSpeedTuning;
         private int m_BicycleSpeedPercent = 100;
 
         [SettingsUISection(kBicycleTab, kBicycleGroup)]
+        public bool EnableBicycleSpeedTuning
+        {
+            get => m_EnableBicycleSpeedTuning;
+            set
+            {
+                if (m_EnableBicycleSpeedTuning != value)
+                {
+                    m_EnableBicycleSpeedTuning = value;
+                    RequestBicycleSpeedApply();
+                }
+            }
+        }
+
+        [SettingsUISection(kBicycleTab, kBicycleGroup)]
         [SettingsUISlider(min = 30f, max = 1000f, step = 10f, unit = Unit.kPercentage)]
+        [SettingsUIHideByCondition(typeof(SpeedLimitsSetting), nameof(EnableBicycleSpeedTuning), true)]
         public int BicycleSpeedPercent
         {
             get => m_BicycleSpeedPercent;
@@ -139,11 +155,12 @@ namespace RoadRailSpeeds
 
         [SettingsUIButton]
         [SettingsUISection(kBicycleTab, kBicycleGroup)]
+        [SettingsUIHideByCondition(typeof(SpeedLimitsSetting), nameof(EnableBicycleSpeedTuning), true)]
         public bool ResetBicycleSpeed
         {
             set
             {
-                if (value)
+                if (value && EnableBicycleSpeedTuning)
                 {
                     BicycleSpeedPercent = 100;
                     ApplyAndSave();
@@ -344,6 +361,7 @@ namespace RoadRailSpeeds
             StatsExpanded = true;
             GlobalPathSpeedPercent = 100;
             GlobalPedPathSpeedPercent = 100;
+            EnableBicycleSpeedTuning = false;
             BicycleSpeedPercent = 100;
             ShowUsage = false;
         }
