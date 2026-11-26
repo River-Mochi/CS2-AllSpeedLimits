@@ -6,12 +6,12 @@
 <!--Name of the mod to display to players-->
 <DisplayName Value="Adjust All Speed Limits" />
 <!--Short description of the mod-->
-<ShortDescription Value="Adjust road, rail, water, invisible road and bike-path speed limits." />
+<ShortDescription Value="Adjust Speed limits for: road, rail, water, Invisible roads and Bike/Path." />
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
 ## Adjust All Speed Limits
-...and paths and invisible roads now too 😄
+...and Paths and Invisible roads now too 🥳
 
 Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
 
