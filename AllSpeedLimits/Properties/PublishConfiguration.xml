@@ -30,6 +30,11 @@ Open ASL, then click a road or any network to open the full panel.
 * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
+### Bonus Features
+
+- **Paths tab:** Adjust bicycle and pedestrian path limits citywide.
+- **Options menu:** optional bicycle/scooter vehicle speeds, plus some statistics.
+
 ## Important
 
 * Remove old "Road Speed Adjuster" (RSA) mod before installing this (modder retired).
