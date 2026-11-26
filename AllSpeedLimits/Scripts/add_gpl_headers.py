@@ -1,12 +1,12 @@
 # <copyright file="add_gpl_headers.py" company="River-Mochi">
-# Copyright (C) 2026 River-Mochi.
+# Copyright (c) 2026 River-Mochi. All rights reserved.
 # Licensed under the GNU General Public License v3.0 or later,
 # with the Cities: Skylines II Linking Exception.
 # See LICENSE and LICENSE-EXCEPTION in the project root.
-# Copyright and license notices MUST be preserved.
+# This notice MUST be kept with copies or substantial portions of this code.
 # ================= </copyright> ======================
 
-# version 0.7.0
+# version 0.7.1
 """
 Add or replace standard River-Mochi GPL source-file headers.
 
@@ -191,11 +191,11 @@ def make_header(path: Path, year: int) -> str:
 
     return (
         f'{prefix} <copyright file="{path.name}" company="River-Mochi">\n'
-        f"{prefix} Copyright (C) {year} River-Mochi.\n"
+        f"{prefix} Copyright (c) {year} River-Mochi. All rights reserved.\n"
         f"{prefix} Licensed under the GNU General Public License v3.0 or later,\n"
         f"{prefix} with the Cities: Skylines II Linking Exception.\n"
         f"{prefix} See LICENSE and LICENSE-EXCEPTION in the project root.\n"
-        f"{prefix} Copyright and license notices MUST be preserved.\n"
+        f"{prefix} This notice MUST be kept with copies or substantial portions of this code.\n"
         f"{prefix} ================= </copyright> ======================\n"
         "\n"
     )

@@ -1,10 +1,13 @@
 // <copyright file="PersonalVehicleLocale.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
-// Licensed under the MIT License.
-// See THIRD_PARTY_NOTICES.md in the project root for full license information.
-// This notice and the MIT License notice must be kept with
-// all copies or substantial portions of this code.
+// Licensed under the GNU General Public License v3.0 or later,
+// with the Cities: Skylines II Linking Exception.
+// See LICENSE and LICENSE-EXCEPTION in the project root.
+// This notice MUST be kept with copies or substantial portions of this code.
 // ================= </copyright> ======================
+
+// Adapted from MIT-licensed CS2-Bikes-Paths (Copyright (c) 2026 River-Mochi).
+// Original MIT license and attribution: THIRD_PARTY_NOTICES.md.
 
 // File: PersonalVehicleLocale.cs
 // Version: 0.1.1
