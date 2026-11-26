@@ -48,7 +48,7 @@
   "help.tooltipsOn": "Ayudas activadas. Desactívalas en Opciones > All Speed Limits.",
   "help.unitLine": "a = Auto por mapa\ntipo NA/EU",
   "help.unitTitle": "Unidades:",
-  "hint.alternatives": "O en una vía férrea, fluvial o ciclista",
+  "hint.alternatives": "O cualquier vía férrea, fluvial o ciclista.",
   "hint.drag": "Arrastra para seleccionar varios tramos.",
   "hint.guide": "Haz clic en una calle de tu ciudad para abrir los controles.\nUsa los filtros para elegir el tipo de vía.\nCarreteras invisibles: icono de líneas discontinuas.\nPestaña Caminos: límites de caminos en toda la ciudad.",
   "hint.instruction": "Haz clic en una calle para empezar",

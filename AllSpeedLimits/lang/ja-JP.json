@@ -48,7 +48,7 @@
   "help.tooltipsOn": "ツールチップはオンです。オフにするにはオプション > All Speed Limits。",
   "help.unitLine": "a = マップでAuto\nNA/EU型",
   "help.unitTitle": "単位:",
-  "hint.alternatives": "線路・航路・自転車道でもOK",
+  "hint.alternatives": "線路・航路・自転車道でもOK。",
   "hint.drag": "ドラッグで複数区間を選択。",
   "hint.guide": "街の道路をクリックして速度設定を開く。\nフィルターで種類を選択。\n点線アイコンで不可視道路を表示。\n道タブで街全体の道の制限速度を設定。",
   "hint.instruction": "道路をクリックして開始",

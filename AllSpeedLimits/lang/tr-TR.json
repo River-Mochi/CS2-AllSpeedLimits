@@ -48,7 +48,7 @@
   "help.tooltipsOn": "İpuçları AÇIK. Kapatmak için Seçenekler > All Speed Limits.",
   "help.unitLine": "a = Haritaya göre Auto\nNA/EU tipi",
   "help.unitTitle": "Birimler:",
-  "hint.alternatives": "Ya da raya, su yoluna veya bisiklet yoluna tıkla",
+  "hint.alternatives": "Ya da ray, su yolu veya bisiklet yolu.",
   "hint.drag": "Birden çok kesim seçmek için sürükle.",
   "hint.guide": "Hız ayarlarını açmak için şehirde bir yola tıkla.\nFiltrelerle ağ türlerini seç.\nGörünmez yollar için kesik çizgili simgeyi kullan.\nYaya/bisiklet yolları sekmesi: şehir genelinde hız sınırları.",
   "hint.instruction": "Başlamak için bir yola tıkla",

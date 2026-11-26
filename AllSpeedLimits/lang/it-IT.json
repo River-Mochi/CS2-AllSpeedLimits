@@ -48,7 +48,7 @@
   "help.tooltipsOn": "Tooltip ATTIVI. Disattivali in Opzioni > All Speed Limits.",
   "help.unitLine": "a = Auto per mappa\ntipo NA/EU",
   "help.unitTitle": "Unità:",
-  "hint.alternatives": "O su un binario, una via d'acqua o una ciclabile",
+  "hint.alternatives": "O un binario, una via d'acqua o una ciclabile.",
   "hint.drag": "Trascina per selezionare più tratti.",
   "hint.guide": "Clicca su una strada della città per aprire i controlli.\nUsa i filtri per scegliere i tipi di rete.\nStrade invisibili: icona tratteggiata.\nScheda Percorsi: limiti dei percorsi in tutta la città.",
   "hint.instruction": "Clicca su una strada per iniziare",

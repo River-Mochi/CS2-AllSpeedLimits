@@ -48,7 +48,7 @@
   "help.tooltipsOn": "Tooltips are ON. To turn OFF, use Options > All Speed Limits.",
   "help.unitLine": "a = Auto by map\n type NA/EU",
   "help.unitTitle": "Units:",
-  "hint.alternatives": "Or click on rail, waterway, or bike path",
+  "hint.alternatives": "Or any rail, waterway or bike path.",
   "hint.drag": "Drag to select multiple segments.",
   "hint.guide": "Click a road in your city to open the speed controls.\nUse filters to choose network types.\nSee Invisible roads with the dashed line icon.\nUse the Paths tab for whole-city path limits.",
   "hint.instruction": "Click any road to start",

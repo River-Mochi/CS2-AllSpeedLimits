@@ -48,7 +48,7 @@
   "help.tooltipsOn": "툴팁 켜짐. 끄려면 옵션 > All Speed Limits.",
   "help.unitLine": "a = 지도 기준 Auto\nNA/EU 타입",
   "help.unitTitle": "단위:",
-  "hint.alternatives": "철도, 수로 또는 자전거길도 클릭 가능",
+  "hint.alternatives": "철도, 수로 또는 자전거길도 가능.",
   "hint.drag": "드래그하여 여러 구간을 선택하세요.",
   "hint.guide": "도시의 도로를 클릭하여 속도 설정을 여세요.\n필터로 네트워크 유형을 선택하세요.\n점선 아이콘으로 투명 도로를 표시합니다.\n경로 탭에서 도시 전체 경로 제한 속도를 설정합니다.",
   "hint.instruction": "도로를 클릭하여 시작",

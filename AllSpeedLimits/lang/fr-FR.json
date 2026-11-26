@@ -48,7 +48,7 @@
   "help.tooltipsOn": "Infobulles ACTIVES. Désactivez-les dans Options > All Speed Limits.",
   "help.unitLine": "a = Auto selon carte\ntype NA/EU",
   "help.unitTitle": "Unités :",
-  "hint.alternatives": "Ou sur une voie ferrée, navigable ou cyclable",
+  "hint.alternatives": "Ou une voie ferrée, navigable ou cyclable.",
   "hint.drag": "Glisse pour sélectionner plusieurs tronçons.",
   "hint.guide": "Clique sur une route de ta ville pour ouvrir les réglages.\nUtilise les filtres pour choisir les types de voies.\nRoutes invisibles : icône en pointillés.\nOnglet Chemins : limites des chemins dans toute la ville.",
   "hint.instruction": "Clique sur une route pour commencer",

@@ -48,7 +48,7 @@
   "help.tooltipsOn": "Dicas ATIVAS. Desative em Opções > All Speed Limits.",
   "help.unitLine": "a = Auto pelo mapa\ntipo NA/EU",
   "help.unitTitle": "Unidades:",
-  "hint.alternatives": "Ou em trilhos, vias aquáticas ou ciclovias",
+  "hint.alternatives": "Ou trilhos, vias aquáticas ou ciclovias.",
   "hint.drag": "Arraste para selecionar vários trechos.",
   "hint.guide": "Clique em uma rua da cidade para abrir os controles.\nUse os filtros para escolher os tipos de via.\nVias invisíveis: ícone tracejado.\nAba Caminhos: limites de caminhos em toda a cidade.",
   "hint.instruction": "Clique em uma rua para começar",

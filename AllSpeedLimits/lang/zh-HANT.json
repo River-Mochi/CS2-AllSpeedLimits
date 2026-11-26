@@ -48,7 +48,7 @@
   "help.tooltipsOn": "提示已開啟。在選項 > All Speed Limits 中關閉。",
   "help.unitLine": "a = 按地圖 Auto\nNA/EU 類型",
   "help.unitTitle": "單位：",
-  "hint.alternatives": "也可點擊軌道、航道或自行車道",
+  "hint.alternatives": "軌道、航道或自行車道也可以。",
   "hint.drag": "拖曳可選取多個路段。",
   "hint.guide": "點擊城市中的道路，開啟速度設定。\n使用篩選按鈕選擇路網類型。\n點擊虛線圖示顯示隱形道路。\n在路徑分頁設定全城路徑速限。",
   "hint.instruction": "點擊任意道路開始",

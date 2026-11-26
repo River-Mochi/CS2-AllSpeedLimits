@@ -121,7 +121,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                                 borderWidth: "0",
                                 borderStyle: "solid",
                                 borderBottomWidth: "2rem",
-                                borderBottomColor: activeView === view ? "#79D4EE" : "transparent",
+                                borderBottomColor: activeView === view ? "rgba(255, 255, 255, 0.48)" : "transparent",
                                 borderTopLeftRadius: "5rem",
                                 borderTopRightRadius: "5rem",
                                 borderBottomLeftRadius: "0",
