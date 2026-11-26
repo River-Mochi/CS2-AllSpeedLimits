@@ -10,102 +10,102 @@
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-    ## Adjust All Speed Limits
-    ...and Paths and Invisible roads now too 🥳
+## Adjust All Speed Limits
+...and Paths and Invisible roads now too 🥳
 
-    全路网限速调整 · 隐形道路限速 中文详情见下方 ↓
+自由调整全路网限速，隐形道路也能改！ 中文详情见下方 ↓
 
-    Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
+Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
 
-    Open ASL, then click a road or any network to open the full panel.
+Open ASL, then click a road or any network to open the full panel.
 
-    ## 🌄 Key Features
+## 🌄 Key Features
 
-    * **Adjust speeds on individual segments** with a simple click.
-    * **Click-and-drag** over the road/track to modify multiple segments at once.
-    * Works on:
-    * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**  🚲 **New: Bike paths**
-    * 👁 **New: Invisible networks** — see/edit invisible hidden roads and bike paths. Optional hotkey works even with the panel closed.
-    * **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
-    * **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
-    * Stats are light: only runs when the panel is open, better data than the game's info panel.
+* **Adjust speeds on individual segments** with a simple click.
+* **Click-and-drag** over the road/track to modify multiple segments at once.
+* Works on:
+* 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**  🚲 **New: Bike paths**
+* 👁 **New: Invisible networks** — see/edit invisible hidden roads and bike paths. Optional hotkey works even with the panel closed.
+* **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
+* **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
+* Stats are light: only runs when the panel is open, better data than the game's info panel.
 
-    ## Important
+## Important
 
-    * Remove old "Road Speed Adjuster" (RSA) mod before installing this (modder retired).
-    * Existing custom speeds should remain and can be edited/reset per segment in new mod.
-    * Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizen max walking speed.
-    * Moving from Bikes + Paths? ASL replaces B+P. Remove Bikes + Paths when using ASL; no reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ is compatible with ASL during the transition.
-    * Vehicles are limited by their model type max speeds as well. This mod is for the Networks themselves, but in Options you can adjust Bicycle vehicles.
-    * Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
-    * **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
-    * Lightweight: stats only runs while ASL is open. Global path changes apply on request or city load only, then go idle.
-    * ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
-    * The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
+* Remove old "Road Speed Adjuster" (RSA) mod before installing this (modder retired).
+* Existing custom speeds should remain and can be edited/reset per segment in new mod.
+* Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizen max walking speed.
+* Remove Bikes + Paths mod (retired) when using ASL; no reset is required.
+* Vehicles are limited by their model type max speeds as well. This mod is for the Networks themselves, but in Options you can adjust Bicycle vehicles.
+* Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
+* **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
+* Lightweight: stats only runs while ASL is open. Global path changes apply on request or city load only, then go idle.
+* ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
+* The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
 
 
-    ## Support and Feedback
-    * Support by clicking the LIKE 👍 button (top right). No donations requested. It takes weeks and months to make these level of mods and many hours with testers.
-    * For feedback, use the [Discord](https://discord.gg/gwXgvtyhjc) | [Github](https://github.com/River-Mochi/CS2-AllSpeedLimits) links on this page. PRs are welcome, GPL-3.0 license.
+## Support and Feedback
+* Support by clicking the LIKE 👍 button (top right). No donations requested. It takes weeks and months to make these level of mods and many hours with testers.
+* For feedback, use the [Discord](https://discord.gg/gwXgvtyhjc) | [Github](https://github.com/River-Mochi/CS2-AllSpeedLimits) links on this page. PRs are welcome, GPL-3.0 license.
 
-    ## ❤️ Credits and Special Thanks
-    Huge appreciation hugs and waves to everyone
+## ❤️ Credits and Special Thanks
+Huge appreciation hugs and waves to everyone
 
-    * River-mochi: mod author
-    * Chaosfun: testing and [video of older version](https://www.youtube.com/watch?v=qADctjYS5-w) before Invisible roads and paths were added.
-    * Sunny Scunny, Maestro, Gagaxm, Obelix: testing and feedback.
-    * yenayang: technical advisor
-    * Thanks to everyone who tested, supported, or guided development along the way!
-    * Thumbnail photo: Toronto, Canada by [Alex Smith free use Unsplash license](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
-    * Thumbnail: [dog by Joe Caione, free use Unsplash](https://unsplash.com/photos/shallow-focus-photography-of-white-shih-tzu-puppy-running-on-the-grass-qO-PIF84Vxg)
-    * History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
+* River-mochi: mod author
+* Chaosfun: testing and [video of older version](https://www.youtube.com/watch?v=qADctjYS5-w) before Invisible roads and paths were added.
+* Sunny Scunny, Maestro, Gagaxm, Obelix: testing and feedback.
+* yenayang: technical advisor
+* Thanks to everyone who tested, supported, or guided development along the way!
+* Thumbnail photo: Toronto, Canada by [Alex Smith free use Unsplash license](https://unsplash.com/photos/time-lapse-photography-of-vehicles-in-busy-road-sRTLpqB5haw)
+* Thumbnail: [dog by Joe Caione, free use Unsplash](https://unsplash.com/photos/shallow-focus-photography-of-white-shih-tzu-puppy-running-on-the-grass-qO-PIF84Vxg)
+* History and thanks to all past modders: SwiftCobra creator of the first speed mod (MIT license). It passed to Aberro's mod (MIT) and then to DanielVNZ's version (retired).
 
-    Languages
+Languages
 
-    English, Français, Deutsch, Español, Italiano, Polski, Português (Brasil), Português (Portugal), Türkçe, ไทย Thai, Tiếng Việt, 日本語, 한국어, 简体中文, 繁體中文.
+English, Français, Deutsch, Español, Italiano, Polski, Português (Brasil), Português (Portugal), Türkçe, ไทย Thai, Tiếng Việt, 日本語, 한국어, 简体中文, 繁體中文.
 
-    ┌─────────────────────────────────────────────────────┐
+┌─────────────────────────────────────────────────────┐
 
-    ### 全路网限速调整
+### 全路网限速调整
 
-    自由调整城市中各类道路和交通线路的限速！
+自由调整城市中各类道路和交通线路的限速！
 
-    打开 ASL，点击任意道路即可进入操作面板。支持简体中文界面和提示。
+打开 ASL，点击任意道路即可进入操作面板。支持简体中文界面和提示。
 
-    ### 🌄 主要功能
+### 🌄 主要功能
 
-    - **单击选择路段，拖动批量选择。** 轻松修改限速。
-    - 🚗 **道路** 🚊 **有轨电车** 🚆 **铁路** 🚇 **地铁** ⛵ **航道** 🚲 **自行车道**
-    - 👁 **隐形道路：** 显示并修改隐藏道路和自行车道，支持快捷键，无需打开面板。
-    - 🚲 **自行车和电动滑板车：** 在游戏选项中调整车辆最高速度（30–1000%），自动调整加速和刹车。默认关闭，避免与其他车辆速度模组冲突。
-    - **全城路径限速：** 分别调整自行车道、混合路径和纯人行道的限速（30–300%）。单独修改的路段优先。
-    - **交通统计：** 查看车辆数量、行驶及停放情况。
+- **单击选择路段，拖动批量选择。** 轻松修改限速。
+- 🚗 **道路** 🚊 **有轨电车** 🚆 **铁路** 🚇 **地铁** ⛵ **航道** 🚲 **自行车道**
+- 👁 **隐形道路：** 显示并修改隐藏道路和自行车道，支持快捷键，无需打开面板。
+- 🚲 **自行车和电动滑板车：** 在游戏选项中调整车辆最高速度（30–1000%），自动调整加速和刹车。默认关闭，避免与其他车辆速度模组冲突。
+- **全城路径限速：** 分别调整自行车道、混合路径和纯人行道的限速（30–300%）。单独修改的路段优先。
+- **交通统计：** 查看车辆数量、行驶及停放情况。
 
-    **100% = 游戏默认值。**
+**100% = 游戏默认值。**
 
-    ### 使用须知
+### 使用须知
 
-    - 请先卸载旧版 Road Speed Adjuster（RSA）。
-    - **Bikes + Paths 已停止维护，功能已整合至 ASL。** 可直接卸载旧模组，无需重置。
-    - 如想先恢复原版速度，可单独使用 B+P 的恢复默认值功能，然后保存城市。此步骤非必需。
-    - 纯人行道仅支持全城调整，不改变市民实际步行速度。
-    - 车辆实际速度仍受车型最高速度限制。
-    - **可安全卸载。** 已修改的路段限速会保留。如需恢复原版限速，请使用重置按钮并保存城市。
-    - **轻量高效：** 统计仅在面板打开时运行，路径限速调整完成后即休眠。
+- 请先卸载旧版 Road Speed Adjuster（RSA）。
+- **Bikes + Paths 已停止维护，功能已整合至 ASL。** 可直接卸载旧模组，无需重置。
+- 如想先恢复原版速度，可单独使用 B+P 的恢复默认值功能，然后保存城市。此步骤非必需。
+- 纯人行道仅支持全城调整，不改变市民实际步行速度。
+- 车辆实际速度仍受车型最高速度限制。
+- **可安全卸载。** 已修改的路段限速会保留。如需恢复原版限速，请使用重置按钮并保存城市。
+- **轻量高效：** 统计仅在面板打开时运行，路径限速调整完成后即休眠。
 
-    ### ❤️ 支持与反馈
+### ❤️ 支持与反馈
 
-    喜欢这个模组？欢迎点击右上角的 👍 点赞支持！
+喜欢这个模组？欢迎点击右上角的 👍 点赞支持！
 
-    免费分享，无需捐款。
+免费分享，无需捐款。
 
-    问题反馈：[Discord](https://discord.gg/gwXgvtyhjc) | [GitHub](https://github.com/River-Mochi/CS2-AllSpeedLimits)
+问题反馈：[Discord](https://discord.gg/gwXgvtyhjc) | [GitHub](https://github.com/River-Mochi/CS2-AllSpeedLimits)
 
-    模组作者：River-mochi
+模组作者：River-mochi
 
-    感谢所有参与测试和提供反馈的玩家！
+感谢所有参与测试和提供反馈的玩家！
 
-    tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invisible roads, invisible paths
+tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invisible roads, invisible paths
 </LongDescription>
 <!--Thumbnail-->
 <Thumbnail Value="Properties/thumbnail-asmithphoto01.jpg" />
