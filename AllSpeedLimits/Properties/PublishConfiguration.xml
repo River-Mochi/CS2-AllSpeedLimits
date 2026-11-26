@@ -91,7 +91,8 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Bicycle and scooter speed tuning is now opt-in (OFF by default). Existing speed percentages are retained; enable the checkbox to use them.
-- Smaller, more compact start panel.
+- Smaller, more compact start panel with hover guidance.
+- Main panel stays open when filters clear the selection; clearer, rounded tabs.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

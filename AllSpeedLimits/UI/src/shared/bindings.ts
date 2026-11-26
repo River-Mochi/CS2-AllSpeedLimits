@@ -7,6 +7,7 @@ import mod from "mod.json";
 export const MOD_ID = mod.id;
 
 // Global pathway speed setting, independent from individual selected edge speeds.
+export const MAIN_PANEL_OPEN = bindValue<boolean>(MOD_ID, "BINDING:MAIN_PANEL_OPEN");
 export const OPEN_ALL_PATHS = bindValue<boolean>(MOD_ID, "BINDING:OPEN_ALL_PATHS");
 export function OpenAllPaths() {
   trigger(MOD_ID, "TRIGGER:OPEN_ALL_PATHS");

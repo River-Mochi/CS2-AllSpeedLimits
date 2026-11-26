@@ -46,6 +46,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<float> m_InitialSpeedBinding = null!;
         private ValueBindingHelper<bool> m_ToolActiveBinding = null!;
         private ValueBindingHelper<int> m_SelectionCounterBinding = null!;
+        private ValueBindingHelper<bool> m_MainPanelOpenBinding = null!;
         private ValueBindingHelper<bool> m_ShowMetricBinding = null!;
         private ValueBindingHelper<bool> m_IsTrackTypeBinding = null!;
         private ValueBindingHelper<bool> m_IsWaterwayTypeBinding = null!;
@@ -133,6 +134,7 @@ namespace RoadRailSpeeds.Systems
             m_InitialSpeedBinding = CreateBinding("INFOPANEL_ROAD_SPEED", 50f);
             m_ToolActiveBinding = CreateBinding("TOOL_ACTIVE", false);
             m_SelectionCounterBinding = CreateBinding("SELECTION_COUNTER", 0);
+            m_MainPanelOpenBinding = CreateBinding("MAIN_PANEL_OPEN", false);
             m_ShowMetricBinding = CreateBinding("SHOW_METRIC", true);
             m_IsTrackTypeBinding = CreateBinding("IS_TRACK_TYPE", false);
             m_IsWaterwayTypeBinding = CreateBinding("IS_WATERWAY_TYPE", false);
@@ -281,6 +283,8 @@ namespace RoadRailSpeeds.Systems
             m_SelectedEntity = Entity.Null;
             m_LastCheckedEntity = Entity.Null;
             m_SelectedEdges.Clear();
+            m_MainPanelOpenBinding.Value = false;
+            m_OpenAllPathsBinding.Value = false;
 
             m_InitialSpeedBinding.Value = 50f;
             m_ToolActiveBinding.Value = false;
@@ -317,13 +321,15 @@ namespace RoadRailSpeeds.Systems
             if (edges.Count == 0)
             {
                 m_SelectedEntity = Entity.Null;
+                m_InitialSpeedBinding.Value = -1f;
                 m_SelectionCounterBinding.Value = 0;
                 m_IsTrackTypeBinding.Value = false;
                 m_IsWaterwayTypeBinding.Value = false;
                 m_CurrentSpeedMixedBinding.Value = false;
                 m_VanillaSpeedBinding.Value = -1f;
                 m_VanillaSpeedMixedBinding.Value = false;
-                visible = false;
+                // Once opened, keep the controls available until the tool closes.
+                visible = m_MainPanelOpenBinding.Value;
                 RequestUpdate();
                 return;
             }
@@ -338,6 +344,9 @@ namespace RoadRailSpeeds.Systems
             SelectionSpeedInfo selectionSpeed = GetSelectionSpeedInfo(edges);
             if (!selectionSpeed.HasCurrentSpeed)
             {
+                // No editable speed: do not leave the previous selection's values actionable.
+                m_SegmentSpeedTool.ClearSelection();
+                OnSegmentsSelectedByTool(Entity.Null, System.Array.Empty<Entity>());
                 return;
             }
 
@@ -358,6 +367,7 @@ namespace RoadRailSpeeds.Systems
             m_IsTrackTypeBinding.Value = selectionSpeed.ContainsTrackType;
             m_IsWaterwayTypeBinding.Value = selectionSpeed.ContainsWaterwayType;
             visible = true;
+            m_MainPanelOpenBinding.Value = true;
 
             // Force React to treat this as a new selection, even if the speed value did not change.
             m_SelectionCounterBinding.Value++;
@@ -400,9 +410,17 @@ namespace RoadRailSpeeds.Systems
 
             bool toolActive = m_SegmentSpeedTool.IsActive;
             bool toolStateChanged = m_ToolActiveBinding.Value != toolActive;
-            if (!toolActive && m_OpenAllPathsBinding.Value)
+            if (!toolActive)
             {
-                m_OpenAllPathsBinding.Value = false;
+                if (m_OpenAllPathsBinding.Value)
+                {
+                    m_OpenAllPathsBinding.Value = false;
+                }
+
+                if (m_MainPanelOpenBinding.Value)
+                {
+                    m_MainPanelOpenBinding.Value = false;
+                }
             }
 
             // Optional hotkey toggles the native marker flag, even when ASL is closed.
@@ -545,7 +563,7 @@ namespace RoadRailSpeeds.Systems
             {
                 // The toolbar already clears the old selection immediately. Keep this backup for
                 // any other activation route so a previous segment never reappears unexpectedly.
-                m_SelectPathsBinding.Value = m_SegmentSpeedTool.IncludePaths;
+                m_SelectPathsBinding.Value = true;
                 m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;

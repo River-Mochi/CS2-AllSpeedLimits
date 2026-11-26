@@ -1,11 +1,12 @@
 // File: UI/src/entry/SpeedToolHint.tsx
 // Purpose: Simple start panel shown before a network segment is selected.
 
+import { Tooltip } from "cs2/ui";
 import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
-import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS } from "../shared/bindings";
+import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, MAIN_PANEL_OPEN, PANEL_TOOLTIPS_ENABLED } from "../shared/bindings";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
 
@@ -14,9 +15,11 @@ export const SpeedToolHint = () => {
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
     const selectionCounter = useSafeBinding(SELECTION_COUNTER, 0);
     const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
+    const mainPanelOpen = useSafeBinding(MAIN_PANEL_OPEN, false);
+    const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
 
     // Only show when tool is active but no selection has been made yet
-    const shouldShow = toolActive && selectionCounter === 0 && !allPathsOpen;
+    const shouldShow = toolActive && selectionCounter === 0 && !allPathsOpen && !mainPanelOpen;
 
     const { panelRef, position, isDragging, startDragging } = useHintPanelPosition();
     const [isCloseHovered, setIsCloseHovered] = useState(false);
@@ -40,6 +43,44 @@ export const SpeedToolHint = () => {
     const resolver = VanillaComponentResolver.instance;
     const Panel = resolver.Panel;
     const PanelTheme = resolver.panelTheme;
+
+    const instructions = (
+        <div
+            onMouseDown={handleMouseDown}
+            style={{ 
+                paddingTop: "8rem",
+                paddingRight: "10rem",
+                paddingBottom: "9rem",
+                paddingLeft: "10rem",
+                textAlign: "center",
+                cursor: isDragging ? "grabbing" : "grab"
+        }}>
+            <div style={{
+                fontSize: "18rem",
+                fontWeight: 700,
+                color: "rgba(229, 244, 252, 0.90)",
+                lineHeight: "1.2"
+            }}>
+                {TEXT.hint.instruction}
+            </div>
+            <div style={{
+                marginTop: "4rem",
+                fontSize: "14rem",
+                color: "rgba(226, 236, 241, 0.90)",
+                lineHeight: "1.3"
+            }}>
+                {TEXT.hint.alternatives}
+            </div>
+            <div style={{
+                marginTop: "4rem",
+                fontSize: "14rem",
+                color: "rgba(226, 236, 241, 0.82)",
+                lineHeight: "1.3"
+            }}>
+                {TEXT.hint.drag}
+            </div>
+        </div>
+    );
 
     return (
         <div
@@ -105,41 +146,9 @@ export const SpeedToolHint = () => {
                 }
                 className={PanelTheme.panel}
             >
-                <div
-                    onMouseDown={handleMouseDown}
-                    style={{ 
-                        paddingTop: "8rem",
-                        paddingRight: "10rem",
-                        paddingBottom: "9rem",
-                        paddingLeft: "10rem",
-                        textAlign: "center",
-                        cursor: isDragging ? "grabbing" : "grab"
-                }}>
-                    <div style={{
-                        fontSize: "18rem",
-                        fontWeight: 700,
-                        color: "rgba(229, 244, 252, 0.90)",
-                        lineHeight: "1.2"
-                    }}>
-                        {TEXT.hint.instruction}
-                    </div>
-                    <div style={{
-                        marginTop: "4rem",
-                        fontSize: "14rem",
-                        color: "rgba(226, 236, 241, 0.90)",
-                        lineHeight: "1.3"
-                    }}>
-                        {TEXT.hint.alternatives}
-                    </div>
-                    <div style={{
-                        marginTop: "4rem",
-                        fontSize: "14rem",
-                        color: "rgba(226, 236, 241, 0.82)",
-                        lineHeight: "1.3"
-                    }}>
-                        {TEXT.hint.drag}
-                    </div>
-                </div>
+                {panelTooltipsEnabled && !isDragging ? (
+                    <Tooltip tooltip={TEXT.hint.guide} direction="up">{instructions}</Tooltip>
+                ) : instructions}
             </Panel>
         </div>
     );

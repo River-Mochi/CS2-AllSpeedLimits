@@ -19,6 +19,7 @@ type MainSpeedSectionProps = {
     sliderStep: number;
     sliderValue: number;
     unitLabel: string;
+    hasSelection: boolean;
     isApplying: boolean;
     isResetting: boolean;
     stepperWidthRem: number;
@@ -41,6 +42,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
         sliderStep,
         sliderValue,
         unitLabel,
+        hasSelection,
         isApplying,
         isResetting,
         stepperWidthRem,
@@ -92,7 +94,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                 <Button
                     focusKey={focusKey}
                     selected={isApplying}
-                    disabled={isApplying}
+                    disabled={!hasSelection || isApplying}
                     onSelect={onApply}
                     onMouseEnter={onApplyMouseEnter}
                     onMouseLeave={onControlMouseLeave}
@@ -115,7 +117,7 @@ export const MainSpeedSection = (props: MainSpeedSectionProps) => {
                     <Button
                         focusKey={focusKey}
                         selected={isResetting}
-                        disabled={isResetting}
+                        disabled={!hasSelection || isResetting}
                         onSelect={onReset}
                         variant="neutral"
                         title={resetTitle}

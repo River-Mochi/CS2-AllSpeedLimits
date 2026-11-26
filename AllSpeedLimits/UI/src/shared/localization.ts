@@ -37,6 +37,7 @@ const buildText = (lookup: TextLookup) => ({
             instruction: text(lookup, "hint.instruction"),
             alternatives: text(lookup, "hint.alternatives"),
             drag: text(lookup, "hint.drag"),
+            guide: text(lookup, "hint.guide"),
             pathsTooltip: text(lookup, "hint.pathsTooltip"),
             bikeTooltip: text(lookup, "hint.bikeTooltip"),
             invisibleTooltip: text(lookup, "hint.invisibleTooltip")
@@ -49,6 +50,7 @@ const buildText = (lookup: TextLookup) => ({
             gameDefault: text(lookup, "panel.gameDefault"),
             newSpeedLimit: text(lookup, "panel.newSpeedLimit"),
             notAvailable: text(lookup, "panel.notAvailable"),
+            noSelection: text(lookup, "panel.noSelection"),
             mixed: text(lookup, "panel.mixed"),
             presets: text(lookup, "panel.presets"),
             custom: text(lookup, "panel.custom"),

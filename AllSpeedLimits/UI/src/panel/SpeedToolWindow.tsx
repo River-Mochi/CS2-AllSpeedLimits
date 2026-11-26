@@ -73,6 +73,7 @@ import {
     ApplyGlobalPathPercent,
     ApplyGlobalPedPathPercent,
     OPEN_ALL_PATHS,
+    MAIN_PANEL_OPEN,
     OpenAllPaths,
     CloseAllPaths
 } from "../shared/bindings";
@@ -103,13 +104,13 @@ export const SpeedToolWindow = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
     const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
+    const mainPanelOpen = useSafeBinding(MAIN_PANEL_OPEN, false);
     const savedPathPercent = useSafeBinding(GLOBAL_PATH_PERCENT, 100);
     const savedPedPathPercent = useSafeBinding(GLOBAL_PED_PATH_PERCENT, 100);
     const globalPathBusy = useSafeBinding(GLOBAL_PATH_BUSY, false);
     const globalPathProcessed = useSafeBinding(GLOBAL_PATH_PROCESSED, 0);
     const globalPathTotal = useSafeBinding(GLOBAL_PATH_TOTAL, 0);
     const [activeView, setActiveView] = useState<"limits" | "paths">("limits");
-    const [visible, setVisible] = useState(false);
     const [pendingPathPercent, setPendingPathPercent] = useState(100);
     const [pendingPedPathPercent, setPendingPedPathPercent] = useState(100);
     useEffect(() => {
@@ -124,7 +125,6 @@ export const SpeedToolWindow = () => {
             setActiveView("limits");
         } else if (allPathsOpen) {
             setActiveView("paths");
-            setVisible(true);
         }
     }, [toolActive, allPathsOpen]);
     const showMetric = useSafeBinding(SHOW_METRIC, true);
@@ -132,6 +132,8 @@ export const SpeedToolWindow = () => {
     const isWaterwayType = useSafeBinding(IS_WATERWAY_TYPE, false);
     const doubleSpeedDisplay = useSafeBinding(DOUBLE_SPEED_DISPLAY, false);
     const selectionCounter = useSafeBinding(SELECTION_COUNTER, 0);
+    const hasSelection = selectionCounter > 0;
+    const visible = toolActive && (mainPanelOpen || allPathsOpen || hasSelection);
     const selectedSpeedKmh = useSafeBinding(INITIAL_SPEED, 50);
     const currentSpeedMixed = useSafeBinding(CURRENT_SPEED_MIXED, false);
     const vanillaSpeedKmh = useSafeBinding(VANILLA_SPEED, -1);
@@ -180,6 +182,7 @@ export const SpeedToolWindow = () => {
     const [showSaveReminder, setShowSaveReminder] = useState(false);
     const [selectedRoadGroup, setSelectedRoadGroup] = useState<RoadGroupKind | null>(null);
     const lastSelectionCounter = useRef(0);
+    const hasAnchoredSelection = useRef(false);
     const preciseStepHoldDelayRef = useRef<number | null>(null);
     const preciseStepRepeatRef = useRef<number | null>(null);
     const preciseStepMouseDownRef = useRef(false);
@@ -440,10 +443,10 @@ export const SpeedToolWindow = () => {
 
     useEffect(() => {
         if (toolActive && selectionCounter > 0 && selectionCounter !== lastSelectionCounter.current) {
-            // Re-anchor near the click only when this is a brand-new selection (nothing was
-            // selected right before it) — extending or replacing an existing selection leaves the
-            // panel wherever the player put it, so it doesn't jump around mid-edit.
-            if (lastSelectionCounter.current === 0) {
+            // Anchor only on the first selection of this tool session. A filter change
+            // can clear the selection, but the open panel should stay where the player put it.
+            if (!hasAnchoredSelection.current) {
+                hasAnchoredSelection.current = true;
                 setActiveView("limits");
                 if (allPathsOpen) {
                     CloseAllPaths();
@@ -454,7 +457,6 @@ export const SpeedToolWindow = () => {
                 });
             }
 
-            setVisible(true);
             if (isTrackType || isWaterwayType) {
                 setSelectedRoadGroup(null);
             }
@@ -462,10 +464,12 @@ export const SpeedToolWindow = () => {
                 setPendingSpeedKmh(clampSpeedKmh(selectedSpeedKmh));
             }
             lastSelectionCounter.current = selectionCounter;
-        } else if (!toolActive || (selectionCounter === 0 && !allPathsOpen)) {
-            setVisible(false);
-            setPendingCityAction(null);
+        } else if (!toolActive || selectionCounter === 0) {
             lastSelectionCounter.current = 0;
+            if (!toolActive) {
+                hasAnchoredSelection.current = false;
+                setPendingCityAction(null);
+            }
         }
     }, [selectionCounter, toolActive, allPathsOpen, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
 
@@ -486,6 +490,7 @@ export const SpeedToolWindow = () => {
     };
 
     const handlePresetSpeed = (displayValue: number) => {
+        if (!hasSelection) return;
         const speedKmh = displayValueToSpeedKmh(displayValue);
         setPendingSpeedKmh(speedKmh);
 
@@ -541,12 +546,14 @@ export const SpeedToolWindow = () => {
     };
 
     const handleApply = () => {
+        if (!hasSelection) return;
         setIsApplying(true);
         ApplySpeed(pendingSpeedKmh);
         setTimeout(() => setIsApplying(false), 500);
     };
 
     const handleReset = () => {
+        if (!hasSelection) return;
         setIsResetting(true);
         ResetSpeed();
         setTimeout(() => {
@@ -687,8 +694,8 @@ export const SpeedToolWindow = () => {
     const sliderMin = getDisplayMin();
     const sliderMax = getDisplayMax();
     const sliderStep = panelSliderIncrement;
-    const currentSpeedLabel = formatSelectionSpeed(selectedSpeedKmh, currentSpeedMixed);
-    const vanillaSpeedLabel = formatSelectionSpeed(vanillaSpeedKmh, vanillaSpeedMixed);
+    const currentSpeedLabel = hasSelection ? formatSelectionSpeed(selectedSpeedKmh, currentSpeedMixed) : TEXT.panel.notAvailable;
+    const vanillaSpeedLabel = hasSelection ? formatSelectionSpeed(vanillaSpeedKmh, vanillaSpeedMixed) : TEXT.panel.notAvailable;
     const targetSpeedLabel = `${Math.round(displaySpeed)} ${unitLabel}`;
     // Put Unlimited after the numbered presets. Omit the 5 mph shortcut to keep the rows balanced;
     // players can still choose that value with the slider or stepper.
@@ -998,6 +1005,11 @@ export const SpeedToolWindow = () => {
                             </Button>
                         </div>
 
+                        {!hasSelection && (
+                            <div style={{ fontSize: "13rem", color: "rgba(226, 236, 241, 0.85)", textAlign: "center", marginBottom: "8rem" }}>
+                                {TEXT.panel.noSelection}
+                            </div>
+                        )}
                         {/* Selected: New-speed column (left) + presets (right). */}
                         <CollapsibleSectionHeader
                             label={TEXT.panel.selectedSegment}
@@ -1052,6 +1064,7 @@ export const SpeedToolWindow = () => {
                                 </div>
                                 <div style={{ flex: 1, minWidth: "0", marginLeft: "8rem" }}>
                                     <PresetControls
+                                        hasSelection={hasSelection}
                                         presetRows={presetRows}
                                         displayValue={Math.round(displaySpeed)}
                                         minDisplay={sliderMin}
@@ -1086,6 +1099,7 @@ export const SpeedToolWindow = () => {
                                 sliderStep={sliderStep}
                                 sliderValue={sliderValue}
                                 unitLabel={unitLabel}
+                                hasSelection={hasSelection}
                                 isApplying={isApplying}
                                 isResetting={isResetting}
                                 stepperWidthRem={SPEED_STEPPER_WIDTH_REM}

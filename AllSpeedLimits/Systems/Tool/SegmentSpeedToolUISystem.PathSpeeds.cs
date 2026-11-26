@@ -17,7 +17,9 @@ namespace RoadRailSpeeds.Systems
         {
             if (m_SegmentSpeedTool.IsActive)
             {
+                m_MainPanelOpenBinding.Value = true;
                 m_OpenAllPathsBinding.Value = true;
+                visible = true;
                 RequestUpdate();
             }
         }

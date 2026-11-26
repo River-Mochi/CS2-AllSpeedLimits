@@ -128,6 +128,11 @@ namespace RoadRailSpeeds.Systems
         // Selection type filter toggles. The tool reads these flags when it builds its raycast mask.
         private void HandleSetSelectPaths(bool enabled)
         {
+            if (!enabled && !m_SegmentSpeedTool.IncludeRoads && !m_SegmentSpeedTool.IncludeRails && !m_SegmentSpeedTool.IncludeWater)
+            {
+                return;
+            }
+
             m_SegmentSpeedTool.IncludePaths = enabled;
             m_SelectPathsBinding.Value = enabled;
             m_SegmentSpeedTool.RefreshSelectionFilters();
@@ -145,6 +150,11 @@ namespace RoadRailSpeeds.Systems
 
         private void HandleSetSelectRoads(bool enabled)
         {
+            if (!enabled && !m_SegmentSpeedTool.IncludePaths && !m_SegmentSpeedTool.IncludeRails && !m_SegmentSpeedTool.IncludeWater)
+            {
+                return;
+            }
+
             m_SegmentSpeedTool.IncludeRoads = enabled;
             m_SelectRoadsBinding.Value = enabled;
             m_SegmentSpeedTool.RefreshSelectionFilters();
@@ -152,6 +162,11 @@ namespace RoadRailSpeeds.Systems
 
         private void HandleSetSelectRails(bool enabled)
         {
+            if (!enabled && !m_SegmentSpeedTool.IncludePaths && !m_SegmentSpeedTool.IncludeRoads && !m_SegmentSpeedTool.IncludeWater)
+            {
+                return;
+            }
+
             m_SegmentSpeedTool.IncludeRails = enabled;
             m_SelectRailsBinding.Value = enabled;
             m_SegmentSpeedTool.RefreshSelectionFilters();
@@ -159,6 +174,11 @@ namespace RoadRailSpeeds.Systems
 
         private void HandleSetSelectWater(bool enabled)
         {
+            if (!enabled && !m_SegmentSpeedTool.IncludePaths && !m_SegmentSpeedTool.IncludeRoads && !m_SegmentSpeedTool.IncludeRails)
+            {
+                return;
+            }
+
             m_SegmentSpeedTool.IncludeWater = enabled;
             m_SelectWaterBinding.Value = enabled;
             m_SegmentSpeedTool.RefreshSelectionFilters();
@@ -283,6 +303,8 @@ namespace RoadRailSpeeds.Systems
         {
             if (!enable)
             {
+                m_MainPanelOpenBinding.Value = false;
+                m_OpenAllPathsBinding.Value = false;
                 m_SelectionCounterBinding.Value = 0;
                 m_InitialSpeedBinding.Value = 50f;
                 m_CurrentSpeedMixedBinding.Value = false;

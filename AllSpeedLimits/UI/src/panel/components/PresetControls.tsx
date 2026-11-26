@@ -7,6 +7,7 @@ import unlimitedIcon from "../../images/icon-Unlimited.svg";
 import unlimitedSelectedIcon from "../../images/icon-Unlimited-Selected.svg";
 
 type PresetControlsProps = {
+    hasSelection: boolean;
     presetRows: number[][];
     displayValue: number;
     minDisplay: number;
@@ -23,6 +24,7 @@ type PresetControlsProps = {
 
 export const PresetControls = memo((props: PresetControlsProps) => {
     const {
+        hasSelection,
         presetRows,
         displayValue,
         minDisplay,
@@ -63,12 +65,12 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                         >
                             {row.map((preset, index) => {
                                 const isUnlimited = preset === -1;
-                                const disabled = !isUnlimited && (preset < minDisplay || preset > maxDisplay);
+                                const disabled = !hasSelection || (!isUnlimited && (preset < minDisplay || preset > maxDisplay));
                                 const presetKey = isUnlimited ? "unlimited" : `preset-${preset}`;
                                 const numberHovered = !isUnlimited && !disabled && hoveredPresetKey === presetKey;
-                                const unlimitedHovered = isUnlimited && hoveredPresetKey === presetKey;
+                                const unlimitedHovered = isUnlimited && !disabled && hoveredPresetKey === presetKey;
                                 const selected = isUnlimited
-                                    ? unlimitedSelected
+                                    ? !disabled && unlimitedSelected
                                     : (!disabled && Math.abs(displayValue - preset) <= 0.5);
 
                                 return (
