@@ -139,6 +139,7 @@ namespace RoadRailSpeeds.Systems
             if (storageChanged)
             {
                 PersistentSpeedLimitStorage.Save();
+                MarkSelectionEdited();
             }
         }
 
@@ -214,12 +215,23 @@ namespace RoadRailSpeeds.Systems
                     }
                 }
 
-                if (!originalSpeed.HasValue || originalSpeed.Value <= 0f)
+                // Clear the individual override back to the *current global
+                // pathway scale*. Roads and rails still reset to original.
+                bool activePath = SpeedNetworkUtils.TryGetActivePathSpeedGameUnits(
+                    EntityManager, targetEdge, out float activePathSpeed);
+                float speedGameUnits;
+                if (activePath)
+                {
+                    speedGameUnits = activePathSpeed;
+                }
+                else if (originalSpeed.HasValue && originalSpeed.Value > 0f)
+                {
+                    speedGameUnits = originalSpeed.Value / 1.8f;
+                }
+                else
                 {
                     continue;
                 }
-
-                float speedGameUnits = originalSpeed.Value / 1.8f;
 
                 if (EntityManager.HasBuffer<SubLane>(edge))
                 {
@@ -265,6 +277,7 @@ namespace RoadRailSpeeds.Systems
             if (storageChanged)
             {
                 PersistentSpeedLimitStorage.Save();
+                MarkSelectionEdited();
             }
         }
 
@@ -282,13 +295,7 @@ namespace RoadRailSpeeds.Systems
                 return -1f;
             }
 
-            return prefabBase switch
-            {
-                RoadPrefab roadPrefab => roadPrefab.m_SpeedLimit / 2f,
-                TrackPrefab trackPrefab => trackPrefab.m_SpeedLimit / 2f,
-                WaterwayPrefab waterwayPrefab => waterwayPrefab.m_SpeedLimit / 2f,
-                _ => -1f
-            };
+            return SpeedNetworkUtils.GetPrefabSpeedKmh(prefabBase);
         }
     }
 }

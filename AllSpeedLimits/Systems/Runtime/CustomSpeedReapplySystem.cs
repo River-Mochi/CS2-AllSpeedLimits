@@ -207,13 +207,7 @@ namespace RoadRailSpeeds.Systems
 
         private static bool TryGetPrefabSpeedKmh(PrefabBase prefabBase, out float speedKmh)
         {
-            speedKmh = prefabBase switch
-            {
-                RoadPrefab roadPrefab => roadPrefab.m_SpeedLimit / 2f,
-                TrackPrefab trackPrefab => trackPrefab.m_SpeedLimit / 2f,
-                WaterwayPrefab waterwayPrefab => waterwayPrefab.m_SpeedLimit / 2f,
-                _ => -1f
-            };
+            speedKmh = SpeedNetworkUtils.GetPrefabSpeedKmh(prefabBase);
 
             return IsSupportedSpeed(speedKmh);
         }

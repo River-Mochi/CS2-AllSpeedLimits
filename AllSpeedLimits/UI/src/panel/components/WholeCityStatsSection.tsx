@@ -202,11 +202,14 @@ export const WholeCityStatsSection = (props: WholeCityStatsSectionProps) => {
                             cityActionApplying={cityActionApplying}
                             resettingLabel={text.panel.resetting}
                             resetAllLabel={text.buttons.resetAll}
+                            resetPathsLabel={text.buttons.resetPaths}
+                            resetPathsTooltip={text.tooltips.resetPathsCity}
                             resetRoadsLabel={text.buttons.resetRoads}
                             resetRailsLabel={text.buttons.resetRails}
                             resetWaterLabel={text.buttons.resetWater}
                             resetAllTypesLabel={text.buttons.resetAllTypes}
                             focusKey={focusKey}
+                            onOpenResetPaths={() => openResetAction("resetPaths")}
                             onOpenResetRoads={() => openResetAction("resetRoads")}
                             onOpenResetRails={() => openResetAction("resetRails")}
                             onOpenResetWater={() => openResetAction("resetWater")}

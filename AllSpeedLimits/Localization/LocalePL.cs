@@ -35,15 +35,23 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Akcje" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "Rowery" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "O modzie" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Opcje wyświetlania" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "Skróty klawiszowe" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "Rowery i hulajnogi elektryczne" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "Status pojazdów osobistych" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Przywróć wartości domyślne gry" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Użycie" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Debug / Log" },
+
+                // Optional invisible-network hotkey (unassigned by default).
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Skrót ukrytych sieci" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Kliknij „nie ustawiono” i wybierz klawisz. Działa także przy zamkniętym ASL." },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Jednostki prędkości" },
@@ -78,6 +86,11 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Pokaż podpowiedzi ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
+                    "**Domyślnie = WŁ.**  Zalecamy pozostawić włączone.\n\n" +
+                    "Pokazuje podpowiedzi w mieście. Przycisk informacji może je ponownie włączyć." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Pokaż podwojone prędkości gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Wył.> pokazuje prostszą skalę, zwykle bliższą oznaczeniom na drogach.\n" +
@@ -94,6 +107,62 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Maksymalna prędkość pojazdów" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = ustawienia gry.**\n" +
+                    "Zmienia maksymalną prędkość rowerów i hulajnóg elektrycznych. Przyspieszenie i hamowanie są dostosowane automatycznie.\n" +
+                    "Limity ścieżek nadal obowiązują.\n" +
+                    "Usuń Bikes + Paths, jeśli używasz ASL. ASL zastępuje wszystkie jego funkcje. Starsze wersje mogą powodować konflikty." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywróć ustawienia gry" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Przywraca prędkość, przyspieszenie i hamowanie rowerów oraz hulajnóg do **100% ustawień gry**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Grupa rowerów" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "Rowery i hulajnogi elektryczne.\n" +
+                    "**Aktywne** = mają aktualny pas (poruszają się).\n" +
+                    "**Łącznie zaparkowane** = obejmuje wszystkie flagi Parked z każdego miejsca, nie tylko parkingi."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "Grupa aut" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "Tylko auta osobiste (bez grupy rowerów).\n" +
+                    "**Aktywne** = mają aktualny pas (poruszają się).\n" +
+                    "**Zaparkowane** = wszystkie **ParkedCar**, nie tylko parkingi.\n" +
+                    "Skan działa tylko przy otwartym menu Opcje, nie podczas normalnej gry w mieście, więc bez obaw o FPS."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "Ukryte zaparkowane auta" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**Łącznie na granicy OC** = pojazdy z grupy aut z ParkedCar przy połączeniu Outside City (OC).\n" +
+                    "W niektórych miastach wiele aut może utknąć zaparkowanych przy połączeniu Outside City.\n" +
+                    "Użyj <Log hidden cars>, aby zobaczyć przykładowy podział ukrytych aut."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "Zaloguj ukryte auta" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "Zapisuje jednorazowy raport do **Logs/AllSpeedLimits.log**.\n" +
+                    "Zawiera łączną liczbę + podział Bucket A/B/C oraz przykładowe numery ID.\n" +
+                    "Użyj moda Scene Explorer, aby przejść do podanych ID encji Vehicle i sprawdzić."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "Otwórz log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "Otwiera **Logs/AllSpeedLimits.log**, jeśli istnieje.\n" +
+                    "Jeśli plik jeszcze nie istnieje, otwiera folder Logs."
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "Status niezaładowany." },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "Brak miasta... ¯\\_(ツ)_/¯ ...Brak statystyk" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "uruchom miasto na kilka minut, aby zebrać dane." },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} aktywne | {1} rowery | {2} hulajnogi | {3} / {4} zaparkowane/łącznie" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} aktywne | {1} zaparkowane | {2} łącznie | {3} przyczepy" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} ukryte na granicy OC | aktualizacja {1}" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Przywróć domyślne prędkości gry" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Opcjonalne czyszczenie przed usunięciem moda.\n" +
@@ -118,15 +187,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Panel miasta>\n" +
-                    "1. Kliknij albo przeciągnij, aby wybrać segmenty.\n" +
-                    "2. Ustaw <Nową prędkość>, potem kliknij <Zastosuj>.\n" +
-                    "3. <Przywróć> przywraca wybrane segmenty.\n" +
-                    "4. <Ustawienia wstępne> działają od razu.\n" +
-                    "\n" +
+                    "▪ Kliknij jeden odcinek lub przeciągnij, by wybrać wiele. Ustaw <Nową prędkość> i kliknij <Zastosuj>.\n" +
+                    "▪ <Presety> (liczby w okręgach) działają od razu, bez Zastosuj.\n" +
+                    "▪ <Reset> przywraca wybrane odcinki.\n" +
+                    "▪ <Ukryte sieci>: przerywany przycisk pokazuje/ukrywa ukryte drogi i ścieżki.\n" +
                     "<Całe miasto>\n" +
-                    "Wybierz grupę dróg i zastosuj do niej <Nową prędkość>.\n" +
-                    "Użyj <Drogi>, <Tory>, <Woda> lub <Wszystko>, aby wyczyścić własne prędkości.\n" +
-                    "Po zmianach w całym mieście <zapisz miasto>."
+                    "▪ Wybierz grupę dróg i zastosuj nową prędkość.\n" +
+                    "▪ <Czerwone przyciski resetu>: drogi, tory, woda, ścieżki lub Wszystko usuwają odpowiednie zmiany.\n" +
+                    "▪ <Ścieżki>: suwaki rowerowe i piesze dla całego miasta. 100% = ustawienie gry; 200% podwaja limit.\n" +
+                    "▪ <Indywidualne zmiany> rowerowe mają priorytet. Ścieżki piesze tylko globalnie.\n" +
+                    "▪ <Zapisz miasto>, aby zachować zmiany po wczytaniu."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

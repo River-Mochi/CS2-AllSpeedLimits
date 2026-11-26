@@ -36,15 +36,23 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "自行车" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "关于" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "显示选项" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "快捷键" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "自行车和电动滑板车" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "个人车辆状态" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "恢复游戏默认值" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "使用方法" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "调试 / 日志" },
+
+                // Optional invisible-network hotkey (unassigned by default).
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "隐藏路网快捷键" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "点击“未设置”并指定按键。关闭 ASL 面板后仍可使用。" },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "速度单位" },
@@ -79,6 +87,11 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "显示 ASL 提示" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
+                    "**默认 = 开启**  强烈建议保持开启。\n\n" +
+                    "显示城市内的 ASL 提示。信息按钮可重新开启。" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "显示游戏双倍速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<关> 显示更简单的刻度，通常更接近道路标线。\n" +
@@ -95,6 +108,62 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "车辆最高速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = 游戏默认值。**\n" +
+                    "调整自行车及电动滑板车的最高速度，加速和制动自动调整。\n" +
+                    "仍受路径限速约束，不会改变路径限速。\n" +
+                    "使用 ASL 时请卸载 Bikes + Paths。ASL 已整合其全部功能，旧版可能产生冲突。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "恢复游戏默认值" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "将自行车及电动滑板车的速度、加速和制动恢复至 **100% 游戏默认值**。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "自行车组" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "自行车和电动滑板车。\n" +
+                    "**活动** = 当前有车道（正在移动）。\n" +
+                    "**总停放** = 包含所有位置的 Parked 标记，不只是停车场。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "汽车组" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "仅个人汽车（不包括自行车组）。\n" +
+                    "**活动** = 当前有车道（正在移动）。\n" +
+                    "**停放** = 所有 **ParkedCar**，不只是停车场。\n" +
+                    "扫描只在选项菜单打开时运行，不在城市正常游玩时运行，因此不用担心 FPS。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "隐藏停放汽车" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**OC 边界总数** = 在 Outside City (OC) 连接处带 ParkedCar 的汽车组车辆。\n" +
+                    "有些城市会在 Outside City 连接处显示大量卡住的停放汽车。\n" +
+                    "使用 <Log hidden cars> 查看隐藏汽车的示例分类。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "记录隐藏汽车" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "向 **Logs/AllSpeedLimits.log** 写入一次性报告。\n" +
+                    "包含总数 + Bucket A/B/C 分类和示例 ID。\n" +
+                    "使用 Scene Explorer 模组跳转到列出的 Vehicle 实体 ID 并检查。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "打开日志" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "如果存在，则打开 **Logs/AllSpeedLimits.log**。\n" +
+                    "如果尚未找到文件，则改为打开 Logs 文件夹。"
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "状态未加载。" },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "没有城市... ¯\\_(ツ)_/¯ ...没有统计" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "运行城市几分钟以获取数据。" },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} 活动 | {1} 自行车 | {2} 滑板车 | {3} / {4} 停放/总数" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} 活动 | {1} 停放 | {2} 总数 | {3} 拖车" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} 在 OC 边界隐藏 | 更新 {1}" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "恢复游戏默认速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "卸载模组前的可选清理。\n" +
@@ -119,15 +188,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<城市面板>\n" +
-                    "1. 点击或拖动选择区段。\n" +
-                    "2. 设置 <新速度>，然后点击 <应用>。\n" +
-                    "3. <重置> 会恢复所选区段。\n" +
-                    "4. <预设> 按钮会立即生效。\n" +
-                    "\n" +
+                    "▪ 点击选择单个路段，或拖选多个路段。设置<新速度>，再点击<应用>。\n" +
+                    "▪ <预设按钮>（圆圈数字）立即生效，无需点击应用。\n" +
+                    "▪ <重置>恢复选定路段。\n" +
+                    "▪ <隐藏路网>：虚线按钮显示/隐藏道路及路径。\n" +
                     "<全城>\n" +
-                    "选择一个道路组，然后把 <新速度> 应用到该组。\n" +
-                    "用 <道路>、<轨道>、<水路> 或 <全部> 清除自定义速度。\n" +
-                    "全城修改后请 <保存城市>。"
+                    "▪ 选择道路组并应用新速度。\n" +
+                    "▪ <红色重置按钮>：道路、轨道、水路、路径或全部，清除相应自定义限速。\n" +
+                    "▪ <路径选项卡>：自行车道及步行路径滑块全城生效。100% = 游戏默认；200% 限速翻倍。\n" +
+                    "▪ <自行车道路段单独修改>优先，保留自己的限速。纯步行路径仅支持全城调整。\n" +
+                    "▪ <保存城市>，重新载入时保留修改。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

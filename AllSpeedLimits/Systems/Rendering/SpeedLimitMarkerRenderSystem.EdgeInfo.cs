@@ -32,7 +32,7 @@ namespace RoadRailSpeeds.Systems
         {
             identity = default;
 
-            if (!EntityManager.HasComponent<CustomSpeed>(edge))
+            if (!m_SegmentSpeedToolSystem.IsEdgeTypeAllowed(edge) || !EntityManager.HasComponent<CustomSpeed>(edge))
             {
                 return false;
             }
@@ -59,6 +59,11 @@ namespace RoadRailSpeeds.Systems
             if (IsWaterwayEdge(edge))
             {
                 return MarkerNetworkKind.Water;
+            }
+
+            if (SpeedNetworkUtils.GetKind(EntityManager, edge) == SpeedNetworkKind.Path)
+            {
+                return MarkerNetworkKind.Path;
             }
 
             return IsTrainOrSubwayEdge(edge)
@@ -129,13 +134,7 @@ namespace RoadRailSpeeds.Systems
                 return -1f;
             }
 
-            return prefabBase switch
-            {
-                RoadPrefab roadPrefab => roadPrefab.m_SpeedLimit / 2f,
-                TrackPrefab trackPrefab => trackPrefab.m_SpeedLimit / 2f,
-                WaterwayPrefab waterwayPrefab => waterwayPrefab.m_SpeedLimit / 2f,
-                _ => -1f
-            };
+            return SpeedNetworkUtils.GetPrefabSpeedKmh(prefabBase);
         }
     }
 }

@@ -34,7 +34,10 @@ const buildText = (lookup: TextLookup) => ({
         },
         hint: {
             title: text(lookup, "hint.title"),
-            instruction: text(lookup, "hint.instruction")
+            instruction: text(lookup, "hint.instruction"),
+            pathsTooltip: text(lookup, "hint.pathsTooltip"),
+            bikeTooltip: text(lookup, "hint.bikeTooltip"),
+            invisibleTooltip: text(lookup, "hint.invisibleTooltip")
         },
         panel: {
             title: text(lookup, "panel.title"),
@@ -49,7 +52,30 @@ const buildText = (lookup: TextLookup) => ({
             custom: text(lookup, "panel.custom"),
             wholeCity: text(lookup, "panel.wholeCity"),
             stats: text(lookup, "panel.stats"),
+            speedLimitsTab: text(lookup, "panel.speedLimitsTab"),
+            allPathsTab: text(lookup, "panel.allPathsTab"),
+            pedPaths: {
+                heading: text(lookup, "paths.pedHeading"),
+                description: text(lookup, "paths.pedDescription"),
+                sliderTooltip: text(lookup, "paths.pedSliderTooltip"),
+                resetTooltip: text(lookup, "paths.pedResetTooltip"),
+                applyTooltip: text(lookup, "paths.pedApplyTooltip")
+            },
+            allPaths: {
+                heading: text(lookup, "paths.heading"),
+                description: text(lookup, "paths.description"),
+                slider: text(lookup, "paths.slider"),
+                vanilla: text(lookup, "paths.vanilla"),
+                apply: text(lookup, "paths.apply"),
+                reset: text(lookup, "paths.reset"),
+                working: text(lookup, "paths.working"),
+                sliderTooltip: text(lookup, "paths.sliderTooltip"),
+                resetTooltip: text(lookup, "paths.resetTooltip"),
+                applyTooltip: text(lookup, "paths.applyTooltip")
+            },
             selectFilter: text(lookup, "panel.selectFilter"),
+            filterPaths: text(lookup, "panel.filterPaths"),
+            showInvisible: text(lookup, "panel.showInvisible"),
             filterRoads: text(lookup, "panel.filterRoads"),
             filterRails: text(lookup, "panel.filterRails"),
             filterWater: text(lookup, "panel.filterWater"),
@@ -85,6 +111,7 @@ const buildText = (lookup: TextLookup) => ({
             applyRoadGroup: text(lookup, "buttons.applyRoadGroup"),
             applyTrain: text(lookup, "buttons.applyTrain"),
             applySubway: text(lookup, "buttons.applySubway"),
+            resetPaths: text(lookup, "buttons.resetPaths"),
             resetRoads: text(lookup, "buttons.resetRoads"),
             resetRails: text(lookup, "buttons.resetRails"),
             resetWater: text(lookup, "buttons.resetWater"),
@@ -99,6 +126,9 @@ const buildText = (lookup: TextLookup) => ({
             selectedSegment: text(lookup, "tooltips.selectedSegment"),
             currentSpeed: text(lookup, "tooltips.currentSpeed"),
             presets: text(lookup, "tooltips.presets"),
+            filterPaths: text(lookup, "tooltips.filterPaths"),
+            resetPathsCity: text(lookup, "tooltips.resetPathsCity"),
+            showInvisible: text(lookup, "tooltips.showInvisible"),
             filterRoads: text(lookup, "tooltips.filterRoads"),
             filterRails: text(lookup, "tooltips.filterRails"),
             filterWater: text(lookup, "tooltips.filterWater"),
@@ -191,6 +221,11 @@ const buildText = (lookup: TextLookup) => ({
                 title: text(lookup, "confirm.applySubway.title"),
                 message: text(lookup, "confirm.applySubway.message"),
                 confirmLabel: text(lookup, "confirm.applySubway.confirmLabel")
+            },
+            resetPaths: {
+                title: text(lookup, "confirm.resetPaths.title"),
+                message: text(lookup, "confirm.resetPaths.message"),
+                confirmLabel: text(lookup, "confirm.resetPaths.confirmLabel")
             },
             resetRoads: {
                 title: text(lookup, "confirm.resetRoads.title"),

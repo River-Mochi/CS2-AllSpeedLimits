@@ -126,22 +126,42 @@ namespace RoadRailSpeeds.Systems
         }
 
         // Selection type filter toggles. The tool reads these flags when it builds its raycast mask.
+        private void HandleSetSelectPaths(bool enabled)
+        {
+            m_SegmentSpeedTool.IncludePaths = enabled;
+            m_SelectPathsBinding.Value = enabled;
+            m_SegmentSpeedTool.RefreshSelectionFilters();
+        }
+
+        private void HandleSetShowInvisible(bool enabled)
+        {
+            m_SegmentSpeedTool.SetShowInvisible(enabled);
+            m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
+            if (m_SegmentSpeedTool.IsActive)
+            {
+                m_SegmentSpeedTool.RefreshSelectionFilters();
+            }
+        }
+
         private void HandleSetSelectRoads(bool enabled)
         {
             m_SegmentSpeedTool.IncludeRoads = enabled;
             m_SelectRoadsBinding.Value = enabled;
+            m_SegmentSpeedTool.RefreshSelectionFilters();
         }
 
         private void HandleSetSelectRails(bool enabled)
         {
             m_SegmentSpeedTool.IncludeRails = enabled;
             m_SelectRailsBinding.Value = enabled;
+            m_SegmentSpeedTool.RefreshSelectionFilters();
         }
 
         private void HandleSetSelectWater(bool enabled)
         {
             m_SegmentSpeedTool.IncludeWater = enabled;
             m_SelectWaterBinding.Value = enabled;
+            m_SegmentSpeedTool.RefreshSelectionFilters();
         }
 
         private static int ClampPanelPosition(int value)
@@ -284,6 +304,8 @@ namespace RoadRailSpeeds.Systems
             {
                 // Opening the tool resets all network filters to on. Update the chips here as well
                 // so the panel cannot show an old filter state that the tool is no longer using.
+                m_SelectPathsBinding.Value = true;
+                m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;
                 m_SelectWaterBinding.Value = true;

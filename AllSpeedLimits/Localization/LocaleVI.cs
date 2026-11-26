@@ -35,15 +35,23 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Thao tác" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "Xe đạp" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Giới thiệu" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Tùy chọn hiển thị" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "Phím tắt" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "Xe đạp và xe scooter điện" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "Trạng thái xe cá nhân" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Khôi phục mặc định game" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Cách dùng" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Gỡ lỗi / Nhật ký" },
+
+                // Optional invisible-network hotkey (unassigned by default).
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Phím tắt mạng lưới ẩn" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Nhấp vào 'chưa đặt' rồi chọn phím. Dùng được cả khi đóng bảng ASL." },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Đơn vị tốc độ" },
@@ -78,6 +86,11 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "Hiện chú giải ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
+                    "**Mặc định = BẬT**  Nên giữ bật.\n\n" +
+                    "Hiện chú giải trong thành phố. Nút thông tin có thể bật lại." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Hiện tốc độ nhân đôi của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Tắt> hiển thị thang đơn giản hơn, thường gần với ký hiệu trên đường.\n" +
@@ -94,6 +107,62 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Tốc độ tối đa của xe" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = mặc định của game.**\n" +
+                    "Đổi tốc độ tối đa của xe đạp và xe scooter điện. Tăng tốc và phanh tự điều chỉnh.\n" +
+                    "Giới hạn tốc độ đường đi vẫn có hiệu lực.\n" +
+                    "Hãy gỡ Bikes + Paths khi dùng ASL. ASL có đầy đủ tính năng của mod này. Bản cũ có thể gây xung đột." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Khôi phục mặc định của game" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Khôi phục tốc độ, tăng tốc và phanh của xe đạp và scooter về **100% mặc định của game**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Nhóm xe đạp" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "Xe đạp và scooter điện.\n" +
+                    "**Đang chạy** = có làn hiện tại (đang di chuyển).\n" +
+                    "**Tổng đang đỗ** = gồm mọi cờ Parked ở mọi nơi, không chỉ bãi đỗ."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "Nhóm ô tô" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "Chỉ xe cá nhân (không gồm nhóm xe đạp).\n" +
+                    "**Đang chạy** = có làn hiện tại (đang di chuyển).\n" +
+                    "**Đang đỗ** = mọi **ParkedCar**, không chỉ bãi đỗ.\n" +
+                    "Quét chỉ chạy khi menu Options mở, không chạy trong lúc chơi thành phố, nên không lo FPS."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "Xe đỗ ẩn" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**Tổng ở biên OC** = xe trong nhóm ô tô có ParkedCar tại kết nối Outside City (OC).\n" +
+                    "Một số thành phố có nhiều xe bị kẹt ở trạng thái đỗ tại kết nối Outside City.\n" +
+                    "Dùng <Log hidden cars> để xem phân nhóm mẫu của xe ẩn."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "Ghi log xe ẩn" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "Ghi báo cáo một lần vào **Logs/AllSpeedLimits.log**.\n" +
+                    "Có tổng số + phân nhóm Bucket A/B/C và số ID mẫu.\n" +
+                    "Dùng mod Scene Explorer để nhảy tới ID thực thể Vehicle được liệt kê và kiểm tra."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "Mở log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "Mở **Logs/AllSpeedLimits.log** nếu có.\n" +
+                    "Nếu chưa tìm thấy file, sẽ mở thư mục Logs."
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "Chưa tải trạng thái." },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "Chưa có thành phố... ¯\\_(ツ)_/¯ ...Không có thống kê" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "chạy thành phố vài phút để có dữ liệu." },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} chạy | {1} xe đạp | {2} scooter | {3} / {4} đỗ/tổng" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} chạy | {1} đỗ | {2} tổng | {3} rơ moóc" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} ẩn ở biên OC | cập nhật {1}" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Khôi phục tốc độ mặc định của game" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Dọn dẹp tùy chọn trước khi gỡ mod.\n" +
@@ -118,15 +187,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Bảng thành phố>\n" +
-                    "1. Bấm hoặc kéo chọn các đoạn.\n" +
-                    "2. Đặt <Tốc độ mới>, rồi bấm <Áp dụng>.\n" +
-                    "3. <Đặt lại> khôi phục các đoạn đã chọn.\n" +
-                    "4. Các nút <Cài sẵn> áp dụng ngay.\n" +
-                    "\n" +
+                    "▪ Nhấp chọn một đoạn hoặc kéo chọn nhiều đoạn. Đặt <Tốc độ mới>, rồi <Áp dụng>.\n" +
+                    "▪ <Nút đặt sẵn> (số trong vòng tròn) áp dụng ngay, không cần nút Áp dụng.\n" +
+                    "▪ <Đặt lại> khôi phục các đoạn đã chọn.\n" +
+                    "▪ <Mạng lưới ẩn>: nút nét đứt hiện/ẩn đường và lối đi ẩn.\n" +
                     "<Toàn thành phố>\n" +
-                    "Chọn nhóm đường, rồi áp dụng <Tốc độ mới> cho nhóm đó.\n" +
-                    "Dùng <Đường>, <Ray>, <Nước> hoặc <Tất cả> để xóa tốc độ tùy chỉnh.\n" +
-                    "<Lưu thành phố> sau thay đổi toàn thành phố."
+                    "▪ Chọn nhóm đường rồi áp dụng tốc độ mới.\n" +
+                    "▪ <Nút đặt lại màu đỏ>: đường bộ, đường sắt, đường thủy, lối đi hoặc tất cả xóa tốc độ tùy chỉnh tương ứng.\n" +
+                    "▪ <Đường đi>: thanh trượt xe đạp và đi bộ áp dụng toàn thành phố. 100% = mặc định; 200% gấp đôi giới hạn.\n" +
+                    "▪ <Chỉnh riêng đường xe đạp> được ưu tiên. Đường chỉ dành cho người đi bộ chỉ chỉnh toàn thành phố.\n" +
+                    "▪ <Lưu thành phố> để giữ thay đổi khi tải lại."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

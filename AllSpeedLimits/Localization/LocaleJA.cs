@@ -36,15 +36,23 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "自転車" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "情報" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "表示オプション" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "キー割り当て" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "自転車・電動キックボード" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "個人車両ステータス" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "ゲーム既定に戻す" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "使い方" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "デバッグ / ログ" },
+
+                // Optional invisible-network hotkey (unassigned by default).
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "非表示ネットワークのショートカット" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "「未設定」をクリックしてキーを割り当てます。ASLを閉じていても使用できます。" },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "速度単位" },
@@ -79,6 +87,11 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL ツールチップを表示" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
+                    "**初期設定 = オン**  オンのままを強く推奨します。\n\n" +
+                    "都市内のツールチップを表示。情報ボタンで再表示できます。" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "ゲーム内の倍速表示を使う" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<オフ> はよりシンプルな目盛りで、道路表示に近いことが多いです。\n" +
@@ -95,6 +108,62 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "車両の最高速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = ゲーム標準。**\n" +
+                    "自転車と電動キックボードの最高速度を変更。加速と制動も自動調整します。\n" +
+                    "経路の制限速度は引き続き適用されます。\n" +
+                    "ASL を使う場合は Bikes + Paths を削除してください。全機能は ASL に統合済みです。旧版は競合することがあります。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "ゲーム標準に戻す" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "自転車と電動キックボードの速度・加速・制動を **100% のゲーム標準** に戻します。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "自転車グループ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "自転車と電動スクーター。\n" +
+                    "**Active** = 現在のレーンがある（移動中）。\n" +
+                    "**Total Parked** = 駐車場だけでなく、どこにある Parked フラグも含みます。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "車グループ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "個人車のみ（自転車グループを除く）。\n" +
+                    "**Active** = 現在のレーンがある（移動中）。\n" +
+                    "**Parked** = 駐車場だけでなく、すべての **ParkedCar**。\n" +
+                    "スキャンは Options メニューが開いている時だけ実行され、都市プレイ中は動かないので FPS の心配はありません。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "隠れた駐車車両" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**OC 境界の合計** = Outside City (OC) 接続にある ParkedCar の車グループ車両。\n" +
+                    "都市によっては、Outside City 接続で駐車状態のまま詰まった車が大量に出ることがあります。\n" +
+                    "隠れた車のサンプル内訳は <Log hidden cars> を使ってください。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "隠れた車をログ出力" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "**Logs/AllSpeedLimits.log** に 1 回だけレポートを書き込みます。\n" +
+                    "合計 + Bucket A/B/C の内訳とサンプル ID 番号を含みます。\n" +
+                    "Scene Explorer mod で一覧の Vehicle エンティティ ID へジャンプして調査できます。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "ログを開く" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "**Logs/AllSpeedLimits.log** があれば開きます。\n" +
+                    "ファイルがまだ見つからない場合は、代わりに Logs フォルダーを開きます。"
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "ステータス未読み込み。" },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "都市なし... ¯\\_(ツ)_/¯ ...統計なし" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "データ取得のため、都市を数分動かしてください。" },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} 稼働中 | 自転車 {1} | スクーター {2} | 駐車/合計 {3} / {4}" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} 稼働中 | 駐車 {1} | 合計 {2} | トレーラー {3}" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} OC 境界で非表示 | 更新 {1}" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "ゲーム既定の速度に戻す" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Mod を削除する前の任意のクリーンアップです。\n" +
@@ -119,15 +188,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<都市パネル>\n" +
-                    "1. セグメントをクリック、またはドラッグ選択します。\n" +
-                    "2. <新速度> を設定して <適用> をクリックします。\n" +
-                    "3. <リセット> は選択セグメントを戻します。\n" +
-                    "4. <プリセット> ボタンはすぐ適用されます。\n" +
-                    "\n" +
-                    "<都市全体>\n" +
-                    "道路グループを選び、そのグループに <新速度> を適用します。\n" +
-                    "<道路>、<鉄道>、<水路>、<全て> でカスタム速度を消去します。\n" +
-                    "都市全体の変更後は <都市を保存> してください。"
+                    "▪ クリックで1区間、ドラッグで複数区間を選択。<新しい速度>を設定して<適用>。\n" +
+                    "▪ <プリセット>（丸数字）は即時適用。適用ボタンは不要。\n" +
+                    "▪ <リセット>で選択区間を復元。\n" +
+                    "▪ <非表示>：破線ボタンで隠れた道路や経路を表示/非表示。\n" +
+                    "<市内全体>\n" +
+                    "▪ 道路グループを選び、新しい速度を適用。\n" +
+                    "▪ <赤いリセットボタン>：道路、線路、水路、経路、全ての個別設定を解除。\n" +
+                    "▪ <経路タブ>：自転車道と歩道の倍率は市内全体に適用。100% = ゲーム標準、200%で2倍。\n" +
+                    "▪ 自転車道の<個別設定>を優先。歩道専用は市内全体のみ。\n" +
+                    "▪ 変更後は<セーブ>して再ロード時に保持。"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

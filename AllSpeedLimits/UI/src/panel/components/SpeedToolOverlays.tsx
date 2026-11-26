@@ -2,13 +2,15 @@
 // Purpose: Floating side/help tooltips for the speed tool panel.
 
 import type { CSSProperties, ReactNode } from "react";
-import { REM_TO_TOOLTIP_PX, RIGHT_TOOLTIP_GAP_PX, RIGHT_TOOLTIP_TOP_OFFSETS } from "../constants";
+import { RIGHT_TOOLTIP_TOP_OFFSETS } from "../constants";
 import type { PanelTooltipKind } from "../types";
 import { PanelSideTooltip } from "./PanelSideTooltip";
 
-type PanelPosition = {
-    x: number;
-    y: number;
+type PanelBounds = {
+    left: number;
+    right: number;
+    top: number;
+    bottom?: number;
 };
 
 type RoadGroupTooltip = {
@@ -20,8 +22,7 @@ type SpeedToolOverlaysProps = {
     text: any;
     panelTooltip: PanelTooltipKind | null;
     panelTooltipsEnabled: boolean;
-    position: PanelPosition;
-    panelWidth: number;
+    panelBounds: PanelBounds | null;
     tooltipBaseStyle: CSSProperties;
     tooltipFontSize: string;
     tooltipFontScale: number;
@@ -39,8 +40,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         text,
         panelTooltip,
         panelTooltipsEnabled,
-        position,
-        panelWidth,
+        panelBounds,
         tooltipBaseStyle,
         tooltipFontSize,
         tooltipFontScale,
@@ -75,7 +75,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         }
 
         let topOffset = RIGHT_TOOLTIP_TOP_OFFSETS[panelTooltip];
-        let leftOffset = panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX;
         let maxWidth = "196rem";
         let fontSize = tooltipFontSize;
         let content: ReactNode = null;
@@ -131,6 +130,10 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "wholeCity") {
             maxWidth = "210rem";
             content = renderTooltipBlock(text.tooltips.wholeCity.title, text.tooltips.wholeCity.lines);
+        } else if (panelTooltip === "filterPaths") {
+            content = renderTooltipBlock(text.panel.filterPaths, [text.tooltips.filterPaths]);
+        } else if (panelTooltip === "showInvisible") {
+            content = renderTooltipBlock(text.panel.showInvisible, [text.tooltips.showInvisible]);
         } else if (panelTooltip === "filterRoads") {
             maxWidth = "184rem";
             content = renderTooltipBlock(text.panel.filterRoads, [text.tooltips.filterRoads]);
@@ -140,6 +143,29 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         } else if (panelTooltip === "filterWater") {
             maxWidth = "184rem";
             content = renderTooltipBlock(text.panel.filterWater, [text.tooltips.filterWater]);
+        } else if (panelTooltip === "dragGrip") {
+            if (panelBounds?.bottom !== undefined) {
+                topOffset = Math.max(0, panelBounds.bottom - panelBounds.top - 24);
+            }
+            content = renderTooltipBlock("", [text.tooltips.draggable]);
+        } else if (panelTooltip === "pathSlider") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.allPaths.sliderTooltip]);
+        } else if (panelTooltip === "pathApply") {
+            maxWidth = "215rem";
+            content = renderTooltipBlock("", [text.panel.allPaths.applyTooltip]);
+        } else if (panelTooltip === "pathReset") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.allPaths.resetTooltip]);
+        } else if (panelTooltip === "pedPathSlider") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.pedPaths.sliderTooltip]);
+        } else if (panelTooltip === "pedPathApply") {
+            maxWidth = "215rem";
+            content = renderTooltipBlock("", [text.panel.pedPaths.applyTooltip]);
+        } else if (panelTooltip === "pedPathReset") {
+            maxWidth = "240rem";
+            content = renderTooltipBlock("", [text.panel.pedPaths.resetTooltip]);
         } else if (panelTooltip === "apply") {
             maxWidth = "190rem";
             content = renderTooltipBlock(text.buttons.apply, [text.tooltips.apply]);
@@ -169,8 +195,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
         return (
             <PanelSideTooltip
                 visible={true}
-                position={position}
-                leftOffsetPx={leftOffset}
+                panelBounds={panelBounds}
                 topOffsetPx={topOffset}
                 maxWidth={maxWidth}
                 fontSize={fontSize}
@@ -185,8 +210,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             {isGuideHovered && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
-                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    panelBounds={panelBounds}
                     topOffsetPx={20}
                     maxWidth="200rem"
                     fontSize={tooltipFontSize}
@@ -197,8 +221,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             {isMarkersHovered && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
-                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    panelBounds={panelBounds}
                     topOffsetPx={28}
                     maxWidth="210rem"
                     fontSize={tooltipFontSize}
@@ -216,8 +239,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
             {isHelpHovered && (
                 <PanelSideTooltip
                     visible={true}
-                    position={position}
-                    leftOffsetPx={panelWidth * REM_TO_TOOLTIP_PX + RIGHT_TOOLTIP_GAP_PX}
+                    panelBounds={panelBounds}
                     topOffsetPx={30}
                     maxWidth="210rem"
                     fontSize={tooltipFontSize}

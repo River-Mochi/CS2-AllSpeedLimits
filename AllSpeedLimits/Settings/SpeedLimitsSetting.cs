@@ -13,7 +13,11 @@ namespace RoadRailSpeeds
 {
     using System;                    // Exception
     using Colossal.IO.AssetDatabase; // FileLocation
+    using Colossal.Json;             // Exclude
     using CS2Shared.RiverMochi;      // LogUtils, ShellOpen
+    using Game;                      // GameMode
+    using Game.SceneFlow;            // GameManager
+    using Game.Input;                // ActionType, BindingKeyboard, ProxyBinding
     using Game.Modding;              // IMod
     using Game.Settings;             // ModSetting, settings attributes
     using Game.UI;                   // Unit
@@ -21,15 +25,20 @@ namespace RoadRailSpeeds
     using Unity.Entities;            // World
 
     [FileLocation("ModsSettings/AllSpeedLimits/AllSpeedLimits")]
-    [SettingsUITabOrder(kMainTab, kAboutTab)]
-    [SettingsUIGroupOrder(kDisplayGroup, kResetGroup, kUsageGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
-    [SettingsUIShowGroupName(kDisplayGroup, kResetGroup, kUsageGroup, kAboutDebugGroup)]
+    [SettingsUITabOrder(kMainTab, kBicycleTab, kAboutTab)]
+    [SettingsUIGroupOrder(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kPersonalStatusGroup, kAboutInfoGroup, kAboutLinksGroup, kAboutDebugGroup)]
+    [SettingsUIShowGroupName(kKeybindsGroup, kDisplayGroup, kResetGroup, kUsageGroup, kBicycleGroup, kPersonalStatusGroup, kAboutDebugGroup)]
+    [SettingsUIKeyboardAction(Mod.kToggleInvisibleActionName, ActionType.Button, usages: new[] { "Game" })]
     public class SpeedLimitsSetting : ModSetting
     {
         public const string kMainTab = "Main";
+        public const string kBicycleTab = "Bicycles";
         public const string kAboutTab = "About";
 
         public const string kDisplayGroup = "Display";
+        public const string kKeybindsGroup = "Keybinds";
+        public const string kBicycleGroup = "BicycleSpeed";
+        public const string kPersonalStatusGroup = "PersonalVehicleStatus";
         public const string kResetGroup = "ResetGameDefaults";
         public const string kUsageGroup = "Usage";
         public const string kAboutInfoGroup = "AboutInfo";
@@ -51,9 +60,6 @@ namespace RoadRailSpeeds
         public SpeedUnit SpeedUnitPreference { get; set; } = SpeedUnit.Auto;
 
         [SettingsUISection(kMainTab, kDisplayGroup)]
-        public bool SyncSliderWithSelection { get; set; } = true;
-
-        [SettingsUISection(kMainTab, kDisplayGroup)]
         [SettingsUISlider(min = 5f, max = 25f, step = 5f, unit = "integer")]
         public int PanelSliderIncrement { get; set; } = 10;
 
@@ -64,7 +70,10 @@ namespace RoadRailSpeeds
         [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool DoubleSpeedDisplay { get; set; }
 
-        [SettingsUIHidden]
+        [SettingsUISection(kMainTab, kDisplayGroup)]
+        public bool SyncSliderWithSelection { get; set; } = true;
+
+        [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool PanelTooltipsEnabled { get; set; } = true;
 
         // Toggled from the panel title bar. Hides the floating speed numbers over roads/rails/water.
@@ -88,6 +97,160 @@ namespace RoadRailSpeeds
 
         [SettingsUIHidden]
         public bool StatsExpanded { get; set; } = true;
+
+        // Stored in Options for persistence. GlobalPathSpeedPercent keeps existing
+        // bike/mixed values from older versions; pedestrian-only is independent.
+        internal const int kMinPathSpeedPercent = 30;
+        internal const int kMaxPathSpeedPercent = 300;
+        private int m_GlobalPathSpeedPercent = 100;
+        private int m_GlobalPedPathSpeedPercent = 100;
+
+        [SettingsUIHidden]
+        public int GlobalPathSpeedPercent
+        {
+            get => m_GlobalPathSpeedPercent;
+            set => m_GlobalPathSpeedPercent = Math.Max(kMinPathSpeedPercent, Math.Min(kMaxPathSpeedPercent, value));
+        }
+
+        [SettingsUIHidden]
+        public int GlobalPedPathSpeedPercent
+        {
+            get => m_GlobalPedPathSpeedPercent;
+            set => m_GlobalPedPathSpeedPercent = Math.Max(kMinPathSpeedPercent, Math.Min(kMaxPathSpeedPercent, value));
+        }
+
+        private int m_BicycleSpeedPercent = 100;
+
+        [SettingsUISection(kBicycleTab, kBicycleGroup)]
+        [SettingsUISlider(min = 30f, max = 1000f, step = 10f, unit = Unit.kPercentage)]
+        public int BicycleSpeedPercent
+        {
+            get => m_BicycleSpeedPercent;
+            set
+            {
+                int percent = Math.Max(30, Math.Min(1000, value));
+                if (m_BicycleSpeedPercent != percent)
+                {
+                    m_BicycleSpeedPercent = percent;
+                    RequestBicycleSpeedApply();
+                }
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUISection(kBicycleTab, kBicycleGroup)]
+        public bool ResetBicycleSpeed
+        {
+            set
+            {
+                if (value)
+                {
+                    BicycleSpeedPercent = 100;
+                    ApplyAndSave();
+                    RequestBicycleSpeedApply();
+                }
+            }
+        }
+
+        [Exclude]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public string StatusSummary1
+        {
+            get
+            {
+                RefreshPersonalVehicleStatusSafe();
+                return PersonalVehicleStatus.BikesRow;
+            }
+        }
+
+        [Exclude]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public string StatusSummary2
+        {
+            get
+            {
+                RefreshPersonalVehicleStatusSafe();
+                return PersonalVehicleStatus.CarsRow;
+            }
+        }
+
+        [Exclude]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public string StatusSummary3
+        {
+            get
+            {
+                RefreshPersonalVehicleStatusSafe();
+                return PersonalVehicleStatus.CarsRow3;
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUIButtonGroup("PersonalStatusButtons")]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public bool LogBorderHiddenCars
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                World? world = World.DefaultGameObjectInjectionWorld;
+                if (world != null && world.IsCreated &&
+                    GameManager.instance?.gameMode == GameMode.Game)
+                {
+                    world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>().LogBorderParkedSamples();
+                }
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUIButtonGroup("PersonalStatusButtons")]
+        [SettingsUISection(kBicycleTab, kPersonalStatusGroup)]
+        public bool OpenLogFromStatus
+        {
+            set
+            {
+                if (value)
+                {
+                    ShellOpen.OpenModLogOrLogsFolder();
+                }
+            }
+        }
+
+        private static void RefreshPersonalVehicleStatusSafe()
+        {
+            try
+            {
+                PersonalVehicleStatus.RefreshIfNeeded();
+            }
+            catch (Exception exception)
+            {
+                LogUtils.WarnOnce("PersonalVehicleStatusRefresh", () => $"{Mod.ModTag} Personal vehicle status refresh failed: {exception.Message}");
+            }
+        }
+
+        private void RequestBicycleSpeedApply()
+        {
+            // Ignore temporary/default settings objects during deserialization.
+            if (Mod.Settings != this)
+            {
+                return;
+            }
+
+            World? world = World.DefaultGameObjectInjectionWorld;
+            if (world != null && world.IsCreated)
+            {
+                world.GetExistingSystemManaged<BicycleSpeedSystem>()?.ScheduleApply();
+            }
+        }
+
+        // Unassigned by default so ASL cannot collide with Move It (Ctrl+M).
+        [SettingsUISection(kMainTab, kKeybindsGroup)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.None, Mod.kToggleInvisibleActionName)]
+        public ProxyBinding ToggleInvisibleMarkersBinding { get; set; }
 
         [SettingsUIButton]
         [SettingsUIConfirmation]
@@ -179,6 +342,9 @@ namespace RoadRailSpeeds
             SliderExpanded = true;
             WholeCityExpanded = true;
             StatsExpanded = true;
+            GlobalPathSpeedPercent = 100;
+            GlobalPedPathSpeedPercent = 100;
+            BicycleSpeedPercent = 100;
             ShowUsage = false;
         }
 

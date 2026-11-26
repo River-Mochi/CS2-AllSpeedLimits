@@ -6,10 +6,14 @@ import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
 import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
-import starBlueGreenIcon from "../../images/star-all-bluegreen.svg";
+import advisorInfoDisabledIcon from "../../images/AdvisorInfoViewGold.svg";
 
 type SpeedToolHeaderProps = {
     title: string;
+    speedLimitsTab: string;
+    allPathsTab: string;
+    activeView: "limits" | "paths";
+    onViewChange: (view: "limits" | "paths") => void;
     closeTooltip: string;
     draggableTooltip: string;
     markersTooltip: string;
@@ -34,6 +38,10 @@ type SpeedToolHeaderProps = {
 export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
     const {
         title,
+        speedLimitsTab,
+        allPathsTab,
+        activeView,
+        onViewChange,
         closeTooltip,
         draggableTooltip,
         markersTooltip,
@@ -57,9 +65,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
 
     const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
     const selectionTooltipIconActive = !panelTooltipsEnabled;
-    const selectionTooltipIconFilter = selectionTooltipIconActive
-        ? "brightness(1.18) sepia(0.95) hue-rotate(-40deg) saturate(4.2)"
-        : "none";
+    const disabledIconColor = "#FFD264";
 
     return (
         <div
@@ -73,7 +79,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                 cursor: isDragging ? "grabbing" : "grab"
             }}
         >
-            <div style={{ display: "flex", alignItems: "center", paddingLeft: "4rem" }}>
+            <div style={{ display: "flex", alignItems: "center", paddingLeft: "4rem", flex: 1, minWidth: "0", overflow: "hidden" }}>
                 <img
                     src={speedLimitIcon}
                     alt=""
@@ -87,17 +93,58 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     style={{
                         width: isGuideHovered ? "25rem" : "23rem",
                         height: isGuideHovered ? "25rem" : "23rem",
-                        marginRight: "9rem",
+                        marginRight: "5rem",
+                        flexShrink: 0,
                         marginLeft: "-2rem",
                         opacity: isGuideHovered ? 1 : 0.92
                     }}
                 />
-                <Tooltip tooltip={draggableTooltip} direction="up">
-                    <span>{title}</span>
-                </Tooltip>
+                <div style={{ display: "flex", alignItems: "center", flex: 1, minWidth: "0", overflow: "hidden" }} title={title} role="tablist">
+                    {([
+                        ["limits", speedLimitsTab],
+                        ["paths", allPathsTab]
+                    ] as const).map(([view, label]) => (
+                        <button
+                            key={view}
+                            type="button"
+                            role="tab"
+                            aria-selected={activeView === view}
+                            title={label}
+                            onMouseDown={(event: MouseEvent) => event.stopPropagation()}
+                            onClick={() => onViewChange(view)}
+                            style={{
+                                color: activeView === view ? "#EFFAFF" : "rgba(218, 235, 244, 0.77)",
+                                fontSize: "12rem",
+                                fontWeight: activeView === view ? 700 : 550,
+                                backgroundColor: activeView === view
+                                    ? "rgba(92, 161, 192, 0.22)" : "transparent",
+                                borderWidth: "0",
+                                borderStyle: "solid",
+                                borderBottomWidth: "2rem",
+                                borderBottomColor: activeView === view ? "#79D4EE" : "transparent",
+                                borderRadius: "0",
+                                minHeight: "25rem",
+                                paddingTop: "3rem",
+                                paddingBottom: "2rem",
+                                paddingLeft: "5rem",
+                                paddingRight: "5rem",
+                                marginRight: view === "limits" ? "3rem" : "0",
+                                flexShrink: 1,
+                                minWidth: "0",
+                                maxWidth: "135rem",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                cursor: "pointer"
+                            }}
+                        >
+                            {label}
+                        </button>
+                    ))}
+                </div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", flexShrink: 0, minWidth: "80rem" }}>
                 <Button
                     as="button"
                     focusKey={focusDisabled}
@@ -111,7 +158,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     onMouseLeave={() => setIsMarkersHovered(false)}
                     style={{
                         position: "relative",
-                        backgroundColor: isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
+                        backgroundColor: speedMarkersHidden && isMarkersHovered ? "rgba(245, 188, 64, 0.18)" : isMarkersHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
                         borderWidth: "0",
                         borderStyle: "solid",
                         borderColor: "rgba(255, 255, 255, 0)",
@@ -131,32 +178,14 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         marginRight: "1rem"
                     }}
                 >
-                    <div style={{
-                        position: "absolute",
-                        top: "4.5rem",
-                        left: "4.5rem",
-                        width: "17rem",
-                        height: "17rem",
-                        borderRadius: "50%",
-                        borderWidth: speedMarkersHidden ? "2.2rem" : "2rem",
-                        borderStyle: "solid",
-                        borderColor: speedMarkersHidden
-                            ? "rgba(110, 200, 235, 0.88)"
-                            : (isMarkersHovered ? "rgba(255, 255, 255, 0.86)" : "rgba(255, 255, 255, 0.34)"),
-                        boxSizing: "border-box",
+                    <span style={{
+                        fontSize: isMarkersHovered ? "19rem" : "17rem",
+                        fontWeight: 700,
+                        lineHeight: "1",
+                        color: speedMarkersHidden ? disabledIconColor : "#FFFFFF",
+                        opacity: speedMarkersHidden ? 1 : isMarkersHovered ? 0.96 : 0.64,
                         pointerEvents: "none"
-                    }} />
-                    <img
-                        src={starBlueGreenIcon}
-                        alt=""
-                        style={{
-                            width: isMarkersHovered ? "15rem" : "13.5rem",
-                            height: isMarkersHovered ? "15rem" : "13.5rem",
-                            filter: speedMarkersHidden ? "none" : "brightness(0) invert(1)",
-                            opacity: speedMarkersHidden ? 1 : (isMarkersHovered ? 1 : 0.58),
-                            pointerEvents: "none"
-                        }}
-                    />
+                    }}>№</span>
                 </Button>
 
                 <Button
@@ -164,6 +193,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     focusKey={focusDisabled}
                     theme={{ button: "" }}
                     onSelect={onToggleTooltips}
+                    aria-disabled={panelTooltipsEnabled}
                     onMouseEnter={() => {
                         hidePanelTooltip();
                         setIsHelpHovered(true);
@@ -193,12 +223,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     }}
                 >
                     <img
-                        src={advisorInfoIcon}
+                        src={selectionTooltipIconActive ? advisorInfoDisabledIcon : advisorInfoIcon}
                         alt=""
                         style={{
                             width: isHelpHovered ? "26rem" : "24.5rem",
                             height: isHelpHovered ? "26rem" : "24.5rem",
-                            filter: selectionTooltipIconFilter,
                             opacity: selectionTooltipIconActive ? 1 : isHelpHovered ? 0.96 : 0.64,
                             pointerEvents: "none"
                         }}

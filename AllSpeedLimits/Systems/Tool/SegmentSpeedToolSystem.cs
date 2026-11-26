@@ -15,6 +15,7 @@ namespace RoadRailSpeeds.Systems
     using Game.Common;
     using Game.Net;
     using Game.Prefabs;
+    using Game.Rendering;
     using Game.Tools;
     using Unity.Entities;
     using UnityEngine.Scripting;
@@ -27,6 +28,9 @@ namespace RoadRailSpeeds.Systems
         public const string kToolID = "SpeedLimitTool";
 
         private SegmentSpeedToolUISystem m_UISystem = null!;
+        private RenderingSystem m_RenderingSystem = null!;
+        private readonly HashSet<Entity> m_RecentlyEditedEdges = new();
+        private float m_RecentlyEditedUntil;
 
         private readonly List<Entity> m_SelectedEdges = new();
         private readonly HashSet<Entity> m_TempSelection = new();
@@ -48,8 +52,37 @@ namespace RoadRailSpeeds.Systems
 
         // Selection type filter.
         public bool IncludeRoads { get; set; } = true;
+        public bool IncludePaths { get; set; } = true;
         public bool IncludeRails { get; set; } = true;
         public bool IncludeWater { get; set; } = true;
+        // The game's visibility state is the source of truth, including changes made
+        // by ToggleMarkers or other mods. The eye and the hotkey control this same flag.
+        public bool ShowInvisible => m_RenderingSystem != null && m_RenderingSystem.markersVisible;
+
+        public void SetShowInvisible(bool enabled)
+        {
+            if (m_RenderingSystem != null && m_RenderingSystem.markersVisible != enabled)
+            {
+                m_RenderingSystem.markersVisible = enabled;
+            }
+        }
+
+        public void MarkSelectionEdited()
+        {
+            m_RecentlyEditedEdges.Clear();
+            foreach (Entity edge in m_SelectedEdges)
+            {
+                m_RecentlyEditedEdges.Add(edge);
+            }
+
+            m_RecentlyEditedUntil = UnityEngine.Time.unscaledTime + 1.5f;
+        }
+
+        public bool IsRecentlyEdited(Entity edge)
+        {
+            return UnityEngine.Time.unscaledTime < m_RecentlyEditedUntil &&
+                m_RecentlyEditedEdges.Contains(edge);
+        }
 
         public override string toolID => kToolID;
 
@@ -97,6 +130,7 @@ namespace RoadRailSpeeds.Systems
 
             // base.OnCreate initializes tool input actions such as applyAction.
             base.OnCreate();
+            m_RenderingSystem = World.GetOrCreateSystemManaged<RenderingSystem>();
         }
 
         [Preserve]
@@ -107,12 +141,16 @@ namespace RoadRailSpeeds.Systems
             m_SelectedEdges.Clear();
             m_TempSelection.Clear();
             m_HighlightedByThisTool.Clear();
+            m_RecentlyEditedEdges.Clear();
+            m_RecentlyEditedUntil = 0f;
             m_IsDragging = false;
             m_PathStartEdge = Entity.Null;
             m_PathEndEdge = Entity.Null;
 
             requireNet =
                 Layer.Road |
+                Layer.Pathway |
+                Layer.PublicTransportRoad |
                 Layer.TrainTrack |
                 Layer.TramTrack |
                 Layer.SubwayTrack |
@@ -124,8 +162,10 @@ namespace RoadRailSpeeds.Systems
 
             // Reset filters on each activation.
             IncludeRoads = true;
+            IncludePaths = true;
             IncludeRails = true;
             IncludeWater = true;
+            // Marker visibility is global and must survive opening or closing ASL.
 
             // Enables left-click apply behavior while this tool is active.
             applyAction.shouldBeEnabled = true;
@@ -141,6 +181,8 @@ namespace RoadRailSpeeds.Systems
 
             m_SelectedEdges.Clear();
             m_TempSelection.Clear();
+            m_RecentlyEditedEdges.Clear();
+            m_RecentlyEditedUntil = 0f;
             m_IsDragging = false;
             m_HoverEntity = Entity.Null;
             m_PathStartEdge = Entity.Null;
@@ -148,6 +190,7 @@ namespace RoadRailSpeeds.Systems
 
             requireNet = Layer.None;
             requireNetArrows = false;
+            // Do not turn off globally enabled markers when leaving the tool.
         }
 
         public override void InitializeRaycast()
@@ -161,7 +204,18 @@ namespace RoadRailSpeeds.Systems
             if (IncludeRoads)
             {
                 // Tram roads share the Road layer, so group trams with roads.
-                layerMask |= Layer.Road | Layer.TramTrack;
+                layerMask |= Layer.Road | Layer.TramTrack | Layer.PublicTransportRoad;
+            }
+
+            // Pathway prefabs can carry bikes or motor vehicles. The entity filter below
+            // separates these after raycasting, including internal building subnets.
+            if (IncludeRoads || IncludePaths)
+            {
+                layerMask |= Layer.Pathway;
+                if (ShowInvisible)
+                {
+                    layerMask |= Layer.MarkerPathway;
+                }
             }
 
             if (IncludeRails)
@@ -180,8 +234,14 @@ namespace RoadRailSpeeds.Systems
                 RaycastFlags.Cargo |
                 RaycastFlags.Passenger |
                 RaycastFlags.ElevateOffset |
-                RaycastFlags.SubElements |
-                RaycastFlags.Markers;
+                RaycastFlags.SubElements;
+
+            // Hidden marker networks must not intercept clicks on visible paths when the
+            // player has not enabled them. Vanilla's net tool gates this flag the same way.
+            if (ShowInvisible)
+            {
+                m_ToolRaycastSystem.raycastFlags |= RaycastFlags.Markers;
+            }
 
             // Match vanilla surface/underground raycast behavior.
             m_ToolRaycastSystem.collisionMask = requireUnderground

@@ -228,14 +228,37 @@ namespace RoadRailSpeeds.Systems
                     // Keep the same world/on-screen dimensions while retaining the smoother SDF.
                     textScaleMultiplier *= s_MarkerWorldScaleNormalization;
 
+                    bool invisibleEdge = false;
                     if (hoverCamera != null)
                     {
+                        invisibleEdge = SpeedNetworkUtils.IsInvisible(EntityManager, edge);
                         textScaleMultiplier = ApplyReadableScreenScale(
                             hoverCamera,
                             markerPosition,
                             meshInfo.Mesh,
                             textScaleMultiplier,
-                            normalizedZoom);
+                            normalizedZoom,
+                            invisibleEdge);
+                        if (invisibleEdge)
+                        {
+                            textScaleMultiplier = CapInvisibleMarkerScreenScale(
+                                hoverCamera,
+                                markerPosition,
+                                meshInfo.Mesh,
+                                textScaleMultiplier);
+                        }
+                    }
+
+                    // Reduce only close-up bike-path labels, after the readability floor.
+                    // Use the already-classified marker identity; no extra network queries.
+                    if (identity.GroupKey.NetworkKind == MarkerNetworkKind.Path)
+                    {
+                        textScaleMultiplier *= Mathf.Lerp(0.72f, 1f, closeScaleBlend);
+                    }
+
+                    if (invisibleEdge && identity.GroupKey.NetworkKind == MarkerNetworkKind.Road)
+                    {
+                        textScaleMultiplier *= Mathf.Lerp(1.12f, 1f, closeScaleBlend);
                     }
 
                     Rect screenBounds = default;
@@ -541,7 +564,8 @@ namespace RoadRailSpeeds.Systems
             Vector3 markerPosition,
             Mesh mesh,
             float textScaleMultiplier,
-            float normalizedZoom)
+            float normalizedZoom,
+            bool invisibleEdge)
         {
             float localTextHeight = Mathf.Max(mesh.bounds.size.y, 0.01f);
             float pixelsPerWorldUnit;
@@ -576,8 +600,8 @@ namespace RoadRailSpeeds.Systems
                 1f,
                 Mathf.Clamp01(normalizedZoom / s_MarkerReadableMidHeightTransitionZoom));
             float midTargetPixelHeight = Mathf.Lerp(
-                s_MarkerReadableCloseHeightPx,
-                s_MarkerReadableMidHeightPx,
+                invisibleEdge ? s_InvisibleMarkerReadableCloseHeightPx : s_MarkerReadableCloseHeightPx,
+                invisibleEdge ? s_InvisibleMarkerReadableMidHeightPx : s_MarkerReadableMidHeightPx,
                 closeToMidReadability);
             float farReadability = Mathf.SmoothStep(
                 0f,
@@ -599,6 +623,37 @@ namespace RoadRailSpeeds.Systems
             return Mathf.Max(textScaleMultiplier, readableScale);
         }
 
+
+        // Cap hidden-network labels in actual screen pixels; perspective can otherwise
+        // make a nearby invisible-road number much larger than the road signs beside it.
+        private static float CapInvisibleMarkerScreenScale(
+            Camera camera,
+            Vector3 markerPosition,
+            Mesh mesh,
+            float scale)
+        {
+            float localHeight = mesh.bounds.size.y;
+            if (localHeight <= 0f)
+            {
+                return scale;
+            }
+
+            Vector3 baseScreen = camera.WorldToScreenPoint(markerPosition);
+            Vector3 topScreen = camera.WorldToScreenPoint(
+                markerPosition + camera.transform.up * (localHeight * scale));
+            if (baseScreen.z <= 0f || topScreen.z <= 0f)
+            {
+                return scale;
+            }
+
+            float visibleHeightPx = Mathf.Abs(topScreen.y - baseScreen.y);
+            if (visibleHeightPx <= s_InvisibleMarkerMaxHeightPx)
+            {
+                return scale;
+            }
+
+            return scale * (s_InvisibleMarkerMaxHeightPx / visibleHeightPx);
+        }
 
         private static Camera? GetGameCamera(List<Camera> cameras)
         {

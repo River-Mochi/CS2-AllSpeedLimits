@@ -30,6 +30,7 @@ namespace RoadRailSpeeds
         public const string ModId = "RoadRailSpeeds";
         public const string LogFileName = "AllSpeedLimits";
         public const string ModTag = "[ASL]";
+        internal const string kToggleInvisibleActionName = "ToggleInvisibleNetworks";
 
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.1.0";
@@ -121,6 +122,15 @@ namespace RoadRailSpeeds
 
             try
             {
+                setting.RegisterKeyBindings();
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error($"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+            }
+
+            try
+            {
                 World world = World.DefaultGameObjectInjectionWorld;
 
                 world.GetOrCreateSystemManaged<PersistentSpeedLimitStorageSystem>();
@@ -135,6 +145,21 @@ namespace RoadRailSpeeds
                 updateSystem.UpdateAfter<CustomSpeedReapplySystem, LaneDataSystem>(
                     SystemUpdatePhase.ModificationEnd);
 
+                world.GetOrCreateSystemManaged<PathSpeedOverrideSystem>();
+                updateSystem.UpdateAt<PathSpeedOverrideSystem>(SystemUpdatePhase.GameSimulation);
+
+                // Global pathway tuning is idle until requested or a non-vanilla value loads.
+                world.GetOrCreateSystemManaged<GlobalPathSpeedSystem>();
+                // UIUpdate also runs when simulation is paused. Path Apply/Reset must
+                // complete without forcing the player to unpause their city.
+                updateSystem.UpdateAt<GlobalPathSpeedSystem>(SystemUpdatePhase.UIUpdate);
+
+                world.GetOrCreateSystemManaged<BicycleSpeedSystem>();
+                updateSystem.UpdateAt<BicycleSpeedSystem>(SystemUpdatePhase.UIUpdate);
+
+                world.GetOrCreateSystemManaged<PersonalVehicleStatusSystem>();
+                updateSystem.UpdateAt<PersonalVehicleStatusSystem>(SystemUpdatePhase.UIUpdate);
+
                 world.GetOrCreateSystemManaged<ClearCustomSpeedsSystem>();
                 updateSystem.UpdateAt<ClearCustomSpeedsSystem>(SystemUpdatePhase.ModificationEnd);
 
@@ -147,6 +172,9 @@ namespace RoadRailSpeeds
                 // Waterway overlay only. Road/rail selection uses the game's Highlighted outline.
                 world.GetOrCreateSystemManaged<SegmentSelectionOverlayRenderSystem>();
                 updateSystem.UpdateAt<SegmentSelectionOverlayRenderSystem>(SystemUpdatePhase.Rendering);
+
+                world.GetOrCreateSystemManaged<InvisibleNetworkRenderSystem>();
+                updateSystem.UpdateAt<InvisibleNetworkRenderSystem>(SystemUpdatePhase.Rendering);
 
                 // Draw speed numbers after the waterway selection overlay so transparent overlay
                 // colors do not wash out waterway speed labels when they overlap on screen.

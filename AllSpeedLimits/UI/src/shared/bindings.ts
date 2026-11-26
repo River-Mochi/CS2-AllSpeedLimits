@@ -6,6 +6,28 @@ import mod from "mod.json";
 
 export const MOD_ID = mod.id;
 
+// Global pathway speed setting, independent from individual selected edge speeds.
+export const OPEN_ALL_PATHS = bindValue<boolean>(MOD_ID, "BINDING:OPEN_ALL_PATHS");
+export function OpenAllPaths() {
+  trigger(MOD_ID, "TRIGGER:OPEN_ALL_PATHS");
+}
+export function CloseAllPaths() {
+  trigger(MOD_ID, "TRIGGER:CLOSE_ALL_PATHS");
+}
+export const GLOBAL_PATH_PERCENT = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_PERCENT");
+export const GLOBAL_PED_PATH_PERCENT = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PED_PATH_PERCENT");
+export const GLOBAL_PATH_BUSY = bindValue<boolean>(MOD_ID, "BINDING:GLOBAL_PATH_BUSY");
+export const GLOBAL_PATH_PROCESSED = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_PROCESSED");
+export const GLOBAL_PATH_TOTAL = bindValue<number>(MOD_ID, "BINDING:GLOBAL_PATH_TOTAL");
+
+export function ApplyGlobalPathPercent(percent: number) {
+  trigger(MOD_ID, "TRIGGER:APPLY_GLOBAL_PATH_PERCENT", Math.round(percent));
+}
+export function ApplyGlobalPedPathPercent(percent: number) {
+  trigger(MOD_ID, "TRIGGER:APPLY_GLOBAL_PED_PATH_PERCENT", Math.round(percent));
+}
+
+
 export const INITIAL_SPEED = bindValue<number>(
   MOD_ID,
   "BINDING:INFOPANEL_ROAD_SPEED"
@@ -339,4 +361,19 @@ export function getToolPanelPosition() {
 
 export function setToolPanelPosition(position: { x: number; y: number }) {
   toolPanelPosition = clampToViewport(position);
+}
+
+export const SELECT_PATHS = bindValue<boolean>(MOD_ID, "BINDING:SELECT_PATHS");
+export const SHOW_INVISIBLE = bindValue<boolean>(MOD_ID, "BINDING:SHOW_INVISIBLE");
+
+export function SetSelectPaths(enabled: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_SELECT_PATHS", enabled);
+}
+
+export function SetShowInvisible(enabled: boolean) {
+  trigger(MOD_ID, "TRIGGER:SET_SHOW_INVISIBLE", enabled);
+}
+
+export function ResetCityPathDefaults() {
+  trigger(MOD_ID, "TRIGGER:RESET_CITY_PATHS");
 }

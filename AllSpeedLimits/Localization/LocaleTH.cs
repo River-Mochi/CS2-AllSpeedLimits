@@ -35,15 +35,23 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "การทำงาน" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "จักรยาน" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "เกี่ยวกับ" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "ตัวเลือกการแสดงผล" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "ปุ่มลัด" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "จักรยานและสกู๊ตเตอร์ไฟฟ้า" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "สถานะยานพาหนะส่วนบุคคล" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "คืนค่าเริ่มต้นของเกม" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "วิธีใช้" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "ดีบัก / ล็อก" },
+
+                // Optional invisible-network hotkey (unassigned by default).
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "ปุ่มลัดเครือข่ายที่ซ่อนอยู่" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "คลิก «ยังไม่ตั้งค่า» แล้วเลือกปุ่ม ใช้ได้แม้ปิดหน้าต่าง ASL" },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "หน่วยความเร็ว" },
@@ -78,6 +86,11 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "แสดงคำแนะนำ ASL" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
+                    "**ค่าเริ่มต้น = เปิด**  แนะนำให้เปิดไว้\n\n" +
+                    "แสดงคำแนะนำในเมือง ปุ่มข้อมูลใช้เปิดอีกครั้งได้" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "แสดงค่าความเร็วสองเท่าของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<ปิด> แสดงสเกลที่ง่ายกว่า มักใกล้กับตัวเลขบนถนน\n" +
@@ -94,6 +107,62 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "ความเร็วสูงสุดของยานพาหนะ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**100% = ค่าเริ่มต้นของเกม**\n" +
+                    "ปรับความเร็วสูงสุดของจักรยานและสกู๊ตเตอร์ไฟฟ้า การเร่งและเบรกปรับอัตโนมัติ\n" +
+                    "ยังคงใช้ขีดจำกัดความเร็วของเส้นทาง\n" +
+                    "ถอนการติดตั้ง Bikes + Paths เมื่อใช้ ASL เพราะ ASL มีครบทุกฟังก์ชัน รุ่นเก่าอาจขัดแย้งกัน" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนค่าเริ่มต้นของเกม" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "คืนความเร็ว การเร่ง และการเบรกของจักรยานและสกู๊ตเตอร์ไฟฟ้าเป็น **100% ค่าเริ่มต้นของเกม**" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "กลุ่มจักรยาน" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "จักรยานและสกู๊ตเตอร์ไฟฟ้า\n" +
+                    "**กำลังใช้งาน** = มีเลนปัจจุบัน (กำลังเคลื่อนที่)\n" +
+                    "**จอดทั้งหมด** = รวมสถานะ Parked จากทุกที่ ไม่ใช่เฉพาะลานจอดรถ"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "กลุ่มรถยนต์" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "เฉพาะรถยนต์ส่วนบุคคล (ไม่รวมกลุ่มจักรยาน)\n" +
+                    "**กำลังใช้งาน** = มีเลนปัจจุบัน (กำลังเคลื่อนที่)\n" +
+                    "**จอดอยู่** = รถที่มีสถานะ **ParkedCar** ทั้งหมด ไม่ใช่เฉพาะในลานจอดรถ\n " +
+                    "การสแกนทำงานเฉพาะเมื่อเปิดเมนูตัวเลือก ไม่ทำงานระหว่างเล่นในเมือง จึงไม่กระทบ FPS"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "รถที่จอดแบบซ่อนอยู่" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**รวมที่ขอบเขต OC** = รถยนต์ในกลุ่มรถที่มี ParkedCar ณ จุดเชื่อมต่อนอกเมือง (OC)\n" +
+                    "บางเมืองอาจมีรถจำนวนมากติดค้างในสถานะจอดที่จุดเชื่อมต่อนอกเมือง\n" +
+                    "ใช้ <บันทึกรถที่ซ่อนอยู่> เพื่อดูตัวอย่างการแบ่งกลุ่มรถที่ซ่อนอยู่\n"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "บันทึกรถที่ซ่อนอยู่" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "เขียนรายงานหนึ่งครั้งไปยัง **Logs/AllSpeedLimits.log**\n" +
+                    "มีจำนวนรวม + การแบ่ง Bucket A/B/C และหมายเลข ID ตัวอย่าง\n" +
+                    "ใช้ม็อด Scene Explorer เพื่อ Jump To ไปยัง ID เอนทิตี Vehicle ที่แสดงไว้และตรวจสอบ"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "เปิดไฟล์บันทึก" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "เปิด **Logs/AllSpeedLimits.log** หากมีไฟล์นี้\n" +
+                    "หากยังไม่พบไฟล์ จะเปิดโฟลเดอร์ Logs แทน"
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "ยังไม่ได้โหลดสถานะ" },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "ไม่มีเมือง... ¯\\_(ツ)_/¯ ...ไม่มีสถิติ" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "เดินเกมสักครู่เพื่อเก็บข้อมูล" },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} ใช้งาน | {1} จักรยาน | {2} สกู๊ตเตอร์ | {3} / {4} จอด/ทั้งหมด" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} ใช้งาน | {1} จอด | {2} ทั้งหมด | {3} รถพ่วง" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} ซ่อนอยู่ที่ขอบเขต OC | อัปเดต {1}" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "คืนค่าความเร็วเริ่มต้นของเกม" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "ตัวเลือกสำหรับล้างค่าก่อนลบม็อด\n" +
@@ -118,15 +187,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<แผงเมือง>\n" +
-                    "1. คลิกหรือลากเลือกช่วง\n" +
-                    "2. ตั้ง <ความเร็วใหม่> แล้วกด <ใช้>\n" +
-                    "3. <รีเซ็ต> คืนค่าช่วงที่เลือก\n" +
-                    "4. ปุ่ม <พรีเซ็ต> จะใช้ทันที\n" +
-                    "\n" +
+                    "▪ คลิกเลือกหนึ่งช่วงหรือลากเลือกหลายช่วง ตั้ง<ความเร็วใหม่>แล้วกด<ใช้>\n" +
+                    "▪ <ค่าที่ตั้งไว้ล่วงหน้า> (ตัวเลขในวงกลม) มีผลทันทีโดยไม่ต้องกดใช้\n" +
+                    "▪ <คืนค่า> ช่วงทางที่เลือก\n" +
+                    "▪ <เครือข่ายที่ซ่อนอยู่>: ปุ่มเส้นประแสดง/ซ่อนถนนและทางที่ซ่อนอยู่\n" +
                     "<ทั้งเมือง>\n" +
-                    "เลือกกลุ่มถนน แล้วใช้ <ความเร็วใหม่> กับกลุ่มนั้น\n" +
-                    "ใช้ <ถนน>, <ราง>, <น้ำ> หรือ <ทั้งหมด> เพื่อล้างความเร็วที่กำหนดเอง\n" +
-                    "<บันทึกเมือง> หลังเปลี่ยนทั้งเมือง"
+                    "▪ เลือกกลุ่มถนนแล้วใช้ความเร็วใหม่\n" +
+                    "▪ <ปุ่มคืนค่าสีแดง>: ถนน ราง ทางน้ำ ทางเดิน หรือทั้งหมด ล้างความเร็วที่ตั้งเองตามประเภท\n" +
+                    "▪ <ทางเดิน>: ตัวเลื่อนจักรยานและคนเดินใช้ทั้งเมือง 100% = ค่าเริ่มต้น 200% = ขีดจำกัดสองเท่า\n" +
+                    "▪ <ค่ารายช่วงของทางจักรยาน> มีความสำคัญกว่า ทางคนเดินเท่านั้นปรับได้ทั้งเมือง\n" +
+                    "▪ <บันทึกเมือง> เพื่อเก็บการแก้ไขเมื่อโหลดใหม่"
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

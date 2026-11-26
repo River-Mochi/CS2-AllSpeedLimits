@@ -29,19 +29,14 @@ export const PANEL_WIDTH_REM = 299;
 // title bar isn't pinned exactly under the cursor and the clicked segment stays visible.
 export const PANEL_CLICK_OFFSET_PX = 16;
 export const PRIMARY_ACTION_BUTTON_WIDTH_REM = 58;
-export const SPEED_STEPPER_WIDTH_REM = 76;
-export const SPEED_STEPPER_BUTTON_WIDTH_REM = 22;
-export const SPEED_STEPPER_NUMBER_WIDTH_REM = 32;
+export const SPEED_STEPPER_WIDTH_REM = 104;
+export const SPEED_STEPPER_BUTTON_WIDTH_REM = 28;
+export const SPEED_STEPPER_NUMBER_WIDTH_REM = 42;
 
 // Stats table column geometry. Shared so the column headers (rendered on the "Stats" section
 // line) line up with the number columns in the table below them.
 export const STATS_COLUMN_WIDTH_REM = 76;
 export const STATS_LABEL_WIDTH_REM = 30;
-
-// Keep help tooltips beside the panel instead of covering its controls. The conversion lets their
-// pixel position follow the panel's rem-based width; the gap controls how far right they sit.
-export const REM_TO_TOOLTIP_PX = 1.34;
-export const RIGHT_TOOLTIP_GAP_PX = 10;
 
 // Right-side tooltip vertical positions, measured from the panel top.
 export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
@@ -69,8 +64,17 @@ export const RIGHT_TOOLTIP_TOP_OFFSETS: Record<PanelTooltipKind, number> = {
     wholeCity: 300,
     // Filter chips sit just under the title bar; Apply is in the main edit block.
     filterRoads: 58,
+    filterPaths: 58,
+    showInvisible: 58,
     filterRails: 58,
     filterWater: 58,
+    dragGrip: 28,
+    pathSlider: 78,
+    pathApply: 105,
+    pathReset: 105,
+    pedPathSlider: 170,
+    pedPathApply: 235,
+    pedPathReset: 235,
     apply: 196,
     applyTrain: 300,
     applySubway: 300,

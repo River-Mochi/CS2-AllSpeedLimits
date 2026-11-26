@@ -51,6 +51,7 @@ import {
     ApplyCityTrainSpeed,
     ApplyCitySubwaySpeed,
     ResetSpeed,
+    ResetCityPathDefaults,
     ResetCityRoadDefaults,
     ResetCityRailDefaults,
     ResetCityWaterwayDefaults,
@@ -63,12 +64,23 @@ import {
     SetSliderExpanded,
     SetWholeCityExpanded,
     SetStatsExpanded,
-    SetToolActive
+    SetToolActive,
+    GLOBAL_PATH_PERCENT,
+    GLOBAL_PED_PATH_PERCENT,
+    GLOBAL_PATH_BUSY,
+    GLOBAL_PATH_PROCESSED,
+    GLOBAL_PATH_TOTAL,
+    ApplyGlobalPathPercent,
+    ApplyGlobalPedPathPercent,
+    OPEN_ALL_PATHS,
+    OpenAllPaths,
+    CloseAllPaths
 } from "../shared/bindings";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
 import { Button } from "../shared/Button";
 import expandCollapseAllIcon from "../images/icon-expandCollapseAll.svg";
+import dragGripIcon from "../images/asl-drag-grip.svg";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useToolPanelPosition } from "../shared/useSharedPanelPosition";
 import { SaveToolPanelPosition, TOOL_PANEL_X, TOOL_PANEL_Y } from "../shared/bindings";
@@ -77,6 +89,7 @@ import { PANEL_CLICK_OFFSET_PX, PANEL_WIDTH_REM, PRECISE_STEP_HOLD_DELAY_MS, PRE
 import { CityActionModal } from "./components/CityActionModal";
 import { PresetControls } from "./components/PresetControls";
 import { MainSpeedSection } from "./components/MainSpeedSection";
+import { AllPathsSection } from "./components/AllPathsSection";
 import { PreciseSpeedStepper } from "./components/PreciseSpeedStepper";
 import { SelectionSection } from "./components/SelectionSection";
 import { SelectionFilterControls } from "./components/SelectionFilterControls";
@@ -89,6 +102,31 @@ import type { CityActionInfo, CityActionKind, PanelTooltipKind, RoadGroupKind } 
 export const SpeedToolWindow = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
+    const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
+    const savedPathPercent = useSafeBinding(GLOBAL_PATH_PERCENT, 100);
+    const savedPedPathPercent = useSafeBinding(GLOBAL_PED_PATH_PERCENT, 100);
+    const globalPathBusy = useSafeBinding(GLOBAL_PATH_BUSY, false);
+    const globalPathProcessed = useSafeBinding(GLOBAL_PATH_PROCESSED, 0);
+    const globalPathTotal = useSafeBinding(GLOBAL_PATH_TOTAL, 0);
+    const [activeView, setActiveView] = useState<"limits" | "paths">("limits");
+    const [visible, setVisible] = useState(false);
+    const [pendingPathPercent, setPendingPathPercent] = useState(100);
+    const [pendingPedPathPercent, setPendingPedPathPercent] = useState(100);
+    useEffect(() => {
+        setPendingPathPercent(savedPathPercent);
+    }, [savedPathPercent]);
+    useEffect(() => {
+        setPendingPedPathPercent(savedPedPathPercent);
+    }, [savedPedPathPercent]);
+
+    useEffect(() => {
+        if (!toolActive) {
+            setActiveView("limits");
+        } else if (allPathsOpen) {
+            setActiveView("paths");
+            setVisible(true);
+        }
+    }, [toolActive, allPathsOpen]);
     const showMetric = useSafeBinding(SHOW_METRIC, true);
     const isTrackType = useSafeBinding(IS_TRACK_TYPE, false);
     const isWaterwayType = useSafeBinding(IS_WATERWAY_TYPE, false);
@@ -133,7 +171,6 @@ export const SpeedToolWindow = () => {
     const savedWholeCityExpanded = useSafeBinding(WHOLE_CITY_EXPANDED, true);
     const savedStatsExpanded = useSafeBinding(STATS_EXPANDED, true);
 
-    const [visible, setVisible] = useState(false);
     const [pendingSpeedKmh, setPendingSpeedKmh] = useState(5);
     const [isApplying, setIsApplying] = useState(false);
     const [isResetting, setIsResetting] = useState(false);
@@ -158,9 +195,18 @@ export const SpeedToolWindow = () => {
     const [isGuideHovered, setIsGuideHovered] = useState(false);
     const [isHelpHovered, setIsHelpHovered] = useState(false);
     const [isMarkersHovered, setIsMarkersHovered] = useState(false);
+    const [isDragGripHovered, setIsDragGripHovered] = useState(false);
     const [isExpandAllHovered, setIsExpandAllHovered] = useState(false);
     const [isTargetUnitHovered, setIsTargetUnitHovered] = useState(false);
     const [panelTooltip, setPanelTooltip] = useState<PanelTooltipKind | null>(null);
+    // A filter can unmount while hovered when switching tabs. Always drop
+    // that tooltip rather than leaving a stale Water/Bike tooltip onscreen.
+    useEffect(() => {
+        setPanelTooltip(null);
+        setIsGuideHovered(false);
+        setIsMarkersHovered(false);
+        setIsHelpHovered(false);
+    }, [activeView, toolActive, panelTooltipsEnabled]);
     // Default OPEN on first install so the "First segment selected" summary is discoverable. These
     // states are persisted through hidden ModSetting values, not COHTML/browser localStorage.
     const [selectionInfoExpanded, setSelectionInfoExpanded] = useState(savedSelectionInfoExpanded);
@@ -267,7 +313,7 @@ export const SpeedToolWindow = () => {
     };
 
     const showPanelTooltip = (kind: PanelTooltipKind) => {
-        if (panelTooltipsEnabled) {
+        if (panelTooltipsEnabled && !isDragging) {
             setPanelTooltip(kind);
         }
     };
@@ -357,6 +403,10 @@ export const SpeedToolWindow = () => {
             };
         }
 
+        if (kind === "resetPaths") {
+            return TEXT.confirm.resetPaths;
+        }
+
         if (kind === "resetRoads") {
             return {
                 title: TEXT.confirm.resetRoads.title,
@@ -394,6 +444,10 @@ export const SpeedToolWindow = () => {
             // selected right before it) — extending or replacing an existing selection leaves the
             // panel wherever the player put it, so it doesn't jump around mid-edit.
             if (lastSelectionCounter.current === 0) {
+                setActiveView("limits");
+                if (allPathsOpen) {
+                    CloseAllPaths();
+                }
                 snapTo({
                     x: selectionClickX + PANEL_CLICK_OFFSET_PX,
                     y: selectionClickY + PANEL_CLICK_OFFSET_PX
@@ -408,12 +462,12 @@ export const SpeedToolWindow = () => {
                 setPendingSpeedKmh(clampSpeedKmh(selectedSpeedKmh));
             }
             lastSelectionCounter.current = selectionCounter;
-        } else if (!toolActive || selectionCounter === 0) {
+        } else if (!toolActive || (selectionCounter === 0 && !allPathsOpen)) {
             setVisible(false);
             setPendingCityAction(null);
             lastSelectionCounter.current = 0;
         }
-    }, [selectionCounter, toolActive, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
+    }, [selectionCounter, toolActive, allPathsOpen, syncSliderWithSelection, currentSpeedMixed, selectedSpeedKmh, isTrackType, isWaterwayType, selectionClickX, selectionClickY]);
 
     const handleSliderChange = (value: number) => {
         setPendingSpeedKmh(displayValueToSpeedKmh(value));
@@ -513,7 +567,7 @@ export const SpeedToolWindow = () => {
         const action = pendingCityAction;
         setPendingCityAction(null);
         setCityActionApplying(action);
-        if (action === "resetRoads" || action === "resetRails" || action === "resetWater" || action === "resetAll") {
+        if (action === "resetPaths" || action === "resetRoads" || action === "resetRails" || action === "resetWater" || action === "resetAll") {
             setSelectedRoadGroup(null);
         }
 
@@ -529,6 +583,9 @@ export const SpeedToolWindow = () => {
             ApplyCityTrainSpeed(pendingSpeedKmh);
         } else if (action === "applySubway") {
             ApplyCitySubwaySpeed(pendingSpeedKmh);
+        } else if (action === "resetPaths") {
+            ResetCityPathDefaults();
+            setShowSaveReminder(true);
         } else if (action === "resetRoads") {
             ResetCityRoadDefaults();
             setShowSaveReminder(true);
@@ -602,6 +659,7 @@ export const SpeedToolWindow = () => {
 
         event.preventDefault();
         event.stopPropagation();
+        hidePanelTooltip();
         startDragging(event.clientX, event.clientY);
     };
 
@@ -751,6 +809,19 @@ export const SpeedToolWindow = () => {
                     header={
                         <SpeedToolHeader
                             title={TEXT.panel.title}
+                            speedLimitsTab={TEXT.panel.speedLimitsTab}
+                            allPathsTab={TEXT.panel.allPathsTab}
+                            activeView={activeView}
+                            onViewChange={nextView => {
+                                hidePanelTooltip();
+                                setActiveView(nextView);
+                                // The All Paths view remains available even if selection is cleared.
+                                if (nextView === "paths") {
+                                    OpenAllPaths();
+                                } else if (allPathsOpen) {
+                                    CloseAllPaths();
+                                }
+                            }}
                             closeTooltip={TEXT.buttons.close}
                             draggableTooltip={TEXT.tooltips.draggable}
                             markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}
@@ -767,7 +838,7 @@ export const SpeedToolWindow = () => {
                             setIsMarkersHovered={setIsMarkersHovered}
                             onMouseDown={handleMouseDown}
                             onClose={handleClose}
-                            onToggleTooltips={() => SetPanelTooltipsEnabled(!panelTooltipsEnabled)}
+                            onToggleTooltips={() => { if (!panelTooltipsEnabled) SetPanelTooltipsEnabled(true); }}
                             onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
                             hidePanelTooltip={hidePanelTooltip}
                         />
@@ -858,6 +929,8 @@ export const SpeedToolWindow = () => {
                                 </Button>
                             </div>
                         )}
+                        {activeView === "limits" ? (
+                            <>
                         <div style={{
                             display: "flex",
                             alignItems: "center",
@@ -866,6 +939,8 @@ export const SpeedToolWindow = () => {
                         }}>
                             <SelectionFilterControls
                                 label={TEXT.panel.selectFilter}
+                                pathsLabel={TEXT.panel.filterPaths}
+                                invisibleLabel={TEXT.panel.showInvisible}
                                 roadsLabel={TEXT.panel.filterRoads}
                                 railsLabel={TEXT.panel.filterRails}
                                 waterLabel={TEXT.panel.filterWater}
@@ -1080,6 +1155,55 @@ export const SpeedToolWindow = () => {
                             formatCount={formatCount}
                             focusKey={FOCUS_DISABLED}
                         />
+                            </>
+                        ) : (
+                            <AllPathsSection
+                                percent={pendingPathPercent}
+                                savedPercent={savedPathPercent}
+                                pedPercent={pendingPedPathPercent}
+                                pedSavedPercent={savedPedPathPercent}
+                                busy={globalPathBusy}
+                                processed={globalPathProcessed}
+                                total={globalPathTotal}
+                                focusKey={FOCUS_DISABLED}
+                                text={TEXT.panel.allPaths}
+                                pedText={TEXT.panel.pedPaths}
+                                wholeCityLabel={TEXT.panel.wholeCity}
+                                onShowTip={showPanelTooltip}
+                                onHideTip={hidePanelTooltip}
+                                onChange={setPendingPathPercent}
+                                onApply={() => ApplyGlobalPathPercent(pendingPathPercent)}
+                                onReset={() => {
+                                    setPendingPathPercent(100);
+                                    if (savedPathPercent !== 100) {
+                                        ApplyGlobalPathPercent(100);
+                                    }
+                                }}
+                                onPedChange={setPendingPedPathPercent}
+                                onPedApply={() => ApplyGlobalPedPathPercent(pendingPedPathPercent)}
+                                onPedReset={() => {
+                                    setPendingPedPathPercent(100);
+                                    if (savedPedPathPercent !== 100) {
+                                        ApplyGlobalPedPathPercent(100);
+                                    }
+                                }}
+                            />
+                        )}
+                        <div onMouseDown={handleMouseDown}
+                            onMouseEnter={() => {
+                                setIsDragGripHovered(true);
+                                showPanelTooltip("dragGrip");
+                            }}
+                            onMouseLeave={() => {
+                                setIsDragGripHovered(false);
+                                hidePanelTooltip();
+                            }}
+                            style={{ display: "flex", justifyContent: "flex-end", alignItems: "center",
+                                height: "19rem", paddingTop: "6rem", boxSizing: "border-box",
+                                cursor: isDragging ? "grabbing" : "grab" }}>
+                            <img src={dragGripIcon} alt="" style={{ width: "26.5rem", height: "11rem",
+                                marginRight: "4rem", opacity: isDragging || isDragGripHovered ? 1 : 0.65, pointerEvents: "none" }} />
+                        </div>
                     </div>
                 </Panel>
             </div>
@@ -1102,10 +1226,9 @@ export const SpeedToolWindow = () => {
 
             <SpeedToolOverlays
                 text={TEXT}
-                panelTooltip={panelTooltip}
-                panelTooltipsEnabled={panelTooltipsEnabled}
-                position={position}
-                panelWidth={panelWidth}
+                panelTooltip={isDragging ? null : panelTooltip}
+                panelTooltipsEnabled={panelTooltipsEnabled && !isDragging}
+                panelBounds={panelRef.current?.getBoundingClientRect() ?? null}
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}
                 tooltipFontScale={tooltipFontScale}

@@ -21,6 +21,7 @@ namespace RoadRailSpeeds.Systems
     using Unity.Entities;                  // Entity, EntityQuery
     using UnityEngine;                     // Screen, Vector3
     using Temp = Game.Tools.Temp;          // Temp alias
+    using SubLane = Game.Net.SubLane;
 
     public partial class SegmentSpeedToolUISystem : ExtendedInfoSectionBase
     {
@@ -28,6 +29,7 @@ namespace RoadRailSpeeds.Systems
         private Game.UI.InGame.SelectedInfoUISystem m_SelectedInfoUISystem = null!;
         private Game.City.CityConfigurationSystem m_CityConfigurationSystem = null!;
         private SpeedLimitMarkerRenderSystem m_SpeedLimitMarkerRenderSystem = null!;
+        private GlobalPathSpeedSystem m_GlobalPathSpeedSystem = null!;
 
         private Entity m_SelectedEntity;
         private Entity m_LastCheckedEntity;
@@ -47,9 +49,17 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_ShowMetricBinding = null!;
         private ValueBindingHelper<bool> m_IsTrackTypeBinding = null!;
         private ValueBindingHelper<bool> m_IsWaterwayTypeBinding = null!;
+        private ValueBindingHelper<bool> m_SelectPathsBinding = null!;
+        private ValueBindingHelper<bool> m_ShowInvisibleBinding = null!;
         private ValueBindingHelper<bool> m_SelectRoadsBinding = null!;
         private ValueBindingHelper<bool> m_SelectRailsBinding = null!;
         private ValueBindingHelper<bool> m_SelectWaterBinding = null!;
+        private ValueBindingHelper<bool> m_OpenAllPathsBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPathPercentBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPedPathPercentBinding = null!;
+        private ValueBindingHelper<bool> m_GlobalPathBusyBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPathProcessedBinding = null!;
+        private ValueBindingHelper<int> m_GlobalPathTotalBinding = null!;
         private ValueBindingHelper<int> m_UnitModeBinding = null!;
         private ValueBindingHelper<bool> m_DoubleSpeedDisplayBinding = null!;
         private ValueBindingHelper<bool> m_CurrentSpeedMixedBinding = null!;
@@ -94,6 +104,7 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_WholeCityExpandedBinding = null!;
 
         private SpeedLimitsSetting? m_Settings;
+        private ProxyAction? m_ToggleInvisibleAction;
         private float m_LastVehicleStatsRefreshTime = -1f;
 
         protected override string group => Mod.ModId + ".Systems.Tool." + nameof(SegmentSpeedToolUISystem);
@@ -110,12 +121,12 @@ namespace RoadRailSpeeds.Systems
             m_SegmentSpeedTool = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
             m_CityConfigurationSystem = World.GetOrCreateSystemManaged<Game.City.CityConfigurationSystem>();
             m_SpeedLimitMarkerRenderSystem = World.GetOrCreateSystemManaged<SpeedLimitMarkerRenderSystem>();
+            m_GlobalPathSpeedSystem = World.GetOrCreateSystemManaged<GlobalPathSpeedSystem>();
             m_Settings = Mod.Settings;
 
             m_AdjustableEdgeQuery = SystemAPI.QueryBuilder()
-                .WithAll<Edge, Curve, PrefabRef>()
-                .WithAny<Road, TrainTrack, TramTrack, SubwayTrack, Waterway>()
-                .WithNone<Deleted, Temp>()
+                .WithAll<Edge, Curve, PrefabRef, SubLane>()
+                .WithNone<Deleted, Temp, Overridden>()
                 .Build();
 
             // These keys are read by the React/COHTML UI.
@@ -167,9 +178,17 @@ namespace RoadRailSpeeds.Systems
             m_SelectionInfoExpandedBinding = CreateBinding("SELECTION_INFO_EXPANDED", true);
             m_SliderExpandedBinding = CreateBinding("SLIDER_EXPANDED", true);
             m_WholeCityExpandedBinding = CreateBinding("WHOLE_CITY_EXPANDED", true);
+            m_SelectPathsBinding = CreateBinding("SELECT_PATHS", true);
+            m_ShowInvisibleBinding = CreateBinding("SHOW_INVISIBLE", false);
             m_SelectRoadsBinding = CreateBinding("SELECT_ROADS", true);
             m_SelectRailsBinding = CreateBinding("SELECT_RAILS", true);
             m_SelectWaterBinding = CreateBinding("SELECT_WATER", true);
+            m_OpenAllPathsBinding = CreateBinding("OPEN_ALL_PATHS", false);
+            m_GlobalPathPercentBinding = CreateBinding("GLOBAL_PATH_PERCENT", m_Settings?.GlobalPathSpeedPercent ?? 100);
+            m_GlobalPedPathPercentBinding = CreateBinding("GLOBAL_PED_PATH_PERCENT", m_Settings?.GlobalPedPathSpeedPercent ?? 100);
+            m_GlobalPathBusyBinding = CreateBinding("GLOBAL_PATH_BUSY", false);
+            m_GlobalPathProcessedBinding = CreateBinding("GLOBAL_PATH_PROCESSED", 0);
+            m_GlobalPathTotalBinding = CreateBinding("GLOBAL_PATH_TOTAL", 0);
 
             // These triggers are called from React.
             CreateTrigger<float>("APPLY_SPEED", HandleApplySpeed);
@@ -191,10 +210,17 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger("RESET_CITY_RAILS", HandleResetCityRails);
             CreateTrigger("RESET_CITY_WATERWAYS", HandleResetCityWaterways);
             CreateTrigger("RESET_CITY_ALL", HandleResetCityAll);
+            CreateTrigger<bool>("SET_SELECT_PATHS", HandleSetSelectPaths);
+            CreateTrigger<bool>("SET_SHOW_INVISIBLE", HandleSetShowInvisible);
+            CreateTrigger("RESET_CITY_PATHS", HandleResetCityPaths);
             CreateTrigger<bool>("SET_SELECT_ROADS", HandleSetSelectRoads);
             CreateTrigger<bool>("SET_SELECT_RAILS", HandleSetSelectRails);
             CreateTrigger<bool>("SET_SELECT_WATER", HandleSetSelectWater);
             CreateTrigger<int, int>("SET_TOOL_PANEL_POSITION", HandleSetToolPanelPosition);
+            CreateTrigger<int>("APPLY_GLOBAL_PATH_PERCENT", HandleApplyGlobalPathPercent);
+            CreateTrigger<int>("APPLY_GLOBAL_PED_PATH_PERCENT", HandleApplyGlobalPedPathPercent);
+            CreateTrigger("OPEN_ALL_PATHS", HandleOpenAllPaths);
+            CreateTrigger("CLOSE_ALL_PATHS", HandleCloseAllPaths);
 
             m_InitialSpeedBinding.Value = 50f;
             m_ToolActiveBinding.Value = false;
@@ -239,6 +265,12 @@ namespace RoadRailSpeeds.Systems
             m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
             m_WholeCityExpandedBinding.Value = m_Settings?.WholeCityExpanded ?? true;
             m_StatsExpandedBinding.Value = m_Settings?.StatsExpanded ?? true;
+            m_OpenAllPathsBinding.Value = false;
+            m_GlobalPathPercentBinding.Value = m_Settings?.GlobalPathSpeedPercent ?? 100;
+            m_GlobalPedPathPercentBinding.Value = m_Settings?.GlobalPedPathSpeedPercent ?? 100;
+            m_GlobalPathBusyBinding.Value = m_GlobalPathSpeedSystem.IsApplying;
+            m_GlobalPathProcessedBinding.Value = m_GlobalPathSpeedSystem.ProcessedEdges;
+            m_GlobalPathTotalBinding.Value = m_GlobalPathSpeedSystem.TotalEdges;
 
             // Send the starting values now so the panel does not briefly show empty or stale data.
             RequestUpdate();
@@ -284,6 +316,15 @@ namespace RoadRailSpeeds.Systems
 
             if (edges.Count == 0)
             {
+                m_SelectedEntity = Entity.Null;
+                m_SelectionCounterBinding.Value = 0;
+                m_IsTrackTypeBinding.Value = false;
+                m_IsWaterwayTypeBinding.Value = false;
+                m_CurrentSpeedMixedBinding.Value = false;
+                m_VanillaSpeedBinding.Value = -1f;
+                m_VanillaSpeedMixedBinding.Value = false;
+                visible = false;
+                RequestUpdate();
                 return;
             }
 
@@ -335,8 +376,62 @@ namespace RoadRailSpeeds.Systems
 
             m_Settings ??= Mod.Settings;
 
+            // Sync global pathway work progress only while the batch is active.
+            bool pathBusy = m_GlobalPathSpeedSystem.IsApplying;
+            if (m_GlobalPathBusyBinding.Value != pathBusy)
+            {
+                m_GlobalPathBusyBinding.Value = pathBusy;
+            }
+
+            if (pathBusy)
+            {
+                int pathProcessed = m_GlobalPathSpeedSystem.ProcessedEdges;
+                int pathTotal = m_GlobalPathSpeedSystem.TotalEdges;
+                if (m_GlobalPathProcessedBinding.Value != pathProcessed)
+                {
+                    m_GlobalPathProcessedBinding.Value = pathProcessed;
+                }
+
+                if (m_GlobalPathTotalBinding.Value != pathTotal)
+                {
+                    m_GlobalPathTotalBinding.Value = pathTotal;
+                }
+            }
+
             bool toolActive = m_SegmentSpeedTool.IsActive;
             bool toolStateChanged = m_ToolActiveBinding.Value != toolActive;
+            if (!toolActive && m_OpenAllPathsBinding.Value)
+            {
+                m_OpenAllPathsBinding.Value = false;
+            }
+
+            // Optional hotkey toggles the native marker flag, even when ASL is closed.
+            // Default binding is empty, so it does not occupy any existing shortcut.
+            m_ToggleInvisibleAction ??= m_Settings?.GetAction(Mod.kToggleInvisibleActionName);
+            if (m_ToggleInvisibleAction != null)
+            {
+                if (!m_ToggleInvisibleAction.shouldBeEnabled)
+                {
+                    m_ToggleInvisibleAction.shouldBeEnabled = true;
+                }
+
+                if (m_ToggleInvisibleAction.WasReleasedThisFrame())
+                {
+                    HandleSetShowInvisible(!m_SegmentSpeedTool.ShowInvisible);
+                }
+            }
+
+            // Synchronize the eye when another mod changes the shared vanilla flag.
+            // This is just a boolean comparison per UI update; no network scan.
+            bool actualMarkersVisible = m_SegmentSpeedTool.ShowInvisible;
+            if (m_ShowInvisibleBinding.Value != actualMarkersVisible)
+            {
+                m_ShowInvisibleBinding.Value = actualMarkersVisible;
+                if (toolActive)
+                {
+                    m_SegmentSpeedTool.RefreshSelectionFilters();
+                }
+            }
 
             m_ToolActiveBinding.Value = toolActive;
 
@@ -450,6 +545,8 @@ namespace RoadRailSpeeds.Systems
             {
                 // The toolbar already clears the old selection immediately. Keep this backup for
                 // any other activation route so a previous segment never reappears unexpectedly.
+                m_SelectPathsBinding.Value = m_SegmentSpeedTool.IncludePaths;
+                m_ShowInvisibleBinding.Value = m_SegmentSpeedTool.ShowInvisible;
                 m_SelectRoadsBinding.Value = true;
                 m_SelectRailsBinding.Value = true;
                 m_SelectWaterBinding.Value = true;

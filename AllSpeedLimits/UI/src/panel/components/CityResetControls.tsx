@@ -3,18 +3,21 @@
 
 import { Button } from "../../shared/Button";
 
-type ResetActionKind = "resetRoads" | "resetRails" | "resetWater" | "resetAll";
+type ResetActionKind = "resetRoads" | "resetPaths" | "resetRails" | "resetWater" | "resetAll";
 
 type CityResetControlsProps = {
     cityActionBusy: boolean;
     cityActionApplying: ResetActionKind | null | string;
     resettingLabel: string;
     resetAllLabel: string;
+    resetPathsLabel: string;
+    resetPathsTooltip: string;
     resetRoadsLabel: string;
     resetRailsLabel: string;
     resetWaterLabel: string;
     resetAllTypesLabel: string;
     focusKey: unknown;
+    onOpenResetPaths: () => void;
     onOpenResetRoads: () => void;
     onOpenResetRails: () => void;
     onOpenResetWater: () => void;
@@ -27,11 +30,14 @@ export const CityResetControls = (props: CityResetControlsProps) => {
         cityActionApplying,
         resettingLabel,
         resetAllLabel,
+        resetPathsLabel,
+        resetPathsTooltip,
         resetRoadsLabel,
         resetRailsLabel,
         resetWaterLabel,
         resetAllTypesLabel,
         focusKey,
+        onOpenResetPaths,
         onOpenResetRoads,
         onOpenResetRails,
         onOpenResetWater,
@@ -48,7 +54,9 @@ export const CityResetControls = (props: CityResetControlsProps) => {
             flex: 1,
             minWidth: "0",
             marginRight: addRightMargin ? "3rem" : "0"
-        }}>
+        }}
+            title={action === "resetPaths" ? resetPathsTooltip : undefined}
+        >
             <Button
                 focusKey={focusKey}
                 selected={cityActionApplying === action}
@@ -84,6 +92,7 @@ export const CityResetControls = (props: CityResetControlsProps) => {
                 {renderResetButton("resetRoads", resetRoadsLabel, onOpenResetRoads, true)}
                 {renderResetButton("resetRails", resetRailsLabel, onOpenResetRails, true)}
                 {renderResetButton("resetWater", resetWaterLabel, onOpenResetWater, true)}
+                {renderResetButton("resetPaths", resetPathsLabel, onOpenResetPaths, true)}
                 {renderResetButton("resetAll", resetAllTypesLabel, onOpenResetAll, false)}
             </div>
         </div>

@@ -48,7 +48,8 @@ namespace RoadRailSpeeds.Systems
         {
             Road = 0,
             Rail = 1,
-            Water = 2
+            Water = 2,
+            Path = 3
         }
 
         private readonly struct MarkerGroupKey : IEquatable<MarkerGroupKey>
@@ -107,7 +108,7 @@ namespace RoadRailSpeeds.Systems
         private SegmentSpeedToolSystem m_SegmentSpeedToolSystem = null!;
         private CityConfigurationSystem m_CityConfigurationSystem = null!;
         private CameraUpdateSystem m_CameraUpdateSystem = null!;
-        private PrefabSystem m_PrefabSystem = null!;
+        private global::Game.Prefabs.PrefabSystem m_PrefabSystem = null!;
 
         private EntityQuery m_CustomSpeedQuery;
         private EntityQuery m_OverlaySettingsQuery;
@@ -165,7 +166,13 @@ namespace RoadRailSpeeds.Systems
         // Keep floating numbers readable at every zoom. These values do not resize the tooltip below.
         private const float s_MarkerReadableCloseHeightPx = 16f;
         private const float s_MarkerReadableMidHeightPx = 18f;
+        // Hidden-network numbers get a small close/mid-zoom bump; others stay unchanged.
+        private const float s_InvisibleMarkerReadableCloseHeightPx = 18.5f;
+        private const float s_InvisibleMarkerReadableMidHeightPx = 20.5f;
         private const float s_MarkerReadableFarHeightPx = 27f;
+        // Hidden internal roads can render unusually large near the camera.
+        // Cap only invisible-network sign size; visible road/rail/water labels stay untouched.
+        private const float s_InvisibleMarkerMaxHeightPx = 26f;
         private const float s_MarkerReadableMidHeightTransitionZoom = 0.20f;
         private const float s_MarkerReadableScaleStartZoom = 0.45f;
         // Slightly reduce the floating numbers at the closest and farthest zooms so they do not
@@ -217,7 +224,7 @@ namespace RoadRailSpeeds.Systems
             m_SegmentSpeedToolSystem = World.GetOrCreateSystemManaged<SegmentSpeedToolSystem>();
             m_CityConfigurationSystem = World.GetOrCreateSystemManaged<global::Game.City.CityConfigurationSystem>();
             m_CameraUpdateSystem = World.GetExistingSystemManaged<global::Game.Rendering.CameraUpdateSystem>();
-            m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+            m_PrefabSystem = World.GetOrCreateSystemManaged<global::Game.Prefabs.PrefabSystem>();
 
             m_Settings = Mod.Settings;
             m_LastUnitPreference = m_Settings?.SpeedUnitPreference ?? SpeedLimitsSetting.SpeedUnit.Auto;
@@ -226,6 +233,7 @@ namespace RoadRailSpeeds.Systems
             // Build these searches once because marker rendering uses them every frame.
             m_CustomSpeedQuery = SystemAPI.QueryBuilder()
                 .WithAll<Edge, Curve, CustomSpeed>()
+                .WithNone<Game.Common.Deleted, Game.Tools.Temp, Game.Common.Overridden>()
                 .Build();
 
             m_OverlaySettingsQuery = SystemAPI.QueryBuilder()

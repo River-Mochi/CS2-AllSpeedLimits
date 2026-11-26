@@ -35,15 +35,23 @@ namespace RoadRailSpeeds
                 // Mod title and tabs
                 { m_Setting.GetSettingsLocaleID(), title },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kMainTab), "Eylemler" },
+                { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kBicycleTab), "Bisikletler" },
                 { m_Setting.GetOptionTabLocaleID(SpeedLimitsSetting.kAboutTab), "Hakkında" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kDisplayGroup), "Görüntü seçenekleri" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kKeybindsGroup), "Kısayollar" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kBicycleGroup), "Bisiklet ve elektrikli scooter" },
+                { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kPersonalStatusGroup),     "Kişisel araç durumu" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kResetGroup), "Oyun varsayılanlarına dön" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kUsageGroup), "Kullanım" },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutInfoGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutLinksGroup), string.Empty },
                 { m_Setting.GetOptionGroupLocaleID(SpeedLimitsSetting.kAboutDebugGroup), "Hata ayıklama / Günlük" },
+
+                // Optional invisible-network hotkey (unassigned by default).
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "Görünmez ağlar kısayolu" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ToggleInvisibleMarkersBinding)), "“Ayarlanmadı” alanına tıklayıp tuş atayın. ASL kapalıyken de çalışır." },
 
                 // Speed unit preference
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.SpeedUnitPreference)), "Hız birimleri" },
@@ -78,6 +86,11 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "ASL ipuçlarını göster" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
+                    "**Varsayılan = AÇIK**  Açık bırakmanız önerilir.\n\n" +
+                    "Şehirdeki ASL ipuçlarını gösterir. Bilgi düğmesi yeniden açabilir." },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "Oyunun çift hızlarını göster" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<Kapalı> daha basit bir ölçek gösterir, genelde yol işaretlerine daha yakındır.\n" +
@@ -94,6 +107,62 @@ namespace RoadRailSpeeds
                 { m_Setting.GetEnumValueLocaleID(SpeedLimitsSetting.SpeedUnit.Imperial), "MPH" },
 
                 // Clear all custom speeds
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)), "Azami araç hızı" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.BicycleSpeedPercent)),
+                    "**%100 = oyun varsayılanı.**\n" +
+                    "Bisiklet ve elektrikli scooterların azami hızını değiştirir. Hızlanma ve frenleme otomatik ayarlanır.\n" +
+                    "Yol hız sınırları geçerliliğini korur.\n" +
+                    "ASL kullanıyorsan Bikes + Paths modunu kaldır. ASL tüm özelliklerini içerir. Eski sürümler çakışabilir." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Oyun varsayılanına dön" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ResetBicycleSpeed)), "Bisiklet ve scooter hızını, hızlanmasını ve frenlemesini **%100 oyun varsayılanına** döndürür." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)), "Bisiklet grubu" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary1)),
+                    "Bisikletler ve elektrikli scooterlar.\n" +
+                    "**Aktif** = mevcut şeridi var (hareket ediyor).\n" +
+                    "**Toplam park** = yalnız otoparklar değil, her yerdeki tüm Parked durumlarını içerir."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)), "Araba grubu" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary2)),
+                    "Sadece kişisel arabalar (Bisiklet grubu hariç).\n" +
+                    "**Aktif** = mevcut şeridi var (hareket ediyor).\n" +
+                    "**Park** = sadece otoparklar değil, tüm **ParkedCar**.\n" +
+                    "Tarama sadece Options menüsü açıkken çalışır, şehir oynanışı sırasında değil; FPS derdi yok."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)), "Gizli park etmiş arabalar" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.StatusSummary3)),
+                    "**OC sınırındaki toplam** = Şehir Dışı (OC) bağlantısında ParkedCar olan araba grubu araçları.\n" +
+                    "Bazı şehirlerde Şehir Dışı bağlantısında parkta takılmış çok sayıda araba görülür.\n" +
+                    "Gizli arabaların örnek dökümü için <Log hidden cars> kullan."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)), "Gizli arabaları günlüğe yaz" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.LogBorderHiddenCars)),
+                    "**Logs/AllSpeedLimits.log** içine tek seferlik rapor yazar.\n" +
+                    "Toplam + Bucket A/B/C dökümü ve örnek ID numaralarını içerir.\n" +
+                    "Scene Explorer moduyla listelenen Vehicle varlık ID'lerine atlayıp incele."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)), "Günlüğü aç" },
+                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.OpenLogFromStatus)),
+                    "Varsa **Logs/AllSpeedLimits.log** dosyasını açar.\n" +
+                    "Dosya henüz bulunamazsa onun yerine Logs klasörünü açar."
+                },
+
+                // Status fallback keys
+                { "ASL_PERSONAL_STATUS_NOT_LOADED",     "Durum yüklenmedi." },
+                { "ASL_PERSONAL_STATS_NOT_AVAIL",       "Şehir yok... ¯\\_(ツ)_/¯ ...İstatistik yok" },
+                { "ASL_PERSONAL_STATS_CARS_NOT_AVAIL",  "Veri için şehri birkaç dakika çalıştır." },
+
+                // Status rows
+                { "ASL_PERSONAL_STATS_BIKES_ROW1", "{0} aktif | {1} bisiklet | {2} scooter | {3} / {4} park/toplam" },
+                { "ASL_PERSONAL_STATS_CARS_ROW2",  "{0} aktif | {1} park | {2} toplam | {3} römork" },
+
+                // Row3 shows TOTAL OC hidden
+                { "ASL_PERSONAL_STATS_CARS_ROW3",  "{0} OC sınırında gizli | güncellendi {1}" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)), "Oyun varsayılan hızlarına dön" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.ClearAllCustomSpeeds)),
                     "Modu kaldırmadan önce isteğe bağlı temizlik.\n" +
@@ -118,15 +187,16 @@ namespace RoadRailSpeeds
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.UsageText)),
                     "<Şehir paneli>\n" +
-                    "1. Bölümlere tıkla veya sürükleyerek seç.\n" +
-                    "2. <Yeni hız> ayarla, sonra <Uygula> tıkla.\n" +
-                    "3. <Sıfırla> seçili bölümleri geri yükler.\n" +
-                    "4. <Ön ayar> düğmeleri anında uygulanır.\n" +
-                    "\n" +
+                    "▪ Bir kesime tıklayın veya sürükleyerek birden çok kesim seçin. <Yeni hız> belirleyip <Uygula> düğmesine basın.\n" +
+                    "▪ <Hazır ayarlar> (daire içindeki sayılar) anında uygulanır; Uygula gerekmez.\n" +
+                    "▪ <Sıfırla> seçili kesimleri geri yükler.\n" +
+                    "▪ <Görünmez ağlar>: kesikli düğme gizli yolları gösterir/gizler.\n" +
                     "<Tüm şehir>\n" +
-                    "Bir yol grubu seç, sonra o gruba <Yeni hız> uygula.\n" +
-                    "Özel hızları temizlemek için <Yollar>, <Raylar>, <Su> veya <Tümü> kullan.\n" +
-                    "Tüm şehir değişikliklerinden sonra <Şehri kaydet>."
+                    "▪ Yol grubunu seçin ve yeni hızı uygulayın.\n" +
+                    "▪ <Kırmızı sıfırlama düğmeleri>: yollar, raylar, su, patikalar veya tümü ilgili özel hızları temizler.\n" +
+                    "▪ <Yollar>: bisiklet ve yaya ölçekleri şehir genelinde geçerli. %100 = oyun varsayılanı; %200 sınırı ikiye katlar.\n" +
+                    "▪ <Tekil bisiklet yolu ayarları> önceliklidir. Yalnız yaya yolları şehir genelinde ayarlanır.\n" +
+                    "▪ Yüklemede değişiklikleri korumak için <şehri kaydedin>."
                 },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.UsageText)), string.Empty },
 

@@ -1,11 +1,13 @@
 // File: UI/src/entry/SpeedToolHint.tsx
 // Purpose: First-use hint panel shown before a road/rail segment is selected.
 
+import { SelectionFilterControls } from "../panel/components/SelectionFilterControls";
+import { Tooltip } from "cs2/ui";
 import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
-import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE } from "../shared/bindings";
+import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, OpenAllPaths } from "../shared/bindings";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
 
@@ -13,9 +15,10 @@ export const SpeedToolHint = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
     const selectionCounter = useSafeBinding(SELECTION_COUNTER, 0);
+    const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
 
     // Only show when tool is active but no selection has been made yet
-    const shouldShow = toolActive && selectionCounter === 0;
+    const shouldShow = toolActive && selectionCounter === 0 && !allPathsOpen;
 
     const { panelRef, position, isDragging, startDragging } = useHintPanelPosition();
     const [isCloseHovered, setIsCloseHovered] = useState(false);
@@ -50,7 +53,7 @@ export const SpeedToolHint = () => {
                 position: "absolute",
                 left: `${position.x}px`,
                 top: `${position.y}px`,
-                width: "350rem",
+                width: "365rem",
                 pointerEvents: "auto"
             }}>
             <Panel
@@ -120,6 +123,43 @@ export const SpeedToolHint = () => {
                         lineHeight: "1.2"
                     }}>
                         {TEXT.hint.instruction}
+                    </div>
+                    <div style={{ marginTop: "8rem", display: "flex", justifyContent: "center" }}>
+                        <SelectionFilterControls
+                            label={TEXT.panel.selectFilter}
+                            pathsLabel={TEXT.panel.filterPaths}
+                            invisibleLabel={TEXT.panel.showInvisible}
+                            roadsLabel={TEXT.panel.filterRoads}
+                            railsLabel={TEXT.panel.filterRails}
+                            waterLabel={TEXT.panel.filterWater}
+                            showTip={() => {}}
+                            hideTip={() => {}}
+                            nativeTooltips={{
+                                roads: TEXT.tooltips.filterRoads,
+                                rails: TEXT.tooltips.filterRails,
+                                water: TEXT.tooltips.filterWater,
+                                paths: TEXT.hint.bikeTooltip,
+                                invisible: TEXT.hint.invisibleTooltip
+                            }}
+                        />
+                        <Tooltip tooltip={TEXT.hint.pathsTooltip} direction="up">
+                        <button
+                            onMouseDown={event => event.stopPropagation()}
+                            onClick={OpenAllPaths}
+                            style={{
+                                marginLeft: "8rem", paddingLeft: "8rem", paddingRight: "8rem",
+                                minWidth: "52rem", height: "30rem", boxSizing: "border-box",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                whiteSpace: "nowrap", cursor: "pointer",
+                                fontSize: "13rem", fontWeight: 700, color: "#E5F4FC",
+                                backgroundColor: "rgba(60, 110, 140, 0.38)",
+                                borderWidth: "1rem", borderStyle: "solid", borderRadius: "3rem",
+                                borderColor: "rgba(110, 200, 235, 0.55)"
+                            }}
+                        >
+                            {TEXT.panel.allPathsTab}
+                        </button>
+                        </Tooltip>
                     </div>
                 </div>
             </Panel>

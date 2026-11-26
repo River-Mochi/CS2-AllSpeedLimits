@@ -1,7 +1,7 @@
 // File: UI/src/panel/types.ts
 // Purpose: Shared panel-only types for speed tool sections, tooltips, and city actions.
 
-export type CityActionKind = "applyRoadGroup" | "applyTrain" | "applySubway" | "resetRoads" | "resetRails" | "resetWater" | "resetAll";
+export type CityActionKind = "applyRoadGroup" | "applyTrain" | "applySubway" | "resetRoads" | "resetPaths" | "resetRails" | "resetWater" | "resetAll";
 
 export type RoadGroupKind = "small" | "medium" | "large" | "highway";
 
@@ -28,9 +28,18 @@ export type PanelTooltipKind =
     | "unit"
     | "newSpeedUnit"
     | "wholeCity"
+    | "filterPaths"
+    | "showInvisible"
     | "filterRoads"
     | "filterRails"
     | "filterWater"
+    | "dragGrip"
+    | "pathSlider"
+    | "pathApply"
+    | "pathReset"
+    | "pedPathSlider"
+    | "pedPathApply"
+    | "pedPathReset"
     | "apply"
     | "applyTrain"
     | "applySubway"
