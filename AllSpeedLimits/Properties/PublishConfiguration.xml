@@ -15,6 +15,8 @@
 
 Is a powerful, easy toolkit to fine-tune how fast vehicles travel on any network type.
 
+Open ASL, then click a road, rail, waterway or bike path to open the full panel. Filters, invisible networks and the Paths tab are available there.
+
 ## 🌄 Key Features
 
 * **Adjust speeds on individual segments** with a simple click.
@@ -79,7 +81,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.3.0" />
+<ModVersion Value="1.3.1" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
@@ -88,11 +90,8 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- New: individual speed limits on bike and mixed pedestrian/bike paths.
-- New: edit supported invisible roads and paths; dashed lines button + optional hotkey.
-- New: Paths tab with separate global Bike/mixed and Pedestrian-only limits (30–300%). Individual bike-path edits take priority.
-- New: bicycle and electric scooter vehicle speed in Options (30–1000%, default 100%).
-- Improved UI: speed markers, selection highlights.
+- Simplified start panel: click a road or other supported network to open the full controls.
+- Updated start instructions in all 15 languages.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

@@ -1,13 +1,11 @@
 // File: UI/src/entry/SpeedToolHint.tsx
-// Purpose: First-use hint panel shown before a road/rail segment is selected.
+// Purpose: Simple start panel shown before a network segment is selected.
 
-import { SelectionFilterControls } from "../panel/components/SelectionFilterControls";
-import { Tooltip } from "cs2/ui";
 import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
-import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, OpenAllPaths } from "../shared/bindings";
+import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS } from "../shared/bindings";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
 
@@ -110,56 +108,36 @@ export const SpeedToolHint = () => {
                 <div
                     onMouseDown={handleMouseDown}
                     style={{ 
-                        paddingTop: "6rem",
+                        paddingTop: "12rem",
                         paddingRight: "16rem",
-                        paddingBottom: "10rem",
+                        paddingBottom: "14rem",
                         paddingLeft: "16rem",
                         textAlign: "center",
                         cursor: isDragging ? "grabbing" : "grab"
                 }}>
                     <div style={{
-                        fontSize: "16rem",
-                        color: "rgba(226, 236, 241, 0.82)",
+                        fontSize: "20rem",
+                        fontWeight: 700,
+                        color: "#E5F4FC",
                         lineHeight: "1.2"
                     }}>
                         {TEXT.hint.instruction}
                     </div>
-                    <div style={{ marginTop: "8rem", display: "flex", justifyContent: "center" }}>
-                        <SelectionFilterControls
-                            label={TEXT.panel.selectFilter}
-                            pathsLabel={TEXT.panel.filterPaths}
-                            invisibleLabel={TEXT.panel.showInvisible}
-                            roadsLabel={TEXT.panel.filterRoads}
-                            railsLabel={TEXT.panel.filterRails}
-                            waterLabel={TEXT.panel.filterWater}
-                            showTip={() => {}}
-                            hideTip={() => {}}
-                            nativeTooltips={{
-                                roads: TEXT.tooltips.filterRoads,
-                                rails: TEXT.tooltips.filterRails,
-                                water: TEXT.tooltips.filterWater,
-                                paths: TEXT.hint.bikeTooltip,
-                                invisible: TEXT.hint.invisibleTooltip
-                            }}
-                        />
-                        <Tooltip tooltip={TEXT.hint.pathsTooltip} direction="up">
-                        <button
-                            onMouseDown={event => event.stopPropagation()}
-                            onClick={OpenAllPaths}
-                            style={{
-                                marginLeft: "8rem", paddingLeft: "8rem", paddingRight: "8rem",
-                                minWidth: "52rem", height: "30rem", boxSizing: "border-box",
-                                display: "flex", alignItems: "center", justifyContent: "center",
-                                whiteSpace: "nowrap", cursor: "pointer",
-                                fontSize: "13rem", fontWeight: 700, color: "#E5F4FC",
-                                backgroundColor: "rgba(60, 110, 140, 0.38)",
-                                borderWidth: "1rem", borderStyle: "solid", borderRadius: "3rem",
-                                borderColor: "rgba(110, 200, 235, 0.55)"
-                            }}
-                        >
-                            {TEXT.panel.allPathsTab}
-                        </button>
-                        </Tooltip>
+                    <div style={{
+                        marginTop: "6rem",
+                        fontSize: "15rem",
+                        color: "rgba(226, 236, 241, 0.90)",
+                        lineHeight: "1.3"
+                    }}>
+                        {TEXT.hint.alternatives}
+                    </div>
+                    <div style={{
+                        marginTop: "6rem",
+                        fontSize: "14rem",
+                        color: "rgba(226, 236, 241, 0.82)",
+                        lineHeight: "1.3"
+                    }}>
+                        {TEXT.hint.drag}
                     </div>
                 </div>
             </Panel>
