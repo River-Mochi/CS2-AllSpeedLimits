@@ -44,18 +44,19 @@ export const SpeedToolHint = () => {
     const Panel = resolver.Panel;
     const PanelTheme = resolver.panelTheme;
 
+    const [firstGuideLine, ...otherGuideLines] = TEXT.hint.guide.split("\n");
+    const guideLines = [firstGuideLine, TEXT.hint.drag, ...otherGuideLines];
     const instructions = (
-        <div
-            onMouseDown={handleMouseDown}
-            style={{ 
-                paddingTop: "8rem",
-                paddingRight: "10rem",
-                paddingBottom: "9rem",
-                paddingLeft: "10rem",
-                textAlign: "center",
-                cursor: isDragging ? "grabbing" : "grab"
+        <div style={{
+            paddingTop: "8rem",
+            paddingRight: "8rem",
+            paddingBottom: "9rem",
+            paddingLeft: "8rem",
+            textAlign: "center"
         }}>
             <div style={{
+                paddingLeft: "22rem",
+                paddingRight: "22rem",
                 fontSize: "18rem",
                 fontWeight: 700,
                 color: "rgba(229, 244, 252, 0.90)",
@@ -71,22 +72,13 @@ export const SpeedToolHint = () => {
             }}>
                 {TEXT.hint.alternatives}
             </div>
-            <div style={{
-                marginTop: "4rem",
-                fontSize: "14rem",
-                color: "rgba(226, 236, 241, 0.82)",
-                lineHeight: "1.3"
-            }}>
-                {TEXT.hint.drag}
-            </div>
         </div>
     );
 
     return (
         <div
             ref={panelRef}
-            // The world marker tooltip overlay is mounted outside this hint panel. This attribute
-            // keeps marker tooltips from appearing while the player is using ASL panel UI.
+            aria-label={TEXT.hint.title}
             data-asl-marker-tooltip-block="true"
             style={{
                 position: "absolute",
@@ -94,61 +86,71 @@ export const SpeedToolHint = () => {
                 top: `${position.y}px`,
                 width: "295rem",
                 pointerEvents: "auto"
-            }}>
-            <Panel
-                header={
-                    <div 
-                        onMouseDown={handleMouseDown}
-                        style={{ 
-                            display: "flex", 
-                            justifyContent: "space-between", 
+            }}
+        >
+            <Panel className={PanelTheme.panel}>
+                <div
+                    onMouseDown={handleMouseDown}
+                    style={{
+                        position: "relative",
+                        width: "100%",
+                        cursor: isDragging ? "grabbing" : "grab"
+                    }}
+                >
+                    <Tooltip
+                        disabled={!panelTooltipsEnabled || isDragging}
+                        direction="up"
+                        tooltip={
+                            <div>
+                                {guideLines.map((line, index) => (
+                                    <div key={index}>{line}</div>
+                                ))}
+                            </div>
+                        }
+                    >
+                        {instructions}
+                    </Tooltip>
+                    <button
+                        onClick={handleClose}
+                        onMouseDown={event => event.stopPropagation()}
+                        onMouseEnter={() => setIsCloseHovered(true)}
+                        onMouseLeave={() => setIsCloseHovered(false)}
+                        aria-label={TEXT.buttons.close}
+                        title={TEXT.buttons.close}
+                        style={{
+                            position: "absolute",
+                            top: "2rem",
+                            right: "2rem",
+                            backgroundColor: isCloseHovered ? "rgba(255, 255, 255, 0.12)" : "transparent",
+                            borderWidth: "0",
+                            borderStyle: "solid",
+                            width: "24rem",
+                            height: "24rem",
+                            cursor: "pointer",
+                            display: "flex",
                             alignItems: "center",
-                            width: "100%",
-                            cursor: isDragging ? "grabbing" : "grab"
+                            justifyContent: "center",
+                            paddingTop: "0",
+                            paddingRight: "0",
+                            paddingBottom: "0",
+                            paddingLeft: "0",
+                            lineHeight: "1",
+                            borderRadius: "50%"
                         }}
                     >
-                        <span style={{ paddingLeft: "10rem" }}>{TEXT.hint.title}</span>
-                        <button 
-                            onClick={handleClose}
-                            onMouseEnter={() => setIsCloseHovered(true)}
-                            onMouseLeave={() => setIsCloseHovered(false)}
-                            title={TEXT.buttons.close}
+                        <img
+                            src="Media/Glyphs/Close.svg"
+                            alt=""
                             style={{
-                                backgroundColor: isCloseHovered ? "rgba(255, 255, 255, 0.12)" : "transparent",
-                                borderWidth: "0",
-                                borderStyle: "solid",
-                                width: "24rem",
-                                height: "24rem",
-                                cursor: "pointer",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                paddingTop: "0",
-                                paddingRight: "0",
-                                paddingBottom: "0",
-                                paddingLeft: "0",
-                                lineHeight: "1",
-                                borderRadius: "50%"
+                                width: isCloseHovered ? "14rem" : "12rem",
+                                height: isCloseHovered ? "14rem" : "12rem",
+                                filter: "brightness(0) invert(1)",
+                                opacity: isCloseHovered ? 1 : 0.84,
+                                pointerEvents: "none"
                             }}
-                        >
-                            <img
-                                src="Media/Glyphs/Close.svg"
-                                alt=""
-                                style={{
-                                    width: isCloseHovered ? "14rem" : "12rem",
-                                    height: isCloseHovered ? "14rem" : "12rem",
-                                    filter: "brightness(0) invert(1)",
-                                    opacity: isCloseHovered ? 1 : 0.84
-                                }}
-                            />
-                        </button>
-                    </div>
-                }
-                className={PanelTheme.panel}
-            >
-                {panelTooltipsEnabled && !isDragging ? (
-                    <Tooltip tooltip={TEXT.hint.guide} direction="up">{instructions}</Tooltip>
-                ) : instructions}
+                        />
+                    </button>
+                </div>
             </Panel>
         </div>
     );

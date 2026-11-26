@@ -1,41 +1,41 @@
 # Adjust All Speed Limits
 
-Fine-tune speed limits in Cities Skylines II.
+Change speed limits on roads, railways and invisible roads in Cities: Skylines II.
 
-## Features
+[Download on Paradox Mods](https://mods.paradoxplaza.com/mods/149990/Windows)
 
-- Open ASL and click a road, rail, waterway or bike path to open the full panel. Drag to select several segments. Filters, invisible networks and the Paths tab are available in the full panel.
-- Change speeds on roads, bike-capable paths, tram/train/subway tracks, and waterways.
-- Options → Bicycles: optional bicycle and electric scooter maximum speed (30–1000%, default 100%). Enable the checkbox to show the slider. OFF by default, including after upgrading; saved percentages are retained. Leave OFF if another mod controls vehicle speeds. Turning OFF releases ASL's previous changes where the values still match its last writes. Acceleration and braking adjust automatically when enabled.
-- Bicycles tab: personal vehicle counts, parked vehicles and hidden cars at outside connections; status refreshes on demand in Options. Detailed hidden-car report available in the ASL log.
-- Adjust individual segments with a slider, number box, or preset signs.
-- Switch to **Paths** for separate global limits on bike/mixed paths and pedestrian-only paths (100% = vanilla).
-- Set each global path category from **30% to 300%**, with independent Apply and Reset.
-- Global changes update eligible existing and new paths; individual ASL bike speeds take priority.
-- Reveal the game's **blue/green dashed invisible networks** with the dashed-lines button.
-- Edit supported invisible roads and bike-capable paths; also works on supported building-internal networks.
-- Assign an optional **Invisible Networks Hotkey** under Options → Actions → Keybinds. It works even with the ASL panel closed.
-- Reset selected speeds, clear custom speeds by type, or apply citywide road/rail speeds.
-- Switch between km/h and mph, show floating speeds, and view optional vehicle stats.
+## Key features
 
-## Important
+- **Click a road to start.** Drag to select several segments, then set a speed using preset signs, a slider or precise steps.
+- Works on roads, tram/train/subway tracks, waterways and bike-capable paths.
+- **Invisible roads:** use the dashed-lines button to reveal and edit supported hidden networks, including building-internal roads. Assign an optional hotkey in Options → Actions → Keybinds; it works even with ASL closed.
+- Filter network types, switch between km/h and mph, and show floating speed numbers.
+- Apply speed limits citywide to road groups, trains or subway tracks. Reset individual segments or whole network types.
 
-- The dashed-lines button shows vanilla markers globally, including pedestrian-only paths that ASL cannot edit individually.
-- **New:** Bicycle and mixed bicycle/pedestrian paths can be changed per segment. Pedestrian-only paths can be changed globally, not individually.
-- The Bike slider controls bike-only and mixed paths. The Pedestrian slider controls pedestrian-only paths. Mixed paths always use the Bike slider. For example, 200% changes a 30 km/h bike limit to 60 km/h; pedestrian walking speed is unchanged. ASL changes bicycle/e-scooter maximum speed only through the separate Options setting. It does not change citizen walking speed or other vehicle maximum speeds.
-- Hidden vehicle-only roads are **not** affected by either global Paths slider; edit supported ones individually under Speed Limits.
-- Example: Bike 200% makes a 30 km/h default bike path show 60 km/h current speed. Individual segment edits take priority; resetting an individual bike path returns it to the active Bike scale, not necessarily 100%.
-- **Speed Limits → Paths Reset** clears individual bike/mixed speeds so they follow the global Bike scale. Each **Paths → Reset** returns that category to 100%.
-- **Moving from Bikes + Paths?** ASL replaces B+P. Remove Bikes + Paths when using ASL; no reset is required. Optional: to restore vanilla values first, use Reset to Game Defaults with B+P alone, let the changes finish and save. Legacy hidden vehicle pathways may retain modified limits otherwise. B+P 1.1.6+ is compatible during the transition; older versions can conflict.
-- No dependency on ToggleMarkers, Show Invisible Networks, or Extra Networks and Areas. Mods that show invisible networks share the game's visibility setting.
-- ASL does not modify building layouts. Vehicles still obey their maximum speeds and network limits. Only bicycle/e-scooter maximum speed is tunable in Options.
-- Custom network speeds remain after removing ASL. **Reset them and save your city before uninstalling** if you want vanilla values. Disable bicycle speed tuning (or reset to 100% while enabled) as well.
+## Bonus features
 
-## Saves and performance
+- **Paths tab:** separate citywide speed limits for bicycle/mixed paths and pedestrian-only paths. Individual bike-path edits take priority.
+- **Options → Bicycles:** optional bicycle and electric scooter maximum speed, acceleration and braking. OFF by default to avoid conflicts with other vehicle-speed mods.
+- Personal vehicle statistics, parked counts and a hidden-car diagnostic report in Options.
 
-- Speed changes are saved with the city. A small backup is stored in `ModsData/AllSpeedLimits`; old `ModsData/SpeedLimits` backups are migrated.
-- Whole-city actions run in batches. Global Paths applies even while paused. Floating numbers, selection overlays, and vehicle stats run only while the ASL tool is open.
+## Compatibility and saves
 
-## License
+- Remove the old Road Speed Adjuster (RSA) before using ASL. Existing custom limits can still be edited or reset.
+- ASL replaces Bikes + Paths (B+P). Remove B+P; no reset is required. B+P 1.1.7 is compatible during the transition.
+- No dependency on ToggleMarkers, Show Invisible Networks or Extra Networks and Areas. Marker visibility is shared with the game's own setting.
+- Vehicles still obey their model's maximum speed and network limits. ASL does not change walking speed or building layouts.
+- Custom network limits remain after uninstalling. To restore vanilla limits, use the Reset buttons and save your city. Turn off optional vehicle tuning before removing ASL.
+
+## Technical notes
+
+- Bike and pedestrian citywide scales: 30–300%. Bicycle/scooter vehicle scale: 30–1000% (100% = game default). Saved vehicle percentages are retained when tuning is disabled.
+- Mixed paths follow the Bike scale; pedestrian-only paths are not individually editable. Resetting an individual bike path returns it to the active Bike scale. The Paths tab resets each scale to 100%.
+- The citywide Paths sliders exclude hidden vehicle-only roads; edit supported ones individually. Legacy B+P changes to these roads may remain. If you prefer to restore all B+P values first, use Reset to Game Defaults with B+P alone and save before switching.
+- Speed changes are saved with the city. Backups in `ModsData/AllSpeedLimits`; old `ModsData/SpeedLimits` backups are migrated.
+- Whole-city actions are batched; path changes run on request or city load, even while paused, then go idle. In-city stats and speed overlays run only while the tool is open.
+
+## Feedback and license
+
+[Discord](https://discord.gg/gwXgvtyhjc) · Issues and PRs welcome.
 
 GPL-3.0-or-later with the Cities: Skylines II Linking Exception. See [LICENSE](LICENSE), [LICENSE-EXCEPTION](LICENSE-EXCEPTION), and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
