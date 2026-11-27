@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Permite tren + metro.",
   "tooltips.filterRoads": "Permite carreteras + tranvía.",
   "tooltips.filterWater": "Permite vías de agua.",
-  "tooltips.gameDefault.text": "Valor de los datos del juego, no de las marcas viales.\nUna vía marcada con 35 puede tener otro valor real.",
+  "tooltips.gameDefault.text": "Valor de los datos del juego, no de las marcas viales.\nUna vía marcada con 35 puede tener otro valor predeterminado real.",
   "tooltips.gameDefault.title": "Velocidad predeterminada",
   "tooltips.increaseTarget": "Subir objetivo en 1",
   "tooltips.markersHide": "Mostrar/ocultar números de velocidad flotantes.",

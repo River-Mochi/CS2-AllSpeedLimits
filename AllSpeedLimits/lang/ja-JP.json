@@ -133,7 +133,7 @@
   "tooltips.filterRails": "列車 + 地下鉄を許可。",
   "tooltips.filterRoads": "道路 + トラムを許可。",
   "tooltips.filterWater": "水路を許可。",
-  "tooltips.gameDefault.text": "既定値はゲームデータに基づき、路面表示とは別です。\n35と書かれた道路でも実際の値が異なる場合があります。",
+  "tooltips.gameDefault.text": "既定値はゲームデータに基づき、路面表示とは別です。\n35と書かれた道路でも実際の既定値が異なる場合があります。",
   "tooltips.gameDefault.title": "ゲーム既定速度",
   "tooltips.increaseTarget": "目標を1上げる",
   "tooltips.markersHide": "速度の数字を表示／非表示。",

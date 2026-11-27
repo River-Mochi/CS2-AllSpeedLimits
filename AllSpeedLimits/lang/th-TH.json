@@ -133,7 +133,7 @@
   "tooltips.filterRails": "อนุญาตรถไฟ + รถไฟใต้ดิน",
   "tooltips.filterRoads": "อนุญาตถนน + แทรม",
   "tooltips.filterWater": "อนุญาตทางน้ำ",
-  "tooltips.gameDefault.text": "ค่าเริ่มต้นมาจากข้อมูลเกม ไม่ใช่เครื่องหมายบนถนน\nถนนที่มีเลข 35 อาจมีค่าจริงต่างออกไป",
+  "tooltips.gameDefault.text": "ค่าเริ่มต้นมาจากข้อมูลเกม ไม่ใช่เครื่องหมายบนถนน\nถนนที่มีเลข 35 อาจมีค่าเริ่มต้นจริงต่างออกไป",
   "tooltips.gameDefault.title": "ความเร็วเดิมของเกม",
   "tooltips.increaseTarget": "เพิ่มเป้าหมาย 1",
   "tooltips.markersHide": "แสดง/ซ่อนตัวเลขความเร็วลอย",

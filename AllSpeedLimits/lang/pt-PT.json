@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Permite comboio + metro.",
   "tooltips.filterRoads": "Permite estradas + elétrico.",
   "tooltips.filterWater": "Permite vias navegáveis.",
-  "tooltips.gameDefault.text": "Valor dos dados do jogo, não da sinalização.\nUma estrada marcada com 35 pode ter outro valor real.",
+  "tooltips.gameDefault.text": "Valor dos dados do jogo, não da sinalização.\nUma estrada marcada com 35 pode ter outro valor predefinido real.",
   "tooltips.gameDefault.title": "Velocidade predefinida",
   "tooltips.increaseTarget": "Aumentar alvo em 1",
   "tooltips.markersHide": "Mostrar/ocultar números de velocidade flutuantes.",

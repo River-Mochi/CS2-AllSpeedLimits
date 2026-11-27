@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Zug- + U-Bahn-Gleise erlauben.",
   "tooltips.filterRoads": "Straßen + Tramgleise erlauben.",
   "tooltips.filterWater": "Wasserwege erlauben.",
-  "tooltips.gameDefault.text": "Standard aus Spieldaten, nicht aus Straßenmarkierungen.\nEine Straße mit 35 kann einen anderen Wert haben.",
+  "tooltips.gameDefault.text": "Standard aus Spieldaten, nicht aus Straßenmarkierungen.\nEine Straße mit 35 kann einen anderen tatsächlichen Standardwert haben.",
   "tooltips.gameDefault.title": "Spiel-Standardtempo",
   "tooltips.increaseTarget": "Ziel um 1 erhöhen",
   "tooltips.markersHide": "Schwebende Tempoanzeigen ein-/ausblenden.",

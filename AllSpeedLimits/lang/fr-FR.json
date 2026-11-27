@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Autorise train + métro.",
   "tooltips.filterRoads": "Autorise routes + tram.",
   "tooltips.filterWater": "Autorise voies d'eau.",
-  "tooltips.gameDefault.text": "Valeur issue des données du jeu, pas du marquage au sol.\nUne route marquée 35 peut avoir une autre valeur réelle.",
+  "tooltips.gameDefault.text": "Valeur issue des données du jeu, pas du marquage au sol.\nUne route marquée 35 peut avoir une autre valeur par défaut réelle.",
   "tooltips.gameDefault.title": "Vitesse par défaut",
   "tooltips.increaseTarget": "Monter la cible de 1",
   "tooltips.markersHide": "Afficher/masquer les vitesses flottantes.",

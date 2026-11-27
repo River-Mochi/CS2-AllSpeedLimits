@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Tren + metro izinli.",
   "tooltips.filterRoads": "Yollar + tramvay izinli.",
   "tooltips.filterWater": "Su yolları izinli.",
-  "tooltips.gameDefault.text": "Varsayılan, yol çiziminden değil oyun verisinden gelir.\n35 yazan yolun gerçek değeri farklı olabilir.",
+  "tooltips.gameDefault.text": "Varsayılan, yol çiziminden değil oyun verisinden gelir.\n35 yazan yolun gerçek varsayılan değeri farklı olabilir.",
   "tooltips.gameDefault.title": "Varsayılan oyun hızı",
   "tooltips.increaseTarget": "Hedefi 1 artır",
   "tooltips.markersHide": "Hız sayılarını göster/gizle.",

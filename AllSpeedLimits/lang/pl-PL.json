@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Pozwala na pociąg + metro.",
   "tooltips.filterRoads": "Pozwala na drogi + tramwaj.",
   "tooltips.filterWater": "Pozwala na drogi wodne.",
-  "tooltips.gameDefault.text": "Wartość z danych gry, nie z oznakowania drogi.\nDroga oznaczona 35 może mieć inną rzeczywistą wartość.",
+  "tooltips.gameDefault.text": "Wartość z danych gry, nie z oznakowania drogi.\nDroga oznaczona 35 może mieć inną rzeczywistą wartość domyślną.",
   "tooltips.gameDefault.title": "Domyślna prędkość gry",
   "tooltips.increaseTarget": "Zwiększ cel o 1",
   "tooltips.markersHide": "Pokaż/ukryj liczby prędkości.",

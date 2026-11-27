@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Consenti treno + metro.",
   "tooltips.filterRoads": "Consenti strade + tram.",
   "tooltips.filterWater": "Consenti vie d'acqua.",
-  "tooltips.gameDefault.text": "Valore dai dati di gioco, non dalla segnaletica.\nUna strada con 35 può avere un valore reale diverso.",
+  "tooltips.gameDefault.text": "Valore dai dati di gioco, non dalla segnaletica.\nUna strada con 35 può avere un valore predefinito reale diverso.",
   "tooltips.gameDefault.title": "Velocità predef. gioco",
   "tooltips.increaseTarget": "Aumenta di 1",
   "tooltips.markersHide": "Mostra/nascondi i numeri di velocità.",

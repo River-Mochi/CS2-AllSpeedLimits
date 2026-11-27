@@ -133,7 +133,7 @@
   "tooltips.filterRails": "允許火車 + 地鐵軌道。",
   "tooltips.filterRoads": "允許道路 + 電車軌道。",
   "tooltips.filterWater": "允許水路。",
-  "tooltips.gameDefault.text": "預設值來自遊戲資料，而非道路標記。\n標有35的道路實際速限可能不同。",
+  "tooltips.gameDefault.text": "預設值來自遊戲資料，而非道路標記。\n標有35的道路實際預設速限可能不同。",
   "tooltips.gameDefault.title": "遊戲預設速度",
   "tooltips.increaseTarget": "目標加 1",
   "tooltips.markersHide": "顯示/隱藏浮動速限數字。",

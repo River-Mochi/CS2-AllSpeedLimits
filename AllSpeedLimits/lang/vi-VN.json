@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Cho phép tàu + metro.",
   "tooltips.filterRoads": "Cho phép đường + tram.",
   "tooltips.filterWater": "Cho phép đường thủy.",
-  "tooltips.gameDefault.text": "Mặc định từ dữ liệu game, không phải vạch đường.\nĐường ghi 35 có thể có giá trị thực khác.",
+  "tooltips.gameDefault.text": "Mặc định từ dữ liệu game, không phải vạch đường.\nĐường ghi 35 có thể có giá trị mặc định thực tế khác.",
   "tooltips.gameDefault.title": "Tốc độ mặc định game",
   "tooltips.increaseTarget": "Tăng mục tiêu 1",
   "tooltips.markersHide": "Hiện/ẩn số tốc độ nổi.",

@@ -133,7 +133,7 @@
   "tooltips.filterRails": "允许火车 + 地铁轨道。",
   "tooltips.filterRoads": "允许道路 + 电车轨道。",
   "tooltips.filterWater": "允许水路。",
-  "tooltips.gameDefault.text": "默认值来自游戏数据，而非道路标记。\n标有35的道路实际限速可能不同。",
+  "tooltips.gameDefault.text": "默认值来自游戏数据，而非道路标记。\n标有35的道路实际默认限速可能不同。",
   "tooltips.gameDefault.title": "游戏默认速度",
   "tooltips.increaseTarget": "目标加 1",
   "tooltips.markersHide": "显示/隐藏悬浮限速数字。",

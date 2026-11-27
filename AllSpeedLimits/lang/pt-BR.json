@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Permite trem + metrô.",
   "tooltips.filterRoads": "Permite vias + bonde.",
   "tooltips.filterWater": "Permite hidrovias.",
-  "tooltips.gameDefault.text": "Padrão dos dados do jogo, não da sinalização.\nUma via marcada com 35 pode ter outro valor real.",
+  "tooltips.gameDefault.text": "Padrão dos dados do jogo, não da sinalização.\nUma via marcada com 35 pode ter outro valor padrão real.",
   "tooltips.gameDefault.title": "Velocidade padrão",
   "tooltips.increaseTarget": "Aumentar alvo em 1",
   "tooltips.markersHide": "Mostrar/ocultar números de velocidade flutuantes.",

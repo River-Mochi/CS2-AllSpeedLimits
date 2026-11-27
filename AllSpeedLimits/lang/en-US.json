@@ -133,7 +133,7 @@
   "tooltips.filterRails": "Allow train + subway tracks.",
   "tooltips.filterRoads": "Allow roads + tram tracks.",
   "tooltips.filterWater": "Allow waterways.",
-  "tooltips.gameDefault.text": "Default is from game data, not road art.\nA road marked 35 may be a different real value.",
+  "tooltips.gameDefault.text": "Default is from game data, not road art.\nA road marked 35 may be a different real default value.",
   "tooltips.gameDefault.title": "Game default speed",
   "tooltips.increaseTarget": "Increase target by 1",
   "tooltips.markersHide": "Show/Hide floating speed numbers.",
