@@ -19,6 +19,9 @@ import { useSafeBinding } from "../shared/useSafeBinding";
 import { CompactInvisibleNetworkButton } from "../panel/components/SelectionFilterControls";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
 
+// Switch to true to compare the bottom-right layout during UI development.
+const kInvisibleButtonOnRight = false;
+
 export const SpeedToolHint = () => {
     const TEXT = useText().inCity;
     const toolActive = useSafeBinding(TOOL_ACTIVE, false);
@@ -61,11 +64,11 @@ export const SpeedToolHint = () => {
             paddingRight: "8rem",
             paddingBottom: "9rem",
             paddingLeft: "8rem",
-            textAlign: "center"
+            textAlign: kInvisibleButtonOnRight ? "left" : "center"
         }}>
             <div style={{
-                paddingLeft: "34rem",
-                paddingRight: "34rem",
+                paddingLeft: kInvisibleButtonOnRight ? "0" : "34rem",
+                paddingRight: kInvisibleButtonOnRight ? "22rem" : "34rem",
                 fontSize: "18rem",
                 fontWeight: 700,
                 color: "rgba(229, 244, 252, 0.90)",
@@ -75,6 +78,7 @@ export const SpeedToolHint = () => {
             </div>
             <div style={{
                 marginTop: "4rem",
+                paddingRight: kInvisibleButtonOnRight ? "34rem" : "0",
                 fontSize: "14rem",
                 color: "rgba(226, 236, 241, 0.90)",
                 lineHeight: "1.3"
@@ -113,14 +117,16 @@ export const SpeedToolHint = () => {
                         tooltip={
                             <div>
                                 {guideLines.map((line, index) => (
-                                    <div key={index}>{`- ${line}`}</div>
+                                    <div key={index}>{`▪ ${line}`}</div>
                                 ))}
                             </div>
                         }
                     >
                         {instructions}
                     </Tooltip>
-                    <div style={{ position: "absolute", left: "2rem", top: "2rem" }}>
+                    <div style={kInvisibleButtonOnRight
+                        ? { position: "absolute", right: "4rem", bottom: "4rem" }
+                        : { position: "absolute", left: "2rem", top: "2rem" }}>
                         <CompactInvisibleNetworkButton
                             text={TEXT.panel.showInvisible}
                             tooltip={panelTooltipsEnabled && !isDragging ? TEXT.tooltips.showInvisible : undefined}
