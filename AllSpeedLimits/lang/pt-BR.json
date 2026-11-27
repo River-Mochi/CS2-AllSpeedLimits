@@ -50,7 +50,7 @@
   "help.unitTitle": "Unidades:",
   "hint.alternatives": "Ou clique em trilhos, vias aquáticas ou outras",
   "hint.drag": "Arraste para selecionar vários trechos de uma vez.",
-  "hint.guide": "Clique em uma rua para abrir os controles.\nFiltros: tipos de via.\nVias invisíveis: ícone tracejado.\nAba Caminhos: limites em toda a cidade.",
+  "hint.guide": "Clique em uma rua para abrir o painel de velocidade.\nOs filtros limitam os tipos de vias selecionáveis.\nVias invisíveis: ícone tracejado.",
   "hint.instruction": "Clique em uma rua para começar",
   "hint.pathsTooltip": "Limites globais de bikes e pedestres",
   "hint.bikeTooltip": "Selecione ciclovias; ajuste a velocidade como nas vias.",

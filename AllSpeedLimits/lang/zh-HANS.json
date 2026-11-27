@@ -50,7 +50,7 @@
   "help.unitTitle": "单位：",
   "hint.alternatives": "也可点击轨道、航道等其他路网",
   "hint.drag": "拖动可一次选择多个路段。",
-  "hint.guide": "点击道路打开限速设置。\n筛选：选择路网类型。\n虚线图标：显示隐形道路。\n路径标签页：全城路径限速。",
+  "hint.guide": "点击道路打开限速面板。\n筛选图标限制可选择的路网类型。\n点击虚线图标显示隐形道路。",
   "hint.instruction": "点击任意道路开始",
   "hint.pathsTooltip": "全局自行车道和步行路径限速",
   "hint.bikeTooltip": "选择自行车道；限速操作与道路相同。",

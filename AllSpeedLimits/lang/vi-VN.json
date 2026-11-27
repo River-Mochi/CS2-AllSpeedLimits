@@ -50,7 +50,7 @@
   "help.unitTitle": "Đơn vị:",
   "hint.alternatives": "Hoặc nhấp vào đường ray, đường thủy hay mạng khác",
   "hint.drag": "Kéo để chọn nhiều đoạn cùng lúc.",
-  "hint.guide": "Nhấp vào đường để mở bảng tốc độ.\nBộ lọc: chọn loại đường.\nĐường vô hình: biểu tượng nét đứt.\nTab Lối đi: giới hạn toàn thành phố.",
+  "hint.guide": "Nhấp vào đường để mở bảng tốc độ.\nBiểu tượng bộ lọc giới hạn loại đường có thể chọn.\nĐường vô hình: biểu tượng nét đứt.",
   "hint.instruction": "Nhấp vào đường để bắt đầu",
   "hint.pathsTooltip": "Giới hạn đường xe đạp và đi bộ toàn thành phố",
   "hint.bikeTooltip": "Chọn đường xe đạp; chỉnh tốc độ giống đường bộ.",

@@ -50,7 +50,7 @@
   "help.unitTitle": "Unidades:",
   "hint.alternatives": "Ou clica numa via férrea, navegável ou outra",
   "hint.drag": "Arrasta para selecionar vários troços de uma vez.",
-  "hint.guide": "Clica numa estrada para abrir os controlos.\nFiltros: tipos de via.\nEstradas invisíveis: ícone tracejado.\nSeparador Caminhos: limites em toda a cidade.",
+  "hint.guide": "Clica numa estrada para abrir o painel de velocidade.\nOs filtros limitam os tipos de via selecionáveis.\nEstradas invisíveis: ícone tracejado.",
   "hint.instruction": "Clica numa estrada para começar",
   "hint.pathsTooltip": "Limites globais de bicicletas e peões",
   "hint.bikeTooltip": "Selecione ciclovias; ajuste a velocidade como nas estradas.",

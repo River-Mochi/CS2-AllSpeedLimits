@@ -50,7 +50,7 @@
   "help.unitTitle": "單位：",
   "hint.alternatives": "也可點擊軌道、航道等其他路網",
   "hint.drag": "拖曳可一次選取多個路段。",
-  "hint.guide": "點擊道路開啟速限設定。\n篩選：選擇路網類型。\n虛線圖示：顯示隱形道路。\n路徑分頁：全城路徑速限。",
+  "hint.guide": "點擊道路開啟速限面板。\n篩選圖示限制可選取的路網類型。\n點擊虛線圖示顯示隱形道路。",
   "hint.instruction": "點擊任意道路開始",
   "hint.pathsTooltip": "全域自行車道與步行路徑限速",
   "hint.bikeTooltip": "選取自行車道；限速操作與道路相同。",

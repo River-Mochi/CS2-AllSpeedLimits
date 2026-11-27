@@ -50,7 +50,7 @@
   "help.unitTitle": "Unità:",
   "hint.alternatives": "O clicca su binari, vie d'acqua o altre reti",
   "hint.drag": "Trascina per selezionare più tratti insieme.",
-  "hint.guide": "Clicca su una strada per aprire i controlli.\nFiltri: scegli il tipo di rete.\nStrade invisibili: icona tratteggiata.\nScheda Percorsi: limiti in tutta la città.",
+  "hint.guide": "Clicca su una strada per aprire il pannello velocità.\nI filtri limitano i tipi di rete selezionabili.\nStrade invisibili: icona tratteggiata.",
   "hint.instruction": "Clicca su una strada per iniziare",
   "hint.pathsTooltip": "Limiti globali bici e pedoni",
   "hint.bikeTooltip": "Seleziona piste ciclabili; stessi comandi di velocità delle strade.",

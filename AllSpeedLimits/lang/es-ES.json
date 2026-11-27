@@ -50,7 +50,7 @@
   "help.unitTitle": "Unidades:",
   "hint.alternatives": "O haz clic en vías férreas, fluviales u otras",
   "hint.drag": "Arrastra para seleccionar varios tramos a la vez.",
-  "hint.guide": "Haz clic en una calle para abrir los controles.\nFiltros: elige el tipo de vía.\nCarreteras invisibles: icono de líneas discontinuas.\nPestaña Caminos: límites en toda la ciudad.",
+  "hint.guide": "Haz clic en una calle para abrir el panel de velocidad.\nLos filtros limitan los tipos de vías seleccionables.\nCarreteras invisibles: icono de líneas discontinuas.",
   "hint.instruction": "Haz clic en una calle para empezar",
   "hint.pathsTooltip": "Límites globales de bici y peatones",
   "hint.bikeTooltip": "Selecciona vías ciclistas; ajusta la velocidad como en carreteras.",

@@ -84,7 +84,9 @@ export const SpeedToolHint = () => {
                 position: "absolute",
                 left: `${position.x}px`,
                 top: `${position.y}px`,
-                width: "295rem",
+                width: "auto",
+                minWidth: "295rem",
+                maxWidth: "365rem",
                 pointerEvents: "auto"
             }}
         >
@@ -93,7 +95,6 @@ export const SpeedToolHint = () => {
                     onMouseDown={handleMouseDown}
                     style={{
                         position: "relative",
-                        width: "100%",
                         cursor: isDragging ? "grabbing" : "grab"
                     }}
                 >
@@ -103,7 +104,7 @@ export const SpeedToolHint = () => {
                         tooltip={
                             <div>
                                 {guideLines.map((line, index) => (
-                                    <div key={index}>{line}</div>
+                                    <div key={index}>- {line}</div>
                                 ))}
                             </div>
                         }

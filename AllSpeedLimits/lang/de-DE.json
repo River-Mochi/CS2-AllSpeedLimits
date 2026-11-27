@@ -50,7 +50,7 @@
   "help.unitTitle": "Einheiten:",
   "hint.alternatives": "Oder auf Gleise, Wasserwege, andere Netze klicken",
   "hint.drag": "Ziehe, um mehrere Abschnitte auszuwählen.",
-  "hint.guide": "Klicke auf eine Straße, um die Temporegler zu öffnen.\nFilter: Netztypen wählen.\nUnsichtbare Straßen: gestricheltes Symbol.\nWege-Tab: stadtweite Weglimits.",
+  "hint.guide": "Klicke auf eine Straße, um die Temporegler zu öffnen.\nFilter-Symbole begrenzen die auswählbaren Netztypen.\nUnsichtbare Straßen: gestricheltes Symbol.",
   "hint.instruction": "Klicke zum Start auf eine Straße",
   "hint.pathsTooltip": "Globale Rad- und Fußweg-Limits",
   "hint.bikeTooltip": "Radwege wählen; gleiche Temporegelung wie bei Straßen.",

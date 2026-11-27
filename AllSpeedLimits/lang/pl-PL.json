@@ -50,7 +50,7 @@
   "help.unitTitle": "Jednostki:",
   "hint.alternatives": "Lub kliknij tor, szlak wodny lub inną sieć",
   "hint.drag": "Przeciągnij, aby zaznaczyć kilka odcinków naraz.",
-  "hint.guide": "Kliknij drogę, aby otworzyć ustawienia.\nFiltry: wybór typu sieci.\nNiewidoczne drogi: ikona przerywanych linii.\nZakładka Ścieżki: limity w całym mieście.",
+  "hint.guide": "Kliknij drogę, aby otworzyć panel prędkości.\nIkony filtrów ograniczają wybór typów sieci.\nNiewidoczne drogi: ikona przerywanych linii.",
   "hint.instruction": "Kliknij drogę, aby zacząć",
   "hint.pathsTooltip": "Globalne limity rowerowe i piesze",
   "hint.bikeTooltip": "Wybierz ścieżki rowerowe; prędkość ustawisz jak na drogach.",

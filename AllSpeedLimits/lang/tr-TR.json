@@ -50,7 +50,7 @@
   "help.unitTitle": "Birimler:",
   "hint.alternatives": "Ya da raya, su yoluna veya başka bir ağa tıkla",
   "hint.drag": "Birden çok kesimi seçmek için sürükle.",
-  "hint.guide": "Hız ayarlarını açmak için bir yola tıkla.\nFiltreler: ağ türünü seç.\nGörünmez yollar: kesik çizgili simge.\nYol sekmesi: şehir genelinde yaya/bisiklet yolu sınırları.",
+  "hint.guide": "Hız panelini açmak için bir yola tıkla.\nFiltre simgeleri seçilebilen ağ türlerini sınırlar.\nGörünmez yollar için kesik çizgili simgeyi kullan.",
   "hint.instruction": "Başlamak için bir yola tıkla",
   "hint.pathsTooltip": "Global bisiklet ve yaya yolu limitleri",
   "hint.bikeTooltip": "Bisiklet yollarını seçin; hız ayarı yollardaki gibi.",

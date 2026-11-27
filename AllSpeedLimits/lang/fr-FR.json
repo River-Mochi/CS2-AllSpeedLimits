@@ -50,7 +50,7 @@
   "help.unitTitle": "Unités :",
   "hint.alternatives": "Ou clique sur une voie ferrée, navigable ou autre",
   "hint.drag": "Glisse pour sélectionner plusieurs tronçons.",
-  "hint.guide": "Clique sur une route pour ouvrir les réglages.\nFiltres : types de voies.\nRoutes invisibles : icône en pointillés.\nOnglet Chemins : limites dans toute la ville.",
+  "hint.guide": "Clique sur une route pour ouvrir le panneau des vitesses.\nLes filtres limitent les types de voies sélectionnables.\nRoutes invisibles : icône en pointillés.",
   "hint.instruction": "Clique sur une route pour commencer",
   "hint.pathsTooltip": "Limites globales vélo et piétons",
   "hint.bikeTooltip": "Choisir les pistes cyclables ; mêmes réglages de vitesse que les routes.",
