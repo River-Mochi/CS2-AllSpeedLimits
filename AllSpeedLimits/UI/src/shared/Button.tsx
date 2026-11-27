@@ -1,3 +1,11 @@
+// <copyright file="Button.tsx" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi. All rights reserved.
+// Licensed under the GNU General Public License v3.0 or later,
+// with the Cities: Skylines II Linking Exception.
+// See LICENSE and LICENSE-EXCEPTION in the project root.
+// This notice MUST be kept with copies or substantial portions of this code.
+// ================= </copyright> ======================
+
 // File: UI/src/shared/Button.tsx
 // Purpose: Shared COHTML-safe button wrapper for the road/rail speed UI.
 // Wraps the vanilla cs2/ui Button so every button gets CS2's native click sound,
