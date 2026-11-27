@@ -16,6 +16,7 @@ import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResol
 import { useText } from "../shared/localization";
 import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, MAIN_PANEL_OPEN, PANEL_TOOLTIPS_ENABLED } from "../shared/bindings";
 import { useSafeBinding } from "../shared/useSafeBinding";
+import { CompactInvisibleNetworkButton } from "../panel/components/SelectionFilterControls";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
 
 export const SpeedToolHint = () => {
@@ -63,8 +64,8 @@ export const SpeedToolHint = () => {
             textAlign: "center"
         }}>
             <div style={{
-                paddingLeft: "22rem",
-                paddingRight: "22rem",
+                paddingLeft: "34rem",
+                paddingRight: "34rem",
                 fontSize: "18rem",
                 fontWeight: 700,
                 color: "rgba(229, 244, 252, 0.90)",
@@ -112,13 +113,19 @@ export const SpeedToolHint = () => {
                         tooltip={
                             <div>
                                 {guideLines.map((line, index) => (
-                                    <div key={index}>- {line}</div>
+                                    <div key={index}>{`- ${line}`}</div>
                                 ))}
                             </div>
                         }
                     >
                         {instructions}
                     </Tooltip>
+                    <div style={{ position: "absolute", left: "2rem", top: "2rem" }}>
+                        <CompactInvisibleNetworkButton
+                            text={TEXT.panel.showInvisible}
+                            tooltip={panelTooltipsEnabled && !isDragging ? TEXT.tooltips.showInvisible : undefined}
+                        />
+                    </div>
                     <button
                         onClick={handleClose}
                         onMouseDown={event => event.stopPropagation()}

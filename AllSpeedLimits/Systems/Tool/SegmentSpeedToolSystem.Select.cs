@@ -215,6 +215,7 @@ namespace RoadRailSpeeds.Systems
 
         private void FinalizeSelection()
         {
+            bool hadSelection = m_SelectedEdges.Count > 0;
             m_SelectedEdges.Clear();
             m_SelectedEdges.AddRange(m_TempSelection);
 
@@ -233,6 +234,12 @@ namespace RoadRailSpeeds.Systems
             else
             {
                 RemoveAllHighlights();
+                m_ToolSystem.selected = Entity.Null;
+                if (hadSelection)
+                {
+                    // Clear stale selected-segment values in the UI, but keep its panel open.
+                    m_UISystem.OnSegmentsSelectedByTool(Entity.Null, m_SelectedEdges);
+                }
             }
         }
 

@@ -47,9 +47,10 @@ type FilterChipProps = {
   nativeTooltip?: string;
   showActiveDot?: boolean;
   wideIcon?: boolean;
+  compact?: boolean;
 };
 
-const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip, showActiveDot = true, wideIcon = false }: FilterChipProps) => {
+const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip, nativeTooltip, showActiveDot = true, wideIcon = false, compact = false }: FilterChipProps) => {
   const [hovered, setHovered] = useState(false);
   // Use the game's resolved button here. A direct import registers controller focus twice and
   // floods the log with duplicate-focus errors.
@@ -77,9 +78,9 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
       onSelect={onToggle}
       style={{
         position: "relative",
-        width: USE_ICONS ? (wideIcon ? "44rem" : "30rem") : "auto",
-        minWidth: USE_ICONS ? (wideIcon ? "44rem" : "30rem") : "46rem",
-        height: "30rem",
+        width: USE_ICONS ? (compact ? "30rem" : wideIcon ? "44rem" : "30rem") : "auto",
+        minWidth: USE_ICONS ? (compact ? "30rem" : wideIcon ? "44rem" : "30rem") : "46rem",
+        height: compact ? "22rem" : "30rem",
         marginLeft: "2rem",
         paddingLeft: USE_ICONS ? "0" : "8rem",
         paddingRight: USE_ICONS ? "0" : "8rem",
@@ -104,8 +105,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
           src={iconSrc}
           alt={text}
           style={{
-            width: wideIcon ? "40rem" : "26rem",
-            height: "26rem",
+            width: compact ? "24rem" : wideIcon ? "36rem" : "26rem",
+            height: compact ? "18rem" : "26rem",
             pointerEvents: "none",
             opacity: wideIcon && !active && !hovered ? 0.5 : 1,
             filter: iconFilter,
@@ -123,8 +124,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
           position: "absolute",
           left: "2rem",
           bottom: "2rem",
-          width: "5.5rem",
-          height: "5.5rem",
+          width: compact ? "4rem" : "5.5rem",
+          height: compact ? "4rem" : "5.5rem",
           borderRadius: "50%",
           backgroundColor: kSelectedAccent,
           boxShadow: "0 0 2rem rgba(110, 200, 235, 0.85)",
@@ -137,6 +138,25 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
   return nativeTooltip
     ? <Tooltip tooltip={nativeTooltip} direction="up">{chip}</Tooltip>
     : chip;
+};
+
+// Same native marker binding and icon as the main-panel filter.
+export const CompactInvisibleNetworkButton = ({ text, tooltip }: { text: string; tooltip?: string }) => {
+  const invisible = useSafeBinding(SHOW_INVISIBLE, false);
+  return (
+    <FilterChip
+      active={invisible}
+      text={text}
+      tipKind="showInvisible"
+      iconSrc={invisibleIcon}
+      wideIcon={true}
+      compact={true}
+      nativeTooltip={tooltip}
+      onToggle={() => SetShowInvisible(!invisible)}
+      showTip={() => {}}
+      hideTip={() => {}}
+    />
+  );
 };
 
 type SelectionFilterControlsProps = {
@@ -258,7 +278,6 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
               text={invisibleLabel}
               tipKind="showInvisible"
               iconSrc={invisibleIcon}
-              showActiveDot={false}
               wideIcon={true}
               nativeTooltip={nativeTooltips?.invisible}
               onToggle={() => SetShowInvisible(!invisible)}

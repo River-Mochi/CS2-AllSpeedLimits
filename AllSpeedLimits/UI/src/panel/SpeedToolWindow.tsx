@@ -498,7 +498,6 @@ export const SpeedToolWindow = () => {
     };
 
     const handlePresetSpeed = (displayValue: number) => {
-        if (!hasSelection) return;
         const speedKmh = displayValueToSpeedKmh(displayValue);
         setPendingSpeedKmh(speedKmh);
 
@@ -1072,7 +1071,6 @@ export const SpeedToolWindow = () => {
                                 </div>
                                 <div style={{ flex: 1, minWidth: "0", marginLeft: "8rem" }}>
                                     <PresetControls
-                                        hasSelection={hasSelection}
                                         presetRows={presetRows}
                                         displayValue={Math.round(displaySpeed)}
                                         minDisplay={sliderMin}

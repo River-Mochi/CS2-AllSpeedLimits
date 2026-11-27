@@ -128,15 +128,14 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                                     ? "rgba(92, 161, 192, 0.22)" : "rgba(92, 161, 192, 0.08)",
                                 borderWidth: "0",
                                 borderStyle: "solid",
-                                borderBottomWidth: "2rem",
-                                borderBottomColor: activeView === view ? "rgba(255, 255, 255, 0.48)" : "transparent",
+                                position: "relative",
                                 borderTopLeftRadius: "5rem",
                                 borderTopRightRadius: "5rem",
                                 borderBottomLeftRadius: "0",
                                 borderBottomRightRadius: "0",
                                 minHeight: "25rem",
                                 paddingTop: "3rem",
-                                paddingBottom: "2rem",
+                                paddingBottom: "4rem",
                                 paddingLeft: "4rem",
                                 paddingRight: "4rem",
                                 marginRight: view === "limits" ? "3rem" : "0",
@@ -150,6 +149,17 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                             }}
                         >
                             {label}
+                            {activeView === view && (
+                                <span style={{
+                                    position: "absolute",
+                                    left: "0",
+                                    right: "0",
+                                    bottom: "0",
+                                    height: "2rem",
+                                    backgroundColor: "rgba(255, 255, 255, 0.48)",
+                                    pointerEvents: "none"
+                                }} />
+                            )}
                         </button>
                     ))}
                 </div>
