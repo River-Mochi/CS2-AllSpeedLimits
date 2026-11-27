@@ -26,24 +26,22 @@ Open ASL, then click a road or any network to open the full panel.
 * Works on:
 * 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**  🚲 **New: Bike paths**
 * 👁 **New: Invisible networks** — see/edit invisible hidden roads and bike paths. Optional hotkey works even with the panel closed.
-* **Personal vehicle status:** Bike, scooter, car and parked counts. Hidden-car diagnostic report. Updates in Options only.
-* **New Paths tab:** separate global speed-limit scales for Bike + mixed paths and Pedestrian-only paths, 30–300% (100% = vanilla). Individual bike-path edits take priority.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
 ### Bonus Features
 
-- **Paths tab:** Adjust bicycle and pedestrian path limits citywide.
-- **Options menu:** optional bicycle/scooter vehicle speeds, plus some statistics.
+- **Paths tab:** Adjust bicycle and pedestrian path limits citywide. Individual bike path edits override the citywide slider. Due to the game's lane structure, pedestrian-only paths can only be adjusted citywide.
+- **Options menu:** Optional bicycle and scooter vehicle speeds. OFF by default to avoid any potential conflicts with other vehicle-speed mods.
+- **Options menu:** Personal vehicle statistics (cars + bikes), migrated from the retired Bikes + Paths mod.
 
 ## Important
 
 * Remove old "Road Speed Adjuster" (RSA) mod before installing this (modder retired).
 * Existing custom speeds should remain and can be edited/reset per segment in new mod.
-* Pedestrian-only paths can be adjusted globally (not per segment). This changes path limits, not citizen max walking speed.
+* Path limits do not change citizen walking speed.
 * Remove Bikes + Paths mod (retired) when using ASL; no reset is required.
 * Vehicles are limited by their model type max speeds as well. This mod is for the Networks themselves, but in Options you can adjust Bicycle vehicles.
-* Removing this mod does not reset your customized speed limits. Any speeds you set will remain on the section until you delete/change the road.
-* **Use Reset buttons** and then Save City to restore the roads/segments to default speeds.
+* **Safe to uninstall:** Customized network speed limits remain. To restore game defaults, use the Reset buttons and save your city before uninstalling.
 * Lightweight: stats only runs while ASL is open. Global path changes apply on request or city load only, then go idle.
 * ICE-3 trains have a real top speed of 320km/h, so the rail slider allows up to 400km/h (800km/h with doubled display).
 * The game's Unlimited highway policy is 200km/h normally, or 400km/h with "Show Game Doubled Speeds".
@@ -86,8 +84,8 @@ English, Français, Deutsch, Español, Italiano, Polski, Português (Brasil), Po
 ### 附加功能
 
 - **路径标签页：** 全城调整自行车道和人行道限速。自行车道单独设置的限速优先于全城滑块。受游戏路网机制限制，纯人行道仅支持全城调整。
-- **游戏选项：** 可调整自行车和电动滑板车速度。默认关闭，以避免与其他车辆速度模组产生潜在冲突。
-- **选项中的车辆统计：** 查看个人车辆总数、行驶及停放数量。此功能来自旧模组 Bikes + Paths。
+- **游戏选项菜单（ESC）：** 可调整自行车和电动滑板车速度。默认关闭，以避免与其他车辆速度模组产生潜在冲突。
+- **游戏选项菜单：** 个人车辆统计（汽车和自行车），来自已停止维护的 Bikes + Paths 模组。
 
 ### 使用须知
 
