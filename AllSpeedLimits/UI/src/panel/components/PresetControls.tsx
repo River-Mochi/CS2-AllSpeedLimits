@@ -147,7 +147,7 @@ export const PresetControls = memo((props: PresetControlsProps) => {
                                                     }}
                                                 />
                                             ) : (
-                                                <span>{preset}</span>
+                                                <span style={{ position: "relative", top: preset < 100 ? "0.6rem" : "0" }}>{preset}</span>
                                             )}
                                         </Button>
                                     </div>

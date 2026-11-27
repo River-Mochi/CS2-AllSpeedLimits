@@ -31,7 +31,8 @@ import railIcon from "../../images/TwoWayTrainTrack_max.svg";
 import waterIcon from "../../images/NarrowBoatway_max.svg";
 
 import pathIcon from "../../images/Bicycle_max.svg";
-import invisibleIcon from "../../images/asl-invisible-dashed-loop-no-transform.svg";
+import invisibleIconOn from "../../images/asl-invisible-dashed-loop-no-transform.svg";
+import invisibleIconOff from "../../images/asl-invisible-dashed-loop-muted.svg";
 
 const USE_ICONS = true;
 const kSelectedAccent = "rgba(110, 200, 235, 0.88)";
@@ -108,8 +109,8 @@ const FilterChip = ({ active, text, tipKind, iconSrc, onToggle, showTip, hideTip
             width: compact ? "24rem" : wideIcon ? "36rem" : "26rem",
             height: compact ? "18rem" : "26rem",
             pointerEvents: "none",
-            opacity: wideIcon && !active && !hovered ? 0.5 : 1,
-            filter: iconFilter,
+            opacity: 1,
+            filter: wideIcon && !active ? (hovered ? "brightness(1.12)" : "none") : iconFilter,
             transform: hovered ? "scale(1.05)" : "none"
           }}
         />
@@ -148,7 +149,7 @@ export const CompactInvisibleNetworkButton = ({ text, tooltip }: { text: string;
       active={invisible}
       text={text}
       tipKind="showInvisible"
-      iconSrc={invisibleIcon}
+      iconSrc={invisible ? invisibleIconOn : invisibleIconOff}
       wideIcon={true}
       compact={true}
       nativeTooltip={tooltip}
@@ -277,7 +278,7 @@ export const SelectionFilterControls = (props: SelectionFilterControlsProps) => 
               active={invisible}
               text={invisibleLabel}
               tipKind="showInvisible"
-              iconSrc={invisibleIcon}
+              iconSrc={invisible ? invisibleIconOn : invisibleIconOff}
               wideIcon={true}
               nativeTooltip={nativeTooltips?.invisible}
               onToggle={() => SetShowInvisible(!invisible)}
