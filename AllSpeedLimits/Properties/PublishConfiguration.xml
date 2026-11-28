@@ -128,11 +128,11 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Design: smaller, minimalist Start panel with tooltips and Invisible networks button.
+- Smaller, minimalist Start panel with tooltips and Invisible networks button.
 - Improved ON/OFF icons for invisible networks.
 - Main panel stays open when the selection is cleared.
 - Options menu: Bicycle/scooter speed tuning is now OFF by default. Enable the new Options [x] checkbox to use any previously saved slider speed.
-- UI improved: rounded tabs, better icons.
+- UI improved: rounded tabs, better icons, removed tooltips off toggle.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
