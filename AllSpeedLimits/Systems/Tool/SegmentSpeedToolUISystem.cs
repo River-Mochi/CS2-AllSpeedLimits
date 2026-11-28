@@ -69,7 +69,6 @@ namespace RoadRailSpeeds.Systems
         private ValueBindingHelper<bool> m_SyncSliderWithSelectionBinding = null!;
         private ValueBindingHelper<int> m_PanelSliderIncrementBinding = null!;
         private ValueBindingHelper<int> m_TooltipFontScaleBinding = null!;
-        private ValueBindingHelper<bool> m_PanelTooltipsEnabledBinding = null!;
         private ValueBindingHelper<bool> m_HideSpeedMarkersBinding = null!;
         private ValueBindingHelper<int> m_CityCarTotalBinding = null!;
         private ValueBindingHelper<int> m_CityCarActiveBinding = null!;
@@ -146,7 +145,6 @@ namespace RoadRailSpeeds.Systems
             m_SyncSliderWithSelectionBinding = CreateBinding("SYNC_SLIDER_WITH_SELECTION", true);
             m_PanelSliderIncrementBinding = CreateBinding("PANEL_SLIDER_INCREMENT", 10);
             m_TooltipFontScaleBinding = CreateBinding("TOOLTIP_FONT_SCALE", 110);
-            m_PanelTooltipsEnabledBinding = CreateBinding("PANEL_TOOLTIPS_ENABLED", true);
             m_HideSpeedMarkersBinding = CreateBinding("HIDE_SPEED_MARKERS", false);
             m_CityCarTotalBinding = CreateBinding("CITY_CAR_TOTAL", 0);
             m_CityCarActiveBinding = CreateBinding("CITY_CAR_ACTIVE", 0);
@@ -202,7 +200,6 @@ namespace RoadRailSpeeds.Systems
             CreateTrigger("TOGGLE_UNIT", HandleToggleUnit);
             CreateTrigger<bool>("SET_PANEL_SPEED_UNIT", HandleSetPanelSpeedUnit);
             CreateTrigger<bool>("ACTIVATE_TOOL", HandleActivateTool);
-            CreateTrigger<bool>("SET_PANEL_TOOLTIPS_ENABLED", HandleSetPanelTooltipsEnabled);
             CreateTrigger<bool>("SET_HIDE_SPEED_MARKERS", HandleSetHideSpeedMarkers);
             CreateTrigger<bool>("SET_SELECTION_INFO_EXPANDED", HandleSetSelectionInfoExpanded);
             CreateTrigger<bool>("SET_SLIDER_EXPANDED", HandleSetSliderExpanded);
@@ -238,7 +235,6 @@ namespace RoadRailSpeeds.Systems
             m_SyncSliderWithSelectionBinding.Value = m_Settings?.SyncSliderWithSelection ?? true;
             m_PanelSliderIncrementBinding.Value = GetPanelSliderIncrement();
             m_TooltipFontScaleBinding.Value = GetTooltipFontScale();
-            m_PanelTooltipsEnabledBinding.Value = m_Settings?.PanelTooltipsEnabled ?? true;
             m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
             m_CityCarTotalBinding.Value = 0;
             m_CityCarActiveBinding.Value = 0;
@@ -294,7 +290,6 @@ namespace RoadRailSpeeds.Systems
             m_VanillaSpeedMixedBinding.Value = false;
             m_IsTrackTypeBinding.Value = false;
             m_IsWaterwayTypeBinding.Value = false;
-            m_PanelTooltipsEnabledBinding.Value = m_Settings?.PanelTooltipsEnabled ?? true;
             m_HideSpeedMarkersBinding.Value = m_Settings?.HideSpeedMarkers ?? false;
             m_SelectionInfoExpandedBinding.Value = m_Settings?.SelectionInfoExpanded ?? true;
             m_SliderExpandedBinding.Value = m_Settings?.SliderExpanded ?? true;
@@ -481,12 +476,6 @@ namespace RoadRailSpeeds.Systems
             if (m_TooltipFontScaleBinding.Value != tooltipFontScale)
             {
                 m_TooltipFontScaleBinding.Value = tooltipFontScale;
-            }
-
-            bool panelTooltipsEnabled = m_Settings?.PanelTooltipsEnabled ?? true;
-            if (m_PanelTooltipsEnabledBinding.Value != panelTooltipsEnabled)
-            {
-                m_PanelTooltipsEnabledBinding.Value = panelTooltipsEnabled;
             }
 
             bool hideSpeedMarkers = m_Settings?.HideSpeedMarkers ?? false;

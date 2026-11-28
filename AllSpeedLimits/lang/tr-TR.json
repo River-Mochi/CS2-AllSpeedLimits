@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Su yolu hızları sıfırlansın mı?",
   "help.directions": "Kesimleri tıklayarak veya sürükleyerek seçin.\nKesikli çizgiler görünmez ağları gösterir.\nHızı ayarlayıp uygulayın; hazır ayarlar anında uygulanır.\nŞehri kaydedin.",
   "help.firstSegmentHint": "Geçerli = ilk seçilen kesim.",
-  "help.tooltipsOff": "İpuçları KAPALI. Açmak için tıkla.",
-  "help.tooltipsOn": "İpuçları AÇIK. Kapatmak için Seçenekler > All Speed Limits.",
   "help.unitLine": "a = Haritaya göre Auto\nNA/EU tipi",
   "help.unitTitle": "Birimler:",
   "hint.alternatives": "Ya da raya, su yoluna veya başka bir ağa tıkla",

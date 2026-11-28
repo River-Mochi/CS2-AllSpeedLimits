@@ -212,8 +212,6 @@ const buildText = (lookup: TextLookup) => ({
             // Guide directions stay together in one JSON value; preset buttons have their own tooltips.
             directions: splitLines(optionalText(lookup, "help.directions")),
             firstSegmentHint: text(lookup, "help.firstSegmentHint"),
-            tooltipsOn: text(lookup, "help.tooltipsOn"),
-            tooltipsOff: text(lookup, "help.tooltipsOff"),
             unitTitle: text(lookup, "help.unitTitle"),
             unitLine: text(lookup, "help.unitLine")
         },

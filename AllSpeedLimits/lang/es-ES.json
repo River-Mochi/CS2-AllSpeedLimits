@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "¿Restablecer velocidades de agua?",
   "help.directions": "Selecciona tramos con clic o arrastre.\nLas líneas discontinuas muestran redes invisibles.\nAjusta la velocidad y aplica; los preajustes son inmediatos.\nGuarda la ciudad.",
   "help.firstSegmentHint": "Actual es el primer segmento elegido.",
-  "help.tooltipsOff": "Ayudas APAGADAS. Clic para activar.",
-  "help.tooltipsOn": "Ayudas activadas. Desactívalas en Opciones > All Speed Limits.",
   "help.unitLine": "a = Auto por mapa\ntipo NA/EU",
   "help.unitTitle": "Unidades:",
   "hint.alternatives": "O haz clic en vías férreas, fluviales u otras",

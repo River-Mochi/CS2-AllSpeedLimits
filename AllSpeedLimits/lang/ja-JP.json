@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "水路速度をリセット？",
   "help.directions": "クリックまたはドラッグで区間を選択。\n破線ボタンで非表示ネットワークを表示。\n速度を設定して適用。プリセットは即時適用。\n変更後はセーブ。",
   "help.firstSegmentHint": "現在 = 最初の選択。",
-  "help.tooltipsOff": "ツールチップOFF。クリックでON。",
-  "help.tooltipsOn": "ツールチップはオンです。オフにするにはオプション > All Speed Limits。",
   "help.unitLine": "a = マップでAuto\nNA/EU型",
   "help.unitTitle": "単位:",
   "hint.alternatives": "線路・航路などのネットワークでもOK",

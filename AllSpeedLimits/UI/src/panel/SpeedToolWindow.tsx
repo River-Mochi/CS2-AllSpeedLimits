@@ -24,7 +24,6 @@ import {
     SYNC_SLIDER_WITH_SELECTION,
     PANEL_SLIDER_INCREMENT,
     TOOLTIP_FONT_SCALE,
-    PANEL_TOOLTIPS_ENABLED,
     HIDE_SPEED_MARKERS,
     UNIT_MODE,
     CITY_CAR_TOTAL,
@@ -66,7 +65,6 @@ import {
     ResetCityAllDefaults,
     ToggleUnit,
     SetPanelSpeedUnit,
-    SetPanelTooltipsEnabled,
     SetHideSpeedMarkers,
     SetSelectionInfoExpanded,
     SetSliderExpanded,
@@ -149,7 +147,6 @@ export const SpeedToolWindow = () => {
     const syncSliderWithSelection = useSafeBinding(SYNC_SLIDER_WITH_SELECTION, true);
     const panelSliderIncrement = Math.max(5, Math.min(25, useSafeBinding(PANEL_SLIDER_INCREMENT, 10)));
     const tooltipFontScale = Math.max(100, Math.min(140, useSafeBinding(TOOLTIP_FONT_SCALE, 110)));
-    const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
     const hideSpeedMarkers = useSafeBinding(HIDE_SPEED_MARKERS, false);
     const unitMode = useSafeBinding(UNIT_MODE, 0);
     const cityCarTotal = useSafeBinding(CITY_CAR_TOTAL, 0);
@@ -217,7 +214,7 @@ export const SpeedToolWindow = () => {
         setIsGuideHovered(false);
         setIsMarkersHovered(false);
         setIsHelpHovered(false);
-    }, [activeView, toolActive, panelTooltipsEnabled]);
+    }, [activeView, toolActive]);
     // Default OPEN on first install so the "First segment selected" summary is discoverable. These
     // states are persisted through hidden ModSetting values, not COHTML/browser localStorage.
     const [selectionInfoExpanded, setSelectionInfoExpanded] = useState(savedSelectionInfoExpanded);
@@ -324,7 +321,7 @@ export const SpeedToolWindow = () => {
     };
 
     const showPanelTooltip = (kind: PanelTooltipKind) => {
-        if (panelTooltipsEnabled && !isDragging) {
+        if (!isDragging) {
             setPanelTooltip(kind);
         }
     };
@@ -334,7 +331,7 @@ export const SpeedToolWindow = () => {
     };
 
     const panelTitle = (value: string): string | undefined => {
-        return panelTooltipsEnabled ? value : undefined;
+        return value;
     };
 
     const getRoadGroupLabel = (group: RoadGroupKind): string => {
@@ -839,7 +836,6 @@ export const SpeedToolWindow = () => {
                             closeTooltip={TEXT.buttons.close}
                             draggableTooltip={TEXT.tooltips.draggable}
                             markersTooltip={hideSpeedMarkers ? TEXT.tooltips.markersShow : TEXT.tooltips.markersHide}
-                            panelTooltipsEnabled={panelTooltipsEnabled}
                             speedMarkersHidden={hideSpeedMarkers}
                             isDragging={isDragging}
                             isCloseHovered={isCloseHovered}
@@ -852,7 +848,6 @@ export const SpeedToolWindow = () => {
                             setIsMarkersHovered={setIsMarkersHovered}
                             onMouseDown={handleMouseDown}
                             onClose={handleClose}
-                            onToggleTooltips={() => { if (!panelTooltipsEnabled) SetPanelTooltipsEnabled(true); }}
                             onToggleMarkers={() => SetHideSpeedMarkers(!hideSpeedMarkers)}
                             hidePanelTooltip={hidePanelTooltip}
                         />
@@ -1247,7 +1242,6 @@ export const SpeedToolWindow = () => {
             <SpeedToolOverlays
                 text={TEXT}
                 panelTooltip={isDragging ? null : panelTooltip}
-                panelTooltipsEnabled={panelTooltipsEnabled && !isDragging}
                 panelBounds={panelRef.current?.getBoundingClientRect() ?? null}
                 tooltipBaseStyle={tooltipBaseStyle}
                 tooltipFontSize={tooltipFontSize}

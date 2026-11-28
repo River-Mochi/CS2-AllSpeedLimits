@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Đặt lại tốc độ đường thủy?",
   "help.directions": "Nhấp hoặc kéo để chọn đoạn.\nNút nét đứt hiện mạng lưới ẩn.\nĐặt tốc độ rồi áp dụng; nút đặt sẵn áp dụng ngay.\nLưu thành phố.",
   "help.firstSegmentHint": "Hiện tại = đoạn đầu đã chọn.",
-  "help.tooltipsOff": "Gợi ý TẮT. Bấm để bật.",
-  "help.tooltipsOn": "Chú giải đang BẬT. Tắt tại Tùy chọn > All Speed Limits.",
   "help.unitLine": "a = Auto theo bản đồ\nkiểu NA/EU",
   "help.unitTitle": "Đơn vị:",
   "hint.alternatives": "Hoặc nhấp vào đường ray, đường thủy hay mạng khác",

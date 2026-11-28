@@ -86,11 +86,6 @@ namespace RoadRailSpeeds
                 },
 
                 // Double speed display
-                { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)), "顯示 ASL 提示" },
-                { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.PanelTooltipsEnabled)),
-                    "**預設 = 開啟**  強烈建議保持開啟。\n\n" +
-                    "顯示城市內的 ASL 提示。資訊按鈕可重新開啟。" },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)), "顯示遊戲雙倍速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(SpeedLimitsSetting.DoubleSpeedDisplay)),
                     "<關> 顯示較簡單的刻度，通常更接近道路標線。\n" +

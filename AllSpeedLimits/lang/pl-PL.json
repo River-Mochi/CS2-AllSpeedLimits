@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Przywrócić prędkości wody?",
   "help.directions": "Kliknij lub przeciągnij, aby wybrać odcinki.\nPrzerywane linie pokazują ukryte sieci.\nUstaw prędkość i zastosuj; presety działają od razu.\nZapisz miasto.",
   "help.firstSegmentHint": "Obecna = pierwszy wybrany odcinek.",
-  "help.tooltipsOff": "Podpowiedzi WYŁ. Kliknij, aby włączyć.",
-  "help.tooltipsOn": "Podpowiedzi WŁ. Wyłącz je w Opcje > All Speed Limits.",
   "help.unitLine": "a = Auto wg mapy\ntyp NA/EU",
   "help.unitTitle": "Jednostki:",
   "hint.alternatives": "Lub kliknij tor, szlak wodny lub inną sieć",

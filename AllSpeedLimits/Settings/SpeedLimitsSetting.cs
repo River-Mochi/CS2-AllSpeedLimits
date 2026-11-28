@@ -73,8 +73,13 @@ namespace RoadRailSpeeds
         [SettingsUISection(kMainTab, kDisplayGroup)]
         public bool SyncSliderWithSelection { get; set; } = true;
 
-        [SettingsUISection(kMainTab, kDisplayGroup)]
-        public bool PanelTooltipsEnabled { get; set; } = true;
+        // Read old settings files without letting a saved OFF value disable tooltips.
+        [SettingsUIHidden]
+        public bool PanelTooltipsEnabled
+        {
+            get => true;
+            set { }
+        }
 
         // Toggled from the panel title bar. Hides the floating speed numbers over roads/rails/water.
         [SettingsUIHidden]
@@ -351,7 +356,6 @@ namespace RoadRailSpeeds
             SyncSliderWithSelection = true;
             PanelSliderIncrement = 10;
             TooltipFontScale = 110;
-            PanelTooltipsEnabled = true;
             HideSpeedMarkers = false;
             ToolPanelPositionX = -1;
             ToolPanelPositionY = -1;

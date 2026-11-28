@@ -14,7 +14,7 @@ import type { MouseEvent } from "react";
 import { useState } from "react";
 import { VanillaComponentResolver } from "../utils/vanilla/VanillaComponentResolver";
 import { useText } from "../shared/localization";
-import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, MAIN_PANEL_OPEN, PANEL_TOOLTIPS_ENABLED } from "../shared/bindings";
+import { SELECTION_COUNTER, SetToolActive, TOOL_ACTIVE, OPEN_ALL_PATHS, MAIN_PANEL_OPEN } from "../shared/bindings";
 import { useSafeBinding } from "../shared/useSafeBinding";
 import { CompactInvisibleNetworkButton } from "../panel/components/SelectionFilterControls";
 import { shouldIgnorePanelDragTarget, useHintPanelPosition } from "../shared/useSharedPanelPosition";
@@ -28,7 +28,6 @@ export const SpeedToolHint = () => {
     const selectionCounter = useSafeBinding(SELECTION_COUNTER, 0);
     const allPathsOpen = useSafeBinding(OPEN_ALL_PATHS, false);
     const mainPanelOpen = useSafeBinding(MAIN_PANEL_OPEN, false);
-    const panelTooltipsEnabled = useSafeBinding(PANEL_TOOLTIPS_ENABLED, true);
 
     // Only show when tool is active but no selection has been made yet
     const shouldShow = toolActive && selectionCounter === 0 && !allPathsOpen && !mainPanelOpen;
@@ -112,7 +111,7 @@ export const SpeedToolHint = () => {
                     }}
                 >
                     <Tooltip
-                        disabled={!panelTooltipsEnabled || isDragging}
+                        disabled={isDragging}
                         direction="up"
                         tooltip={
                             <div>
@@ -129,7 +128,7 @@ export const SpeedToolHint = () => {
                         : { position: "absolute", left: "2rem", top: "2rem" }}>
                         <CompactInvisibleNetworkButton
                             text={TEXT.panel.showInvisible}
-                            tooltip={panelTooltipsEnabled && !isDragging ? TEXT.tooltips.showInvisible : undefined}
+                            tooltip={!isDragging ? TEXT.tooltips.showInvisible : undefined}
                         />
                     </div>
                     <button

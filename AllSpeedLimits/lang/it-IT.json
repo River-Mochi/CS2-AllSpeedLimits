@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Ripristinare velocità acqua?",
   "help.directions": "Clicca o trascina per selezionare segmenti.\nLe linee tratteggiate mostrano le reti invisibili.\nImposta la velocità e applica; i preset sono immediati.\nSalva la città.",
   "help.firstSegmentHint": "Attuale = primo segmento scelto.",
-  "help.tooltipsOff": "Suggerimenti SPENTI. Clic per attivare.",
-  "help.tooltipsOn": "Tooltip ATTIVI. Disattivali in Opzioni > All Speed Limits.",
   "help.unitLine": "a = Auto per mappa\ntipo NA/EU",
   "help.unitTitle": "Unità:",
   "hint.alternatives": "O clicca su binari, vie d'acqua o altre reti",

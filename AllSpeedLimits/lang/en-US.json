@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Reset Custom Water Speeds?",
   "help.directions": "Click or drag-select segments.\nUse the dashed lines to show invisible networks.\nSet speed and Apply; presets apply instantly.\nSave the city to keep changes.",
   "help.firstSegmentHint": "Current is the first segment selected.",
-  "help.tooltipsOff": "Tooltips are OFF for Speed Limits. Click this to turn ON.",
-  "help.tooltipsOn": "Tooltips are ON. To turn OFF: ESC > Options > All Speed Limits.",
   "help.unitLine": "a = Auto by map\n type NA/EU",
   "help.unitTitle": "Units:",
   "hint.alternatives": "Or click on rail, waterway, any network",

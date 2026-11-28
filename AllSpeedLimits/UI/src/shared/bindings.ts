@@ -93,10 +93,6 @@ export const TOOLTIP_FONT_SCALE = bindValue<number>(
   MOD_ID,
   "BINDING:TOOLTIP_FONT_SCALE"
 );
-export const PANEL_TOOLTIPS_ENABLED = bindValue<boolean>(
-  MOD_ID,
-  "BINDING:PANEL_TOOLTIPS_ENABLED"
-);
 export const HIDE_SPEED_MARKERS = bindValue<boolean>(
   MOD_ID,
   "BINDING:HIDE_SPEED_MARKERS"
@@ -276,10 +272,6 @@ export function ToggleUnit() {
 
 export function SetPanelSpeedUnit(showMetric: boolean) {
   trigger(MOD_ID, "TRIGGER:SET_PANEL_SPEED_UNIT", showMetric);
-}
-
-export function SetPanelTooltipsEnabled(enabled: boolean) {
-  trigger(MOD_ID, "TRIGGER:SET_PANEL_TOOLTIPS_ENABLED", enabled);
 }
 
 export function SetHideSpeedMarkers(hidden: boolean) {

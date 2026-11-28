@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "重置水路速度？",
   "help.directions": "點擊或拖曳選取路段。\n虛線按鈕顯示隱藏路網。\n設定速度後套用；預設按鈕立即生效。\n儲存城市。",
   "help.firstSegmentHint": "目前 = 第一個選中路段。",
-  "help.tooltipsOff": "提示已關。點擊開啟。",
-  "help.tooltipsOn": "提示已開啟。在選項 > All Speed Limits 中關閉。",
   "help.unitLine": "a = 按地圖 Auto\nNA/EU 類型",
   "help.unitTitle": "單位：",
   "hint.alternatives": "也可點擊軌道、航道等其他路網",

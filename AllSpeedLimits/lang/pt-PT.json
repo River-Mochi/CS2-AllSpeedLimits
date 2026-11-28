@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Repor velocidades da água?",
   "help.directions": "Clique ou arraste para selecionar segmentos.\nAs linhas tracejadas mostram redes invisíveis.\nAjuste a velocidade e aplique; predefinições são imediatas.\nGuarde a cidade.",
   "help.firstSegmentHint": "Atual = primeiro troço escolhido.",
-  "help.tooltipsOff": "Dicas DESLIGADAS. Clique para ligar.",
-  "help.tooltipsOn": "Dicas ATIVAS. Desative em Opções > All Speed Limits.",
   "help.unitLine": "a = Auto pelo mapa\ntipo NA/EU",
   "help.unitTitle": "Unidades:",
   "hint.alternatives": "Ou clica numa via férrea, navegável ou outra",

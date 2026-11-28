@@ -17,20 +17,6 @@ namespace RoadRailSpeeds.Systems
 
     public partial class SegmentSpeedToolUISystem
     {
-        private void HandleSetPanelTooltipsEnabled(bool enabled)
-        {
-            m_Settings ??= Mod.Settings;
-            if (m_Settings == null || m_Settings.PanelTooltipsEnabled == enabled)
-            {
-                return;
-            }
-
-            m_Settings.PanelTooltipsEnabled = enabled;
-            m_Settings.ApplyAndSave();
-            m_PanelTooltipsEnabledBinding.Value = enabled;
-            RequestUpdate();
-        }
-
         private void HandleSetHideSpeedMarkers(bool hidden)
         {
             m_Settings ??= Mod.Settings;

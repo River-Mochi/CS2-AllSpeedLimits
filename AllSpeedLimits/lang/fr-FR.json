@@ -44,8 +44,6 @@
   "confirm.resetWater.title": "Réinit. vitesses eau ?",
   "help.directions": "Cliquez ou glissez pour sélectionner des segments.\nLes pointillés affichent les réseaux invisibles.\nRéglez la vitesse et appliquez ; les préréglages sont immédiats.\nSauvegardez la ville.",
   "help.firstSegmentHint": "Actuelle = premier segment choisi.",
-  "help.tooltipsOff": "Infobulles COUPÉES. Cliquez pour activer.",
-  "help.tooltipsOn": "Infobulles ACTIVES. Désactivez-les dans Options > All Speed Limits.",
   "help.unitLine": "a = Auto selon carte\ntype NA/EU",
   "help.unitTitle": "Unités :",
   "hint.alternatives": "Ou clique sur une voie ferrée, navigable ou autre",

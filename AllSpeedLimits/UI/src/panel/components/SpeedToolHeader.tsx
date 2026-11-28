@@ -14,7 +14,6 @@ import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import { VanillaComponentResolver } from "../../utils/vanilla/VanillaComponentResolver";
 import speedLimitIcon from "../../images/icon-speedlimit30-classic1.svg";
 import advisorInfoIcon from "../../images/AdvisorInfoViewWhite.svg";
-import advisorInfoDisabledIcon from "../../images/AdvisorInfoViewGold.svg";
 
 type SpeedToolHeaderProps = {
     title: string;
@@ -25,7 +24,6 @@ type SpeedToolHeaderProps = {
     closeTooltip: string;
     draggableTooltip: string;
     markersTooltip: string;
-    panelTooltipsEnabled: boolean;
     speedMarkersHidden: boolean;
     isDragging: boolean;
     isCloseHovered: boolean;
@@ -38,7 +36,6 @@ type SpeedToolHeaderProps = {
     setIsMarkersHovered: Dispatch<SetStateAction<boolean>>;
     onMouseDown: (event: MouseEvent) => void;
     onClose: () => void;
-    onToggleTooltips: () => void;
     onToggleMarkers: () => void;
     hidePanelTooltip: () => void;
 };
@@ -53,7 +50,6 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
         closeTooltip,
         draggableTooltip,
         markersTooltip,
-        panelTooltipsEnabled,
         speedMarkersHidden,
         isDragging,
         isCloseHovered,
@@ -66,13 +62,11 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
         setIsMarkersHovered,
         onMouseDown,
         onClose,
-        onToggleTooltips,
         onToggleMarkers,
         hidePanelTooltip
     } = props;
 
     const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
-    const selectionTooltipIconActive = !panelTooltipsEnabled;
     const disabledIconColor = "#FFD264";
 
     return (
@@ -209,21 +203,14 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     }}>№</span>
                 </Button>
 
-                <Button
-                    as="button"
-                    focusKey={focusDisabled}
-                    theme={{ button: "" }}
-                    onSelect={onToggleTooltips}
-                    aria-disabled={panelTooltipsEnabled}
+                <div
                     onMouseEnter={() => {
                         hidePanelTooltip();
                         setIsHelpHovered(true);
                     }}
                     onMouseLeave={() => setIsHelpHovered(false)}
                     style={{
-                        backgroundColor: selectionTooltipIconActive
-                            ? (isHelpHovered ? "rgba(245, 188, 64, 0.18)" : "transparent")
-                            : (isHelpHovered ? "rgba(120, 190, 220, 0.14)" : "transparent"),
+                        backgroundColor: isHelpHovered ? "rgba(120, 190, 220, 0.14)" : "transparent",
                         borderWidth: "0",
                         borderStyle: "solid",
                         borderColor: "rgba(255, 255, 255, 0)",
@@ -235,7 +222,7 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        cursor: "pointer",
+                        cursor: isDragging ? "grabbing" : "grab",
                         paddingTop: "0",
                         paddingRight: "0",
                         paddingBottom: "0",
@@ -244,16 +231,16 @@ export const SpeedToolHeader = (props: SpeedToolHeaderProps) => {
                     }}
                 >
                     <img
-                        src={selectionTooltipIconActive ? advisorInfoDisabledIcon : advisorInfoIcon}
+                        src={advisorInfoIcon}
                         alt=""
                         style={{
                             width: isHelpHovered ? "26rem" : "24.5rem",
                             height: isHelpHovered ? "26rem" : "24.5rem",
-                            opacity: selectionTooltipIconActive ? 1 : isHelpHovered ? 0.96 : 0.64,
+                            opacity: isHelpHovered ? 0.96 : 0.64,
                             pointerEvents: "none"
                         }}
                     />
-                </Button>
+                </div>
 
                 <Tooltip tooltip={closeTooltip} direction="up">
                     <Button

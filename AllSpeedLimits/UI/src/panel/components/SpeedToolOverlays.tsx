@@ -29,7 +29,6 @@ type RoadGroupTooltip = {
 type SpeedToolOverlaysProps = {
     text: any;
     panelTooltip: PanelTooltipKind | null;
-    panelTooltipsEnabled: boolean;
     panelBounds: PanelBounds | null;
     tooltipBaseStyle: CSSProperties;
     tooltipFontSize: string;
@@ -47,7 +46,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
     const {
         text,
         panelTooltip,
-        panelTooltipsEnabled,
         panelBounds,
         tooltipBaseStyle,
         tooltipFontSize,
@@ -78,7 +76,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
     );
 
     const renderSideTooltip = () => {
-        if (panelTooltip === null || !panelTooltipsEnabled) {
+        if (panelTooltip === null) {
             return null;
         }
 
@@ -215,7 +213,7 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
 
     return (
         <>
-            {isGuideHovered && (
+            {(isGuideHovered || isHelpHovered) && (
                 <PanelSideTooltip
                     visible={true}
                     panelBounds={panelBounds}
@@ -242,24 +240,6 @@ export const SpeedToolOverlays = (props: SpeedToolOverlaysProps) => {
                             {markersTooltipText}
                         </div>
                     ) : renderTooltipBlock("", [markersTooltipText])}
-                />
-            )}
-            {isHelpHovered && (
-                <PanelSideTooltip
-                    visible={true}
-                    panelBounds={panelBounds}
-                    topOffsetPx={30}
-                    maxWidth="210rem"
-                    fontSize={tooltipFontSize}
-                    tooltipBaseStyle={tooltipBaseStyle}
-                    content={(
-                        <div style={{
-                            color: panelTooltipsEnabled ? "rgba(255, 255, 255, 0.92)" : "rgba(111, 218, 255, 0.98)",
-                            fontWeight: "bold"
-                        }}>
-                            {panelTooltipsEnabled ? text.help.tooltipsOn : text.help.tooltipsOff}
-                        </div>
-                    )}
                 />
             )}
             {renderSideTooltip()}
