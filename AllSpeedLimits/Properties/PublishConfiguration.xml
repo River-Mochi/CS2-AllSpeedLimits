@@ -6,12 +6,12 @@
 <!--Name of the mod to display to players-->
 <DisplayName Value="Adjust All Speed Limits" />
 <!--Short description of the mod-->
-<ShortDescription Value="Adjust Speed limits for: road, rail, water, Invisible roads and Bike/Path." />
+<ShortDescription Value="Easily adjust ALL Speed Limits for: road, rail, water, Invisible roads, and Bike/Paths." />
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
 ## Adjust All Speed Limits
-...and Paths and Invisible roads now too 🥳
+...and Invisible roadsand Paths now too 🥳
 
 自由调整全路网限速，隐形道路也能改！ 中文详情见下方 ↓
 
@@ -49,7 +49,7 @@ Open ASL, then click a road or any network to open the full panel.
 
 ## Support and Feedback
 * Support by clicking the LIKE 👍 button (top right). No donations requested. It takes weeks and months to make these level of mods and many hours with testers.
-* For feedback, use the [Discord](https://discord.gg/gwXgvtyhjc) | [Github](https://github.com/River-Mochi/CS2-AllSpeedLimits) links on this page. PRs are welcome, GPL-3.0 license.
+* For feedback, use the [Discord](https://discord.gg/gwXgvtyhjc) | [Github](https://github.com/River-Mochi/CS2-AllSpeedLimits). PRs are welcome, GPL-3.0 license. [Forum](https://forum.paradoxplaza.com/forum/threads/adjust-all-speed-limits.1933054/)
 
 ## ❤️ Credits and Special Thanks
 Huge appreciation hugs and waves to everyone
@@ -99,7 +99,7 @@ English, Français, Deutsch, Español, Italiano, Polski, Português (Brasil), Po
 
 欢迎点击右上角的 👍 点赞支持！免费分享，无需捐款。
 
-问题反馈：[Discord](https://discord.gg/gwXgvtyhjc) | [GitHub](https://github.com/River-Mochi/CS2-AllSpeedLimits)
+问题反馈：[Discord](https://discord.gg/gwXgvtyhjc) | [GitHub](https://github.com/River-Mochi/CS2-AllSpeedLimits) | [Forum](https://forum.paradoxplaza.com/forum/threads/adjust-all-speed-limits.1933054/)
 
 模组作者：River-mochi
 
@@ -117,7 +117,7 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <!--Tag, can be set multiple times-->
 <Tag Value="" />
 <!--Link to the forum post where the mod can be discussed-->
-<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/adjust-all-speed-limits.1933054/" />
+<ForumLink Value="" />
 <!--Version of the mod-->
 <ModVersion Value="1.3.2" />
 <!--Recommended version of the base game to use the mod-->
@@ -128,10 +128,11 @@ tags: water speed, seaway traffic, track speed, tracks, ship, boat, ferry, invis
 <RequiredDLC Value="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Bicycle/scooter speed tuning is now optional (OFF by default). Enable the new Options checkbox to use your previously saved speed.
-- Smaller start panel with tooltips.
-- Main panel stays open when filters clear the selection.
-- UI: Rounded tabs.
+- Design: smaller, minimalist Start panel with tooltips and Invisible networks button.
+- Improved ON/OFF icons for invisible networks.
+- Main panel stays open when the selection is cleared.
+- Options menu: Bicycle/scooter speed tuning is now OFF by default. Enable the new Options [x] checkbox to use any previously saved slider speed.
+- UI improved: rounded tabs, better icons.
 </ChangeLog>
 <!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
