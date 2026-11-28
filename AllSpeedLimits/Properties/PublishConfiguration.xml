@@ -11,7 +11,7 @@
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
 ## Adjust All Speed Limits
-...and Invisible roadsand Paths now too 🥳
+...and Invisible roads and Paths now too 🥳
 
 自由调整全路网限速，隐形道路也能改！ 中文详情见下方 ↓
 
@@ -24,8 +24,9 @@ Open ASL, then click a road or any network to open the full panel.
 * **Adjust speeds on individual segments** with a simple click.
 * **Click-and-drag** over the road/track to modify multiple segments at once.
 * Works on:
-* 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**  🚲 **New: Bike paths**
+* 🚗 **Roads**  🚊 **Trams** 🚆 **Trains**  🚇 **Subway** ⛵ **Waterways**  🚲 **New: Bike + Mixed paths**
 * 👁 **New: Invisible networks** — see/edit invisible hidden roads and bike paths. Optional hotkey works even with the panel closed.
+* Whole-city speed: Change speeds for entire road groups or rail types at once.
 * Stats are light: only runs when the panel is open, better data than the game's info panel.
 
 ### Bonus Features
